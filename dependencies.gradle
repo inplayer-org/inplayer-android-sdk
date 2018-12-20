@@ -1,0 +1,33 @@
+ext{
+//Android
+    androidBuildToolsVersion = "28.0.0"
+    androidMinSdkVersion = 23
+    androidTargetSdkVersion = 28
+    androidCompileSdkVersion = 28
+    kotlinVersion = '1.3.0'
+
+    versionMajor = 0
+    versionMinor = 0
+    versionPatch = 0
+    versionBuild = 1
+
+    versionCode = versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
+    versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
+
+
+    //Libraries
+    javaxInjectVersion = '1'
+    javaxAnnotationVersion = '1.0'
+    rxJavaVersion = '2.0.2'
+
+
+    annotations = [
+            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}"
+    ]
+
+    reactive = [
+            rxJava : "io.reactivex.rxjava2:rxkotlin:${rxJavaVersion}"
+    ]
+
+}
