@@ -6,14 +6,14 @@ import io.reactivex.Single
 /**
  * Created by victor on 12/20/18
  */
-abstract class SingleUseCase<T, in Params> constructor(private val schdulers : MySchedulers) {
+abstract class SingleUseCase<T, in Params> constructor(private val mySchedulers : MySchedulers) {
     
     protected abstract fun buildUseCaseObservable(params: Params? = null) : Single<T>
     
     open fun execute(params : Params? = null) : Single<T>{
         return buildUseCaseObservable(params)
-                .subscribeOn(schdulers.subscribeOn)
-                .observeOn(schdulers.observeOn)
+                .subscribeOn(mySchedulers.subscribeOn)
+                .observeOn(mySchedulers.observeOn)
     }
     
 

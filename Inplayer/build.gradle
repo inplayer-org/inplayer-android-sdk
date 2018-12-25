@@ -1,0 +1,54 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+android {
+    compileSdkVersion rootProject.androidCompileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.androidMinSdkVersion
+        targetSdkVersion rootProject.androidTargetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "BASE_URL_PRODUCTION", "\"https://services.inplayer.com/\""
+
+        buildConfigField "String", "BASE_URL_STAGING", "\"https://staging-v2.inplayer.com/\""
+
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+dependencies {
+
+    def inPlayerSDK = rootProject.ext.inPlayerSDKDependencies
+
+    def reactive = rootProject.ext.reactive
+    def annotations = rootProject.ext.annotations
+
+
+    implementation project(':Domain')
+    implementation project(':Data')
+
+
+    implementation inPlayerSDK.dependencyInjection
+    //implementation inPlayerSDK.dependencyInjectionJava
+
+    implementation reactive.rxJava
+    implementation reactive.rxAndroid
+
+//    implementation annotations.javaxInject
+//    implementation annotations.javaxAnnotation
+
+}

@@ -7,8 +7,8 @@ dependencies {
 
     implementation reactive.rxJava
 
-    implementation annotations.javaxInject
-    implementation annotations.javaxAnnotation
+//    implementation annotations.javaxInject
+//    implementation annotations.javaxAnnotation
 
 
 }

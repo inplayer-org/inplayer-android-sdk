@@ -1,4 +1,4 @@
-ext{
+ext {
 //Android
     androidBuildToolsVersion = "28.0.0"
     androidMinSdkVersion = 23
@@ -14,20 +14,48 @@ ext{
     versionCode = versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
     versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
 
-
     //Libraries
     javaxInjectVersion = '1'
     javaxAnnotationVersion = '1.0'
     rxJavaVersion = '2.0.2'
+    rxAndroidVersion = '2.0.1'
+
+    //Data
+    gsonVersion = '2.8.1'
+    okHttpVersion = '3.8.1'
+    retrofitVersion = '2.3.0'
+    androidAnnotationsVersion = '21.0.3'
+
+    //Dependency Injection
+    koin = '1.0.2'
 
 
     annotations = [
-            javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxAnnotation: "javax.annotation:jsr250-com.s.inplayer.api:${javaxAnnotationVersion}",
             javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}"
     ]
 
     reactive = [
-            rxJava : "io.reactivex.rxjava2:rxkotlin:${rxJavaVersion}"
+            rxJava   : "io.reactivex.rxjava2:rxkotlin:${rxJavaVersion}",
+            rxAndroid: "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
     ]
+
+
+    networkDependencies = [
+            gson              : "com.google.code.gson:gson:${gsonVersion}",
+            androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
+            okHttp            : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            okHttpLogger      : "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+            retrofit          : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitConverter : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            retrofitAdapter   : "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}"
+    ]
+
+    inPlayerSDKDependencies = [
+            dependencyInjection    : "org.koin:koin-android:${koin}",
+            dependencyInjectionCore: "org.koin:koin-core:${koin}",
+            dependencyInjectionJava: "org.koin:koin-java:${koin}"
+    ]
+
 
 }
