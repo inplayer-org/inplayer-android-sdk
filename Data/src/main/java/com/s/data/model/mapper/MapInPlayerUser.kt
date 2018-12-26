@@ -15,7 +15,7 @@ class MapInPlayerUser : ModelMapper<InPlayerAccount, InPlayerUser> {
         val accountTypeList = mutableListOf<AccountType>()
         
         model.roles.forEach {
-            accountTypeList.add(AccountType.valueOf(it))
+            accountTypeList.add(AccountType.valueOf(it.toUpperCase()))
         }
         
         return InPlayerUser(model.id, model.email, model.fullName, model.referrer, model.isCompleted, model.createdAt, model.updatedAt, accountTypeList)

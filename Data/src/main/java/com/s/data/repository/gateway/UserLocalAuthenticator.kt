@@ -1,6 +1,5 @@
 package com.s.data.repository.gateway
 
-import io.reactivex.Completable
 import io.reactivex.Single
 
 /**
@@ -12,6 +11,10 @@ interface UserLocalAuthenticator {
     
     fun getAuthenticationToken(): Single<String>
     
+    fun getBearerAuthToken() : String
+    
     fun isUserAutehnticated(): Boolean
+    
+    fun deleteAuthentiationToken()
     
 }

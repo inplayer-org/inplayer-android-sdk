@@ -35,13 +35,17 @@ class InPlayerAuthenticatorImpl constructor(
     
     
     override fun logout(): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return userRemoteAuthenticator.logOut(userLocalAuthenticator.getBearerAuthToken())
+                .doOnSuccess {
+                    userLocalAuthenticator.deleteAuthentiationToken()
+                }.toCompletable()
     }
     
     override fun isUserAuthenticated() = userLocalAuthenticator.isUserAutehnticated()
     
     override fun getUser(): Single<InPlayerUser> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return userRemoteAuthenticator.accountDetails(userLocalAuthenticator.getBearerAuthToken())
+                .map { mapInPlayerUser.mapFromModel(it) }
     }
     
     override fun changePassword(): Completable {

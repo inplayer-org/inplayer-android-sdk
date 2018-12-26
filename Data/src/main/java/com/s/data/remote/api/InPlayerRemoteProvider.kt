@@ -87,4 +87,14 @@ class InPlayerRemoteProvider(private val baseUrl: String, private val isDebug: B
     
     override fun authenticate(username: String, password: String, grantType: String, clientId: String) = inPlayerRemoteServiceAPI.authenticate(username, password, grantType, clientId)
     
+    override fun logout(token: String) = inPlayerRemoteServiceAPI.logout(token)
+    
+    override fun getAccount(token: String) = inPlayerRemoteServiceAPI.getAccount(token)
+    
+    override fun updateAccount() = inPlayerRemoteServiceAPI.updateAccount()
+    
+    override fun eraseAccount() = inPlayerRemoteServiceAPI.eraseAccount()
+    
+    override fun changePassword(password: String, passwordConfirmation: String, oldPassword: String) = inPlayerRemoteServiceAPI.changePassword(password, passwordConfirmation, oldPassword)
+    
 }

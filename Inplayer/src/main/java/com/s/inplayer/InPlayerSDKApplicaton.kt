@@ -10,9 +10,7 @@ import com.s.data.repository.gateway.UserLocalAuthenticator
 import com.s.data.repository.gateway.UserRemoteAuthenticator
 import com.s.domain.gateway.InPlayerAuthenticator
 import com.s.domain.schedulers.MySchedulers
-import com.s.domain.usecase.autehntication.AuthenticateUserUseCase
-import com.s.domain.usecase.autehntication.CreateAccountUseCase
-import com.s.domain.usecase.autehntication.IsUserAuthenticatedUseCase
+import com.s.domain.usecase.autehntication.*
 import com.s.inplayer.api.Account
 import com.s.inplayer.util.AppSchedulers
 import org.koin.android.ext.android.startKoin
@@ -27,7 +25,7 @@ class InPlayerSDKApplicaton : Application() {
     override fun onCreate() {
         super.onCreate()
         
-        startKoin(this, listOf(dataModule))
+        startKoin(this, listOf(dataModule, useCaseModule, mainControllerModule))
     }
     
     
@@ -46,15 +44,23 @@ class InPlayerSDKApplicaton : Application() {
         
         factory { InPlayerAuthenticatorImpl(get(), get(), get()) as InPlayerAuthenticator }
         
+    }
+    
+    val mainControllerModule = module {
+        factory { Account(get(), get(), get(), get(), get(), get()) }
+    }
+    
+    
+    val useCaseModule = module {
         factory { AuthenticateUserUseCase(get(), get()) }
         
         factory { CreateAccountUseCase(get(), get()) }
         
         factory { IsUserAuthenticatedUseCase(get()) }
         
-        factory { Account(get(), get(), get(), get()) }
+        factory { LogOutUserUseCase(get(), get()) }
         
+        factory { AccountDetailsUseCase(get(), get()) }
     }
-    
     
 }

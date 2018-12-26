@@ -2,15 +2,14 @@ package com.s.inplayer;
 
 import android.content.Context;
 
-import com.s.inplayer.api.Account;
-
 
 /**
  * Created by victor on 12/24/18
  */
 public class InPlayer {
 
-   // public com.s.inplayer.api.Account Account;
+    public com.s.inplayer.api.Account Account;
+
 
     // Suppress constructor to prevent subclassing
     private InPlayer() {

@@ -1,6 +1,8 @@
 package com.s.data.repository.gateway
 
+import com.s.data.model.InPlayerAccount
 import com.s.data.model.InPlayerAuthorizationModel
+import com.s.data.model.ResponseModel
 import io.reactivex.Single
 
 /**
@@ -12,4 +14,7 @@ interface UserRemoteAuthenticator {
     
     fun authenticateUser(username: String, password: String, grantType: String, clientId: String): Single<InPlayerAuthorizationModel>
     
+    fun logOut(token: String): Single<ResponseModel>
+    
+    fun accountDetails(token: String): Single<InPlayerAccount>
 }
