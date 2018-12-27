@@ -5,10 +5,10 @@ import com.s.data.local.UserLocalAuthenticatorImpl
 import com.s.data.model.mapper.MapInPlayerUser
 import com.s.data.remote.UserRemoteAuthenticatiorImpl
 import com.s.data.remote.api.InPlayerRemoteProvider
-import com.s.data.repository.InPlayerAuthenticatorImpl
+import com.s.data.repository.InPlayerAccountRepositoryImpl
 import com.s.data.repository.gateway.UserLocalAuthenticator
 import com.s.data.repository.gateway.UserRemoteAuthenticator
-import com.s.domain.gateway.InPlayerAuthenticator
+import com.s.domain.gateway.InPlayerAccountRepository
 import com.s.domain.schedulers.MySchedulers
 import com.s.domain.usecase.autehntication.*
 import com.s.inplayer.api.Account
@@ -25,7 +25,7 @@ class InPlayerSDKApplicaton : Application() {
     override fun onCreate() {
         super.onCreate()
         
-        startKoin(this, listOf(dataModule, useCaseModule, mainControllerModule))
+        startKoin(this, listOf(dataModule, accountUseCaseModule, mainControllerModule))
     }
     
     
@@ -42,16 +42,21 @@ class InPlayerSDKApplicaton : Application() {
         
         factory { UserRemoteAuthenticatiorImpl(get()) as UserRemoteAuthenticator }
         
-        factory { InPlayerAuthenticatorImpl(get(), get(), get()) as InPlayerAuthenticator }
+        factory { InPlayerAccountRepositoryImpl(get(), get(), get()) as InPlayerAccountRepository }
         
     }
     
     val mainControllerModule = module {
-        factory { Account(get(), get(), get(), get(), get(), get()) }
+        factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(),get()) }
     }
     
     
-    val useCaseModule = module {
+    val accountUseCaseModule = module {
+        
+        factory { ForgotPasswordUseCase(get(), get()) }
+        
+        factory { EraseUserUseCase(get(), get()) }
+        
         factory { AuthenticateUserUseCase(get(), get()) }
         
         factory { CreateAccountUseCase(get(), get()) }
@@ -61,6 +66,10 @@ class InPlayerSDKApplicaton : Application() {
         factory { LogOutUserUseCase(get(), get()) }
         
         factory { AccountDetailsUseCase(get(), get()) }
+        
+        factory { ChangePasswordUseCase(get(), get()) }
+        
+        factory { UpdateUserUseCase(get(), get()) }
     }
     
 }

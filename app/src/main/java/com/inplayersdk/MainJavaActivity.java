@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.s.inplayer.InPlayerKotlin;
+
 public class MainJavaActivity extends AppCompatActivity {
 
     @Override
@@ -26,7 +28,6 @@ public class MainJavaActivity extends AppCompatActivity {
         });
 
 
-        //InPlayerKotlin.INSTANCE.getAccount().authenticate();
     }
 
 }

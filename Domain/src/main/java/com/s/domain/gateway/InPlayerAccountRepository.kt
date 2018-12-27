@@ -7,7 +7,7 @@ import io.reactivex.Single
 /**
  * Created by victor on 12/20/18
  */
-interface InPlayerAuthenticator {
+interface InPlayerAccountRepository {
     
     fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String): Single<InPlayerUser>
     
@@ -17,9 +17,14 @@ interface InPlayerAuthenticator {
     
     fun isUserAuthenticated(): Boolean
     
+    
     fun getUser(): Single<InPlayerUser>
     
-    fun changePassword(): Completable
+    fun updateUser(fullName: String, metadata: HashMap<String, String>? = null): Single<InPlayerUser>
     
-    fun requestForgotPassword(): Completable
+    fun eraseUser(password: String): Single<String>
+    
+    fun changePassword(newPassword: String, newPasswordConfirmation: String, oldPassword: String): Single<String>
+    
+    fun requestForgotPassword(merchantUUID: String, email: String): Single<String>
 }

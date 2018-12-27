@@ -3,6 +3,8 @@ package com.s.data.remote.api
 import com.s.data.model.InPlayerAccount
 import com.s.data.model.InPlayerAuthorizationModel
 import com.s.data.model.ResponseModel
+import com.s.data.remote.request.EraseUserRequest
+import com.s.data.remote.request.UpdateAccountRequest
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -35,23 +37,32 @@ interface InPlayerRemoteServiceAPI {
     @GET("/accounts/logout")
     fun logout(@Header("Authorization") token: String): Single<ResponseModel>
     
+    
     @GET("/accounts")
     fun getAccount(@Header("Authorization") token: String): Single<InPlayerAccount>
     
     
     @PUT("/accounts")
-    fun updateAccount(): Single<InPlayerAuthorizationModel>
+    fun updateAccount(@Body updateAccountRequest: UpdateAccountRequest,
+                      @Header("Authorization") token: String): Single<InPlayerAccount>
     
     
-    @DELETE("/accounts/erase")
-    fun eraseAccount(): Single<ResponseModel>
+    @HTTP(method = "DELETE", path = "/accounts/erase", hasBody = true)
+    fun eraseAccount(@Body eraseUserRequest: EraseUserRequest,
+                     @Header("Authorization") token: String): Single<ResponseModel>
     
     
     @FormUrlEncoded
     @POST("/accounts/change-password")
     fun changePassword(@Field("password") password: String,
                        @Field("password_confirmation") passwordConfirmation: String,
-                       @Field("old_password") oldPassword: String): Single<ResponseModel>
+                       @Field("old_password") oldPassword: String,
+                       @Header("Authorization") token: String): Single<ResponseModel>
+    
+    @FormUrlEncoded
+    @POST("/accounts/forgot-password")
+    fun forgotPassword(@Field("merchant_uuid") merchantUUID: String,
+                       @Field("email") email: String): Single<ResponseModel>
     
     
 }

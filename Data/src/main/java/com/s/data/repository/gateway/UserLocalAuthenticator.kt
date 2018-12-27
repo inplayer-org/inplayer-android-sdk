@@ -11,7 +11,7 @@ interface UserLocalAuthenticator {
     
     fun getAuthenticationToken(): Single<String>
     
-    fun getBearerAuthToken() : String
+    fun getBearerAuthToken(): String
     
     fun isUserAutehnticated(): Boolean
     

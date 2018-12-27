@@ -17,4 +17,12 @@ interface UserRemoteAuthenticator {
     fun logOut(token: String): Single<ResponseModel>
     
     fun accountDetails(token: String): Single<InPlayerAccount>
+    
+    fun eraseUser(password: String, token: String): Single<ResponseModel>
+    
+    fun changePassword(newPassword: String, newPasswordConfirmation: String, oldPassword: String, token: String): Single<ResponseModel>
+    
+    fun forgotPassword(merchantUUID: String, email: String): Single<ResponseModel>
+    
+    fun updateAccount(fullName: String, metadata: HashMap<String, String>? = null, token: String): Single<InPlayerAccount>
 }
