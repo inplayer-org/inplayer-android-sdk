@@ -26,7 +26,7 @@ class CreateAccountUseCase constructor(schedulers: MySchedulers,
             if (it.password != it.passwordConfirmation)
                 return Single.error(InPlayerInvalidFieldsException("Password does not match Password Confirmation"))
             
-            return inPlayerAuthenticatorRepository.createAccount(it.fullName, it.email, it.password, it.passwordConfirmation, it.accType.toString(), it.merchantUUID)
+            return inPlayerAuthenticatorRepository.createAccount(it.fullName, it.email, it.password, it.passwordConfirmation, it.accType.toString(), it.merchantUUID, it.referrer)
             
         }
         
@@ -36,6 +36,6 @@ class CreateAccountUseCase constructor(schedulers: MySchedulers,
     
     data class Params(val fullName: String, val email: String, val password: String,
                       val passwordConfirmation: String, val accType: AccountType,
-                      val merchantUUID: String, val referrer: String? = null)
+                      val merchantUUID: String, val referrer: String)
     
 }

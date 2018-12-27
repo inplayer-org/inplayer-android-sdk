@@ -21,7 +21,8 @@ interface InPlayerRemoteServiceAPI {
             @Field("password") password: String,
             @Field("password_confirmation") passwordConfirmation: String,
             @Field("type") type: String,
-            @Field("merchant_uuid") merchantUUID: String): Single<InPlayerAuthorizationModel>
+            @Field("merchant_uuid") merchantUUID: String,
+            @Field("referrer") referrer: String): Single<InPlayerAuthorizationModel>
     
     
     @FormUrlEncoded

@@ -5,9 +5,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
-import com.s.inplayer.InPlayerKotlin;
+import com.s.inplayer.InPlayer;
 
 public class MainJavaActivity extends AppCompatActivity {
 
@@ -26,6 +27,10 @@ public class MainJavaActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        boolean isLogged = InPlayer.Account.isUserloggedIn();
+        Log.v("TAG", "Is logged in " + isLogged);
+
 
 
     }

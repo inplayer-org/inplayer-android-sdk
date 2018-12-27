@@ -10,7 +10,7 @@ import io.reactivex.Single
  */
 interface UserRemoteAuthenticator {
     
-    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String): Single<InPlayerAuthorizationModel>
+    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer : String): Single<InPlayerAuthorizationModel>
     
     fun authenticateUser(username: String, password: String, grantType: String, clientId: String): Single<InPlayerAuthorizationModel>
     

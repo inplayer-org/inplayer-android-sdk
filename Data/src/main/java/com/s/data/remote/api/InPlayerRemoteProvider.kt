@@ -84,9 +84,9 @@ class InPlayerRemoteProvider(private val baseUrl: String, private val isDebug: B
     /**
      * Endpoint Implementations
      * */
-    override fun createAccount(email: String, fullName: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String) = inPlayerRemoteServiceAPI.createAccount(email, fullName, password, passwordConfirmation, type, merchantUUID)
+    override fun createAccount(email: String, fullName: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String) = inPlayerRemoteServiceAPI.createAccount(email, fullName, password, passwordConfirmation, type, merchantUUID, referrer)
     
-    override fun authenticate(username: String, password: String, grantType: String, clientId: String) = inPlayerRemoteServiceAPI.authenticate(    username, password, grantType, clientId)
+    override fun authenticate(username: String, password: String, grantType: String, clientId: String) = inPlayerRemoteServiceAPI.authenticate(username, password, grantType, clientId)
     
     override fun logout(token: String) = inPlayerRemoteServiceAPI.logout(token)
     

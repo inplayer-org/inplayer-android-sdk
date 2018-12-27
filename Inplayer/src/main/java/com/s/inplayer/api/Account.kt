@@ -4,12 +4,14 @@ import com.s.domain.entity.GrantType
 import com.s.domain.entity.InPlayerUser
 import com.s.domain.schedulers.MySchedulers
 import com.s.domain.usecase.autehntication.*
+import com.s.inplayer.InPlayerSDKConfiguration
 import com.s.inplayer.callback.InPlayerCallback
 
 /**
  * Created by victor on 12/24/18
  */
 class Account(private val appSchedulers: MySchedulers,
+              private val inPlayerSDKConfiguration: InPlayerSDKConfiguration,
               private val createAccountUseCase: CreateAccountUseCase,
               private val authenticatedUseCase: AuthenticateUserUseCase,
               private val logOutUserUseCase: LogOutUserUseCase,
@@ -28,11 +30,12 @@ class Account(private val appSchedulers: MySchedulers,
      * Account Interface
      * */
     
-    fun signUp(fullName: String, email: String, password: String, passwordConfirmation: String, merchantUUID: String, callback: InPlayerCallback<InPlayerUser, Throwable>) {
+    fun signUp(fullName: String, email: String, password: String, passwordConfirmation: String, callback: InPlayerCallback<InPlayerUser, Throwable>) {
         
         val accType = com.s.domain.entity.AccountType.CONSUMER
         
-        createAccountUseCase.execute(CreateAccountUseCase.Params(fullName, email, password, passwordConfirmation, accType, merchantUUID))
+        createAccountUseCase.execute(CreateAccountUseCase.Params(fullName, email, password, passwordConfirmation, accType,
+                inPlayerSDKConfiguration.merchantUUID, inPlayerSDKConfiguration.referrer))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({
@@ -42,9 +45,10 @@ class Account(private val appSchedulers: MySchedulers,
                 })
     }
     
-    fun authenticate(username: String, password: String, clientId: String, callback: InPlayerCallback<InPlayerUser, Throwable>) {
+    fun authenticate(username: String, password: String, callback: InPlayerCallback<InPlayerUser, Throwable>) {
         
-        authenticatedUseCase.execute(AuthenticateUserUseCase.Params(username, password, GrantType.PASSWORD, clientId))
+        authenticatedUseCase.execute(AuthenticateUserUseCase.Params(username, password, GrantType.PASSWORD,
+                inPlayerSDKConfiguration.merchantUUID))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({

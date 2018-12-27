@@ -13,7 +13,8 @@ public class InPlayerApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        InPlayer.initialize(new InPlayer.Configuration.Builder(this).isStaging(true).build());
+        InPlayer.initialize(new InPlayer.Configuration.Builder(this, BuildConfig.UUID, "https://services.inplayer.com")
+                .isStaging(true).build());
 
     }
 }

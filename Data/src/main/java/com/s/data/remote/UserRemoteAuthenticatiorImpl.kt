@@ -12,7 +12,7 @@ class UserRemoteAuthenticatiorImpl constructor(val inPlayerRemoteProvider: InPla
     
     override fun authenticateUser(username: String, password: String, grantType: String, clientId: String) = inPlayerRemoteProvider.authenticate(username, password, grantType.toLowerCase(), clientId)
     
-    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String) = inPlayerRemoteProvider.createAccount(fullName, email, password, passwordConfirmation, type.toLowerCase(), merchantUUID)
+    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String) = inPlayerRemoteProvider.createAccount(fullName, email, password, passwordConfirmation, type.toLowerCase(), merchantUUID, referrer)
     
     override fun logOut(token: String) = inPlayerRemoteProvider.logout(token)
     

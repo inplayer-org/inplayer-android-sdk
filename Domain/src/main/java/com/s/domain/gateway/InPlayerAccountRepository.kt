@@ -9,7 +9,7 @@ import io.reactivex.Single
  */
 interface InPlayerAccountRepository {
     
-    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String): Single<InPlayerUser>
+    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String): Single<InPlayerUser>
     
     fun autehenticate(username: String, password: String, grantType: String, clientId: String): Single<InPlayerUser>
     

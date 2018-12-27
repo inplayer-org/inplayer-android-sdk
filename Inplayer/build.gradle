@@ -41,9 +41,10 @@ dependencies {
     implementation project(':Domain')
     implementation project(':Data')
 
-
-    implementation inPlayerSDK.dependencyInjection
-    //implementation inPlayerSDK.dependencyInjectionJava
+//
+//    implementation inPlayerSDK.dependencyInjection
+    implementation inPlayerSDK.dependencyInjectionJava
+    implementation inPlayerSDK.dependencyInjectionCore
 
     implementation reactive.rxJava
     implementation reactive.rxAndroid
