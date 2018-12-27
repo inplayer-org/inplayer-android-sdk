@@ -4,7 +4,6 @@ import com.s.data.model.InPlayerAccount
 import com.s.data.model.InPlayerAuthorizationModel
 import com.s.data.model.ResponseModel
 import com.s.data.remote.request.EraseUserRequest
-import com.s.data.remote.request.UpdateAccountRequest
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -42,9 +41,10 @@ interface InPlayerRemoteServiceAPI {
     @GET("/accounts")
     fun getAccount(@Header("Authorization") token: String): Single<InPlayerAccount>
     
-    
+    @FormUrlEncoded
     @PUT("/accounts")
-    fun updateAccount(@Body updateAccountRequest: UpdateAccountRequest,
+    fun updateAccount(@Field("full_name") fullName: String,
+                      @FieldMap(encoded = true) metadata: HashMap<String, String>?,
                       @Header("Authorization") token: String): Single<InPlayerAccount>
     
     

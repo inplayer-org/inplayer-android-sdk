@@ -1,7 +1,6 @@
 package com.s.data.remote.api
 
 import com.s.data.remote.request.EraseUserRequest
-import com.s.data.remote.request.UpdateAccountRequest
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -92,7 +91,7 @@ class InPlayerRemoteProvider(private val baseUrl: String, private val isDebug: B
     
     override fun getAccount(token: String) = inPlayerRemoteServiceAPI.getAccount(token)
     
-    override fun updateAccount(updateAccountRequest: UpdateAccountRequest, token: String) = inPlayerRemoteServiceAPI.updateAccount(updateAccountRequest, token)
+    override fun updateAccount(fullName: String, metadata: HashMap<String, String>?, token: String) = inPlayerRemoteServiceAPI.updateAccount(fullName, metadata, token)
     
     override fun eraseAccount(password: EraseUserRequest, token: String) = inPlayerRemoteServiceAPI.eraseAccount(password, token)
     

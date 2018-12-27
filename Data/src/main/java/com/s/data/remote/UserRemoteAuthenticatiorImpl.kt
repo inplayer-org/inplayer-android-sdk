@@ -2,7 +2,6 @@ package com.s.data.remote
 
 import com.s.data.remote.api.InPlayerRemoteProvider
 import com.s.data.remote.request.EraseUserRequest
-import com.s.data.remote.request.UpdateAccountRequest
 import com.s.data.repository.gateway.UserRemoteAuthenticator
 
 /**
@@ -24,6 +23,6 @@ class UserRemoteAuthenticatiorImpl constructor(val inPlayerRemoteProvider: InPla
     
     override fun forgotPassword(merchantUUID: String, email: String) = inPlayerRemoteProvider.forgotPassword(merchantUUID, email)
     
-    override fun updateAccount(fullName: String, metadata: HashMap<String, String>?, token: String) = inPlayerRemoteProvider.updateAccount(UpdateAccountRequest(fullName, metadata), token)
+    override fun updateAccount(fullName: String, metadata: HashMap<String, String>?, token: String) = inPlayerRemoteProvider.updateAccount(fullName, metadata, token)
     
 }

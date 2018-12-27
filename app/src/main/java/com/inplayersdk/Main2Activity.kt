@@ -123,7 +123,7 @@ class Main2Activity : AppCompatActivity() {
     private fun updateUser(fullName: String) {
         
         var map = HashMap<String, String>()
-        map["country"] = "Germany"
+        map["metadata[country]"] = "Germany"
         
         InPlayer.Account.updateUser(fullName, map, InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
