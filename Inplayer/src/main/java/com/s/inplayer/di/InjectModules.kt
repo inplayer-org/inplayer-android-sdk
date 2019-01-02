@@ -53,7 +53,7 @@ object InjectModules : KoinComponent {
         }
         
         val mainControllerModule = module {
-            factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+            factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
         }
         
         val accountUseCaseModule = module {
@@ -75,6 +75,8 @@ object InjectModules : KoinComponent {
             factory { ChangePasswordUseCase(get(), get()) }
             
             factory { UpdateUserUseCase(get(), get()) }
+            
+            factory { SetNewPasswordUseCase(get(), get()) }
         }
         
         startKoin(listOf(contextModule, configurationModule, dataModule, accountUseCaseModule, mainControllerModule))

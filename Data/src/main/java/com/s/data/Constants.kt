@@ -9,5 +9,7 @@ object Constants {
         
         val AccessToken = "ACCESS_TOKEN"
         
+        val RefreshToken = "REFRESH_TOKEN"
+        
     }
 }

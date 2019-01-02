@@ -7,6 +7,7 @@ import io.reactivex.Single
  */
 interface UserLocalAuthenticator {
     
+    //Access Token
     fun saveAuthenticationToken(accessToken: String)
     
     fun getAuthenticationToken(): Single<String>
@@ -16,5 +17,12 @@ interface UserLocalAuthenticator {
     fun isUserAutehnticated(): Boolean
     
     fun deleteAuthentiationToken()
+    
+    //Refresh Token
+    fun saveRefreshToken(refreshToken: String)
+    
+    fun getRefreshToken(): String
+    
+    fun deleteRefreshToken()
     
 }

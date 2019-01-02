@@ -53,6 +53,10 @@ class Main2Activity : AppCompatActivity() {
         update.setOnClickListener {
             updateUser("HIKTOR Petrovski")
         }
+        
+        set_new_password.setOnClickListener {
+        
+        }
     }
     
     private fun logInuser() {
@@ -73,7 +77,7 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun signUp() {
-        InPlayer.Account.signUp("Viktor Petrovski", "victorpetrovski93+test45@gmai.com", "androidsdk123", "androidsdk123", InPlayerCallback { inPlayerUser, error ->
+        InPlayer.Account.signUp("Viktor Petrovski", "victorpetrovski93+test455@gmai.com", "androidsdk123", "androidsdk123", InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
                 Log.v("signUp", "User created ")
             } else {
@@ -123,12 +127,25 @@ class Main2Activity : AppCompatActivity() {
     private fun updateUser(fullName: String) {
         
         var map = HashMap<String, String>()
-        map["metadata[country]"] = "Germany"
+        map["country"] = "Spain"
+        
         
         InPlayer.Account.updateUser(fullName, map, InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
                 //Handle InPlayerUser
                 Log.v("signUp", "User Details  Updated")
+            } else {
+                //Handle Error
+                error.printStackTrace()
+            }
+        })
+    }
+    
+    private fun setNewPassword(token: String, newPassword: String, newPasswordConfirmation: String) {
+        InPlayer.Account.setupNewPassword(token, newPassword, newPasswordConfirmation, InPlayerCallback { inPlayerUser, error ->
+            if (error == null) {
+                //Handle InPlayerUser
+                Log.v("setNewPassword", "User setNewPassword")
             } else {
                 //Handle Error
                 error.printStackTrace()

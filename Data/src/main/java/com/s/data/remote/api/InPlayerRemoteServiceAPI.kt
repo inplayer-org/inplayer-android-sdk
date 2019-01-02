@@ -3,7 +3,6 @@ package com.s.data.remote.api
 import com.s.data.model.InPlayerAccount
 import com.s.data.model.InPlayerAuthorizationModel
 import com.s.data.model.ResponseModel
-import com.s.data.remote.request.EraseUserRequest
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -27,8 +26,10 @@ interface InPlayerRemoteServiceAPI {
     @FormUrlEncoded
     @POST("/accounts/authenticate")
     fun authenticate(
-            @Field("username") username: String,
-            @Field("password") password: String,
+            @Field("username") username: String? = null,
+            @Field("password") password: String? = null,
+            @Field("client_secret") clientSecret: String? = null,
+            @Field("refresh_token") refreshToken: String? = null,
             @Field("grant_type") grantType: String,
             @Field("client_id") clientId: String
     ): Single<InPlayerAuthorizationModel>
@@ -44,12 +45,13 @@ interface InPlayerRemoteServiceAPI {
     @FormUrlEncoded
     @PUT("/accounts")
     fun updateAccount(@Field("full_name") fullName: String,
-                      @FieldMap(encoded = true) metadata: HashMap<String, String>?,
+                      @FieldMap metadata: HashMap<String, String>?,
                       @Header("Authorization") token: String): Single<InPlayerAccount>
     
     
+    @FormUrlEncoded
     @HTTP(method = "DELETE", path = "/accounts/erase", hasBody = true)
-    fun eraseAccount(@Body eraseUserRequest: EraseUserRequest,
+    fun eraseAccount(@Field("password") eraseUserRequest: String,
                      @Header("Authorization") token: String): Single<ResponseModel>
     
     
@@ -64,6 +66,13 @@ interface InPlayerRemoteServiceAPI {
     @POST("/accounts/forgot-password")
     fun forgotPassword(@Field("merchant_uuid") merchantUUID: String,
                        @Field("email") email: String): Single<ResponseModel>
+    
+    
+    @FormUrlEncoded
+    @HTTP(method = "PUT", path = "/accounts/forgot-password/{token}", hasBody = true)
+    fun setNewPassword(@Path("token") token: String,
+                       @Field("password") password: String,
+                       @Field("password_confirmation") passwordConfirmation: String): Single<ResponseModel>
     
     
 }

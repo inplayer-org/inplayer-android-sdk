@@ -1,5 +1,6 @@
 package com.s.data.repository
 
+import com.s.data.model.InPlayerAuthorizationModel
 import com.s.data.model.mapper.MapInPlayerUser
 import com.s.data.repository.gateway.UserLocalAuthenticator
 import com.s.data.repository.gateway.UserRemoteAuthenticator
@@ -17,7 +18,6 @@ class InPlayerAccountRepositoryImpl constructor(
         val mapInPlayerUser: MapInPlayerUser
 ) : InPlayerAccountRepository {
     
-    
     /**
      *  Creating Users and handling Authorization
      * */
@@ -25,7 +25,7 @@ class InPlayerAccountRepositoryImpl constructor(
         return userRemoteAuthenticator
                 .createAccount(fullName, email, password, passwordConfirmation, type, merchantUUID, referrer)
                 .doOnSuccess {
-                    userLocalAuthenticator.saveAuthenticationToken(it.accessToken)
+                    updateLocalTokens(it)
                 }
                 .map { mapInPlayerUser.mapFromModel(it.account) }
     }
@@ -34,21 +34,43 @@ class InPlayerAccountRepositoryImpl constructor(
         return userRemoteAuthenticator
                 .authenticateUser(username, password, grantType, clientId)
                 .doOnSuccess {
-                    userLocalAuthenticator.saveAuthenticationToken(it.accessToken)
+                    updateLocalTokens(it)
                 }
                 .map { mapInPlayerUser.mapFromModel(it.account) }
     }
-    
     
     override fun logout(): Completable {
         return userRemoteAuthenticator
                 .logOut(userLocalAuthenticator.getBearerAuthToken())
                 .doOnSuccess {
+                    userLocalAuthenticator.deleteRefreshToken()
                     userLocalAuthenticator.deleteAuthentiationToken()
                 }.toCompletable()
     }
     
     override fun isUserAuthenticated() = userLocalAuthenticator.isUserAutehnticated()
+    
+    override fun refreshToken(refreshToken: String, grantType: String, clientId: String): Single<InPlayerUser> {
+        return userRemoteAuthenticator.refreshToken(refreshToken, grantType, clientId)
+                .doOnSuccess {
+                    updateLocalTokens(it)
+                }.map { mapInPlayerUser.mapFromModel(it.account) }
+        
+    }
+    
+    override fun clientCredentialsAuthentication(clientSecret: String, grantType: String, clientId: String): Single<InPlayerUser> {
+        return userRemoteAuthenticator.authenticateWithClientSecret(clientSecret = clientSecret, grantType = grantType, clientId = clientId)
+                .doOnSuccess {
+                    updateLocalTokens(it)
+                }.map { mapInPlayerUser.mapFromModel(it.account) }
+    }
+    
+    private fun updateLocalTokens(it: InPlayerAuthorizationModel) {
+        it.refreshToken?.let {
+            userLocalAuthenticator.saveRefreshToken(it)
+        }
+        userLocalAuthenticator.saveAuthenticationToken(it.accessToken)
+    }
     
     /**
      * END Creating Users and handling Authorization
@@ -86,6 +108,10 @@ class InPlayerAccountRepositoryImpl constructor(
                 .map { it.explain }
     }
     
+    override fun setNewPassword(token: String, password: String, passwordConfirmation: String): Single<String> {
+        return userRemoteAuthenticator.setNewPassword(token, password, passwordConfirmation)
+                .map { it.explain }
+    }
     
     override fun requestForgotPassword(merchantUUID: String, email: String): Single<String> {
         return userRemoteAuthenticator.forgotPassword(merchantUUID, email)

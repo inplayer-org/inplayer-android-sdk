@@ -20,7 +20,8 @@ class Account(private val appSchedulers: MySchedulers,
               private val eraseUserUseCase: EraseUserUseCase,
               private val changePasswordUseCase: ChangePasswordUseCase,
               private val forgotPasswordUseCase: ForgotPasswordUseCase,
-              private val updateUserUseCase: UpdateUserUseCase) {
+              private val updateUserUseCase: UpdateUserUseCase,
+              private val setNewPasswordUseCase: SetNewPasswordUseCase) {
     
     enum class AccountType {
         CONSUMER, MERCHANT
@@ -47,8 +48,7 @@ class Account(private val appSchedulers: MySchedulers,
     
     fun authenticate(username: String, password: String, callback: InPlayerCallback<InPlayerUser, Throwable>) {
         
-        authenticatedUseCase.execute(AuthenticateUserUseCase.Params(username, password, GrantType.PASSWORD,
-                inPlayerSDKConfiguration.merchantUUID))
+        authenticatedUseCase.execute(AuthenticateUserUseCase.Params(username = username, password = password, grantType = GrantType.PASSWORD, clientId = inPlayerSDKConfiguration.merchantUUID))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({
@@ -57,6 +57,30 @@ class Account(private val appSchedulers: MySchedulers,
                     callback.done(null, it)
                 })
         
+    }
+    
+    fun refreshToken(refreshToken: String, callback: InPlayerCallback<InPlayerUser, Throwable>) {
+        
+        authenticatedUseCase.execute(AuthenticateUserUseCase.Params(refreshToken = refreshToken, grantType = GrantType.REFRESH_TOKEN, clientId = inPlayerSDKConfiguration.merchantUUID))
+                .subscribeOn(appSchedulers.subscribeOn)
+                .observeOn(appSchedulers.observeOn)
+                .subscribe({
+                    callback.done(it, null)
+                }, {
+                    callback.done(null, it)
+                })
+    }
+    
+    fun authenticateWithUser(clientSecret: String, callback: InPlayerCallback<InPlayerUser, Throwable>) {
+        
+        authenticatedUseCase.execute(AuthenticateUserUseCase.Params(clientSecret = clientSecret, grantType = GrantType.CLIENT_CREDENTIALS, clientId = inPlayerSDKConfiguration.merchantUUID))
+                .subscribeOn(appSchedulers.subscribeOn)
+                .observeOn(appSchedulers.observeOn)
+                .subscribe({
+                    callback.done(it, null)
+                }, {
+                    callback.done(null, it)
+                })
     }
     
     
@@ -123,6 +147,17 @@ class Account(private val appSchedulers: MySchedulers,
     fun updateUser(fullName: String, metadata: HashMap<String, String>? = null, callback: InPlayerCallback<InPlayerUser, Throwable>) {
         updateUserUseCase.execute(UpdateUserUseCase.Params(fullName, metadata = metadata))
                 .subscribeOn(appSchedulers.observeOn)
+                .observeOn(appSchedulers.observeOn)
+                .subscribe({
+                    callback.done(it, null)
+                }, {
+                    callback.done(null, it)
+                })
+    }
+    
+    fun setupNewPassword(token: String, newPassword: String, newPasswordConfirmation: String, callback: InPlayerCallback<String?, Throwable>) {
+        setNewPasswordUseCase.execute(SetNewPasswordUseCase.Params(token, newPassword, newPasswordConfirmation))
+                .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({
                     callback.done(it, null)

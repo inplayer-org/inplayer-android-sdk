@@ -17,6 +17,10 @@ interface InPlayerAccountRepository {
     
     fun isUserAuthenticated(): Boolean
     
+    fun refreshToken(refreshToken: String, grantType: String, clientId: String): Single<InPlayerUser>
+    
+    fun clientCredentialsAuthentication(clientSecret: String, grantType: String, clientId: String): Single<InPlayerUser>
+    
     
     fun getUser(): Single<InPlayerUser>
     
@@ -25,6 +29,8 @@ interface InPlayerAccountRepository {
     fun eraseUser(password: String): Single<String>
     
     fun changePassword(newPassword: String, newPasswordConfirmation: String, oldPassword: String): Single<String>
+    
+    fun setNewPassword(token: String, password: String, passwordConfirmation: String): Single<String>
     
     fun requestForgotPassword(merchantUUID: String, email: String): Single<String>
 }

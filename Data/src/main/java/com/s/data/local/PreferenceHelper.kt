@@ -24,5 +24,7 @@ object PreferenceHelper {
         get() = prefs.getString(Constants.SharedPrefsKey.AccessToken, null)
         set(value) = prefs.edit().putString(Constants.SharedPrefsKey.AccessToken, value).apply()
     
-    
+    var refreshToken: String?
+        get() = prefs.getString(Constants.SharedPrefsKey.RefreshToken, null)
+        set(value) = prefs.edit().putString(Constants.SharedPrefsKey.RefreshToken, value).apply()
 }

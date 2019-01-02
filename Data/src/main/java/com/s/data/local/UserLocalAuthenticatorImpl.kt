@@ -10,7 +10,6 @@ import io.reactivex.Single
  */
 class UserLocalAuthenticatorImpl constructor(val context: Context) : UserLocalAuthenticator {
     
-    
     val prefs = defaultPrefs(context)
     
     override fun saveAuthenticationToken(accessToken: String) {
@@ -30,5 +29,19 @@ class UserLocalAuthenticatorImpl constructor(val context: Context) : UserLocalAu
     override fun deleteAuthentiationToken() {
         prefs.acccessToken = null
     }
+    
+    override fun saveRefreshToken(refreshToken: String) {
+        prefs.refreshToken = refreshToken
+    }
+    
+    override fun getRefreshToken(): String {
+        return "${prefs.refreshToken}"
+    }
+    
+    override fun deleteRefreshToken() {
+        prefs.refreshToken = null
+    }
+    
+    
 }
 

@@ -1,6 +1,5 @@
 package com.s.data.remote.api
 
-import com.s.data.remote.request.EraseUserRequest
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -83,9 +82,9 @@ class InPlayerRemoteProvider(private val baseUrl: String, private val isDebug: B
     /**
      * Endpoint Implementations
      * */
-    override fun createAccount(email: String, fullName: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String) = inPlayerRemoteServiceAPI.createAccount(email, fullName, password, passwordConfirmation, type, merchantUUID, referrer)
+    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String) = inPlayerRemoteServiceAPI.createAccount(email, fullName, password, passwordConfirmation, type, merchantUUID, referrer)
     
-    override fun authenticate(username: String, password: String, grantType: String, clientId: String) = inPlayerRemoteServiceAPI.authenticate(username, password, grantType, clientId)
+    override fun authenticate(username: String?, password: String?, clientSecret: String?, refreshToken: String?, grantType: String, clientId: String) = inPlayerRemoteServiceAPI.authenticate(username, password, clientSecret, refreshToken, grantType, clientId)
     
     override fun logout(token: String) = inPlayerRemoteServiceAPI.logout(token)
     
@@ -93,9 +92,11 @@ class InPlayerRemoteProvider(private val baseUrl: String, private val isDebug: B
     
     override fun updateAccount(fullName: String, metadata: HashMap<String, String>?, token: String) = inPlayerRemoteServiceAPI.updateAccount(fullName, metadata, token)
     
-    override fun eraseAccount(password: EraseUserRequest, token: String) = inPlayerRemoteServiceAPI.eraseAccount(password, token)
+    override fun eraseAccount(password: String, token: String) = inPlayerRemoteServiceAPI.eraseAccount(password, token)
     
     override fun changePassword(password: String, passwordConfirmation: String, oldPassword: String, token: String) = inPlayerRemoteServiceAPI.changePassword(password, passwordConfirmation, oldPassword, token)
+    
+    override fun setNewPassword(token: String, password: String, passwordConfirmation: String) = inPlayerRemoteServiceAPI.setNewPassword(token, password, passwordConfirmation)
     
     override fun forgotPassword(merchantUUID: String, email: String) = inPlayerRemoteServiceAPI.forgotPassword(merchantUUID, email)
     
