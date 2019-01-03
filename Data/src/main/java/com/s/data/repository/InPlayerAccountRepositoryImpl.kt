@@ -43,7 +43,7 @@ class InPlayerAccountRepositoryImpl constructor(
         return userRemoteAuthenticator
                 .logOut(userLocalAuthenticator.getBearerAuthToken())
                 .doOnSuccess {
-                    userLocalAuthenticator.deleteRefreshToken()
+                    //userLocalAuthenticator.deleteRefreshToken()
                     userLocalAuthenticator.deleteAuthentiationToken()
                 }.toCompletable()
     }

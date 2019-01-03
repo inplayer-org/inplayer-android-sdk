@@ -5,6 +5,9 @@ import com.s.data.local.UserLocalAuthenticatorImpl
 import com.s.data.model.mapper.MapInPlayerUser
 import com.s.data.remote.UserRemoteAuthenticatiorImpl
 import com.s.data.remote.api.InPlayerRemoteProvider
+import com.s.data.remote.interceptor.RefreshAuthenticator
+import com.s.data.remote.refresh_token.InPlayerRemoteRefreshServiceAPI
+import com.s.data.remote.refresh_token.InPlayerRemoteRefreshTokenProvider
 import com.s.data.repository.InPlayerAccountRepositoryImpl
 import com.s.data.repository.gateway.UserLocalAuthenticator
 import com.s.data.repository.gateway.UserRemoteAuthenticator
@@ -42,7 +45,11 @@ object InjectModules : KoinComponent {
             
             single { AppSchedulers() as MySchedulers }
             
-            factory { InPlayerRemoteProvider(getProperty(Const.serverUrl), true) }
+            single { InPlayerRemoteRefreshTokenProvider(getProperty(Const.serverUrl), true) as InPlayerRemoteRefreshServiceAPI }
+    
+            single { RefreshAuthenticator(get(), get()) }
+            
+            factory { InPlayerRemoteProvider(getProperty(Const.serverUrl), true, get()) }
             
             factory { UserLocalAuthenticatorImpl(get()) as UserLocalAuthenticator }
             

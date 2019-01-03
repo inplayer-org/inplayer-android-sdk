@@ -51,6 +51,7 @@ class Main2Activity : AppCompatActivity() {
         }
         
         update.setOnClickListener {
+            accountDetails()
             updateUser("HIKTOR Petrovski")
         }
         

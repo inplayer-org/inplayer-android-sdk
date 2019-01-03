@@ -1,5 +1,6 @@
 package com.s.data.remote.api
 
+import com.s.data.remote.interceptor.RefreshAuthenticator
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -12,7 +13,9 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by victor on 12/21/18
  */
-class InPlayerRemoteProvider(private val baseUrl: String, private val isDebug: Boolean) : InPlayerRemoteServiceAPI {
+class InPlayerRemoteProvider(private val baseUrl: String,
+                             private val isDebug: Boolean,
+                             val refreshAuthenticator: RefreshAuthenticator) : InPlayerRemoteServiceAPI {
     
     
     /**
@@ -44,7 +47,7 @@ class InPlayerRemoteProvider(private val baseUrl: String, private val isDebug: B
     private fun makeLoggingInterceptor(): HttpLoggingInterceptor {
         val logging = HttpLoggingInterceptor()
         logging.level = if (isDebug) {
-            HttpLoggingInterceptor.Level.BODY
+            HttpLoggingInterceptor.Level.BASIC
         } else {
             HttpLoggingInterceptor.Level.NONE
         }
@@ -57,6 +60,7 @@ class InPlayerRemoteProvider(private val baseUrl: String, private val isDebug: B
                 .addInterceptor {
                     customHeaderIntercepted(it)
                 }
+                .authenticator(refreshAuthenticator)
                 .connectTimeout(120, TimeUnit.SECONDS)
                 .readTimeout(120, TimeUnit.SECONDS)
                 .build()
