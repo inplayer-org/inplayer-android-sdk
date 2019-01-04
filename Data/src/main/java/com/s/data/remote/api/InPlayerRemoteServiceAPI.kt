@@ -4,6 +4,7 @@ import com.s.data.model.InPlayerAccount
 import com.s.data.model.InPlayerAuthorizationModel
 import com.s.data.model.ResponseModel
 import io.reactivex.Single
+import retrofit2.Response
 import retrofit2.http.*
 
 /**
@@ -72,7 +73,7 @@ interface InPlayerRemoteServiceAPI {
     @HTTP(method = "PUT", path = "/accounts/forgot-password/{token}", hasBody = true)
     fun setNewPassword(@Path("token") token: String,
                        @Field("password") password: String,
-                       @Field("password_confirmation") passwordConfirmation: String): Single<ResponseModel>
+                       @Field("password_confirmation") passwordConfirmation: String): Single<Response<Void>>
     
     
 }

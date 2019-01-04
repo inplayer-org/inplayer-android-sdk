@@ -4,6 +4,7 @@ import com.s.data.model.InPlayerAccount
 import com.s.data.model.InPlayerAuthorizationModel
 import com.s.data.model.ResponseModel
 import io.reactivex.Single
+import retrofit2.Response
 
 /**
  * Created by victor on 12/21/18
@@ -24,7 +25,7 @@ interface UserRemoteAuthenticator {
     
     fun eraseUser(password: String, token: String): Single<ResponseModel>
     
-    fun setNewPassword(token: String, password: String, passwordConfirmation: String): Single<ResponseModel>
+    fun setNewPassword(token: String, password: String, passwordConfirmation: String): Single<Response<Void>>
     
     fun changePassword(newPassword: String, newPasswordConfirmation: String, oldPassword: String, token: String): Single<ResponseModel>
     

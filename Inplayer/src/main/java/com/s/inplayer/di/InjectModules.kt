@@ -11,12 +11,16 @@ import com.s.data.remote.refresh_token.InPlayerRemoteRefreshTokenProvider
 import com.s.data.repository.InPlayerAccountRepositoryImpl
 import com.s.data.repository.gateway.UserLocalAuthenticator
 import com.s.data.repository.gateway.UserRemoteAuthenticator
+import com.s.domain.entity.InPlayerDomainUser
+import com.s.domain.entity.mapper.DomainMapper
 import com.s.domain.gateway.InPlayerAccountRepository
 import com.s.domain.schedulers.MySchedulers
 import com.s.domain.usecase.autehntication.*
 import com.s.inplayer.InPlayer
 import com.s.inplayer.InPlayerSDKConfiguration
 import com.s.inplayer.api.Account
+import com.s.inplayer.mapper.InPlayerUserMapper
+import com.s.inplayer.model.InPlayerUser
 import com.s.inplayer.util.AppSchedulers
 import org.koin.dsl.module.module
 import org.koin.standalone.KoinComponent
@@ -46,7 +50,7 @@ object InjectModules : KoinComponent {
             single { AppSchedulers() as MySchedulers }
             
             single { InPlayerRemoteRefreshTokenProvider(getProperty(Const.serverUrl), true) as InPlayerRemoteRefreshServiceAPI }
-    
+            
             single { RefreshAuthenticator(get(), get()) }
             
             factory { InPlayerRemoteProvider(getProperty(Const.serverUrl), true, get()) }
@@ -60,7 +64,7 @@ object InjectModules : KoinComponent {
         }
         
         val mainControllerModule = module {
-            factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+            factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
         }
         
         val accountUseCaseModule = module {
@@ -86,7 +90,15 @@ object InjectModules : KoinComponent {
             factory { SetNewPasswordUseCase(get(), get()) }
         }
         
-        startKoin(listOf(contextModule, configurationModule, dataModule, accountUseCaseModule, mainControllerModule))
+        val assetsUseCaseModule = module {
+        
+        }
+        
+        val mapperModule = module {
+            single { InPlayerUserMapper() as DomainMapper<InPlayerDomainUser, InPlayerUser> }
+        }
+        
+        startKoin(listOf(contextModule, mapperModule, configurationModule, dataModule, accountUseCaseModule, mainControllerModule))
         
         setProperty(Const.context, configuration.context)
         
@@ -107,5 +119,6 @@ object InjectModules : KoinComponent {
         val merchant_UUID = "merchant_uuid"
         
         val referrer = "referrer"
+        
     }
 }

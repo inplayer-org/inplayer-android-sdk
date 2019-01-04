@@ -4,7 +4,7 @@ import com.s.data.model.InPlayerAuthorizationModel
 import com.s.data.model.mapper.MapInPlayerUser
 import com.s.data.repository.gateway.UserLocalAuthenticator
 import com.s.data.repository.gateway.UserRemoteAuthenticator
-import com.s.domain.entity.InPlayerUser
+import com.s.domain.entity.InPlayerDomainUser
 import com.s.domain.gateway.InPlayerAccountRepository
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -21,7 +21,7 @@ class InPlayerAccountRepositoryImpl constructor(
     /**
      *  Creating Users and handling Authorization
      * */
-    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String): Single<InPlayerUser> {
+    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String): Single<InPlayerDomainUser> {
         return userRemoteAuthenticator
                 .createAccount(fullName, email, password, passwordConfirmation, type, merchantUUID, referrer)
                 .doOnSuccess {
@@ -30,7 +30,7 @@ class InPlayerAccountRepositoryImpl constructor(
                 .map { mapInPlayerUser.mapFromModel(it.account) }
     }
     
-    override fun autehenticate(username: String, password: String, grantType: String, clientId: String): Single<InPlayerUser> {
+    override fun autehenticate(username: String, password: String, grantType: String, clientId: String): Single<InPlayerDomainUser> {
         return userRemoteAuthenticator
                 .authenticateUser(username, password, grantType, clientId)
                 .doOnSuccess {
@@ -43,14 +43,14 @@ class InPlayerAccountRepositoryImpl constructor(
         return userRemoteAuthenticator
                 .logOut(userLocalAuthenticator.getBearerAuthToken())
                 .doOnSuccess {
-                    //userLocalAuthenticator.deleteRefreshToken()
+                    userLocalAuthenticator.deleteRefreshToken()
                     userLocalAuthenticator.deleteAuthentiationToken()
                 }.toCompletable()
     }
     
     override fun isUserAuthenticated() = userLocalAuthenticator.isUserAutehnticated()
     
-    override fun refreshToken(refreshToken: String, grantType: String, clientId: String): Single<InPlayerUser> {
+    override fun refreshToken(refreshToken: String, grantType: String, clientId: String): Single<InPlayerDomainUser> {
         return userRemoteAuthenticator.refreshToken(refreshToken, grantType, clientId)
                 .doOnSuccess {
                     updateLocalTokens(it)
@@ -58,7 +58,7 @@ class InPlayerAccountRepositoryImpl constructor(
         
     }
     
-    override fun clientCredentialsAuthentication(clientSecret: String, grantType: String, clientId: String): Single<InPlayerUser> {
+    override fun clientCredentialsAuthentication(clientSecret: String, grantType: String, clientId: String): Single<InPlayerDomainUser> {
         return userRemoteAuthenticator.authenticateWithClientSecret(clientSecret = clientSecret, grantType = grantType, clientId = clientId)
                 .doOnSuccess {
                     updateLocalTokens(it)
@@ -81,13 +81,13 @@ class InPlayerAccountRepositoryImpl constructor(
      * Account data
      * */
     
-    override fun getUser(): Single<InPlayerUser> {
+    override fun getUser(): Single<InPlayerDomainUser> {
         return userRemoteAuthenticator
                 .accountDetails(userLocalAuthenticator.getBearerAuthToken())
                 .map { mapInPlayerUser.mapFromModel(it) }
     }
     
-    override fun updateUser(fullName: String, metadata: HashMap<String, String>?): Single<InPlayerUser> {
+    override fun updateUser(fullName: String, metadata: HashMap<String, String>?): Single<InPlayerDomainUser> {
         return userRemoteAuthenticator.updateAccount(fullName, metadata, userLocalAuthenticator.getBearerAuthToken())
                 .map { mapInPlayerUser.mapFromModel(it) }
     }
@@ -110,7 +110,9 @@ class InPlayerAccountRepositoryImpl constructor(
     
     override fun setNewPassword(token: String, password: String, passwordConfirmation: String): Single<String> {
         return userRemoteAuthenticator.setNewPassword(token, password, passwordConfirmation)
-                .map { it.explain }
+                .flatMap {
+                    return@flatMap Single.just("Password Updated")
+                }
     }
     
     override fun requestForgotPassword(merchantUUID: String, email: String): Single<String> {

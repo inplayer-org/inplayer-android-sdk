@@ -47,7 +47,7 @@ class InPlayerRemoteProvider(private val baseUrl: String,
     private fun makeLoggingInterceptor(): HttpLoggingInterceptor {
         val logging = HttpLoggingInterceptor()
         logging.level = if (isDebug) {
-            HttpLoggingInterceptor.Level.BASIC
+            HttpLoggingInterceptor.Level.BODY
         } else {
             HttpLoggingInterceptor.Level.NONE
         }
@@ -61,8 +61,8 @@ class InPlayerRemoteProvider(private val baseUrl: String,
                     customHeaderIntercepted(it)
                 }
                 .authenticator(refreshAuthenticator)
-                .connectTimeout(120, TimeUnit.SECONDS)
-                .readTimeout(120, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
                 .build()
     }
     
@@ -86,7 +86,7 @@ class InPlayerRemoteProvider(private val baseUrl: String,
     /**
      * Endpoint Implementations
      * */
-    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String) = inPlayerRemoteServiceAPI.createAccount(email, fullName, password, passwordConfirmation, type, merchantUUID, referrer)
+    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String) = inPlayerRemoteServiceAPI.createAccount(fullName, email, password, passwordConfirmation, type, merchantUUID, referrer)
     
     override fun authenticate(username: String?, password: String?, clientSecret: String?, refreshToken: String?, grantType: String, clientId: String) = inPlayerRemoteServiceAPI.authenticate(username, password, clientSecret, refreshToken, grantType, clientId)
     

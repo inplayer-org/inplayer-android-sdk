@@ -40,14 +40,16 @@ dependencies {
     implementation project(':Domain')
     implementation project(':Data')
 
-
+    implementation network.gson
     implementation network.okHttp
+    implementation network.retrofitAdapter
 
     implementation inPlayerSDK.dependencyInjectionJava
     implementation inPlayerSDK.dependencyInjectionCore
 
     implementation reactive.rxJava
     implementation reactive.rxAndroid
+
 
 
 }

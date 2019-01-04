@@ -47,16 +47,16 @@ class Main2Activity : AppCompatActivity() {
         }
         
         forgot_password.setOnClickListener {
-            forgotPassword(BuildConfig.UUID, "victorpetrovski93+test4@gmai.com")
+            forgotPassword(BuildConfig.UUID, "victorpetrovski93+test94@gmail.com")
         }
         
         update.setOnClickListener {
             accountDetails()
-            updateUser("HIKTOR Petrovski")
         }
         
         set_new_password.setOnClickListener {
-        
+            val password = "newpassword12345678"
+            setNewPassword("94c2cd8235e3c3a9", password, password)
         }
     }
     
@@ -64,6 +64,7 @@ class Main2Activity : AppCompatActivity() {
         InPlayer.Account.authenticate("sdks@inplayer.com", "sdks123456", InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
                 //Handle InPlayerUser
+                Log.v("logInuser", "User created $inPlayerUser")
                 
             } else {
                 //Handle Error
@@ -78,11 +79,11 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun signUp() {
-        InPlayer.Account.signUp("Viktor Petrovski", "victorpetrovski93+test455@gmai.com", "androidsdk123", "androidsdk123", InPlayerCallback { inPlayerUser, error ->
+        InPlayer.Account.signUp("Viktor Petrovski", "victorpetrovski93+test94@gmail.com", "androidsdk123", "androidsdk123", InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
-                Log.v("signUp", "User created ")
+                Log.v("signUp", "User created $inPlayerUser")
             } else {
-                error.printStackTrace()
+                //error.printStackTrace()
             }
         })
     }
@@ -91,10 +92,9 @@ class Main2Activity : AppCompatActivity() {
         InPlayer.Account.accountDetails(InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
                 //Handle InPlayerUser
-                Log.v("signUp", "User Details ")
+                Log.v("signUp", "User Details $inPlayerUser")
             } else {
-                //Handle Error
-                error.printStackTrace()
+                val errors = error.errorsList
             }
         })
     }
@@ -108,8 +108,8 @@ class Main2Activity : AppCompatActivity() {
     private fun changePassword() {
         InPlayer.Account.changePassword("newpassword12345", "newpassword12345", "newpassword123",
                 InPlayerCallback { sucessMessage, error ->
-                    if (error != null)
-                        error.printStackTrace()
+                    //                    if (error != null)
+//                        error.printStackTrace()
                 })
     }
     
@@ -117,10 +117,10 @@ class Main2Activity : AppCompatActivity() {
         InPlayer.Account.forgotPassword(merchantUUID, email, InPlayerCallback { sucessMessage, error ->
             if (error == null) {
                 //Handle InPlayerUser
-                Log.v("signUp", "User Details ")
+                Log.v("forgotPassword", "User Details ")
             } else {
                 //Handle Error
-                error.printStackTrace()
+                //  error.printStackTrace()
             }
         })
     }
@@ -134,22 +134,22 @@ class Main2Activity : AppCompatActivity() {
         InPlayer.Account.updateUser(fullName, map, InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
                 //Handle InPlayerUser
-                Log.v("signUp", "User Details  Updated")
+                Log.v("updateUser", "User Details  Updated $inPlayerUser")
             } else {
                 //Handle Error
-                error.printStackTrace()
+                // error.printStackTrace()
             }
         })
     }
     
     private fun setNewPassword(token: String, newPassword: String, newPasswordConfirmation: String) {
-        InPlayer.Account.setupNewPassword(token, newPassword, newPasswordConfirmation, InPlayerCallback { inPlayerUser, error ->
+        InPlayer.Account.setupNewPassword(token, newPassword, newPasswordConfirmation, InPlayerCallback { message, error ->
             if (error == null) {
                 //Handle InPlayerUser
-                Log.v("setNewPassword", "User setNewPassword")
+                Log.v("setNewPassword", "User setNewPassword $message")
             } else {
                 //Handle Error
-                error.printStackTrace()
+                Log.v("setNewPassword", "Error block $message")
             }
         })
     }
