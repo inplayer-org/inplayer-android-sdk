@@ -1,0 +1,17 @@
+apply plugin: 'kotlin'
+
+dependencies {
+
+    def reactive = rootProject.ext.reactive
+    def annotations = rootProject.ext.annotations
+
+    implementation reactive.rxJava
+
+//    implementation annotations.javaxInject
+//    implementation annotations.javaxAnnotation
+
+
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

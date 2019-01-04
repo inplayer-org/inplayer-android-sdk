@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Data/Data.iml" filepath="$PROJECT_DIR$/Data/Data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/InPlayerSDK.iml" filepath="$PROJECT_DIR$/InPlayerSDK.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Inplayer/Inplayer.iml" filepath="$PROJECT_DIR$/Inplayer/Inplayer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Domain/domain.iml" filepath="$PROJECT_DIR$/Domain/domain.iml" />
+    </modules>
+  </component>
+</project>
