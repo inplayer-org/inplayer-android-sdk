@@ -1,6 +1,6 @@
 package com.s.domain.usecase.autehntication
 
-import com.s.domain.entity.InPlayerDomainUser
+import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.gateway.InPlayerAccountRepository
 import com.s.domain.schedulers.MySchedulers
 import com.s.domain.usecase.base.SingleUseCase

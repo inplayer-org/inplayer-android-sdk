@@ -11,7 +11,7 @@ import com.s.data.remote.refresh_token.InPlayerRemoteRefreshTokenProvider
 import com.s.data.repository.InPlayerAccountRepositoryImpl
 import com.s.data.repository.gateway.UserLocalAuthenticator
 import com.s.data.repository.gateway.UserRemoteAuthenticator
-import com.s.domain.entity.InPlayerDomainUser
+import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.entity.mapper.DomainMapper
 import com.s.domain.gateway.InPlayerAccountRepository
 import com.s.domain.schedulers.MySchedulers

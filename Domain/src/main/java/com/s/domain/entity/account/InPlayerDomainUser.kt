@@ -1,4 +1,4 @@
-package com.s.domain.entity
+package com.s.domain.entity.account
 
 /**
  * Created by victor on 12/20/18

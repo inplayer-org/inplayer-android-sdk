@@ -1,7 +1,7 @@
 package com.s.inplayer.api
 
-import com.s.domain.entity.GrantType
-import com.s.domain.entity.InPlayerDomainUser
+import com.s.domain.entity.account.GrantType
+import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.entity.mapper.DomainMapper
 import com.s.domain.schedulers.MySchedulers
 import com.s.domain.usecase.autehntication.*
@@ -38,7 +38,7 @@ class Account(private val appSchedulers: MySchedulers,
     
     fun signUp(fullName: String, email: String, password: String, passwordConfirmation: String, callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
         
-        val accType = com.s.domain.entity.AccountType.CONSUMER
+        val accType = com.s.domain.entity.account.AccountType.CONSUMER
         
         createAccountUseCase.execute(CreateAccountUseCase.Params(fullName, email, password, passwordConfirmation, accType,
                 inPlayerSDKConfiguration.merchantUUID, inPlayerSDKConfiguration.referrer))

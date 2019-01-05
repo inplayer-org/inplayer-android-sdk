@@ -1,8 +1,8 @@
 package com.s.data.model.mapper
 
 import com.s.data.model.InPlayerAccount
-import com.s.domain.entity.AccountType
-import com.s.domain.entity.InPlayerDomainUser
+import com.s.domain.entity.account.AccountType
+import com.s.domain.entity.account.InPlayerDomainUser
 
 /**
  * Created by victor on 12/25/18
