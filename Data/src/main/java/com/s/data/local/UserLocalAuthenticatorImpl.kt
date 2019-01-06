@@ -23,6 +23,7 @@ class UserLocalAuthenticatorImpl constructor(val context: Context) : UserLocalAu
     
     override fun getBearerAuthToken() = "${Constants.HttpHeaderBearerTokenPrefix} ${prefs.acccessToken}"
     
+    
     override fun isUserAutehnticated(): Boolean {
         return prefs.acccessToken != null
     }
@@ -42,7 +43,6 @@ class UserLocalAuthenticatorImpl constructor(val context: Context) : UserLocalAu
     override fun deleteRefreshToken() {
         prefs.refreshToken = null
     }
-    
     
 }
 

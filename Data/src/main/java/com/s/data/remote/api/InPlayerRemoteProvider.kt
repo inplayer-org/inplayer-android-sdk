@@ -15,33 +15,32 @@ import java.util.concurrent.TimeUnit
  */
 class InPlayerRemoteProvider(private val baseUrl: String,
                              private val isDebug: Boolean,
-                             val refreshAuthenticator: RefreshAuthenticator) : InPlayerRemoteServiceAPI {
-    
+                             val refreshAuthenticator: RefreshAuthenticator) : InPlayerAccountRemoteServiceAPI {
     
     /**
      * Creating Retrofit and setting up Logging
      * */
     
-    private lateinit var inPlayerRemoteServiceAPI: InPlayerRemoteServiceAPI
+    private lateinit var inPlayerRemoteServiceAPI: InPlayerAccountRemoteServiceAPI
     
     init {
         makeInPlayerRemoteService()
     }
     
-    private fun makeInPlayerRemoteService(): InPlayerRemoteServiceAPI {
+    private fun makeInPlayerRemoteService(): InPlayerAccountRemoteServiceAPI {
         val okHttpClient = makeOkHttpClient(makeLoggingInterceptor())
         inPlayerRemoteServiceAPI = buildService(okHttpClient)
         return inPlayerRemoteServiceAPI
     }
     
-    private fun buildService(okHttpClient: OkHttpClient): InPlayerRemoteServiceAPI {
+    private fun buildService(okHttpClient: OkHttpClient): InPlayerAccountRemoteServiceAPI {
         val retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-        return retrofit.create(InPlayerRemoteServiceAPI::class.java)
+        return retrofit.create(InPlayerAccountRemoteServiceAPI::class.java)
     }
     
     private fun makeLoggingInterceptor(): HttpLoggingInterceptor {
@@ -79,13 +78,14 @@ class InPlayerRemoteProvider(private val baseUrl: String,
     }
     
     /**
-     * END ->> Creating Retrofit and setting up Logging
+     * END -> Creating Retrofit and setting up Logging
      * */
     
     
     /**
-     * Endpoint Implementations
+     * ACCOUNT Endpoint Implementations
      * */
+    
     override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String) = inPlayerRemoteServiceAPI.createAccount(fullName, email, password, passwordConfirmation, type, merchantUUID, referrer)
     
     override fun authenticate(username: String?, password: String?, clientSecret: String?, refreshToken: String?, grantType: String, clientId: String) = inPlayerRemoteServiceAPI.authenticate(username, password, clientSecret, refreshToken, grantType, clientId)
@@ -103,5 +103,23 @@ class InPlayerRemoteProvider(private val baseUrl: String,
     override fun setNewPassword(token: String, password: String, passwordConfirmation: String) = inPlayerRemoteServiceAPI.setNewPassword(token, password, passwordConfirmation)
     
     override fun forgotPassword(merchantUUID: String, email: String) = inPlayerRemoteServiceAPI.forgotPassword(merchantUUID, email)
+  
+    /**
+     * END -> ACCOUNT Endpoint Implementations
+     * */
     
+    
+    /**
+     * ASSETS Endpoint Implementations
+     * */
+    
+    override fun getItemAccess(id: Int, token: String) = inPlayerRemoteServiceAPI.getItemAccess(id, token)
+    
+    override fun getItemDetails(id: Int, merchantUUID: String) = inPlayerRemoteServiceAPI.getItemDetails(id, merchantUUID)
+    
+    override fun getAccessFees(id: Int) = inPlayerRemoteServiceAPI.getAccessFees(id)
+    
+    /**
+     * END -> ASSETS Endpoint Implementations
+     * */
 }

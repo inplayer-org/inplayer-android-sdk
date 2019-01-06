@@ -19,7 +19,6 @@ object PreferenceHelper {
         return this
     }
     
-    
     var acccessToken: String?
         get() = prefs.getString(Constants.SharedPrefsKey.AccessToken, null)
         set(value) = prefs.edit().putString(Constants.SharedPrefsKey.AccessToken, value).apply()

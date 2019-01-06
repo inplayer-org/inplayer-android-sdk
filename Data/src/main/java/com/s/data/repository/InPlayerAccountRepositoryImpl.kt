@@ -1,6 +1,6 @@
 package com.s.data.repository
 
-import com.s.data.model.InPlayerAuthorizationModel
+import com.s.data.model.account.InPlayerAuthorizationModel
 import com.s.data.model.mapper.MapInPlayerUser
 import com.s.data.repository.gateway.UserLocalAuthenticator
 import com.s.data.repository.gateway.UserRemoteAuthenticator

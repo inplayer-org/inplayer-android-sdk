@@ -1,8 +1,11 @@
 package com.s.data.remote.api
 
-import com.s.data.model.InPlayerAccount
-import com.s.data.model.InPlayerAuthorizationModel
 import com.s.data.model.ResponseModel
+import com.s.data.model.account.InPlayerAccount
+import com.s.data.model.account.InPlayerAuthorizationModel
+import com.s.domain.entity.asset.AccessFeeModel
+import com.s.domain.entity.asset.ItemAccessModel
+import com.s.domain.entity.asset.ItemDetailsModel
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.*
@@ -10,7 +13,12 @@ import retrofit2.http.*
 /**
  * Created by victor on 12/21/18
  */
-interface InPlayerRemoteServiceAPI {
+interface InPlayerAccountRemoteServiceAPI {
+    
+    
+    /**
+     * ACCOUNT Endpoint
+     * */
     
     @FormUrlEncoded
     @POST("/accounts")
@@ -75,5 +83,27 @@ interface InPlayerRemoteServiceAPI {
                        @Field("password") password: String,
                        @Field("password_confirmation") passwordConfirmation: String): Single<Response<Void>>
     
+    
+    /**
+     * END ACCOUNT Endpoint
+     * */
+    
+    /**
+     * ASSETS Endpoint
+     * */
+    
+    @GET("/items/{id}/access")
+    fun getItemAccess(@Path("id") id: Int, @Header("Authorization") token: String): Single<ItemAccessModel>
+    
+    @GET("/items/{merchant_uuid}/{id}")
+    fun getItemDetails(@Path("id") id: Int, @Path("merchant_uuid") merchantUUID: String): Single<ItemDetailsModel>
+    
+    @GET("/items/{id}/access-fees")
+    fun getAccessFees(@Path("id") id: Int): Single<AccessFeeModel>
+    
+    
+    /**
+     * END ASSETS Endpoint
+     * */
     
 }

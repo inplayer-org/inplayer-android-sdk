@@ -2,23 +2,31 @@ package com.s.inplayer.di
 
 import android.content.Context
 import com.s.data.local.UserLocalAuthenticatorImpl
-import com.s.data.model.mapper.MapInPlayerUser
+import com.s.data.model.mapper.*
+import com.s.data.remote.AssetsRemoteImpl
 import com.s.data.remote.UserRemoteAuthenticatiorImpl
 import com.s.data.remote.api.InPlayerRemoteProvider
 import com.s.data.remote.interceptor.RefreshAuthenticator
 import com.s.data.remote.refresh_token.InPlayerRemoteRefreshServiceAPI
 import com.s.data.remote.refresh_token.InPlayerRemoteRefreshTokenProvider
 import com.s.data.repository.InPlayerAccountRepositoryImpl
+import com.s.data.repository.InPlayerAssetsRepositoryImpl
+import com.s.data.repository.gateway.AssetsRemote
 import com.s.data.repository.gateway.UserLocalAuthenticator
 import com.s.data.repository.gateway.UserRemoteAuthenticator
 import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.entity.mapper.DomainMapper
 import com.s.domain.gateway.InPlayerAccountRepository
+import com.s.domain.gateway.InPlayerAssetsRepository
 import com.s.domain.schedulers.MySchedulers
+import com.s.domain.usecase.assets.GetAccessFeesUseCase
+import com.s.domain.usecase.assets.GetItemAccessUseCase
+import com.s.domain.usecase.assets.GetItemDetailsUseCase
 import com.s.domain.usecase.autehntication.*
 import com.s.inplayer.InPlayer
 import com.s.inplayer.InPlayerSDKConfiguration
 import com.s.inplayer.api.Account
+import com.s.inplayer.api.Assets
 import com.s.inplayer.mapper.InPlayerUserMapper
 import com.s.inplayer.model.InPlayerUser
 import com.s.inplayer.util.AppSchedulers
@@ -45,13 +53,43 @@ object InjectModules : KoinComponent {
         // Dependency Injection for The Data Module
         val dataModule = module {
             
-            factory { MapInPlayerUser() }
-            
             single { AppSchedulers() as MySchedulers }
             
+            /**
+             * Data Module Mapper
+             * */
+            single { MapAccessControlType() }
+            
+            single { MapAccessFee(get(), get(), get(), get()) }
+            
+            single { MapAccessType() }
+            
+            single { MapInPlayerUser() }
+            
+            single { MapItemAccess(get()) }
+            
+            single { MapItemDetails(get(), get()) }
+            
+            single { MapItemType() }
+            
+            single { MapSetupFee() }
+            
+            single { MapTrialPeriod() }
+            
+            /**
+             * END Data Module Mapper
+             * */
+            
+            /**
+             * REFRESH TOKEN
+             * */
             single { InPlayerRemoteRefreshTokenProvider(getProperty(Const.serverUrl), true) as InPlayerRemoteRefreshServiceAPI }
             
             single { RefreshAuthenticator(get(), get()) }
+            
+            /**
+             * END REFRESH TOKEN
+             * */
             
             factory { InPlayerRemoteProvider(getProperty(Const.serverUrl), true, get()) }
             
@@ -59,12 +97,27 @@ object InjectModules : KoinComponent {
             
             factory { UserRemoteAuthenticatiorImpl(get()) as UserRemoteAuthenticator }
             
+            factory { AssetsRemoteImpl(get()) as AssetsRemote }
+            
+            /**
+             * REPOSITORY
+             * */
+            factory { InPlayerAssetsRepositoryImpl(get(), get(), get(), get(), get()) as InPlayerAssetsRepository }
+            
             factory { InPlayerAccountRepositoryImpl(get(), get(), get()) as InPlayerAccountRepository }
+            
+            /**
+             * END REPOSITORY
+             * */
             
         }
         
         val mainControllerModule = module {
-            factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+            
+            single { Assets(get(), get(), get(), get(), get()) }
+            
+            single { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+            
         }
         
         val accountUseCaseModule = module {
@@ -91,14 +144,24 @@ object InjectModules : KoinComponent {
         }
         
         val assetsUseCaseModule = module {
-        
+            
+            factory { GetItemDetailsUseCase(get(), get()) }
+            
+            factory { GetAccessFeesUseCase(get(), get()) }
+            
+            factory { GetItemAccessUseCase(get(), get()) }
+            
         }
+        
         
         val mapperModule = module {
+            
             single { InPlayerUserMapper() as DomainMapper<InPlayerDomainUser, InPlayerUser> }
+            
         }
         
-        startKoin(listOf(contextModule, mapperModule, configurationModule, dataModule, accountUseCaseModule, mainControllerModule))
+        startKoin(listOf(contextModule, mapperModule, configurationModule, dataModule, accountUseCaseModule,
+                mainControllerModule, assetsUseCaseModule))
         
         setProperty(Const.context, configuration.context)
         

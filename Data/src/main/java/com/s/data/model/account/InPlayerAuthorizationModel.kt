@@ -1,4 +1,4 @@
-package com.s.data.model
+package com.s.data.model.account
 
 import com.google.gson.annotations.SerializedName
 

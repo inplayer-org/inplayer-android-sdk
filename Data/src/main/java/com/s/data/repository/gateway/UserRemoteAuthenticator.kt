@@ -1,7 +1,7 @@
 package com.s.data.repository.gateway
 
-import com.s.data.model.InPlayerAccount
-import com.s.data.model.InPlayerAuthorizationModel
+import com.s.data.model.account.InPlayerAccount
+import com.s.data.model.account.InPlayerAuthorizationModel
 import com.s.data.model.ResponseModel
 import io.reactivex.Single
 import retrofit2.Response

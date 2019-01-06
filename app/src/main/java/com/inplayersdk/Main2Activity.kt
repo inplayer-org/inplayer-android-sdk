@@ -58,10 +58,22 @@ class Main2Activity : AppCompatActivity() {
             val password = "newpassword12345678"
             setNewPassword("94c2cd8235e3c3a9", password, password)
         }
+        
+        get_access.setOnClickListener {
+            getAccess()
+        }
+        
+        get_access_fee.setOnClickListener {
+            getAccessFees()
+        }
+        
+        get_item.setOnClickListener {
+            getItem()
+        }
     }
     
     private fun logInuser() {
-        InPlayer.Account.authenticate("sdks@inplayer.com", "sdks123456", InPlayerCallback { inPlayerUser, error ->
+        InPlayer.Account.authenticate("matej@inplayer.com", "matej123456", InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
                 //Handle InPlayerUser
                 Log.v("logInuser", "User created $inPlayerUser")
@@ -151,6 +163,24 @@ class Main2Activity : AppCompatActivity() {
                 //Handle Error
                 Log.v("setNewPassword", "Error block $message")
             }
+        })
+    }
+    
+    private fun getAccess() {
+        InPlayer.Assets.getItemAccess(43871, InPlayerCallback { itemAccess, error ->
+        
+        })
+    }
+    
+    private fun getItem() {
+        InPlayer.Assets.getItemDetails(43871, InPlayerCallback { itemDetails, error ->
+        
+        })
+    }
+    
+    private fun getAccessFees() {
+        InPlayer.Assets.getAccessFees(43871, InPlayerCallback { accsFee, error ->
+        
         })
     }
     

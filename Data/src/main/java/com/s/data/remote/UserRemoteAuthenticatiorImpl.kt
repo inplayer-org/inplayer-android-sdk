@@ -1,6 +1,6 @@
 package com.s.data.remote
 
-import com.s.data.model.InPlayerAccount
+import com.s.data.model.account.InPlayerAccount
 import com.s.data.remote.api.InPlayerRemoteProvider
 import com.s.data.repository.gateway.UserRemoteAuthenticator
 import io.reactivex.Single
