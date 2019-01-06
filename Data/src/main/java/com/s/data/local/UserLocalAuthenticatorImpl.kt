@@ -1,6 +1,7 @@
 package com.s.data.local
 
 import android.content.Context
+import com.s.data.Constants
 import com.s.data.local.PreferenceHelper.defaultPrefs
 import com.s.data.repository.gateway.UserLocalAuthenticator
 import io.reactivex.Single
@@ -20,7 +21,7 @@ class UserLocalAuthenticatorImpl constructor(val context: Context) : UserLocalAu
         return Single.just(prefs.acccessToken)
     }
     
-    override fun getBearerAuthToken() = "Bearer ${prefs.acccessToken}"
+    override fun getBearerAuthToken() = "${Constants.HttpHeaderBearerTokenPrefix} ${prefs.acccessToken}"
     
     override fun isUserAutehnticated(): Boolean {
         return prefs.acccessToken != null

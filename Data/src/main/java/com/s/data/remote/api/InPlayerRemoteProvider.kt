@@ -1,5 +1,6 @@
 package com.s.data.remote.api
 
+import com.s.data.remote.interceptor.RefreshAuthenticator
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -12,7 +13,9 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by victor on 12/21/18
  */
-class InPlayerRemoteProvider(private val baseUrl: String, private val isDebug: Boolean) : InPlayerRemoteServiceAPI {
+class InPlayerRemoteProvider(private val baseUrl: String,
+                             private val isDebug: Boolean,
+                             val refreshAuthenticator: RefreshAuthenticator) : InPlayerRemoteServiceAPI {
     
     
     /**
@@ -57,8 +60,9 @@ class InPlayerRemoteProvider(private val baseUrl: String, private val isDebug: B
                 .addInterceptor {
                     customHeaderIntercepted(it)
                 }
-                .connectTimeout(120, TimeUnit.SECONDS)
-                .readTimeout(120, TimeUnit.SECONDS)
+                .authenticator(refreshAuthenticator)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
                 .build()
     }
     
@@ -82,7 +86,7 @@ class InPlayerRemoteProvider(private val baseUrl: String, private val isDebug: B
     /**
      * Endpoint Implementations
      * */
-    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String) = inPlayerRemoteServiceAPI.createAccount(email, fullName, password, passwordConfirmation, type, merchantUUID, referrer)
+    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String) = inPlayerRemoteServiceAPI.createAccount(fullName, email, password, passwordConfirmation, type, merchantUUID, referrer)
     
     override fun authenticate(username: String?, password: String?, clientSecret: String?, refreshToken: String?, grantType: String, clientId: String) = inPlayerRemoteServiceAPI.authenticate(username, password, clientSecret, refreshToken, grantType, clientId)
     

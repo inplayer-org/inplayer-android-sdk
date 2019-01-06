@@ -35,21 +35,21 @@ dependencies {
     def inPlayerSDK = rootProject.ext.inPlayerSDKDependencies
 
     def reactive = rootProject.ext.reactive
-    def annotations = rootProject.ext.annotations
-
+    def network = rootProject.ext.networkDependencies
 
     implementation project(':Domain')
     implementation project(':Data')
 
-//
-//    implementation inPlayerSDK.dependencyInjection
+    implementation network.gson
+    implementation network.okHttp
+    implementation network.retrofitAdapter
+
     implementation inPlayerSDK.dependencyInjectionJava
     implementation inPlayerSDK.dependencyInjectionCore
 
     implementation reactive.rxJava
     implementation reactive.rxAndroid
 
-//    implementation annotations.javaxInject
-//    implementation annotations.javaxAnnotation
+
 
 }

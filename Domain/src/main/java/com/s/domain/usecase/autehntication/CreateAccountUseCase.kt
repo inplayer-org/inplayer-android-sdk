@@ -1,7 +1,7 @@
 package com.s.domain.usecase.autehntication
 
 import com.s.domain.entity.AccountType
-import com.s.domain.entity.InPlayerUser
+import com.s.domain.entity.InPlayerDomainUser
 import com.s.domain.exception.InPlayerInvalidFieldsException
 import com.s.domain.gateway.InPlayerAccountRepository
 import com.s.domain.isValidEmail
@@ -14,9 +14,9 @@ import io.reactivex.Single
  */
 class CreateAccountUseCase constructor(schedulers: MySchedulers,
                                        private val inPlayerAuthenticatorRepository: InPlayerAccountRepository)
-    : SingleUseCase<InPlayerUser, CreateAccountUseCase.Params>(schedulers) {
+    : SingleUseCase<InPlayerDomainUser, CreateAccountUseCase.Params>(schedulers) {
     
-    override fun buildUseCaseObservable(params: Params?): Single<InPlayerUser> {
+    override fun buildUseCaseObservable(params: Params?): Single<InPlayerDomainUser> {
         
         params?.let {
             

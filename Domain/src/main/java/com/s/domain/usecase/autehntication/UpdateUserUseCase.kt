@@ -1,6 +1,6 @@
 package com.s.domain.usecase.autehntication
 
-import com.s.domain.entity.InPlayerUser
+import com.s.domain.entity.InPlayerDomainUser
 import com.s.domain.gateway.InPlayerAccountRepository
 import com.s.domain.schedulers.MySchedulers
 import com.s.domain.usecase.base.SingleUseCase
@@ -11,9 +11,9 @@ import io.reactivex.Single
  */
 class UpdateUserUseCase constructor(private val appSchedulers: MySchedulers,
                                     private val inPlayerAccountRepository: InPlayerAccountRepository)
-    : SingleUseCase<InPlayerUser, UpdateUserUseCase.Params>(appSchedulers) {
+    : SingleUseCase<InPlayerDomainUser, UpdateUserUseCase.Params>(appSchedulers) {
     
-    override fun buildUseCaseObservable(params: Params?): Single<InPlayerUser> {
+    override fun buildUseCaseObservable(params: Params?): Single<InPlayerDomainUser> {
         
         params?.let {
             return inPlayerAccountRepository.updateUser(it.fullName, it.metadata)

@@ -12,4 +12,10 @@ object Constants {
         val RefreshToken = "REFRESH_TOKEN"
         
     }
+    
+    val HttpHeaderAuthorization = "Authorization"
+    
+    val HttpHeaderBearerTokenPrefix = "Bearer"
+    
+    val HttpHeaderRetryCount = "Retry-Count"
 }

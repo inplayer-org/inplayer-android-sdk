@@ -1,7 +1,6 @@
 package com.s.data.remote
 
 import com.s.data.model.InPlayerAccount
-import com.s.data.model.ResponseModel
 import com.s.data.remote.api.InPlayerRemoteProvider
 import com.s.data.repository.gateway.UserRemoteAuthenticator
 import io.reactivex.Single
@@ -42,8 +41,7 @@ class UserRemoteAuthenticatiorImpl constructor(val inPlayerRemoteProvider: InPla
         return inPlayerRemoteProvider.updateAccount(fullName, updatedMetadataMap, token)
     }
     
-    override fun setNewPassword(token: String, password: String, passwordConfirmation: String): Single<ResponseModel> {
-        return inPlayerRemoteProvider.setNewPassword(token, password, passwordConfirmation)
-    }
+    override fun setNewPassword(token: String, password: String, passwordConfirmation: String) = inPlayerRemoteProvider.setNewPassword(token, password, passwordConfirmation)
+    
     
 }
