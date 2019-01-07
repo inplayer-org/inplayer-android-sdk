@@ -15,7 +15,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
 
-        buildConfigField "String", "UUID", "\"3b39b5ab-b5fc-4ba3-b770-73155d20e61f\""
+        buildConfigField "String", "UUID", "\"7ad8a510-b720-4a18-aa38-0260e5fd1cb2\""
     }
     buildTypes {
         release {

@@ -1,7 +1,6 @@
 package com.s.data.remote.refresh_token
 
-import com.s.data.model.InPlayerAuthorizationModel
-import io.reactivex.Single
+import com.s.data.model.account.InPlayerAuthorizationModel
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded

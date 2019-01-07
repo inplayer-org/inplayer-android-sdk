@@ -1,6 +1,6 @@
 package com.s.inplayer.mapper
 
-import com.s.domain.entity.InPlayerDomainUser
+import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.entity.mapper.DomainMapper
 import com.s.inplayer.model.InPlayerUser
 

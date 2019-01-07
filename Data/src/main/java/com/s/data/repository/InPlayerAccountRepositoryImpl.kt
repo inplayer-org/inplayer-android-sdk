@@ -1,10 +1,10 @@
 package com.s.data.repository
 
-import com.s.data.model.InPlayerAuthorizationModel
+import com.s.data.model.account.InPlayerAuthorizationModel
 import com.s.data.model.mapper.MapInPlayerUser
 import com.s.data.repository.gateway.UserLocalAuthenticator
 import com.s.data.repository.gateway.UserRemoteAuthenticator
-import com.s.domain.entity.InPlayerDomainUser
+import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.gateway.InPlayerAccountRepository
 import io.reactivex.Completable
 import io.reactivex.Single

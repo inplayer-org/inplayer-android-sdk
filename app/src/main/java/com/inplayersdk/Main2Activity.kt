@@ -17,10 +17,9 @@ class Main2Activity : AppCompatActivity() {
         setContentView(R.layout.activity_main2)
         setSupportActionBar(toolbar)
         
-        //InPlayer.initialize(InPlayer.Configuration.Builder(BuildConfig.UUID, "referr").isStaging(true).build())
         
-        val isLoggedIn = InPlayer.Account.isUserloggedIn()
-        Log.v("TAG", "Is logged in $isLoggedIn")
+//        val isLoggedIn = InPlayer.Account.isUserloggedIn()
+//        Log.v("TAG", "Is logged in $isLoggedIn")
         
         login.setOnClickListener {
             logInuser()
@@ -58,10 +57,22 @@ class Main2Activity : AppCompatActivity() {
             val password = "newpassword12345678"
             setNewPassword("94c2cd8235e3c3a9", password, password)
         }
+        
+        get_access.setOnClickListener {
+            getAccess()
+        }
+        
+        get_access_fee.setOnClickListener {
+            getAccessFees()
+        }
+        
+        get_item.setOnClickListener {
+            getItem()
+        }
     }
     
     private fun logInuser() {
-        InPlayer.Account.authenticate("sdks@inplayer.com", "sdks123456", InPlayerCallback { inPlayerUser, error ->
+        InPlayer.Account.authenticate("matej@inplayer.com", "matej123456", InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
                 //Handle InPlayerUser
                 Log.v("logInuser", "User created $inPlayerUser")
@@ -133,7 +144,6 @@ class Main2Activity : AppCompatActivity() {
         
         InPlayer.Account.updateUser(fullName, map, InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
-                //Handle InPlayerUser
                 Log.v("updateUser", "User Details  Updated $inPlayerUser")
             } else {
                 //Handle Error
@@ -145,11 +155,46 @@ class Main2Activity : AppCompatActivity() {
     private fun setNewPassword(token: String, newPassword: String, newPasswordConfirmation: String) {
         InPlayer.Account.setupNewPassword(token, newPassword, newPasswordConfirmation, InPlayerCallback { message, error ->
             if (error == null) {
-                //Handle InPlayerUser
                 Log.v("setNewPassword", "User setNewPassword $message")
             } else {
                 //Handle Error
                 Log.v("setNewPassword", "Error block $message")
+            }
+        })
+    }
+    
+    private fun getAccess() {
+        InPlayer.Assets.getItemAccess(43871, InPlayerCallback { itemAccess, error ->
+            if (error == null) {
+                Log.v("getAccess", "getAccess $itemAccess")
+            } else {
+                //Handle Error
+                Log.v("getAccess", "Error block $error")
+                error.e.printStackTrace()
+            }
+        })
+    }
+    
+    private fun getItem() {
+        InPlayer.Assets.getItemDetails(43871, InPlayerCallback { itemDetails, error ->
+            if (error == null) {
+                Log.v("getItem", "GET ITEM :  $itemDetails")
+            } else {
+                //Handle Error
+                Log.v("getItem", "Error block $error")
+                error.e.printStackTrace()
+            }
+        })
+    }
+    
+    private fun getAccessFees() {
+        InPlayer.Assets.getAccessFees(43871, InPlayerCallback { accsFee, error ->
+            if (error == null) {
+                Log.v("getAccessFees", "getAccessFees $accsFee")
+            } else {
+                //Handle Error
+                Log.v("getAccessFees", "Error block $error")
+                error.e.printStackTrace()
             }
         })
     }

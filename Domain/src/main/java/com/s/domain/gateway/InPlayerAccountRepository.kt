@@ -1,6 +1,6 @@
 package com.s.domain.gateway
 
-import com.s.domain.entity.InPlayerDomainUser
+import com.s.domain.entity.account.InPlayerDomainUser
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -20,7 +20,6 @@ interface InPlayerAccountRepository {
     fun refreshToken(refreshToken: String, grantType: String, clientId: String): Single<InPlayerDomainUser>
     
     fun clientCredentialsAuthentication(clientSecret: String, grantType: String, clientId: String): Single<InPlayerDomainUser>
-    
     
     fun getUser(): Single<InPlayerDomainUser>
     
