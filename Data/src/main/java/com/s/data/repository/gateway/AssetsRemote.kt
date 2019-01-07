@@ -14,5 +14,5 @@ interface AssetsRemote {
     
     fun getItemDetails(id: Int, merchantUUID: String): Single<ItemDetailsModel>
     
-    fun getAccessFees(id: Int): Single<AccessFeeModel>
+    fun getAccessFees(id: Int): Single<List<AccessFeeModel>>
 }

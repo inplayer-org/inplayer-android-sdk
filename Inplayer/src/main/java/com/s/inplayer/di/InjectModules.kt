@@ -2,6 +2,7 @@ package com.s.inplayer.di
 
 import android.content.Context
 import com.s.data.local.UserLocalAuthenticatorImpl
+import com.s.data.model.account.InPlayerAccount
 import com.s.data.model.mapper.*
 import com.s.data.remote.AssetsRemoteImpl
 import com.s.data.remote.UserRemoteAuthenticatiorImpl
@@ -28,6 +29,7 @@ import com.s.inplayer.InPlayerSDKConfiguration
 import com.s.inplayer.api.Account
 import com.s.inplayer.api.Assets
 import com.s.inplayer.mapper.InPlayerUserMapper
+import com.s.inplayer.mapper.assets.*
 import com.s.inplayer.model.InPlayerUser
 import com.s.inplayer.util.AppSchedulers
 import org.koin.dsl.module.module
@@ -58,23 +60,23 @@ object InjectModules : KoinComponent {
             /**
              * Data Module Mapper
              * */
-            single { MapAccessControlType() }
+            single { MapDataAccessControlType() }
             
-            single { MapAccessFee(get(), get(), get(), get()) }
+            single { MapDataAccessFee(get(), get(), get(), get()) }
             
-            single { MapAccessType() }
+            single { MapDataAccessType() }
             
-            single { MapInPlayerUser() }
+            single { MapInPlayerUser() as ModelMapper<InPlayerAccount, InPlayerDomainUser>}
             
-            single { MapItemAccess(get()) }
+            single { MapDataItemAccess(get()) }
             
-            single { MapItemDetails(get(), get()) }
+            single { MapDataItemDetails(get(), get()) }
             
-            single { MapItemType() }
+            single { MapDataItemType() }
             
-            single { MapSetupFee() }
+            single { MapDataSetupFee() }
             
-            single { MapTrialPeriod() }
+            single { MapDataTrialPeriod() }
             
             /**
              * END Data Module Mapper
@@ -114,7 +116,7 @@ object InjectModules : KoinComponent {
         
         val mainControllerModule = module {
             
-            single { Assets(get(), get(), get(), get(), get()) }
+            single { Assets(get(), get(), get(), get(), get(), get(), get(), get()) }
             
             single { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
             
@@ -157,6 +159,24 @@ object InjectModules : KoinComponent {
         val mapperModule = module {
             
             single { InPlayerUserMapper() as DomainMapper<InPlayerDomainUser, InPlayerUser> }
+            
+            single { MapAccessControlType() }
+            
+            single { MapAccessFee(get(), get(), get(), get()) }
+            
+            single { MapAccessType() }
+            
+            single { MapInPlayerUser() }
+            
+            single { MapItemAccess(get()) }
+            
+            single { MapItemDetails(get(), get()) }
+            
+            single { MapItemType() }
+            
+            single { MapSetupFee() }
+            
+            single { MapTrialPeriod() }
             
         }
         

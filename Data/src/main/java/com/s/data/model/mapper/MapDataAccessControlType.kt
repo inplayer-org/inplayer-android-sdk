@@ -6,7 +6,7 @@ import com.s.domain.entity.asset.AccessControlTypeModel
 /**
  * Created by victor on 1/6/19
  */
-class MapAccessControlType : ModelMapper<AccessControlTypeModel, AccessControlTypeEntity> {
+class MapDataAccessControlType : ModelMapper<AccessControlTypeModel, AccessControlTypeEntity> {
     
     override fun mapFromModel(model: AccessControlTypeModel): AccessControlTypeEntity {
         return AccessControlTypeEntity(id = model.id, name = model.name, auth = model.auth)

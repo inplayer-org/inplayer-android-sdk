@@ -6,7 +6,7 @@ import com.s.domain.entity.asset.ItemAccessModel
 /**
  * Created by victor on 1/6/19
  */
-class MapItemAccess constructor(private val mapItemDetails: MapItemDetails) : ModelMapper<ItemAccessModel, ItemAccessEntity> {
+class MapDataItemAccess constructor(private val mapItemDetails: MapDataItemDetails) : ModelMapper<ItemAccessModel, ItemAccessEntity> {
     
     override fun mapFromModel(model: ItemAccessModel): ItemAccessEntity {
         return ItemAccessEntity(id = model.id, accountId = model.accountId, customerId = model.customerId, customerUUID = model.customerUUID,

@@ -6,7 +6,7 @@ import com.s.domain.entity.asset.ItemTypeModel
 /**
  * Created by victor on 1/6/19
  */
-class MapItemType : ModelMapper<ItemTypeModel, ItemTypeEntity> {
+class MapDataItemType : ModelMapper<ItemTypeModel, ItemTypeEntity> {
     
     override fun mapFromModel(model: ItemTypeModel): ItemTypeEntity {
         return ItemTypeEntity(id = model.id, name = model.name, contentType = model.contentType, host = model.host, description = model.description)

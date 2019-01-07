@@ -99,7 +99,7 @@ interface InPlayerAccountRemoteServiceAPI {
     fun getItemDetails(@Path("id") id: Int, @Path("merchant_uuid") merchantUUID: String): Single<ItemDetailsModel>
     
     @GET("/items/{id}/access-fees")
-    fun getAccessFees(@Path("id") id: Int): Single<AccessFeeModel>
+    fun getAccessFees(@Path("id") id: Int): Single<List<AccessFeeModel>>
     
     
     /**

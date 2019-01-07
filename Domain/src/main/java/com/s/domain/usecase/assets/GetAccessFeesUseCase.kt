@@ -10,9 +10,9 @@ import io.reactivex.Single
  * Created by victor on 1/5/19
  */
 class GetAccessFeesUseCase(val mySchedulers: MySchedulers, val inPlayerAssetsRepository: InPlayerAssetsRepository)
-    : SingleUseCase<AccessFeeEntity, GetAccessFeesUseCase.Params>(mySchedulers) {
+    : SingleUseCase<List<AccessFeeEntity>, GetAccessFeesUseCase.Params>(mySchedulers) {
     
-    override fun buildUseCaseObservable(params: Params?): Single<AccessFeeEntity> {
+    override fun buildUseCaseObservable(params: Params?): Single<List<AccessFeeEntity>> {
         
         params?.let {
             return inPlayerAssetsRepository.getAccessFees(it.id)

@@ -20,7 +20,7 @@ class AssetsRemoteImpl constructor(val inPlayerRemoteProvider: InPlayerRemotePro
         return inPlayerRemoteProvider.getItemDetails(id = id, merchantUUID = merchantUUID)
     }
     
-    override fun getAccessFees(id: Int): Single<AccessFeeModel> {
+    override fun getAccessFees(id: Int): Single<List<AccessFeeModel>> {
         return inPlayerRemoteProvider.getAccessFees(id = id)
     }
     

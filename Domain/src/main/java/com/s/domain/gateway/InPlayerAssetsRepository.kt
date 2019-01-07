@@ -14,5 +14,5 @@ interface InPlayerAssetsRepository {
     
     fun getItemAccess(id: Int): Single<ItemAccessEntity>
     
-    fun getAccessFees(id: Int): Single<AccessFeeEntity>
+    fun getAccessFees(id: Int): Single<List<AccessFeeEntity>>
 }
