@@ -17,9 +17,6 @@ class ChangePasswordUseCase constructor(val mySchedulers: MySchedulers,
     override fun buildUseCaseObservable(params: Params?): Single<String> {
         params?.let {
             
-            if (it.newPassword != it.newPasswordConfirmation)
-                return Single.error(InPlayerInvalidFieldsException("Password does not match Password Confirmation"))
-            
             return inPlayerAuthenticatorRepository.changePassword(it.newPassword, it.newPasswordConfirmation, it.oldPassword)
             
         }
