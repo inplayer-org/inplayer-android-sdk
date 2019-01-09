@@ -37,7 +37,7 @@ dependencies {
     def reactive = rootProject.ext.reactive
     def network = rootProject.ext.networkDependencies
 
-    implementation project(':Domain')
+    implementation project(':domain')
     implementation project(':Data')
 
     implementation network.gson
@@ -49,7 +49,6 @@ dependencies {
 
     implementation reactive.rxJava
     implementation reactive.rxAndroid
-
 
 
 }

@@ -1,8 +1,5 @@
 package com.s.data.remote.api
 
-import com.s.data.remote.error.AuthTokenMissingException
-import com.s.data.remote.interceptor.RefreshAuthenticator
-import com.s.data.repository.gateway.UserLocalAuthenticator
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -12,39 +9,37 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-
 /**
- * Created by victor on 12/21/18
+ * Created by victor on 1/9/19
  */
-class InPlayerRemoteProvider(val baseUrl: String,
-                             val isDebug: Boolean,
-                             val refreshAuthenticator: RefreshAuthenticator,
-                             val localAuthenticator: UserLocalAuthenticator) : InPlayerRemoteServiceAPI {
+class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) : InPlayerRemotePublicServiceAPI {
+    
     
     /**
      * Creating Retrofit and setting up Logging
      * */
     
-    lateinit var retrofitAPI: InPlayerRemoteServiceAPI
+    lateinit var retrofitAPI: InPlayerRemotePublicServiceAPI
     
     init {
         makeInPlayerRemoteService()
     }
     
-    private fun makeInPlayerRemoteService(): InPlayerRemoteServiceAPI {
+    
+    private fun makeInPlayerRemoteService(): InPlayerRemotePublicServiceAPI {
         val okHttpClient = makeOkHttpClient(makeLoggingInterceptor())
         retrofitAPI = buildService(okHttpClient)
         return retrofitAPI
     }
     
-    private fun buildService(okHttpClient: OkHttpClient): InPlayerRemoteServiceAPI {
+    private fun buildService(okHttpClient: OkHttpClient): InPlayerRemotePublicServiceAPI {
         val retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-        return retrofit.create(InPlayerRemoteServiceAPI::class.java)
+        return retrofit.create(InPlayerRemotePublicServiceAPI::class.java)
     }
     
     
@@ -67,8 +62,6 @@ class InPlayerRemoteProvider(val baseUrl: String,
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
         
-        builder = addCustomInterceptors(builder)
-        
         return buildOkHttpClient(builder)
         
     }
@@ -90,67 +83,38 @@ class InPlayerRemoteProvider(val baseUrl: String,
         return it.proceed(request)
     }
     
-    
-    /**
-     * Creating Retrofit and setting up Logging
-     * */
-    
-    
-    private fun addAuthorizationHeader(chain: Interceptor.Chain): Response? {
-        if (!localAuthenticator.isUserAutehnticated())
-            throw AuthTokenMissingException("User is not Authenticated")
-        
-        val original = chain.request()
-        val request = original.newBuilder()
-                .header("Authorization", localAuthenticator.getBearerAuthToken())
-                .method(original.method(), original.body())
-                .build()
-        return chain.proceed(request)
-    }
-    
-    fun addCustomInterceptors(builder: OkHttpClient.Builder): OkHttpClient.Builder {
-        builder.authenticator(refreshAuthenticator)
-        builder.addInterceptor {
-            addAuthorizationHeader(it)
-        }
-        return builder
-    }
-    
-    
     /**
      * END -> Creating Retrofit and setting up Logging
      * */
     
     
     /**
-     * ACCOUNT Endpoint Implementations
+     * AUTHENTICATION Endpoint Implementations
      * */
     
-    override fun logout() = retrofitAPI.logout()
+    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String) = retrofitAPI.createAccount(fullName, email, password, passwordConfirmation, type, merchantUUID, referrer)
     
-    override fun getAccount() = retrofitAPI.getAccount()
+    override fun authenticate(username: String?, password: String?, clientSecret: String?, refreshToken: String?, grantType: String, clientId: String) = retrofitAPI.authenticate(username, password, clientSecret, refreshToken, grantType, clientId)
     
-    override fun updateAccount(fullName: String, metadata: HashMap<String, String>?) = retrofitAPI.updateAccount(fullName, metadata)
+    override fun setNewPassword(token: String, password: String, passwordConfirmation: String) = retrofitAPI.setNewPassword(token, password, passwordConfirmation)
     
-    override fun eraseAccount(password: String) = retrofitAPI.eraseAccount(password)
-    
-    override fun changePassword(password: String, passwordConfirmation: String, oldPassword: String) = retrofitAPI.changePassword(password, passwordConfirmation, oldPassword)
-    
+    override fun forgotPassword(merchantUUID: String, email: String) = retrofitAPI.forgotPassword(merchantUUID, email)
     
     /**
-     * END -> ACCOUNT Endpoint Implementations
+     * END -> AUTHENTICATION Endpoint Implementations
      * */
     
     
     /**
-     * ASSETS Endpoint Implementations
+     * ASSETS PUBLIC Endpoint Implementations
      * */
     
-    override fun getItemAccess(id: Int) = retrofitAPI.getItemAccess(id)
+    override fun getItemDetails(id: Int, merchantUUID: String) = retrofitAPI.getItemDetails(id, merchantUUID)
     
-
+    override fun getAccessFees(id: Int) = retrofitAPI.getAccessFees(id)
     
     /**
-     * END -> ASSETS Endpoint Implementations
+     * ASSETS PUBLIC Endpoint Implementations
      * */
+    
 }

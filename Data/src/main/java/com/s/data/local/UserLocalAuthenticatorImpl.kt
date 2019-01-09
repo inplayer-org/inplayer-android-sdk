@@ -9,7 +9,7 @@ import io.reactivex.Single
 /**
  * Created by victor on 12/25/18
  */
-class UserLocalAuthenticatorImpl constructor(val context: Context) : UserLocalAuthenticator {
+class UserLocalAuthenticatorImpl(context: Context) : UserLocalAuthenticator {
     
     val prefs = defaultPrefs(context)
     

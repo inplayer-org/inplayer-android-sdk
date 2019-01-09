@@ -4,17 +4,20 @@ import android.content.Context
 import com.s.data.local.UserLocalAuthenticatorImpl
 import com.s.data.model.account.InPlayerAccount
 import com.s.data.model.mapper.*
+import com.s.data.remote.AccountRemoteImpl
 import com.s.data.remote.AssetsRemoteImpl
-import com.s.data.remote.UserRemoteAuthenticatiorImpl
 import com.s.data.remote.api.InPlayerRemoteProvider
+import com.s.data.remote.api.InPlayerRemotePublicProvider
+import com.s.data.remote.api.InPlayerRemotePublicServiceAPI
+import com.s.data.remote.api.InPlayerRemoteServiceAPI
 import com.s.data.remote.interceptor.RefreshAuthenticator
 import com.s.data.remote.refresh_token.InPlayerRemoteRefreshServiceAPI
 import com.s.data.remote.refresh_token.InPlayerRemoteRefreshTokenProvider
 import com.s.data.repository.InPlayerAccountRepositoryImpl
 import com.s.data.repository.InPlayerAssetsRepositoryImpl
+import com.s.data.repository.gateway.AccountRemote
 import com.s.data.repository.gateway.AssetsRemote
 import com.s.data.repository.gateway.UserLocalAuthenticator
-import com.s.data.repository.gateway.UserRemoteAuthenticator
 import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.entity.mapper.DomainMapper
 import com.s.domain.gateway.InPlayerAccountRepository
@@ -66,7 +69,7 @@ object InjectModules : KoinComponent {
             
             single { MapDataAccessType() }
             
-            single { MapInPlayerUser() as ModelMapper<InPlayerAccount, InPlayerDomainUser>}
+            single { MapInPlayerUser() as ModelMapper<InPlayerAccount, InPlayerDomainUser> }
             
             single { MapDataItemAccess(get()) }
             
@@ -82,9 +85,12 @@ object InjectModules : KoinComponent {
              * END Data Module Mapper
              * */
             
+            single<UserLocalAuthenticator> { UserLocalAuthenticatorImpl(get()) }
+            
             /**
              * REFRESH TOKEN
              * */
+            
             single { InPlayerRemoteRefreshTokenProvider(getProperty(Const.serverUrl), true) as InPlayerRemoteRefreshServiceAPI }
             
             single { RefreshAuthenticator(get(), get()) }
@@ -93,20 +99,23 @@ object InjectModules : KoinComponent {
              * END REFRESH TOKEN
              * */
             
-            factory { InPlayerRemoteProvider(getProperty(Const.serverUrl), true, get()) }
+            single { InPlayerRemotePublicProvider(getProperty(Const.serverUrl), true) as InPlayerRemotePublicServiceAPI }
             
-            factory { UserLocalAuthenticatorImpl(get()) as UserLocalAuthenticator }
+            single { InPlayerRemoteProvider(getProperty(Const.serverUrl), true, get(), get()) as InPlayerRemoteServiceAPI }
             
-            factory { UserRemoteAuthenticatiorImpl(get()) as UserRemoteAuthenticator }
             
-            factory { AssetsRemoteImpl(get()) as AssetsRemote }
+            
+            single { AccountRemoteImpl(get(), get()) as AccountRemote }
+            
+            single { AssetsRemoteImpl(get(), get()) as AssetsRemote }
+            
             
             /**
              * REPOSITORY
              * */
-            factory { InPlayerAssetsRepositoryImpl(get(), get(), get(), get(), get()) as InPlayerAssetsRepository }
+            single { InPlayerAssetsRepositoryImpl(get(), get(), get(), get()) as InPlayerAssetsRepository }
             
-            factory { InPlayerAccountRepositoryImpl(get(), get(), get()) as InPlayerAccountRepository }
+            single { InPlayerAccountRepositoryImpl(get(), get(), get()) as InPlayerAccountRepository }
             
             /**
              * END REPOSITORY

@@ -1,6 +1,7 @@
 package com.s.data.remote
 
-import com.s.data.remote.api.InPlayerRemoteProvider
+import com.s.data.remote.api.InPlayerRemotePublicServiceAPI
+import com.s.data.remote.api.InPlayerRemoteServiceAPI
 import com.s.data.repository.gateway.AssetsRemote
 import com.s.domain.entity.asset.AccessFeeModel
 import com.s.domain.entity.asset.ItemAccessModel
@@ -10,18 +11,19 @@ import io.reactivex.Single
 /**
  * Created by victor on 1/5/19
  */
-class AssetsRemoteImpl constructor(val inPlayerRemoteProvider: InPlayerRemoteProvider) : AssetsRemote {
+class AssetsRemoteImpl constructor(private val inPlayerRemoteServiceAPI: InPlayerRemoteServiceAPI,
+                                   private val inPlayerRemotePublicServiceAPI: InPlayerRemotePublicServiceAPI) : AssetsRemote {
     
-    override fun getItemAccess(id: Int, token: String): Single<ItemAccessModel> {
-        return inPlayerRemoteProvider.getItemAccess(id, token)
+    override fun getItemAccess(id: Int): Single<ItemAccessModel> {
+        return inPlayerRemoteServiceAPI.getItemAccess(id)
     }
     
     override fun getItemDetails(id: Int, merchantUUID: String): Single<ItemDetailsModel> {
-        return inPlayerRemoteProvider.getItemDetails(id = id, merchantUUID = merchantUUID)
+        return inPlayerRemotePublicServiceAPI.getItemDetails(id = id, merchantUUID = merchantUUID)
     }
     
     override fun getAccessFees(id: Int): Single<List<AccessFeeModel>> {
-        return inPlayerRemoteProvider.getAccessFees(id = id)
+        return inPlayerRemotePublicServiceAPI.getAccessFees(id = id)
     }
     
 }

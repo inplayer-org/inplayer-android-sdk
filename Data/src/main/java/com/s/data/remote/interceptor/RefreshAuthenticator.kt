@@ -12,8 +12,12 @@ import okhttp3.Route
 /**
  * Created by victor on 1/3/19
  */
-class RefreshAuthenticator(val localAuthenticator: UserLocalAuthenticator,
-                           val inPlayerRemoteRefreshServiceAPI: InPlayerRemoteRefreshServiceAPI) : Authenticator {
+class RefreshAuthenticator constructor(val localAuthenticator: UserLocalAuthenticator,
+                                       val inPlayerRemoteRefreshServiceAPI: InPlayerRemoteRefreshServiceAPI) : Authenticator {
+    
+    init {
+        Log.v("InPlayerRemoteRefresh", "Init")
+    }
     
     val MAX_RETRY = 3
     

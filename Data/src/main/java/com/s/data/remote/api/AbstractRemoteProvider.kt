@@ -1,8 +1,4 @@
-package com.s.data.remote.refresh_token
-
-/**
- * Created by victor on 1/3/19
- */
+package com.s.data.remote.api
 
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -14,40 +10,43 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 /**
- * Created by victor on 1/3/19
+ * Created by victor on 1/8/19
  */
-class InPlayerRemoteRefreshTokenProvider(val baseUrl: String, val isDebug: Boolean) : InPlayerRemoteRefreshServiceAPI {
+abstract class AbstractRemoteProvider<T : Any>(val baseUrl: String, val isDebug: Boolean) {
     
     /**
      * Creating Retrofit and setting up Logging
      * */
     
-    private lateinit var inPlayerRemoteRefreshServiceAPI: InPlayerRemoteRefreshServiceAPI
+    lateinit var retrofitAPI: T
     
     init {
-        makeInPlayerRemoteProvider()
+        makeInPlayerRemoteService()
     }
     
-    private fun makeInPlayerRemoteProvider(): InPlayerRemoteRefreshServiceAPI {
+    abstract fun getRetrofitInterface(): Class<T>
+    
+    private fun makeInPlayerRemoteService(): T {
         val okHttpClient = makeOkHttpClient(makeLoggingInterceptor())
-        inPlayerRemoteRefreshServiceAPI = buildService(okHttpClient)
-        return inPlayerRemoteRefreshServiceAPI
+        retrofitAPI = buildService(okHttpClient)
+        return retrofitAPI
     }
     
-    private fun buildService(okHttpClient: OkHttpClient): InPlayerRemoteRefreshServiceAPI {
+    private fun buildService(okHttpClient: OkHttpClient): T {
         val retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-        return retrofit.create(InPlayerRemoteRefreshServiceAPI::class.java)
+        return retrofit.create(getRetrofitInterface())
     }
+    
     
     private fun makeLoggingInterceptor(): HttpLoggingInterceptor {
         val logging = HttpLoggingInterceptor()
         logging.level = if (isDebug) {
-            HttpLoggingInterceptor.Level.BASIC
+            HttpLoggingInterceptor.Level.BODY
         } else {
             HttpLoggingInterceptor.Level.NONE
         }
@@ -55,14 +54,24 @@ class InPlayerRemoteRefreshTokenProvider(val baseUrl: String, val isDebug: Boole
     }
     
     private fun makeOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-        return OkHttpClient.Builder()
+        var builder = OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
                 .addInterceptor {
                     customHeaderIntercepted(it)
                 }
-                .connectTimeout(120, TimeUnit.SECONDS)
-                .readTimeout(120, TimeUnit.SECONDS)
-                .build()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+        
+        builder = addCustomInterceptors(builder)
+        
+        return buildOkHttpClient(builder)
+        
+    }
+    
+    abstract fun addCustomInterceptors(builder: OkHttpClient.Builder): OkHttpClient.Builder
+    
+    private fun buildOkHttpClient(builder: OkHttpClient.Builder): OkHttpClient {
+        return builder.build()
     }
     
     private fun customHeaderIntercepted(it: Interceptor.Chain): Response? {
@@ -76,7 +85,4 @@ class InPlayerRemoteRefreshTokenProvider(val baseUrl: String, val isDebug: Boole
         val request = requestBuilder.build()
         return it.proceed(request)
     }
-    
-    
-    override fun authenticate(refreshToken: String, grantType: String, clientId: String) = inPlayerRemoteRefreshServiceAPI.authenticate(refreshToken, grantType, clientId)
 }
