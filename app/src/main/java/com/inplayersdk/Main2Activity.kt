@@ -16,8 +16,8 @@ class Main2Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
         setSupportActionBar(toolbar)
-        
-        
+
+
 //        val isLoggedIn = InPlayer.Account.isUserloggedIn()
 //        Log.v("TAG", "Is logged in $isLoggedIn")
         
@@ -79,6 +79,8 @@ class Main2Activity : AppCompatActivity() {
                 
             } else {
                 //Handle Error
+                Log.v("logInuser", "Error block $error")
+                error.e.printStackTrace()
             }
         })
     }
@@ -106,6 +108,7 @@ class Main2Activity : AppCompatActivity() {
                 Log.v("signUp", "User Details $inPlayerUser")
             } else {
                 val errors = error.errorsList
+                error.e.printStackTrace()
             }
         })
     }

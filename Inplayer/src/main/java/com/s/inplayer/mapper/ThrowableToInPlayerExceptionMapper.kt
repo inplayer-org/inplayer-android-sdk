@@ -1,6 +1,7 @@
 package com.s.inplayer.mapper
 
 import com.google.gson.Gson
+import com.s.data.remote.error.AuthTokenMissingException
 import com.s.inplayer.callback.error.*
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -18,6 +19,9 @@ object ThrowableToInPlayerExceptionMapper {
         
         
         return when (e) {
+            is AuthTokenMissingException -> {
+                handleUnauthorizedUser(e)
+            }
             is HttpException -> {
                 if (e.code() == 401)
                     handleUnauthorizedUser(e)

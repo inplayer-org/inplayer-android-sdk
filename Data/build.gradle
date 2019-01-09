@@ -24,7 +24,7 @@ android {
 
 dependencies {
 
-    implementation project(':Domain')
+    implementation project(':domain')
 
     def reactive = rootProject.ext.reactive
     def annotations = rootProject.ext.annotations
