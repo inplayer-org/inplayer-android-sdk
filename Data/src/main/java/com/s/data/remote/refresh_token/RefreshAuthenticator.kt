@@ -1,8 +1,7 @@
-package com.s.data.remote.interceptor
+package com.s.data.remote.refresh_token
 
 import android.util.Log
 import com.s.data.Constants
-import com.s.data.remote.refresh_token.InPlayerRemoteRefreshServiceAPI
 import com.s.data.repository.gateway.UserLocalAuthenticator
 import okhttp3.Authenticator
 import okhttp3.Request
@@ -12,12 +11,9 @@ import okhttp3.Route
 /**
  * Created by victor on 1/3/19
  */
-class RefreshAuthenticator constructor(val localAuthenticator: UserLocalAuthenticator,
+class RefreshAuthenticator constructor(val clientId: String,
+                                       val localAuthenticator: UserLocalAuthenticator,
                                        val inPlayerRemoteRefreshServiceAPI: InPlayerRemoteRefreshServiceAPI) : Authenticator {
-    
-    init {
-        Log.v("InPlayerRemoteRefresh", "Init")
-    }
     
     val MAX_RETRY = 3
     
@@ -99,7 +95,7 @@ class RefreshAuthenticator constructor(val localAuthenticator: UserLocalAuthenti
     private fun makeRefreshTokenRequest() {
         Log.d(TAG, "Creating new Refresh Token Request")
         
-        val refreshTokenCall = inPlayerRemoteRefreshServiceAPI.authenticate(localAuthenticator.getRefreshToken(), "refresh_token", "3b39b5ab-b5fc-4ba3-b770-73155d20e61f")
+        val refreshTokenCall = inPlayerRemoteRefreshServiceAPI.authenticate(localAuthenticator.getRefreshToken(), "refresh_token", clientId)
         
         val request = refreshTokenCall.execute()
         

@@ -1,7 +1,7 @@
 package com.s.data.remote.api
 
 import com.s.data.remote.error.AuthTokenMissingException
-import com.s.data.remote.interceptor.RefreshAuthenticator
+import com.s.data.remote.refresh_token.RefreshAuthenticator
 import com.s.data.repository.gateway.UserLocalAuthenticator
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -15,6 +15,15 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Created by victor on 12/21/18
+ *
+ * This Remote Providers attaches two interceptors
+ * @see RefreshAuthenticator
+ *  This one is used to refresh the token if our current token is expired.
+ *
+ * @see InPlayerRemoteProvider.addAuthorizationHeader()
+ *  This interceptor allows us to check if we have AuthToken stored in our
+ *  @see UserLocalAuthenticator if the user is not authenticated we will return error without even trying to reach the API
+ *
  */
 class InPlayerRemoteProvider(val baseUrl: String,
                              val isDebug: Boolean,
@@ -148,7 +157,6 @@ class InPlayerRemoteProvider(val baseUrl: String,
     
     override fun getItemAccess(id: Int) = retrofitAPI.getItemAccess(id)
     
-
     
     /**
      * END -> ASSETS Endpoint Implementations

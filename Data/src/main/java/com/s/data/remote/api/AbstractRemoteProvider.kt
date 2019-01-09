@@ -11,6 +11,13 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Created by victor on 1/8/19
+ *
+ * NOT USED, Would be good to make one abstract class for
+ * @see InPlayerRemoteProvider
+ * @see InPlayerRemotePublicProvider
+ *
+ * but there were some problems with the depndenci injection.
+ *
  */
 abstract class AbstractRemoteProvider<T : Any>(val baseUrl: String, val isDebug: Boolean) {
     
