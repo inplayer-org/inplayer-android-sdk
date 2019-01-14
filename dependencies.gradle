@@ -30,6 +30,10 @@ ext {
     koin = '1.0.2'
 
 
+    //AWS IOT
+    awsIot = '2.9.+'
+    awsIotMobile = '2.9.+@aar'
+
     annotations = [
             javaxAnnotation: "javax.annotation:jsr250-com.s.inplayer.api:${javaxAnnotationVersion}",
             javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}"
@@ -40,6 +44,10 @@ ext {
             rxAndroid: "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
     ]
 
+    notificationDependencies = [
+            aws_iot : "com.amazonaws:aws-android-sdk-iot:${awsIot}",
+            aws_iot_mobile_client : "com.amazonaws:aws-android-sdk-mobile-client:${awsIotMobile}"
+    ]
 
     networkDependencies = [
             gson              : "com.google.code.gson:gson:${gsonVersion}",

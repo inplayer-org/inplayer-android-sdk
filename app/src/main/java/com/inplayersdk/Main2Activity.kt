@@ -66,6 +66,10 @@ class Main2Activity : AppCompatActivity() {
         get_item.setOnClickListener {
             getItem()
         }
+        
+        notification.setOnClickListener {
+            initNotification()
+        }
     }
     
     private fun logInuser() {
@@ -197,6 +201,10 @@ class Main2Activity : AppCompatActivity() {
                 error.e.printStackTrace()
             }
         })
+    }
+    
+    private fun initNotification() {
+        val mNotificationManager = com.s.notification.NotificationManager()
     }
     
 }
