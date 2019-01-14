@@ -40,7 +40,8 @@ object ThrowableToInPlayerExceptionMapper {
         
     }
     
-    private fun handleUnauthorizedUser(e: Throwable) = InPlayerUnauthorizedException(401, mutableListOf("User not authenticated, please authenticate first."), e)
+    private fun handleUnauthorizedUser(e: Throwable) =
+            InPlayerUnauthorizedException(401, mutableListOf("User not authenticated, please authenticate first."), e)
     
     private fun getErrorMessage(responseBody: ResponseBody): List<String> {
         try {

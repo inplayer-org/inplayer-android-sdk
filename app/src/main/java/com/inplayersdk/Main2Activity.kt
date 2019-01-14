@@ -16,10 +16,7 @@ class Main2Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
         setSupportActionBar(toolbar)
-
-
-//        val isLoggedIn = InPlayer.Account.isUserloggedIn()
-//        Log.v("TAG", "Is logged in $isLoggedIn")
+        
         
         login.setOnClickListener {
             logInuser()
