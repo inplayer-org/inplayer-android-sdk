@@ -5,12 +5,16 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.s.inplayer.InPlayer
 import com.s.inplayer.callback.InPlayerCallback
+import com.s.notification.NotificationManager
 import kotlinx.android.synthetic.main.activity_main2.*
 import kotlinx.android.synthetic.main.content_main2.*
+import org.koin.android.ext.android.inject
 
 class Main2Activity : AppCompatActivity() {
     
-    //val Account: Account by inject()
+    val notificationManager: NotificationManager by inject()
+    
+    
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -204,7 +208,7 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun initNotification() {
-        val mNotificationManager = com.s.notification.NotificationManager()
+         notificationManager.call()
     }
     
 }

@@ -1,8 +1,11 @@
 package com.s.data.remote.api
 
+import com.s.data.BuildConfig
+import com.s.data.model.notification.AWSCredentialsModel
 import com.s.data.remote.error.AuthTokenMissingException
 import com.s.data.remote.refresh_token.RefreshAuthenticator
 import com.s.data.repository.gateway.UserLocalAuthenticator
+import io.reactivex.Single
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -29,6 +32,7 @@ class InPlayerRemoteProvider(val baseUrl: String,
                              val isDebug: Boolean,
                              val refreshAuthenticator: RefreshAuthenticator,
                              val localAuthenticator: UserLocalAuthenticator) : InPlayerRemoteServiceAPI {
+    
     
     /**
      * Creating Retrofit and setting up Logging
@@ -161,4 +165,13 @@ class InPlayerRemoteProvider(val baseUrl: String,
     /**
      * END -> ASSETS Endpoint Implementations
      * */
+    
+    
+    /**
+     * Notifications
+     */
+    override fun getAwsCredentials(url: String): Single<AWSCredentialsModel> {
+     
+        return retrofitAPI.getAwsCredentials(url)
+    }
 }

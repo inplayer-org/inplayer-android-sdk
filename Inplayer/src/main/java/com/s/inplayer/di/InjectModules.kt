@@ -6,17 +6,20 @@ import com.s.data.model.account.InPlayerAccount
 import com.s.data.model.mapper.*
 import com.s.data.remote.AccountRemoteImpl
 import com.s.data.remote.AssetsRemoteImpl
+import com.s.data.remote.NotificationsRemoteImpl
 import com.s.data.remote.api.InPlayerRemoteProvider
 import com.s.data.remote.api.InPlayerRemotePublicProvider
 import com.s.data.remote.api.InPlayerRemotePublicServiceAPI
 import com.s.data.remote.api.InPlayerRemoteServiceAPI
-import com.s.data.remote.refresh_token.RefreshAuthenticator
 import com.s.data.remote.refresh_token.InPlayerRemoteRefreshServiceAPI
 import com.s.data.remote.refresh_token.InPlayerRemoteRefreshTokenProvider
+import com.s.data.remote.refresh_token.RefreshAuthenticator
+import com.s.data.repository.InPlayerAWSCredentialsRepositoryImpl
 import com.s.data.repository.InPlayerAccountRepositoryImpl
 import com.s.data.repository.InPlayerAssetsRepositoryImpl
 import com.s.data.repository.gateway.AccountRemote
 import com.s.data.repository.gateway.AssetsRemote
+import com.s.data.repository.gateway.NotificationsRemote
 import com.s.data.repository.gateway.UserLocalAuthenticator
 import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.entity.mapper.DomainMapper
@@ -35,6 +38,8 @@ import com.s.inplayer.mapper.InPlayerUserMapper
 import com.s.inplayer.mapper.assets.*
 import com.s.inplayer.model.InPlayerUser
 import com.s.inplayer.util.AppSchedulers
+import com.s.notification.NotificationManager
+import com.s.notification.gateway.InPlayerAWSCredentialsRepository
 import org.koin.dsl.module.module
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.StandAloneContext.startKoin
@@ -81,6 +86,8 @@ object InjectModules : KoinComponent {
             
             single { MapDataTrialPeriod() }
             
+            single { MapAWSCredentials() }
+            
             /**
              * END Data Module Mapper
              * */
@@ -109,6 +116,8 @@ object InjectModules : KoinComponent {
             
             single { AssetsRemoteImpl(get(), get()) as AssetsRemote }
             
+            single { NotificationsRemoteImpl(true, get()) as NotificationsRemote }
+            
             
             /**
              * REPOSITORY
@@ -116,6 +125,8 @@ object InjectModules : KoinComponent {
             single { InPlayerAssetsRepositoryImpl(get(), get(), get(), get()) as InPlayerAssetsRepository }
             
             single { InPlayerAccountRepositoryImpl(get(), get(), get()) as InPlayerAccountRepository }
+            
+            single { InPlayerAWSCredentialsRepositoryImpl(get(), get()) as InPlayerAWSCredentialsRepository }
             
             /**
              * END REPOSITORY
@@ -128,6 +139,8 @@ object InjectModules : KoinComponent {
             single { Assets(get(), get(), get(), get(), get(), get(), get(), get()) }
             
             single { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+            
+            single { NotificationManager(get(), get()) }
             
         }
         
@@ -186,6 +199,7 @@ object InjectModules : KoinComponent {
             single { MapSetupFee() }
             
             single { MapTrialPeriod() }
+            
             
         }
         

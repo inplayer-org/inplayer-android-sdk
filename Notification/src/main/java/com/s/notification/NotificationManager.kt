@@ -7,41 +7,46 @@ import com.amazonaws.internal.StaticCredentialsProvider
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttClientStatusCallback
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttManager
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttQos
-import com.s.notification.NotificationManager.Const.ACCES_KEY
-import com.s.notification.NotificationManager.Const.ACCES_SESSION_KEY
-import com.s.notification.NotificationManager.Const.SECRET_KEY
+import com.s.domain.schedulers.MySchedulers
+import com.s.notification.entity.MyAWSCredentials
+import com.s.notification.gateway.InPlayerAWSCredentialsRepository
 import java.io.UnsupportedEncodingException
 
 
 /**
  * Created by victor on 1/14/19
  */
-class NotificationManager {
+class NotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCredentialsRepository, val appSchedulers: MySchedulers) {
     
     // Initialize the AWSIotMqttManager with the configuration
     init {
         initIotMqttManager()
     }
     
-    object Const {
-        
-        val ACCES_KEY = "ASIAULR2BTKRA2J6VI6F"
-        
-        val SECRET_KEY = "x24X3aIJeFWNmymjXaSTLDD+2XpyoQrBwC5eZtKy"
-        
-        val ACCES_SESSION_KEY = "FQoGZXIvYXdzELH//////////wEaDNF9rqxgcsW7MTjXpSL0AV5n+l94Jhc0H0o0qvXpeMCIGNeKIp36rDVn9+ARbivKTnMAZRAiuh+enWkFWANpTQnOTYIPkxVrG11tFcCfy8UICHP+gE0dsVCbHg1sS36gCNowWinLaRsbRaCrPc8H3+P4WROWZvKIMgOpmpuEwViyPCtqDfd5d4Dgs556UY7WozCTJkJSJ4wiItpWxr2OY/XkLc7P7pC2v28wMpr16734+bmKJb9BgcDDeTzP0c2ZG2KKsu4RYAl+yEEOnCzR1m5IQSBs4R7QUxHfgtVrgRoGz24CEz/6BaKg6A9pa0zrdvQAI5RiodTSu5GiZr+ikgqUY98oj9fy4QU="
-    }
-    
     private lateinit var mqttManager: AWSIotMqttManager
+    
+    private lateinit var myAWSCredentials: MyAWSCredentials
     
     private fun initIotMqttManager() {
         
-        mqttManager = AWSIotMqttManager(
-                ACCES_KEY,
-                "a3gkl64duktvc4.iot.eu-west-1.amazonaws.com")
+        inPlayerAWSCredentialsRepository.getAwsCredentials()
+                .observeOn(appSchedulers.observeOn)
+                .subscribeOn(appSchedulers.subscribeOn)
+                .subscribe({
+                    myAWSCredentials = it
+                    configureConnectingWithIoT()
+                }, {
+                    it.printStackTrace()
+                })
         
-        // mqttManager.setReconnectRetryLimits(1, 1)
-        mqttManager.connect(StaticCredentialsProvider(MyAwsProvider())) { status: AWSIotMqttClientStatusCallback.AWSIotMqttClientStatus?, throwable: Throwable? ->
+    }
+    
+    private fun configureConnectingWithIoT() {
+        mqttManager = AWSIotMqttManager(
+                myAWSCredentials.accessKey,
+                myAWSCredentials.iotEndpoint)
+        
+        mqttManager.connect(StaticCredentialsProvider(MyAwsProvider(myAWSCredentials.accessKey, myAWSCredentials.secretKey, myAWSCredentials.sessionToken))) { status: AWSIotMqttClientStatusCallback.AWSIotMqttClientStatus?, throwable: Throwable? ->
             throwable?.let {
                 it.printStackTrace()
                 Log.v("NotificationManager", "Error :$it")
@@ -55,8 +60,6 @@ class NotificationManager {
                 }
             }
         }
-      
-        
     }
     
     
@@ -72,13 +75,16 @@ class NotificationManager {
         }
     }
     
-    class MyAwsProvider : AWSCredentials, AWSSessionCredentials {
+    fun call() {
+    }
+    
+    class MyAwsProvider(private val accessKey: String, private val secretKey: String, private val accessSessionKey: String) : AWSCredentials, AWSSessionCredentials {
         
-        override fun getSessionToken() = ACCES_SESSION_KEY
+        override fun getSessionToken() = accessSessionKey
         
-        override fun getAWSAccessKeyId() = ACCES_KEY
+        override fun getAWSAccessKeyId() = accessKey
         
-        override fun getAWSSecretKey() = SECRET_KEY
+        override fun getAWSSecretKey() = secretKey
         
     }
 }

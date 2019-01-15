@@ -28,11 +28,16 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation project(':domain')
+
     def notification = rootProject.ext.notificationDependencies
+    def reactive = rootProject.ext.reactive
 
+    implementation reactive.rxJava
 
-    implementation notificationDependencies.aws_iot
+    implementation notification.aws_iot
     implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 
