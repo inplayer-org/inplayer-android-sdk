@@ -14,7 +14,7 @@ import java.lang.reflect.Type
 /**
  * Created by victor on 1/16/19
  */
-class InPlayerNotificationDeserializer : JsonDeserializer<InPlayerNotification> {
+class InPlayerNotificationDeserializer : JsonDeserializer<InPlayerNotificationEntity> {
     
     var notificationType = hashMapOf(
             "payment.card.success" to InPlayerPaymentCardSuccessNotifcation::class.java,
@@ -24,12 +24,12 @@ class InPlayerNotificationDeserializer : JsonDeserializer<InPlayerNotification> 
             "access.granted" to InPlayerAccessGrantedNotification::class.java,
             "access.revoked" to InPlayerAccessRevokedNotification::class.java,
             
-            "account.logout" to InPlayerAccountLogoutNotification::class.java,
-            "account.erased" to InPlayerAccountErasedNotification::class.java,
-            "account.deactivated" to InPlayerAccountDeactivatedNotification::class.java
+            "account.logout" to InPlayerAccountLogoutNotificationEntity::class.java,
+            "account.erased" to InPlayerAccountErasedNotificationEntity::class.java,
+            "account.deactivated" to InPlayerAccountDeactivatedNotificationEntity::class.java
     )
     
-    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): InPlayerNotification {
+    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): InPlayerNotificationEntity {
         json?.let {
             val notificationJson = it.asJsonObject
             val type = notificationJson.get("type").asString

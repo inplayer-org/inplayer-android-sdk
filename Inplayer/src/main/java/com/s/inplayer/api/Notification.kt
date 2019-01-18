@@ -5,7 +5,7 @@ import com.s.inplayer.mapper.ThrowableToInPlayerExceptionMapper
 import com.s.inplayer.mapper.notification.NotificationMapper
 import com.s.notification.AWSNotificationCallback
 import com.s.notification.AWSNotificationManager
-import com.s.notification.model.notification.InPlayerNotification
+import com.s.notification.model.notification.InPlayerNotificationEntity
 
 /**
  * Created by victor on 1/16/19
@@ -13,10 +13,10 @@ import com.s.notification.model.notification.InPlayerNotification
 class Notification constructor(private val notificationManager: AWSNotificationManager,
                                private val notificationMapper: NotificationMapper) {
     
-    fun subScribe(callback: NotificationsCallback) {
+    fun subscribe(callback: NotificationsCallback) {
         notificationManager.subscribe(object : AWSNotificationCallback {
             
-            override fun onMessageReceived(message: InPlayerNotification) {
+            override fun onMessageReceived(message: InPlayerNotificationEntity) {
                 callback.onMessageReceived(notificationMapper.mapFromDomain(message))
             }
             
@@ -28,5 +28,9 @@ class Notification constructor(private val notificationManager: AWSNotificationM
                 callback.onError(ThrowableToInPlayerExceptionMapper.mapThrowableToException(t))
             }
         })
+    }
+    
+    fun disconnect() {
+        notificationManager.discconnect()
     }
 }

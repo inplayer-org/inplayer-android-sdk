@@ -2,7 +2,7 @@ package com.s.inplayer.mapper
 
 import com.google.gson.Gson
 import com.s.data.remote.error.AuthTokenMissingException
-import com.s.inplayer.callback.error.*
+import com.s.inplayer.model.error.*
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.HttpException

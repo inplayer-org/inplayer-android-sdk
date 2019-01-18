@@ -1,4 +1,4 @@
-package com.s.inplayer.callback.error
+package com.s.inplayer.model.error
 
 /**
  * Created by victor on 1/4/19

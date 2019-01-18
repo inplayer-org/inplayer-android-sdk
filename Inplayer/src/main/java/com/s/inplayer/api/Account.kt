@@ -7,7 +7,7 @@ import com.s.domain.schedulers.MySchedulers
 import com.s.domain.usecase.autehntication.*
 import com.s.inplayer.InPlayerSDKConfiguration
 import com.s.inplayer.callback.InPlayerCallback
-import com.s.inplayer.callback.error.InPlayerException
+import com.s.inplayer.model.error.InPlayerException
 import com.s.inplayer.mapper.ThrowableToInPlayerExceptionMapper
 import com.s.inplayer.model.InPlayerUser
 
@@ -33,12 +33,26 @@ class Account(private val appSchedulers: MySchedulers,
      * Account Interface
      * */
     
-    fun signUp(fullName: String, email: String, password: String, passwordConfirmation: String, callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
+    fun isAuthenticated() = isUserAuthenticatedUseCase.execute()
+    
+    //TODO ADD METADATA
+    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
         
         val accType = com.s.domain.entity.account.AccountType.CONSUMER
         
         createAccountUseCase.execute(CreateAccountUseCase.Params(fullName, email, password, passwordConfirmation, accType,
                 inPlayerSDKConfiguration.merchantUUID, inPlayerSDKConfiguration.referrer))
+                .subscribeOn(appSchedulers.subscribeOn)
+                .observeOn(appSchedulers.observeOn)
+                .subscribe({
+                    callback.done(domainMapper.mapFromDomain(it), null)
+                }, {
+                    callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+                })
+    }
+    
+    fun getAccountDetails(callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
+        accountDetailsUseCase.execute()
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({
@@ -61,7 +75,40 @@ class Account(private val appSchedulers: MySchedulers,
         
     }
     
-    fun refreshToken(refreshToken: String, callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
+    fun logout(callback: InPlayerCallback<String?, InPlayerException>) {
+        logOutUserUseCase.execute()
+                .subscribeOn(appSchedulers.subscribeOn)
+                .observeOn(appSchedulers.observeOn)
+                .subscribe({
+                    callback.done("User Logged out", null)
+                }, {
+                    callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+                })
+    }
+    
+    fun updateAccount(fullName: String, metadata: HashMap<String, String>? = null, callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
+        updateUserUseCase.execute(UpdateUserUseCase.Params(fullName, metadata = metadata))
+                .subscribeOn(appSchedulers.observeOn)
+                .observeOn(appSchedulers.observeOn)
+                .subscribe({
+                    callback.done(domainMapper.mapFromDomain(it), null)
+                }, {
+                    callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+                })
+    }
+    
+    fun changePassword(newPassword: String, newPasswordConfirmation: String, oldPassword: String, callback: InPlayerCallback<String?, InPlayerException>) {
+        changePasswordUseCase.execute(ChangePasswordUseCase.Params(newPassword, newPasswordConfirmation, oldPassword))
+                .subscribeOn(appSchedulers.subscribeOn)
+                .observeOn(appSchedulers.observeOn)
+                .subscribe({
+                    callback.done(it, null)
+                }, {
+                    callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+                })
+    }
+    
+    fun refreshAccessToken(refreshToken: String, callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
         
         authenticatedUseCase.execute(AuthenticateUserUseCase.Params(refreshToken = refreshToken, grantType = GrantType.REFRESH_TOKEN, clientId = inPlayerSDKConfiguration.merchantUUID))
                 .subscribeOn(appSchedulers.subscribeOn)
@@ -86,33 +133,8 @@ class Account(private val appSchedulers: MySchedulers,
     }
     
     
-    fun isUserloggedIn() = isUserAuthenticatedUseCase.execute()
-    
-    fun logOut(callback: InPlayerCallback<String?, InPlayerException>) {
-        logOutUserUseCase.execute()
-                .subscribeOn(appSchedulers.subscribeOn)
-                .observeOn(appSchedulers.observeOn)
-                .subscribe({
-                    callback.done("User Logged out", null)
-                }, {
-                    callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
-                })
-    }
-    
-    
-    fun changePassword(newPassword: String, newPasswordConfirmation: String, oldPassword: String, callback: InPlayerCallback<String?, InPlayerException>) {
-        changePasswordUseCase.execute(ChangePasswordUseCase.Params(newPassword, newPasswordConfirmation, oldPassword))
-                .subscribeOn(appSchedulers.subscribeOn)
-                .observeOn(appSchedulers.observeOn)
-                .subscribe({
-                    callback.done(it, null)
-                }, {
-                    callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
-                })
-    }
-    
-    fun forgotPassword(merchantUUID: String, email: String, callback: InPlayerCallback<String?, InPlayerException>) {
-        forgotPasswordUseCase.execute(ForgotPasswordUseCase.Params(merchantUUID, email))
+    fun forgotPassword(email: String, callback: InPlayerCallback<String?, InPlayerException>) {
+        forgotPasswordUseCase.execute(ForgotPasswordUseCase.Params(inPlayerSDKConfiguration.merchantUUID, email))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({
@@ -123,19 +145,7 @@ class Account(private val appSchedulers: MySchedulers,
     }
     
     
-    fun accountDetails(callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
-        accountDetailsUseCase.execute()
-                .subscribeOn(appSchedulers.subscribeOn)
-                .observeOn(appSchedulers.observeOn)
-                .subscribe({
-                    callback.done(domainMapper.mapFromDomain(it), null)
-                }, {
-                    callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
-                })
-    }
-    
-    
-    fun eraseUser(password: String, callback: InPlayerCallback<String?, InPlayerException>) {
+    fun eraseAccount(password: String, callback: InPlayerCallback<String?, InPlayerException>) {
         eraseUserUseCase.execute(EraseUserUseCase.Params(password))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
@@ -146,18 +156,8 @@ class Account(private val appSchedulers: MySchedulers,
                 })
     }
     
-    fun updateUser(fullName: String, metadata: HashMap<String, String>? = null, callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
-        updateUserUseCase.execute(UpdateUserUseCase.Params(fullName, metadata = metadata))
-                .subscribeOn(appSchedulers.observeOn)
-                .observeOn(appSchedulers.observeOn)
-                .subscribe({
-                    callback.done(domainMapper.mapFromDomain(it), null)
-                }, {
-                    callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
-                })
-    }
     
-    fun setupNewPassword(token: String, newPassword: String, newPasswordConfirmation: String, callback: InPlayerCallback<String?, InPlayerException>) {
+    fun setNewPassword(token: String, newPassword: String, newPasswordConfirmation: String, callback: InPlayerCallback<String?, InPlayerException>) {
         setNewPasswordUseCase.execute(SetNewPasswordUseCase.Params(token, newPassword, newPasswordConfirmation))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)

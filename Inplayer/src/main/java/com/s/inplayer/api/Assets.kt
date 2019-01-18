@@ -6,14 +6,14 @@ import com.s.domain.usecase.assets.GetItemAccessUseCase
 import com.s.domain.usecase.assets.GetItemDetailsUseCase
 import com.s.inplayer.InPlayerSDKConfiguration
 import com.s.inplayer.callback.InPlayerCallback
-import com.s.inplayer.callback.error.InPlayerException
+import com.s.inplayer.model.error.InPlayerException
 import com.s.inplayer.mapper.ThrowableToInPlayerExceptionMapper
 import com.s.inplayer.mapper.assets.MapAccessFee
 import com.s.inplayer.mapper.assets.MapItemAccess
 import com.s.inplayer.mapper.assets.MapItemDetails
-import com.s.inplayer.model.assets.AccessFee
-import com.s.inplayer.model.assets.ItemAccess
-import com.s.inplayer.model.assets.ItemDetails
+import com.s.inplayer.model.assets.InPlayerAccessFee
+import com.s.inplayer.model.assets.InPlayerItemAccess
+import com.s.inplayer.model.assets.InPlayerItemDetails
 
 /**
  * Created by victor on 1/3/19
@@ -28,7 +28,7 @@ class Assets constructor(private val appSchedulers: MySchedulers,
                          private val mapItemAccess: MapItemAccess) {
     
     
-    fun getItemDetails(id: Int, callback: InPlayerCallback<ItemDetails, InPlayerException>) {
+    fun getItemDetails(id: Int, callback: InPlayerCallback<InPlayerItemDetails, InPlayerException>) {
         getItemDetailsUseCase.execute(GetItemDetailsUseCase.Params(id, inPlayerSDKConfiguration.merchantUUID))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
@@ -39,7 +39,7 @@ class Assets constructor(private val appSchedulers: MySchedulers,
                 })
     }
     
-    fun getAccessFees(id: Int, callback: InPlayerCallback<List<AccessFee>, InPlayerException>) {
+    fun getAccessFees(id: Int, callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>) {
         getAccessFeesUseCase.execute(GetAccessFeesUseCase.Params(id))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
@@ -50,7 +50,7 @@ class Assets constructor(private val appSchedulers: MySchedulers,
                 })
     }
     
-    fun getItemAccess(id: Int, callback: InPlayerCallback<ItemAccess, InPlayerException>) {
+    fun getItemAccess(id: Int, callback: InPlayerCallback<InPlayerItemAccess, InPlayerException>) {
         getItemAccessUseCase.execute(GetItemAccessUseCase.Params(id))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
