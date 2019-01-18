@@ -1,5 +1,6 @@
 package com.s.data.repository.gateway
 
+import com.s.data.model.account.InPlayerAccount
 import io.reactivex.Single
 
 /**
@@ -24,5 +25,13 @@ interface UserLocalAuthenticator {
     fun getRefreshToken(): String
     
     fun deleteRefreshToken()
+    
+    
+    //Current User
+    fun saveCurrentUser(inPlayerAccount: InPlayerAccount)
+    
+    fun getAccount(): InPlayerAccount?
+    
+    fun deleteCurrentUser()
     
 }

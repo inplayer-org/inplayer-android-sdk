@@ -136,4 +136,27 @@
         app:layout_constraintStart_toStartOf="@+id/get_item"
         app:layout_constraintTop_toBottomOf="@+id/get_item" />
 
+    <Button
+        android:id="@+id/notification"
+        android:layout_width="119dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Notification"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/get_access_fee"
+        app:layout_constraintTop_toBottomOf="@+id/get_access_fee" />
+
+    <Button
+        android:id="@+id/publish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Publish"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/notification"
+        app:layout_constraintTop_toBottomOf="@+id/notification" />
+
 </android.support.constraint.ConstraintLayout>

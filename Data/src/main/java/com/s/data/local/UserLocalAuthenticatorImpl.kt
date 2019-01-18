@@ -1,15 +1,19 @@
 package com.s.data.local
 
 import android.content.Context
+import com.google.gson.Gson
 import com.s.data.Constants
 import com.s.data.local.PreferenceHelper.defaultPrefs
+import com.s.data.model.account.InPlayerAccount
 import com.s.data.repository.gateway.UserLocalAuthenticator
 import io.reactivex.Single
+
 
 /**
  * Created by victor on 12/25/18
  */
 class UserLocalAuthenticatorImpl(context: Context) : UserLocalAuthenticator {
+    
     
     val prefs = defaultPrefs(context)
     
@@ -42,6 +46,19 @@ class UserLocalAuthenticatorImpl(context: Context) : UserLocalAuthenticator {
     
     override fun deleteRefreshToken() {
         prefs.refreshToken = null
+    }
+    
+    override fun saveCurrentUser(inPlayerAccount: InPlayerAccount) {
+        val currentUserJSON = Gson().toJson(inPlayerAccount)
+        prefs.currentUser = currentUserJSON
+    }
+    
+    override fun getAccount(): InPlayerAccount? {
+        return Gson().fromJson<InPlayerAccount>(prefs.currentUser, InPlayerAccount::class.java)
+    }
+    
+    override fun deleteCurrentUser() {
+        prefs.currentUser = null
     }
     
 }

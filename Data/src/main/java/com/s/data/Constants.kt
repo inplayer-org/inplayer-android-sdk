@@ -11,6 +11,8 @@ object Constants {
         
         val RefreshToken = "REFRESH_TOKEN"
         
+        val CurrentUser = "CURRENT_USER"
+        
     }
     
     val HttpHeaderAuthorization = "Authorization"
@@ -19,3 +21,4 @@ object Constants {
     
     val HttpHeaderRetryCount = "Retry-Count"
 }
+

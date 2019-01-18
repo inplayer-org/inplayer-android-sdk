@@ -28,9 +28,6 @@ class Account(private val appSchedulers: MySchedulers,
               private val updateUserUseCase: UpdateUserUseCase,
               private val setNewPasswordUseCase: SetNewPasswordUseCase) {
     
-    enum class AccountType {
-        CONSUMER, MERCHANT
-    }
     
     /**
      * Account Interface

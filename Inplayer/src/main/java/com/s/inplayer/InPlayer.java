@@ -3,6 +3,7 @@ package com.s.inplayer;
 import android.content.Context;
 
 import com.s.inplayer.api.Assets;
+import com.s.inplayer.api.Notification;
 import com.s.inplayer.di.InjectModules;
 
 import static org.koin.java.standalone.KoinJavaComponent.inject;
@@ -16,6 +17,8 @@ public class InPlayer {
     public static com.s.inplayer.api.Account Account;
 
     public static Assets Assets;
+
+    public static Notification Notification;
 
     // Suppress constructor to prevent subclassing
     private InPlayer() {
@@ -37,6 +40,8 @@ public class InPlayer {
         Account = inject(com.s.inplayer.api.Account.class).getValue();
 
         Assets = inject(Assets.class).getValue();
+
+        Notification = inject(com.s.inplayer.api.Notification.class).getValue();
 
     }
 

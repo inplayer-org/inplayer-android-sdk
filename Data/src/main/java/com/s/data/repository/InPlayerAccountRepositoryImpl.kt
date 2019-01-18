@@ -69,6 +69,11 @@ class InPlayerAccountRepositoryImpl constructor(
         it.refreshToken?.let {
             userLocalAuthenticator.saveRefreshToken(it)
         }
+        
+        it.account.let {
+            userLocalAuthenticator.saveCurrentUser(it)
+        }
+        
         userLocalAuthenticator.saveAuthenticationToken(it.accessToken)
     }
     

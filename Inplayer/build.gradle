@@ -39,6 +39,7 @@ dependencies {
 
     implementation project(':domain')
     implementation project(':Data')
+    implementation project(':Notification')
 
     implementation network.gson
     implementation network.okHttp

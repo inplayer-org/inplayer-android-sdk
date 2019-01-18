@@ -2,9 +2,8 @@ package com.s.data.remote.api
 
 import com.s.data.model.ResponseModel
 import com.s.data.model.account.InPlayerAccount
-import com.s.domain.entity.asset.AccessFeeModel
+import com.s.data.model.notification.AWSCredentialsModel
 import com.s.domain.entity.asset.ItemAccessModel
-import com.s.domain.entity.asset.ItemDetailsModel
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -34,7 +33,7 @@ interface InPlayerRemoteServiceAPI {
     
     @FormUrlEncoded
     @HTTP(method = "DELETE", path = "/accounts/erase", hasBody = true)
-    fun eraseAccount(@Field("password") eraseUserRequest: String
+    fun eraseAccount(@Field("password") password: String
     ): Single<ResponseModel>
     
     
@@ -61,4 +60,10 @@ interface InPlayerRemoteServiceAPI {
      * END ASSETS Endpoint
      * */
     
+    /**
+     *  Notifications
+     * */
+    
+    @GET
+    fun getAwsCredentials(@Url url: String): Single<AWSCredentialsModel>
 }

@@ -6,17 +6,20 @@ import com.s.data.model.account.InPlayerAccount
 import com.s.data.model.mapper.*
 import com.s.data.remote.AccountRemoteImpl
 import com.s.data.remote.AssetsRemoteImpl
+import com.s.data.remote.NotificationsRemoteImpl
 import com.s.data.remote.api.InPlayerRemoteProvider
 import com.s.data.remote.api.InPlayerRemotePublicProvider
 import com.s.data.remote.api.InPlayerRemotePublicServiceAPI
 import com.s.data.remote.api.InPlayerRemoteServiceAPI
-import com.s.data.remote.refresh_token.RefreshAuthenticator
 import com.s.data.remote.refresh_token.InPlayerRemoteRefreshServiceAPI
 import com.s.data.remote.refresh_token.InPlayerRemoteRefreshTokenProvider
+import com.s.data.remote.refresh_token.RefreshAuthenticator
+import com.s.data.repository.InPlayerAWSCredentialsRepositoryImpl
 import com.s.data.repository.InPlayerAccountRepositoryImpl
 import com.s.data.repository.InPlayerAssetsRepositoryImpl
 import com.s.data.repository.gateway.AccountRemote
 import com.s.data.repository.gateway.AssetsRemote
+import com.s.data.repository.gateway.NotificationsRemote
 import com.s.data.repository.gateway.UserLocalAuthenticator
 import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.entity.mapper.DomainMapper
@@ -31,10 +34,16 @@ import com.s.inplayer.InPlayer
 import com.s.inplayer.InPlayerSDKConfiguration
 import com.s.inplayer.api.Account
 import com.s.inplayer.api.Assets
+import com.s.inplayer.api.Notification
 import com.s.inplayer.mapper.InPlayerUserMapper
 import com.s.inplayer.mapper.assets.*
+import com.s.inplayer.mapper.notification.AccessGrantedNotificationMapper
+import com.s.inplayer.mapper.notification.AccessRevokedNotificationMapper
+import com.s.inplayer.mapper.notification.NotificationMapper
 import com.s.inplayer.model.InPlayerUser
 import com.s.inplayer.util.AppSchedulers
+import com.s.notification.AWSNotificationManager
+import com.s.notification.gateway.InPlayerAWSCredentialsRepository
 import org.koin.dsl.module.module
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.StandAloneContext.startKoin
@@ -63,23 +72,25 @@ object InjectModules : KoinComponent {
             /**
              * Data Module Mapper
              * */
-            single { MapDataAccessControlType() }
+            factory { MapDataAccessControlType() }
             
-            single { MapDataAccessFee(get(), get(), get(), get()) }
+            factory { MapDataAccessFee(get(), get(), get(), get()) }
             
-            single { MapDataAccessType() }
+            factory { MapDataAccessType() }
             
-            single { MapInPlayerUser() as ModelMapper<InPlayerAccount, InPlayerDomainUser> }
+            factory { MapInPlayerUser() as ModelMapper<InPlayerAccount, InPlayerDomainUser> }
             
-            single { MapDataItemAccess(get()) }
+            factory { MapDataItemAccess(get()) }
             
-            single { MapDataItemDetails(get(), get()) }
+            factory { MapDataItemDetails(get(), get()) }
             
-            single { MapDataItemType() }
+            factory { MapDataItemType() }
             
-            single { MapDataSetupFee() }
+            factory { MapDataSetupFee() }
             
-            single { MapDataTrialPeriod() }
+            factory { MapDataTrialPeriod() }
+            
+            factory { MapAWSCredentials() }
             
             /**
              * END Data Module Mapper
@@ -109,6 +120,8 @@ object InjectModules : KoinComponent {
             
             single { AssetsRemoteImpl(get(), get()) as AssetsRemote }
             
+            single { NotificationsRemoteImpl(true, get()) as NotificationsRemote }
+            
             
             /**
              * REPOSITORY
@@ -116,6 +129,8 @@ object InjectModules : KoinComponent {
             single { InPlayerAssetsRepositoryImpl(get(), get(), get(), get()) as InPlayerAssetsRepository }
             
             single { InPlayerAccountRepositoryImpl(get(), get(), get()) as InPlayerAccountRepository }
+            
+            single { InPlayerAWSCredentialsRepositoryImpl(get(), get(), get()) as InPlayerAWSCredentialsRepository }
             
             /**
              * END REPOSITORY
@@ -125,9 +140,12 @@ object InjectModules : KoinComponent {
         
         val mainControllerModule = module {
             
-            single { Assets(get(), get(), get(), get(), get(), get(), get(), get()) }
+            factory { Assets(get(), get(), get(), get(), get(), get(), get(), get()) }
             
-            single { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+            factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+            
+            factory { Notification(get(), get()) }
+            
             
         }
         
@@ -167,30 +185,43 @@ object InjectModules : KoinComponent {
         
         val mapperModule = module {
             
-            single { InPlayerUserMapper() as DomainMapper<InPlayerDomainUser, InPlayerUser> }
+            factory { InPlayerUserMapper() as DomainMapper<InPlayerDomainUser, InPlayerUser> }
             
-            single { MapAccessControlType() }
+            factory { MapAccessControlType() }
             
-            single { MapAccessFee(get(), get(), get(), get()) }
+            factory { MapAccessFee(get(), get(), get(), get()) }
             
-            single { MapAccessType() }
+            factory { MapAccessType() }
             
-            single { MapInPlayerUser() }
+            factory { MapInPlayerUser() }
             
-            single { MapItemAccess(get()) }
+            factory { MapItemAccess(get()) }
             
-            single { MapItemDetails(get(), get()) }
+            factory { MapItemDetails(get(), get()) }
             
-            single { MapItemType() }
+            factory { MapItemType() }
             
-            single { MapSetupFee() }
+            factory { MapSetupFee() }
             
-            single { MapTrialPeriod() }
+            factory { MapTrialPeriod() }
+            
+            //NOTIFICATION MAPPER
+            
+            factory { AccessGrantedNotificationMapper() }
+            
+            factory { AccessRevokedNotificationMapper() }
+            
+            factory { NotificationMapper(get(), get()) }
+            
             
         }
         
+        val notificationModule = module {
+            single { AWSNotificationManager(get(), get()) }
+        }
+        
         startKoin(listOf(contextModule, mapperModule, configurationModule, dataModule, accountUseCaseModule,
-                mainControllerModule, assetsUseCaseModule))
+                mainControllerModule, assetsUseCaseModule, notificationModule))
         
         setProperty(Const.context, configuration.context)
         
