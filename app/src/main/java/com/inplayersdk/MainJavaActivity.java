@@ -9,8 +9,17 @@ import android.util.Log;
 import android.view.View;
 
 import com.s.inplayer.InPlayer;
+import com.s.inplayer.callback.NotificationsCallback;
+import com.s.notification.AWSNotificationCallback;
+import com.s.notification.AWSNotificationManager;
+import com.s.inplayer.model.notification.INPNotification;
+import com.s.notification.model.notification.InPlayerNotification;
+
+import org.jetbrains.annotations.NotNull;
 
 public class MainJavaActivity extends AppCompatActivity {
+
+    AWSNotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +41,5 @@ public class MainJavaActivity extends AppCompatActivity {
         Log.v("TAG", "Is logged in " + isLogged);
 
 
-
     }
-
 }

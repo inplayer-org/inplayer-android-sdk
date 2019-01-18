@@ -5,15 +5,17 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.s.inplayer.InPlayer
 import com.s.inplayer.callback.InPlayerCallback
-import com.s.notification.NotificationManager
+import com.s.inplayer.callback.NotificationsCallback
+import com.s.inplayer.callback.error.InPlayerException
+import com.s.inplayer.model.notification.INPNotification
+import com.s.notification.AWSNotificationManager
 import kotlinx.android.synthetic.main.activity_main2.*
 import kotlinx.android.synthetic.main.content_main2.*
 import org.koin.android.ext.android.inject
 
 class Main2Activity : AppCompatActivity() {
     
-    val notificationManager: NotificationManager by inject()
-    
+    val notificationManager: AWSNotificationManager by inject()
     
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +76,11 @@ class Main2Activity : AppCompatActivity() {
         notification.setOnClickListener {
             initNotification()
         }
+        
+        publish.setOnClickListener {
+            notificationManager.publish()
+        }
+        
     }
     
     private fun logInuser() {
@@ -208,7 +215,16 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun initNotification() {
-         notificationManager.call()
+        InPlayer.Notification.subScribe(object : NotificationsCallback {
+            override fun onStatusChanged(status: String) {
+            }
+            
+            override fun onMessageReceived(message: INPNotification) {
+            }
+            
+            override fun onError(t: InPlayerException) {
+            }
+        })
     }
     
 }

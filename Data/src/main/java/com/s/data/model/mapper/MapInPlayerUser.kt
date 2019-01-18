@@ -1,6 +1,7 @@
 package com.s.data.model.mapper
 
 import com.s.data.model.account.InPlayerAccount
+import com.s.data.model.account.Metadata
 import com.s.domain.entity.account.AccountType
 import com.s.domain.entity.account.InPlayerDomainUser
 
@@ -13,12 +14,21 @@ class MapInPlayerUser : ModelMapper<InPlayerAccount, InPlayerDomainUser> {
         
         //Creating the list for Account Type from the returned string
         val accountTypeList = mutableListOf<AccountType>()
-
-//        model.roles.forEach {
-//            accountTypeList.add(AccountType.valueOf(it.toUpperCase()))
-//        }
-//
-        return InPlayerDomainUser(model.id, model.email, model.fullName, model.referrer, model.isCompleted, model.createdAt, model.updatedAt, model.roles)
+        
+        return InPlayerDomainUser(
+                id = model.id,
+                email = model.email,
+                fullName = model.fullName,
+                referrer = model.referrer,
+                isCompleted = model.isCompleted,
+                createdAt = model.createdAt,
+                updatedAt = model.updatedAt,
+                roles = model.roles,
+                metadata = com.s.domain.entity.account.Metadata(model.metadata.clientId, model.metadata.register_source),
+                merchantId = model.merchantId,
+                merchantUUID = model.merchantUUID,
+                username = model.username,
+                uuid = model.uuid)
     }
     
     override fun mapToModel(entity: InPlayerDomainUser): InPlayerAccount {
@@ -30,6 +40,18 @@ class MapInPlayerUser : ModelMapper<InPlayerAccount, InPlayerDomainUser> {
             accountTypeList.add(it.toString())
         }
         
-        return InPlayerAccount(entity.id, entity.email, entity.fullName, entity.referrer, accountTypeList, entity.isCompleted, entity.createdAt, entity.updatedAt)
+        return InPlayerAccount(id = entity.id,
+                email = entity.email,
+                fullName = entity.fullName,
+                referrer = entity.referrer,
+                roles = accountTypeList,
+                isCompleted = entity.isCompleted,
+                createdAt = entity.createdAt,
+                updatedAt = entity.updatedAt,
+                metadata = Metadata(entity.metadata.clientId, entity.metadata.register_source),
+                merchantId = entity.merchantId,
+                merchantUUID = entity.merchantUUID,
+                username = entity.username,
+                uuid = entity.uuid)
     }
 }

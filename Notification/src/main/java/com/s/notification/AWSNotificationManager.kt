@@ -1,6 +1,5 @@
 package com.s.notification
 
-import android.util.Log
 import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.auth.AWSSessionCredentials
 import com.amazonaws.internal.StaticCredentialsProvider
@@ -10,22 +9,25 @@ import com.amazonaws.mobileconnectors.iot.AWSIotMqttQos
 import com.s.domain.schedulers.MySchedulers
 import com.s.notification.entity.MyAWSCredentials
 import com.s.notification.gateway.InPlayerAWSCredentialsRepository
+import com.s.notification.modelparser.InPlayerNotificationParser
 import java.io.UnsupportedEncodingException
 
 
 /**
  * Created by victor on 1/14/19
  */
-class NotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCredentialsRepository, val appSchedulers: MySchedulers) {
+class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCredentialsRepository, val appSchedulers: MySchedulers) {
     
-    // Initialize the AWSIotMqttManager with the configuration
-    init {
-        initIotMqttManager()
-    }
+    private lateinit var callback: AWSNotificationCallback
     
     private lateinit var mqttManager: AWSIotMqttManager
     
     private lateinit var myAWSCredentials: MyAWSCredentials
+    
+    fun subscribe(callback: AWSNotificationCallback) {
+        this.callback = callback
+        initIotMqttManager()
+    }
     
     private fun initIotMqttManager() {
         
@@ -36,7 +38,7 @@ class NotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCrede
                     myAWSCredentials = it
                     configureConnectingWithIoT()
                 }, {
-                    it.printStackTrace()
+                    callback.onError(it)
                 })
         
     }
@@ -48,37 +50,38 @@ class NotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCrede
         
         mqttManager.connect(StaticCredentialsProvider(MyAwsProvider(myAWSCredentials.accessKey, myAWSCredentials.secretKey, myAWSCredentials.sessionToken))) { status: AWSIotMqttClientStatusCallback.AWSIotMqttClientStatus?, throwable: Throwable? ->
             throwable?.let {
+                callback.onError(it)
                 it.printStackTrace()
-                Log.v("NotificationManager", "Error :$it")
             }
             
             status?.let {
-                Log.v("NotificationManager", "Success $it")
-                if (it.name == "Connected") {
-                    Log.v("NotificationManager", "Success CONNECTED $it")
+                if (it == AWSIotMqttClientStatusCallback.AWSIotMqttClientStatus.Connected) {
                     subscribeToTopic()
                 }
+                callback.onStatusChanged(status.name)
             }
         }
     }
     
     
     private fun subscribeToTopic() {
-        mqttManager.subscribeToTopic("a7b9760d-5eee-4a3a-9ed1-36dea673a369", AWSIotMqttQos.QOS0) { topic: String?, data: ByteArray? ->
+        mqttManager.subscribeToTopic(myAWSCredentials.userUUID, AWSIotMqttQos.QOS0) { topic: String?, data: ByteArray? ->
             try {
                 val message = String(data!!)
-                Log.d("NotificationManager", "Message received: $message")
+                callback.onMessageReceived(InPlayerNotificationParser.parseJSON(message))
             } catch (e: UnsupportedEncodingException) {
-                Log.e("NotificationManager", "Message encoding error: ", e)
+                callback.onError(UnsupportedEncodingException())
             }
-            
         }
     }
     
-    fun call() {
+    
+    fun publish() {
+    
     }
     
-    class MyAwsProvider(private val accessKey: String, private val secretKey: String, private val accessSessionKey: String) : AWSCredentials, AWSSessionCredentials {
+    private class MyAwsProvider(private val accessKey: String, private val secretKey: String, private val accessSessionKey: String)
+        : AWSCredentials, AWSSessionCredentials {
         
         override fun getSessionToken() = accessSessionKey
         

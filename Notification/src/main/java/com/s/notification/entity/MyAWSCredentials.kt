@@ -6,4 +6,7 @@ data class MyAWSCredentials(
         val region: String,
         val secretKey: String,
         val sessionToken: String
-)
+) {
+    
+    var userUUID: String = ""
+}

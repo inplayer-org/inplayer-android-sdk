@@ -11,7 +11,15 @@ class InPlayerUserMapper : DomainMapper<InPlayerDomainUser, InPlayerUser> {
     
     override fun mapFromDomain(domainEntity: InPlayerDomainUser): InPlayerUser {
         with(domainEntity) {
-            return InPlayerUser(id, email, fullName, referrer, roles, isCompleted, createdAt, updatedAt)
+            return InPlayerUser(
+                    id = id,
+                    email = email,
+                    fullName = fullName,
+                    referrer = referrer,
+                    roles = roles,
+                    isCompleted = isCompleted,
+                    createdAt = createdAt,
+                    updatedAt = updatedAt)
         }
     }
     
