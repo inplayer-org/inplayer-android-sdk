@@ -6,8 +6,8 @@ import android.util.Log
 import com.s.inplayer.InPlayer
 import com.s.inplayer.callback.InPlayerCallback
 import com.s.inplayer.callback.NotificationsCallback
-import com.s.inplayer.callback.error.InPlayerException
-import com.s.inplayer.model.notification.INPNotification
+import com.s.inplayer.model.error.InPlayerException
+import com.s.inplayer.model.notification.InPlayerNotification
 import com.s.notification.AWSNotificationManager
 import kotlinx.android.synthetic.main.activity_main2.*
 import kotlinx.android.synthetic.main.content_main2.*
@@ -98,15 +98,15 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun logOut() {
-        InPlayer.Account.logOut(InPlayerCallback { sucessMessage, error ->
+        InPlayer.Account.logout(InPlayerCallback { sucessMessage, error ->
         
         })
     }
     
     private fun signUp() {
-        InPlayer.Account.signUp("Viktor Petrovski", "victorpetrovski93+test94@gmail.com", "androidsdk123", "androidsdk123", InPlayerCallback { inPlayerUser, error ->
+        InPlayer.Account.createAccount("Viktor Petrovski", "victorpetrovski93+test94@gmail.com", "androidsdk123", "androidsdk123", InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
-                Log.v("signUp", "User created $inPlayerUser")
+                Log.v("createAccount", "User created $inPlayerUser")
             } else {
                 //error.printStackTrace()
             }
@@ -114,10 +114,10 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun accountDetails() {
-        InPlayer.Account.accountDetails(InPlayerCallback { inPlayerUser, error ->
+        InPlayer.Account.getAccountDetails(InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
                 //Handle InPlayerUser
-                Log.v("signUp", "User Details $inPlayerUser")
+                Log.v("createAccount", "User Details $inPlayerUser")
             } else {
                 val errors = error.errorsList
                 error.e.printStackTrace()
@@ -126,7 +126,7 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun eraseUser() {
-        InPlayer.Account.eraseUser("androidsdk123", InPlayerCallback { sucessMessage, error ->
+        InPlayer.Account.eraseAccount("androidsdk123", InPlayerCallback { sucessMessage, error ->
         
         })
     }
@@ -140,7 +140,7 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun forgotPassword(merchantUUID: String, email: String) {
-        InPlayer.Account.forgotPassword(merchantUUID, email, InPlayerCallback { sucessMessage, error ->
+        InPlayer.Account.forgotPassword(email, InPlayerCallback { sucessMessage, error ->
             if (error == null) {
                 //Handle InPlayerUser
                 Log.v("forgotPassword", "User Details ")
@@ -153,13 +153,13 @@ class Main2Activity : AppCompatActivity() {
     
     private fun updateUser(fullName: String) {
         
-        var map = HashMap<String, String>()
+        val map = HashMap<String, String>()
         map["country"] = "Spain"
         
         
-        InPlayer.Account.updateUser(fullName, map, InPlayerCallback { inPlayerUser, error ->
+        InPlayer.Account.updateAccount(fullName, map, InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
-                Log.v("updateUser", "User Details  Updated $inPlayerUser")
+                Log.v("updateAccount", "User Details  Updated $inPlayerUser")
             } else {
                 //Handle Error
                 // error.printStackTrace()
@@ -168,7 +168,7 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun setNewPassword(token: String, newPassword: String, newPasswordConfirmation: String) {
-        InPlayer.Account.setupNewPassword(token, newPassword, newPasswordConfirmation, InPlayerCallback { message, error ->
+        InPlayer.Account.setNewPassword(token, newPassword, newPasswordConfirmation, InPlayerCallback { message, error ->
             if (error == null) {
                 Log.v("setNewPassword", "User setNewPassword $message")
             } else {
@@ -215,11 +215,11 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun initNotification() {
-        InPlayer.Notification.subScribe(object : NotificationsCallback {
+        InPlayer.Notification.subscribe(object : NotificationsCallback {
             override fun onStatusChanged(status: String) {
             }
             
-            override fun onMessageReceived(message: INPNotification) {
+            override fun onMessageReceived(message: InPlayerNotification) {
             }
             
             override fun onError(t: InPlayerException) {

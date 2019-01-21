@@ -20,13 +20,19 @@ class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCr
     
     private lateinit var callback: AWSNotificationCallback
     
-    private lateinit var mqttManager: AWSIotMqttManager
+    private var mqttManager: AWSIotMqttManager? = null
     
     private lateinit var myAWSCredentials: MyAWSCredentials
     
     fun subscribe(callback: AWSNotificationCallback) {
         this.callback = callback
         initIotMqttManager()
+    }
+    
+    fun discconnect() {
+        mqttManager?.let {
+            it.disconnect()
+        }
     }
     
     private fun initIotMqttManager() {
@@ -48,7 +54,7 @@ class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCr
                 myAWSCredentials.accessKey,
                 myAWSCredentials.iotEndpoint)
         
-        mqttManager.connect(StaticCredentialsProvider(MyAwsProvider(myAWSCredentials.accessKey, myAWSCredentials.secretKey, myAWSCredentials.sessionToken))) { status: AWSIotMqttClientStatusCallback.AWSIotMqttClientStatus?, throwable: Throwable? ->
+        mqttManager?.connect(StaticCredentialsProvider(MyAwsProvider(myAWSCredentials.accessKey, myAWSCredentials.secretKey, myAWSCredentials.sessionToken))) { status: AWSIotMqttClientStatusCallback.AWSIotMqttClientStatus?, throwable: Throwable? ->
             throwable?.let {
                 callback.onError(it)
                 it.printStackTrace()
@@ -65,7 +71,7 @@ class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCr
     
     
     private fun subscribeToTopic() {
-        mqttManager.subscribeToTopic(myAWSCredentials.userUUID, AWSIotMqttQos.QOS0) { topic: String?, data: ByteArray? ->
+        mqttManager?.subscribeToTopic(myAWSCredentials.userUUID, AWSIotMqttQos.QOS0) { _: String?, data: ByteArray? ->
             try {
                 val message = String(data!!)
                 callback.onMessageReceived(InPlayerNotificationParser.parseJSON(message))

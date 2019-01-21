@@ -43,8 +43,7 @@ class InPlayerAccountRepositoryImpl constructor(
         return accountRemote
                 .logOut()
                 .doOnSuccess {
-                    userLocalAuthenticator.deleteRefreshToken()
-                    userLocalAuthenticator.deleteAuthentiationToken()
+                    cleanLocalPrefs()
                 }.toCompletable()
     }
     
@@ -77,6 +76,12 @@ class InPlayerAccountRepositoryImpl constructor(
         userLocalAuthenticator.saveAuthenticationToken(it.accessToken)
     }
     
+    private fun cleanLocalPrefs() {
+        userLocalAuthenticator.deleteRefreshToken()
+        userLocalAuthenticator.deleteAuthentiationToken()
+        userLocalAuthenticator.deleteCurrentUser()
+    }
+    
     /**
      * END Creating Users and handling Authorization
      * */
@@ -101,7 +106,7 @@ class InPlayerAccountRepositoryImpl constructor(
         return accountRemote
                 .eraseUser(password)
                 .doOnSuccess {
-                    userLocalAuthenticator.deleteAuthentiationToken()
+                    cleanLocalPrefs()
                 }.map {
                     it.message
                 }

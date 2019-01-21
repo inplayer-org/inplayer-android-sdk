@@ -1,9 +1,9 @@
 package com.s.notification.model.legacy
 
-import com.s.notification.model.notification.InPlayerNotification
+import com.s.notification.model.notification.InPlayerNotificationEntity
 
 data class InPlayerPaymentCardSuccessNotifcation(val resource: InPlayerPaymentCardSuccessNotificationResource,
-                                                 override val type: String, override val timestamp: Long) : InPlayerNotification
+                                                 override val type: String, override val timestamp: Long) : InPlayerNotificationEntity
 
 data class InPlayerPaymentCardSuccessNotificationResource(
         val access_fee_id: Int,

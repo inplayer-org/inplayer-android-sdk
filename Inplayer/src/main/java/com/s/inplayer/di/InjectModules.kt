@@ -7,6 +7,7 @@ import com.s.data.model.mapper.*
 import com.s.data.remote.AccountRemoteImpl
 import com.s.data.remote.AssetsRemoteImpl
 import com.s.data.remote.NotificationsRemoteImpl
+import com.s.data.remote.PaymentsRemoteImpl
 import com.s.data.remote.api.InPlayerRemoteProvider
 import com.s.data.remote.api.InPlayerRemotePublicProvider
 import com.s.data.remote.api.InPlayerRemotePublicServiceAPI
@@ -17,24 +18,25 @@ import com.s.data.remote.refresh_token.RefreshAuthenticator
 import com.s.data.repository.InPlayerAWSCredentialsRepositoryImpl
 import com.s.data.repository.InPlayerAccountRepositoryImpl
 import com.s.data.repository.InPlayerAssetsRepositoryImpl
-import com.s.data.repository.gateway.AccountRemote
-import com.s.data.repository.gateway.AssetsRemote
-import com.s.data.repository.gateway.NotificationsRemote
-import com.s.data.repository.gateway.UserLocalAuthenticator
+import com.s.data.repository.InPlayerPaymentsRepositoryImpl
+import com.s.data.repository.gateway.*
 import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.entity.mapper.DomainMapper
 import com.s.domain.gateway.InPlayerAccountRepository
 import com.s.domain.gateway.InPlayerAssetsRepository
+import com.s.domain.gateway.InPlayerPaymentRepository
 import com.s.domain.schedulers.MySchedulers
 import com.s.domain.usecase.assets.GetAccessFeesUseCase
 import com.s.domain.usecase.assets.GetItemAccessUseCase
 import com.s.domain.usecase.assets.GetItemDetailsUseCase
 import com.s.domain.usecase.autehntication.*
+import com.s.domain.usecase.payments.ValidateReceiptUseCase
 import com.s.inplayer.InPlayer
 import com.s.inplayer.InPlayerSDKConfiguration
 import com.s.inplayer.api.Account
-import com.s.inplayer.api.Assets
+import com.s.inplayer.api.Asset
 import com.s.inplayer.api.Notification
+import com.s.inplayer.api.Payment
 import com.s.inplayer.mapper.InPlayerUserMapper
 import com.s.inplayer.mapper.assets.*
 import com.s.inplayer.mapper.notification.AccessGrantedNotificationMapper
@@ -96,15 +98,15 @@ object InjectModules : KoinComponent {
              * END Data Module Mapper
              * */
             
-            single<UserLocalAuthenticator> { UserLocalAuthenticatorImpl(get()) }
+            factory<UserLocalAuthenticator> { UserLocalAuthenticatorImpl(get()) }
             
             /**
              * REFRESH TOKEN
              * */
             
-            single { InPlayerRemoteRefreshTokenProvider(getProperty(Const.serverUrl), true) as InPlayerRemoteRefreshServiceAPI }
+            factory { InPlayerRemoteRefreshTokenProvider(getProperty(Const.serverUrl), true) as InPlayerRemoteRefreshServiceAPI }
             
-            single { RefreshAuthenticator(configuration.mMerchantUUID, get(), get()) }
+            factory { RefreshAuthenticator(configuration.mMerchantUUID, get(), get()) }
             
             /**
              * END REFRESH TOKEN
@@ -116,21 +118,24 @@ object InjectModules : KoinComponent {
             
             
             
-            single { AccountRemoteImpl(get(), get()) as AccountRemote }
+            factory { AccountRemoteImpl(get(), get()) as AccountRemote }
             
-            single { AssetsRemoteImpl(get(), get()) as AssetsRemote }
+            factory { AssetsRemoteImpl(get(), get()) as AssetsRemote }
             
-            single { NotificationsRemoteImpl(true, get()) as NotificationsRemote }
+            factory { NotificationsRemoteImpl(true, get()) as NotificationsRemote }
             
+            factory { PaymentsRemoteImpl(get()) as PaymentsRemote }
             
             /**
              * REPOSITORY
              * */
-            single { InPlayerAssetsRepositoryImpl(get(), get(), get(), get()) as InPlayerAssetsRepository }
+            factory { InPlayerAssetsRepositoryImpl(get(), get(), get(), get()) as InPlayerAssetsRepository }
             
-            single { InPlayerAccountRepositoryImpl(get(), get(), get()) as InPlayerAccountRepository }
+            factory { InPlayerAccountRepositoryImpl(get(), get(), get()) as InPlayerAccountRepository }
             
-            single { InPlayerAWSCredentialsRepositoryImpl(get(), get(), get()) as InPlayerAWSCredentialsRepository }
+            factory { InPlayerAWSCredentialsRepositoryImpl(get(), get(), get()) as InPlayerAWSCredentialsRepository }
+            
+            factory { InPlayerPaymentsRepositoryImpl(get()) as InPlayerPaymentRepository }
             
             /**
              * END REPOSITORY
@@ -140,11 +145,13 @@ object InjectModules : KoinComponent {
         
         val mainControllerModule = module {
             
-            factory { Assets(get(), get(), get(), get(), get(), get(), get(), get()) }
+            factory { Asset(get(), get(), get(), get(), get(), get(), get(), get()) }
             
             factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
             
             factory { Notification(get(), get()) }
+            
+            factory { Payment(get(), get()) }
             
             
         }
@@ -182,6 +189,12 @@ object InjectModules : KoinComponent {
             
         }
         
+        val paymentUseCaseModule = module {
+            
+            factory { ValidateReceiptUseCase(get(), get()) }
+            
+        }
+        
         
         val mapperModule = module {
             
@@ -213,7 +226,6 @@ object InjectModules : KoinComponent {
             
             factory { NotificationMapper(get(), get()) }
             
-            
         }
         
         val notificationModule = module {
@@ -221,7 +233,7 @@ object InjectModules : KoinComponent {
         }
         
         startKoin(listOf(contextModule, mapperModule, configurationModule, dataModule, accountUseCaseModule,
-                mainControllerModule, assetsUseCaseModule, notificationModule))
+                mainControllerModule, assetsUseCaseModule, notificationModule, paymentUseCaseModule))
         
         setProperty(Const.context, configuration.context)
         

@@ -3,7 +3,7 @@ package com.s.inplayer.model.notification
 data class INPAccessGrantedNotification(
         val resource: INPAccessGrantedNotificationResource,
         override val type: String, override val timestamp: Long
-) : INPNotification
+) : InPlayerNotification
 
 data class INPAccessGrantedNotificationResource(
         val account_id: Int,

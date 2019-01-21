@@ -1,19 +1,19 @@
 package com.s.inplayer.mapper.notification
 
 import com.s.domain.entity.mapper.DomainMapper
-import com.s.inplayer.model.notification.INPAccountDeactivatedNotification
-import com.s.inplayer.model.notification.INPAccountErasedNotification
-import com.s.inplayer.model.notification.INPAccountLogoutNotification
-import com.s.inplayer.model.notification.INPNotification
+import com.s.inplayer.model.notification.InPlayerAccountDeactivatedNotification
+import com.s.inplayer.model.notification.InPlayerAccountErasedNotification
+import com.s.inplayer.model.notification.InPlayerAccountLogoutNotification
+import com.s.inplayer.model.notification.InPlayerNotification
 import com.s.notification.model.notification.*
 
 /**
  * Created by victor on 1/17/19
  */
 class NotificationMapper constructor(val accessGrantedNotificationMapper: AccessGrantedNotificationMapper,
-                                     val accessRevokedNotificationMapper: AccessRevokedNotificationMapper) : DomainMapper<InPlayerNotification, INPNotification> {
+                                     val accessRevokedNotificationMapper: AccessRevokedNotificationMapper) : DomainMapper<InPlayerNotificationEntity, InPlayerNotification> {
     
-    override fun mapFromDomain(inPlayerNotification: InPlayerNotification): INPNotification {
+    override fun mapFromDomain(inPlayerNotification: InPlayerNotificationEntity): InPlayerNotification {
         
         if (inPlayerNotification is InPlayerAccessRevokedNotification) {
             return accessRevokedNotificationMapper.mapFromDomain(inPlayerNotification)
@@ -23,25 +23,25 @@ class NotificationMapper constructor(val accessGrantedNotificationMapper: Access
             return accessGrantedNotificationMapper.mapFromDomain(inPlayerNotification)
         }
         
-        if (inPlayerNotification is InPlayerAccountDeactivatedNotification) {
-            return INPAccountDeactivatedNotification(type = inPlayerNotification.type,
+        if (inPlayerNotification is InPlayerAccountDeactivatedNotificationEntity) {
+            return InPlayerAccountDeactivatedNotification(type = inPlayerNotification.type,
                     timestamp = inPlayerNotification.timestamp)
         }
         
-        if (inPlayerNotification is InPlayerAccountErasedNotification) {
-            return INPAccountErasedNotification(type = inPlayerNotification.type,
+        if (inPlayerNotification is InPlayerAccountErasedNotificationEntity) {
+            return InPlayerAccountErasedNotification(type = inPlayerNotification.type,
                     timestamp = inPlayerNotification.timestamp)
         }
         
-        if (inPlayerNotification is InPlayerAccountLogoutNotification) {
-            return INPAccountLogoutNotification(type = inPlayerNotification.type,
+        if (inPlayerNotification is InPlayerAccountLogoutNotificationEntity) {
+            return InPlayerAccountLogoutNotification(type = inPlayerNotification.type,
                     timestamp = inPlayerNotification.timestamp)
         }
         
         throw ClassCastException("NotificationMapper Unsupported mapping instance of class $inPlayerNotification")
     }
     
-    override fun mapToDomain(viewModel: INPNotification): InPlayerNotification {
+    override fun mapToDomain(viewModel: InPlayerNotification): InPlayerNotificationEntity {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

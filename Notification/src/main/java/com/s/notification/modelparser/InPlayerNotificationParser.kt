@@ -1,7 +1,7 @@
 package com.s.notification.modelparser
 
 import com.google.gson.GsonBuilder
-import com.s.notification.model.notification.InPlayerNotification
+import com.s.notification.model.notification.InPlayerNotificationEntity
 
 
 /**
@@ -9,10 +9,10 @@ import com.s.notification.model.notification.InPlayerNotification
  */
 object InPlayerNotificationParser {
     
-    fun parseJSON(jsonString: String): InPlayerNotification {
+    fun parseJSON(jsonString: String): InPlayerNotificationEntity {
         
-        val gson = GsonBuilder().registerTypeAdapter(InPlayerNotification::class.java, InPlayerNotificationDeserializer()).create()
+        val gson = GsonBuilder().registerTypeAdapter(InPlayerNotificationEntity::class.java, InPlayerNotificationDeserializer()).create()
         
-        return gson.fromJson(jsonString, InPlayerNotification::class.java)
+        return gson.fromJson(jsonString, InPlayerNotificationEntity::class.java)
     }
 }

@@ -66,4 +66,24 @@ interface InPlayerRemoteServiceAPI {
     
     @GET
     fun getAwsCredentials(@Url url: String): Single<AWSCredentialsModel>
+    
+    /**
+     * END Notifications
+     * */
+    
+    
+    /**
+     *  Payments
+     * */
+    
+    @POST("/v2/external-payments/android/validate")
+    fun validateAndroidReceipt(@Field("receipt") receipt: String,
+                               @Field("item_id") item_id: Int,
+                               @Field("access_fee_id") access_fee_id: Int): Single<ResponseModel>
+    
+    /**
+     * END Payments
+     * */
+    
+    
 }
