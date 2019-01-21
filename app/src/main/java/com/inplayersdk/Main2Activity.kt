@@ -8,6 +8,7 @@ import com.s.inplayer.callback.InPlayerCallback
 import com.s.inplayer.callback.NotificationsCallback
 import com.s.inplayer.model.error.InPlayerException
 import com.s.inplayer.model.notification.InPlayerNotification
+import com.s.inplayer.model.notification.InPlayerNotificationStatus
 import kotlinx.android.synthetic.main.activity_main2.*
 import kotlinx.android.synthetic.main.content_main2.*
 
@@ -210,13 +211,16 @@ class Main2Activity : AppCompatActivity() {
     
     private fun initNotification() {
         InPlayer.Notification.subscribe(object : NotificationsCallback {
-            override fun onStatusChanged(status: String) {
+            
+            override fun onStatusChanged(status: InPlayerNotificationStatus) {
+            
             }
             
             override fun onMessageReceived(message: InPlayerNotification) {
             }
             
             override fun onError(t: InPlayerException) {
+                t.e.printStackTrace()
             }
         })
     }

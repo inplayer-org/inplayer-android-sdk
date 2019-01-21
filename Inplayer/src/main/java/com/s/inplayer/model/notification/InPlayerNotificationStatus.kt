@@ -1,7 +1,7 @@
-package com.s.notification.model
+package com.s.inplayer.model.notification
 
 /**
- * Created by victor on 1/16/19
+ * Created by victor on 1/21/19
  */
 enum class InPlayerNotificationStatus {
     Unknown,
