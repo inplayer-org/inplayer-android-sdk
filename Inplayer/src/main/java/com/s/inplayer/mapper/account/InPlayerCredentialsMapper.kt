@@ -1,4 +1,4 @@
-package com.s.inplayer.mapper
+package com.s.inplayer.mapper.account
 
 import com.s.domain.entity.account.CredentialsEntity
 import com.s.domain.entity.mapper.DomainMapper

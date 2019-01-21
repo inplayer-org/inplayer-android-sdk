@@ -50,10 +50,10 @@ public class InPlayer {
     }
 
     public enum EnviormentType {
-        /// Sets project environment to production (default)
+        // Sets project environment to production (default)
         PRODUCTION,
 
-        /// Sets project environment to staging
+        // Sets project environment to staging
         STAGING
     }
 

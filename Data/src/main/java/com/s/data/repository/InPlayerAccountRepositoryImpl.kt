@@ -1,9 +1,11 @@
 package com.s.data.repository
 
 import com.s.data.model.account.InPlayerAuthorizationModel
+import com.s.data.model.mapper.MapAuthorizationModel
 import com.s.data.model.mapper.MapInPlayerUser
 import com.s.data.repository.gateway.AccountRemote
 import com.s.data.repository.gateway.UserLocalAuthenticator
+import com.s.domain.entity.account.AuthorizationHolder
 import com.s.domain.entity.account.CredentialsEntity
 import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.gateway.InPlayerAccountRepository
@@ -16,28 +18,29 @@ import io.reactivex.Single
 class InPlayerAccountRepositoryImpl constructor(
         private val accountRemote: AccountRemote,
         private val userLocalAuthenticator: UserLocalAuthenticator,
-        private val mapInPlayerUser: MapInPlayerUser
+        private val mapInPlayerUser: MapInPlayerUser,
+        private val mapAuthorizationModel: MapAuthorizationModel
 ) : InPlayerAccountRepository {
     
     /**
      *  Creating Users and handling Authorization
      * */
-    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String, metadata: HashMap<String, String>?): Single<InPlayerDomainUser> {
+    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String, metadata: HashMap<String, String>?): Single<AuthorizationHolder> {
         return accountRemote
                 .createAccount(fullName, email, password, passwordConfirmation, type, merchantUUID, referrer,metadata)
                 .doOnSuccess {
                     updateLocalTokens(it)
                 }
-                .map { mapInPlayerUser.mapFromModel(it.account) }
+                .map { mapAuthorizationModel.mapFromModel(it) }
     }
     
-    override fun autehenticate(username: String, password: String, grantType: String, clientId: String): Single<InPlayerDomainUser> {
+    override fun autehenticate(username: String, password: String, grantType: String, clientId: String): Single<AuthorizationHolder> {
         return accountRemote
                 .authenticateUser(username, password, grantType, clientId)
                 .doOnSuccess {
                     updateLocalTokens(it)
                 }
-                .map { mapInPlayerUser.mapFromModel(it.account) }
+                .map { mapAuthorizationModel.mapFromModel(it) }
     }
     
     override fun logout(): Completable {
@@ -50,19 +53,19 @@ class InPlayerAccountRepositoryImpl constructor(
     
     override fun isUserAuthenticated() = userLocalAuthenticator.isUserAutehnticated()
     
-    override fun refreshToken(refreshToken: String, grantType: String, clientId: String): Single<InPlayerDomainUser> {
+    override fun refreshToken(refreshToken: String, grantType: String, clientId: String): Single<AuthorizationHolder> {
         return accountRemote.refreshToken(refreshToken, grantType, clientId)
                 .doOnSuccess {
                     updateLocalTokens(it)
-                }.map { mapInPlayerUser.mapFromModel(it.account) }
+                }.map { mapAuthorizationModel.mapFromModel(it) }
         
     }
     
-    override fun clientCredentialsAuthentication(clientSecret: String, grantType: String, clientId: String): Single<InPlayerDomainUser> {
+    override fun clientCredentialsAuthentication(clientSecret: String, grantType: String, clientId: String): Single<AuthorizationHolder> {
         return accountRemote.authenticateWithClientSecret(clientSecret = clientSecret, grantType = grantType, clientId = clientId)
                 .doOnSuccess {
                     updateLocalTokens(it)
-                }.map { mapInPlayerUser.mapFromModel(it.account) }
+                }.map { mapAuthorizationModel.mapFromModel(it) }
     }
     
     private fun updateLocalTokens(it: InPlayerAuthorizationModel) {

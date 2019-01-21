@@ -37,8 +37,9 @@ import com.s.inplayer.api.Account
 import com.s.inplayer.api.Asset
 import com.s.inplayer.api.Notification
 import com.s.inplayer.api.Payment
-import com.s.inplayer.mapper.InPlayerCredentialsMapper
-import com.s.inplayer.mapper.InPlayerUserMapper
+import com.s.inplayer.mapper.account.AuthorizationModelMapper
+import com.s.inplayer.mapper.account.InPlayerCredentialsMapper
+import com.s.inplayer.mapper.account.InPlayerUserMapper
 import com.s.inplayer.mapper.assets.*
 import com.s.inplayer.mapper.notification.AccessGrantedNotificationMapper
 import com.s.inplayer.mapper.notification.AccessRevokedNotificationMapper
@@ -95,6 +96,8 @@ object InjectModules : KoinComponent {
             
             factory { MapAWSCredentials() }
             
+            factory { MapAuthorizationModel(get()) }
+            
             /**
              * END Data Module Mapper
              * */
@@ -132,7 +135,7 @@ object InjectModules : KoinComponent {
              * */
             factory { InPlayerAssetsRepositoryImpl(get(), get(), get(), get()) as InPlayerAssetsRepository }
             
-            factory { InPlayerAccountRepositoryImpl(get(), get(), get()) as InPlayerAccountRepository }
+            factory { InPlayerAccountRepositoryImpl(get(), get(), get(),get()) as InPlayerAccountRepository }
             
             factory { InPlayerAWSCredentialsRepositoryImpl(get(), get(), get()) as InPlayerAWSCredentialsRepository }
             
@@ -148,7 +151,7 @@ object InjectModules : KoinComponent {
             
             factory { Asset(get(), get(), get(), get(), get(), get(), get(), get()) }
             
-            factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+            factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(),get()) }
             
             factory { Notification(get(), get()) }
             
@@ -201,7 +204,7 @@ object InjectModules : KoinComponent {
         
         val mapperModule = module {
             
-            factory { InPlayerUserMapper() as DomainMapper<InPlayerDomainUser, InPlayerUser> }
+            factory { InPlayerUserMapper()  }
             
             factory { MapAccessControlType() }
             
@@ -222,6 +225,8 @@ object InjectModules : KoinComponent {
             factory { MapTrialPeriod() }
             
             factory { InPlayerCredentialsMapper() }
+            
+            factory { AuthorizationModelMapper(get()) }
             
             //NOTIFICATION MAPPER
             

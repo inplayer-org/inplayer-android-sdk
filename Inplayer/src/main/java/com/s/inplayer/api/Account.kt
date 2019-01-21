@@ -8,8 +8,11 @@ import com.s.domain.schedulers.MySchedulers
 import com.s.domain.usecase.autehntication.*
 import com.s.inplayer.InPlayerSDKConfiguration
 import com.s.inplayer.callback.InPlayerCallback
-import com.s.inplayer.mapper.InPlayerCredentialsMapper
+import com.s.inplayer.mapper.account.InPlayerCredentialsMapper
 import com.s.inplayer.mapper.ThrowableToInPlayerExceptionMapper
+import com.s.inplayer.mapper.account.AuthorizationModelMapper
+import com.s.inplayer.mapper.account.InPlayerUserMapper
+import com.s.inplayer.model.account.InPlayerAuthorizationModel
 import com.s.inplayer.model.account.InPlayerUser
 import com.s.inplayer.model.error.InPlayerException
 
@@ -19,7 +22,6 @@ import com.s.inplayer.model.error.InPlayerException
 @SuppressLint("CheckResult")
 class Account(private val appSchedulers: MySchedulers,
               private val inPlayerSDKConfiguration: InPlayerSDKConfiguration,
-              private val domainMapper: DomainMapper<InPlayerDomainUser, InPlayerUser>,
               private val createAccountUseCase: CreateAccountUseCase,
               private val authenticatedUseCase: AuthenticateUserUseCase,
               private val logOutUserUseCase: LogOutUserUseCase,
@@ -31,7 +33,9 @@ class Account(private val appSchedulers: MySchedulers,
               private val updateUserUseCase: UpdateUserUseCase,
               private val setNewPasswordUseCase: SetNewPasswordUseCase,
               private val credentialsUseCase: CredentialsUseCase,
-              private val inPlayerCredentialsMapper: InPlayerCredentialsMapper) {
+              private val inPlayerCredentialsMapper: InPlayerCredentialsMapper,
+              private val domainMapper: InPlayerUserMapper,
+              private val authorizationMapper: AuthorizationModelMapper) {
     
     
     fun getCredentials() = inPlayerCredentialsMapper.mapFromDomain(credentialsUseCase.execute())
@@ -39,11 +43,11 @@ class Account(private val appSchedulers: MySchedulers,
     fun isAuthenticated() = isUserAuthenticatedUseCase.execute()
     
     
-    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
+    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>) {
         createAccount(fullName = fullName, email = email, password = password, passwordConfirmation = passwordConfirmation, metadata = hashMapOf(), callback = callback)
     }
     
-    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, metadata: HashMap<String, String>? = hashMapOf(), callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
+    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, metadata: HashMap<String, String>? = hashMapOf(), callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>) {
         
         val accType = com.s.domain.entity.account.AccountType.CONSUMER
         
@@ -52,7 +56,7 @@ class Account(private val appSchedulers: MySchedulers,
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({
-                    callback.done(domainMapper.mapFromDomain(it), null)
+                    callback.done(authorizationMapper.mapFromDomain(it), null)
                 }, {
                     callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
                 })
@@ -69,12 +73,12 @@ class Account(private val appSchedulers: MySchedulers,
                 })
     }
     
-    fun authenticate(username: String, password: String, callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
+    fun authenticate(username: String, password: String, callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>) {
         authenticatedUseCase.execute(AuthenticateUserUseCase.Params(username = username, password = password, grantType = GrantType.PASSWORD, clientId = inPlayerSDKConfiguration.merchantUUID))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({
-                    callback.done(domainMapper.mapFromDomain(it), null)
+                    callback.done(authorizationMapper.mapFromDomain(it), null)
                 }, {
                     callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
                 })
@@ -114,25 +118,25 @@ class Account(private val appSchedulers: MySchedulers,
                 })
     }
     
-    fun refreshAccessToken(refreshToken: String, callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
+    fun refreshAccessToken(refreshToken: String, callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>) {
         
         authenticatedUseCase.execute(AuthenticateUserUseCase.Params(refreshToken = refreshToken, grantType = GrantType.REFRESH_TOKEN, clientId = inPlayerSDKConfiguration.merchantUUID))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({
-                    callback.done(domainMapper.mapFromDomain(it), null)
+                    callback.done(authorizationMapper.mapFromDomain(it), null)
                 }, {
                     callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
                 })
     }
     
-    fun authenticateWithUser(clientSecret: String, callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
+    fun authenticateWithUser(clientSecret: String, callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>) {
         
         authenticatedUseCase.execute(AuthenticateUserUseCase.Params(clientSecret = clientSecret, grantType = GrantType.CLIENT_CREDENTIALS, clientId = inPlayerSDKConfiguration.merchantUUID))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({
-                    callback.done(domainMapper.mapFromDomain(it), null)
+                    callback.done(authorizationMapper.mapFromDomain(it), null)
                 }, {
                     callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
                 })

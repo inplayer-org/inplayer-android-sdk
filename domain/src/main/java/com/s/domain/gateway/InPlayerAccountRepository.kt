@@ -1,5 +1,6 @@
 package com.s.domain.gateway
 
+import com.s.domain.entity.account.AuthorizationHolder
 import com.s.domain.entity.account.CredentialsEntity
 import com.s.domain.entity.account.InPlayerDomainUser
 import io.reactivex.Completable
@@ -10,17 +11,17 @@ import io.reactivex.Single
  */
 interface InPlayerAccountRepository {
     
-    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String, metadata: HashMap<String, String>?): Single<InPlayerDomainUser>
+    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String, metadata: HashMap<String, String>?): Single<AuthorizationHolder>
     
-    fun autehenticate(username: String, password: String, grantType: String, clientId: String): Single<InPlayerDomainUser>
+    fun autehenticate(username: String, password: String, grantType: String, clientId: String): Single<AuthorizationHolder>
     
     fun logout(): Completable
     
     fun isUserAuthenticated(): Boolean
     
-    fun refreshToken(refreshToken: String, grantType: String, clientId: String): Single<InPlayerDomainUser>
+    fun refreshToken(refreshToken: String, grantType: String, clientId: String): Single<AuthorizationHolder>
     
-    fun clientCredentialsAuthentication(clientSecret: String, grantType: String, clientId: String): Single<InPlayerDomainUser>
+    fun clientCredentialsAuthentication(clientSecret: String, grantType: String, clientId: String): Single<AuthorizationHolder>
     
     fun getUser(): Single<InPlayerDomainUser>
     
