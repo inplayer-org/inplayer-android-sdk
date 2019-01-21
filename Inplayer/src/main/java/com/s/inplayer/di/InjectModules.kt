@@ -37,12 +37,13 @@ import com.s.inplayer.api.Account
 import com.s.inplayer.api.Asset
 import com.s.inplayer.api.Notification
 import com.s.inplayer.api.Payment
+import com.s.inplayer.mapper.InPlayerCredentialsMapper
 import com.s.inplayer.mapper.InPlayerUserMapper
 import com.s.inplayer.mapper.assets.*
 import com.s.inplayer.mapper.notification.AccessGrantedNotificationMapper
 import com.s.inplayer.mapper.notification.AccessRevokedNotificationMapper
 import com.s.inplayer.mapper.notification.NotificationMapper
-import com.s.inplayer.model.InPlayerUser
+import com.s.inplayer.model.account.InPlayerUser
 import com.s.inplayer.util.AppSchedulers
 import com.s.notification.AWSNotificationManager
 import com.s.notification.gateway.InPlayerAWSCredentialsRepository
@@ -104,7 +105,7 @@ object InjectModules : KoinComponent {
              * REFRESH TOKEN
              * */
             
-            factory { InPlayerRemoteRefreshTokenProvider(getProperty(Const.serverUrl), true) as InPlayerRemoteRefreshServiceAPI }
+            factory { InPlayerRemoteRefreshTokenProvider(getProperty(Const.serverUrl), configuration.isDebug) as InPlayerRemoteRefreshServiceAPI }
             
             factory { RefreshAuthenticator(configuration.mMerchantUUID, get(), get()) }
             
@@ -112,9 +113,9 @@ object InjectModules : KoinComponent {
              * END REFRESH TOKEN
              * */
             
-            single { InPlayerRemotePublicProvider(getProperty(Const.serverUrl), true) as InPlayerRemotePublicServiceAPI }
+            single { InPlayerRemotePublicProvider(getProperty(Const.serverUrl), configuration.isDebug) as InPlayerRemotePublicServiceAPI }
             
-            single { InPlayerRemoteProvider(getProperty(Const.serverUrl), true, get(), get()) as InPlayerRemoteServiceAPI }
+            single { InPlayerRemoteProvider(getProperty(Const.serverUrl), configuration.isDebug, get(), get()) as InPlayerRemoteServiceAPI }
             
             
             
@@ -122,7 +123,7 @@ object InjectModules : KoinComponent {
             
             factory { AssetsRemoteImpl(get(), get()) as AssetsRemote }
             
-            factory { NotificationsRemoteImpl(true, get()) as NotificationsRemote }
+            factory { NotificationsRemoteImpl(configuration.isDebug, get()) as NotificationsRemote }
             
             factory { PaymentsRemoteImpl(get()) as PaymentsRemote }
             
@@ -147,7 +148,7 @@ object InjectModules : KoinComponent {
             
             factory { Asset(get(), get(), get(), get(), get(), get(), get(), get()) }
             
-            factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+            factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
             
             factory { Notification(get(), get()) }
             
@@ -177,6 +178,8 @@ object InjectModules : KoinComponent {
             factory { UpdateUserUseCase(get(), get()) }
             
             factory { SetNewPasswordUseCase(get(), get()) }
+            
+            factory { CredentialsUseCase(get()) }
         }
         
         val assetsUseCaseModule = module {
@@ -217,6 +220,8 @@ object InjectModules : KoinComponent {
             factory { MapSetupFee() }
             
             factory { MapTrialPeriod() }
+            
+            factory { InPlayerCredentialsMapper() }
             
             //NOTIFICATION MAPPER
             

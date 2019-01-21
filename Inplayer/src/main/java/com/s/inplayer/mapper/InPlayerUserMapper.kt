@@ -2,7 +2,7 @@ package com.s.inplayer.mapper
 
 import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.entity.mapper.DomainMapper
-import com.s.inplayer.model.InPlayerUser
+import com.s.inplayer.model.account.InPlayerUser
 
 /**
  * Created by victor on 1/4/19
@@ -18,6 +18,7 @@ class InPlayerUserMapper : DomainMapper<InPlayerDomainUser, InPlayerUser> {
                     referrer = referrer,
                     roles = roles,
                     isCompleted = isCompleted,
+                    metadata = metadata,
                     createdAt = createdAt,
                     updatedAt = updatedAt)
         }

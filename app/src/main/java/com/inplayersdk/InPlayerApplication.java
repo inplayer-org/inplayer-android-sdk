@@ -12,9 +12,10 @@ public class InPlayerApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//
-        InPlayer.initialize(new InPlayer.Configuration.Builder(this, BuildConfig.UUID, "https://services.inplayer.com")
-                .isStaging(true).build());
+
+        InPlayer.initialize(new InPlayer.Configuration.Builder(this, "7ad8a510-b720-4a18-aa38-0260e5fd1cb2",
+                "https://services.inplayer.com")
+                .withEnvironment(InPlayer.EnviormentType.STAGING).build());
 
     }
 }

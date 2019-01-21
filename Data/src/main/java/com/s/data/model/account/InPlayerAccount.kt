@@ -12,12 +12,7 @@ data class InPlayerAccount(val id: Long, val email: String, @SerializedName("ful
                            @SerializedName("updated_at") val updatedAt: Long,
                            @SerializedName("merchant_id") val merchantId: String,
                            @SerializedName("merchant_uuid") val merchantUUID: String,
-                           val metadata: Metadata,
+                           val metadata: HashMap<String, String>,
                            val uuid: String,
                            val username: String
-)
-
-data class Metadata(
-        val clientId: String,
-        val register_source: String
 )

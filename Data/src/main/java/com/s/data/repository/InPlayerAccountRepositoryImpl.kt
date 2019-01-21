@@ -4,6 +4,7 @@ import com.s.data.model.account.InPlayerAuthorizationModel
 import com.s.data.model.mapper.MapInPlayerUser
 import com.s.data.repository.gateway.AccountRemote
 import com.s.data.repository.gateway.UserLocalAuthenticator
+import com.s.domain.entity.account.CredentialsEntity
 import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.gateway.InPlayerAccountRepository
 import io.reactivex.Completable
@@ -21,9 +22,9 @@ class InPlayerAccountRepositoryImpl constructor(
     /**
      *  Creating Users and handling Authorization
      * */
-    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String): Single<InPlayerDomainUser> {
+    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String, metadata: HashMap<String, String>?): Single<InPlayerDomainUser> {
         return accountRemote
-                .createAccount(fullName, email, password, passwordConfirmation, type, merchantUUID, referrer)
+                .createAccount(fullName, email, password, passwordConfirmation, type, merchantUUID, referrer,metadata)
                 .doOnSuccess {
                     updateLocalTokens(it)
                 }
@@ -82,6 +83,10 @@ class InPlayerAccountRepositoryImpl constructor(
         userLocalAuthenticator.deleteCurrentUser()
     }
     
+    
+    override fun getUserCredentials(): CredentialsEntity {
+        return CredentialsEntity(accessToken = userLocalAuthenticator.getAuthenticationToken(), refreshToken = userLocalAuthenticator.getRefreshToken())
+    }
     /**
      * END Creating Users and handling Authorization
      * */

@@ -8,8 +8,9 @@ import com.s.domain.schedulers.MySchedulers
 import com.s.domain.usecase.autehntication.*
 import com.s.inplayer.InPlayerSDKConfiguration
 import com.s.inplayer.callback.InPlayerCallback
+import com.s.inplayer.mapper.InPlayerCredentialsMapper
 import com.s.inplayer.mapper.ThrowableToInPlayerExceptionMapper
-import com.s.inplayer.model.InPlayerUser
+import com.s.inplayer.model.account.InPlayerUser
 import com.s.inplayer.model.error.InPlayerException
 
 /**
@@ -28,22 +29,26 @@ class Account(private val appSchedulers: MySchedulers,
               private val changePasswordUseCase: ChangePasswordUseCase,
               private val forgotPasswordUseCase: ForgotPasswordUseCase,
               private val updateUserUseCase: UpdateUserUseCase,
-              private val setNewPasswordUseCase: SetNewPasswordUseCase) {
+              private val setNewPasswordUseCase: SetNewPasswordUseCase,
+              private val credentialsUseCase: CredentialsUseCase,
+              private val inPlayerCredentialsMapper: InPlayerCredentialsMapper) {
     
     
-    /**
-     * Account Interface
-     * */
+    fun getCredentials() = inPlayerCredentialsMapper.mapFromDomain(credentialsUseCase.execute())
     
     fun isAuthenticated() = isUserAuthenticatedUseCase.execute()
     
-    //TODO ADD METADATA
+    
     fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
+        createAccount(fullName = fullName, email = email, password = password, passwordConfirmation = passwordConfirmation, metadata = hashMapOf(), callback = callback)
+    }
+    
+    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, metadata: HashMap<String, String>? = hashMapOf(), callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
         
         val accType = com.s.domain.entity.account.AccountType.CONSUMER
         
         createAccountUseCase.execute(CreateAccountUseCase.Params(fullName, email, password, passwordConfirmation, accType,
-                inPlayerSDKConfiguration.merchantUUID, inPlayerSDKConfiguration.referrer))
+                inPlayerSDKConfiguration.merchantUUID, inPlayerSDKConfiguration.referrer, metadata))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({
@@ -133,7 +138,6 @@ class Account(private val appSchedulers: MySchedulers,
                 })
     }
     
-    
     fun forgotPassword(email: String, callback: InPlayerCallback<String?, InPlayerException>) {
         forgotPasswordUseCase.execute(ForgotPasswordUseCase.Params(inPlayerSDKConfiguration.merchantUUID, email))
                 .subscribeOn(appSchedulers.subscribeOn)
@@ -145,7 +149,6 @@ class Account(private val appSchedulers: MySchedulers,
                 })
     }
     
-    
     fun eraseAccount(password: String, callback: InPlayerCallback<String?, InPlayerException>) {
         eraseUserUseCase.execute(EraseUserUseCase.Params(password))
                 .subscribeOn(appSchedulers.subscribeOn)
@@ -156,7 +159,6 @@ class Account(private val appSchedulers: MySchedulers,
                     callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
                 })
     }
-    
     
     fun setNewPassword(token: String, newPassword: String, newPasswordConfirmation: String, callback: InPlayerCallback<String?, InPlayerException>) {
         setNewPasswordUseCase.execute(SetNewPasswordUseCase.Params(token, newPassword, newPasswordConfirmation))

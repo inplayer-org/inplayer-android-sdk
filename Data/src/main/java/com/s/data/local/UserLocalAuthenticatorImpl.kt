@@ -6,7 +6,6 @@ import com.s.data.Constants
 import com.s.data.local.PreferenceHelper.defaultPrefs
 import com.s.data.model.account.InPlayerAccount
 import com.s.data.repository.gateway.UserLocalAuthenticator
-import io.reactivex.Single
 
 
 /**
@@ -21,8 +20,8 @@ class UserLocalAuthenticatorImpl(context: Context) : UserLocalAuthenticator {
         prefs.acccessToken = accessToken
     }
     
-    override fun getAuthenticationToken(): Single<String> {
-        return Single.just(prefs.acccessToken)
+    override fun getAuthenticationToken(): String {
+        return "${prefs.acccessToken}"
     }
     
     override fun getBearerAuthToken() = "${Constants.HttpHeaderBearerTokenPrefix} ${prefs.acccessToken}"

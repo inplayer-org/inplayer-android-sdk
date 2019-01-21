@@ -1,7 +1,6 @@
 package com.s.data.repository.gateway
 
 import com.s.data.model.account.InPlayerAccount
-import io.reactivex.Single
 
 /**
  * Created by victor on 12/25/18
@@ -11,7 +10,7 @@ interface UserLocalAuthenticator {
     //Access Token
     fun saveAuthenticationToken(accessToken: String)
     
-    fun getAuthenticationToken(): Single<String>
+    fun getAuthenticationToken(): String
     
     fun getBearerAuthToken(): String
     

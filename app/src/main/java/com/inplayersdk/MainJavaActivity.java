@@ -9,11 +9,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.s.inplayer.InPlayer;
-import com.s.notification.AWSNotificationManager;
 
 public class MainJavaActivity extends AppCompatActivity {
-
-    AWSNotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -8,15 +8,10 @@ import com.s.inplayer.callback.InPlayerCallback
 import com.s.inplayer.callback.NotificationsCallback
 import com.s.inplayer.model.error.InPlayerException
 import com.s.inplayer.model.notification.InPlayerNotification
-import com.s.notification.AWSNotificationManager
 import kotlinx.android.synthetic.main.activity_main2.*
 import kotlinx.android.synthetic.main.content_main2.*
-import org.koin.android.ext.android.inject
 
 class Main2Activity : AppCompatActivity() {
-    
-    val notificationManager: AWSNotificationManager by inject()
-    
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +48,7 @@ class Main2Activity : AppCompatActivity() {
         }
         
         update.setOnClickListener {
-            accountDetails()
+            updateUser("HIKTORRRR")
         }
         
         set_new_password.setOnClickListener {
@@ -78,7 +73,6 @@ class Main2Activity : AppCompatActivity() {
         }
         
         publish.setOnClickListener {
-            notificationManager.publish()
         }
         
     }
@@ -104,7 +98,9 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun signUp() {
-        InPlayer.Account.createAccount("Viktor Petrovski", "victorpetrovski93+test94@gmail.com", "androidsdk123", "androidsdk123", InPlayerCallback { inPlayerUser, error ->
+        
+        
+        InPlayer.Account.createAccount("Viktor Petrovski", "victorpetrovski93+test105@gmail.com", "androidsdk123", "androidsdk123", InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
                 Log.v("createAccount", "User created $inPlayerUser")
             } else {
@@ -152,10 +148,8 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun updateUser(fullName: String) {
-        
         val map = HashMap<String, String>()
         map["country"] = "Spain"
-        
         
         InPlayer.Account.updateAccount(fullName, map, InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
