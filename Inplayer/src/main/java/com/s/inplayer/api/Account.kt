@@ -1,5 +1,6 @@
 package com.s.inplayer.api
 
+import android.annotation.SuppressLint
 import com.s.domain.entity.account.GrantType
 import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.entity.mapper.DomainMapper
@@ -7,13 +8,14 @@ import com.s.domain.schedulers.MySchedulers
 import com.s.domain.usecase.autehntication.*
 import com.s.inplayer.InPlayerSDKConfiguration
 import com.s.inplayer.callback.InPlayerCallback
-import com.s.inplayer.model.error.InPlayerException
 import com.s.inplayer.mapper.ThrowableToInPlayerExceptionMapper
 import com.s.inplayer.model.InPlayerUser
+import com.s.inplayer.model.error.InPlayerException
 
 /**
  * Created by victor on 12/24/18
  */
+@SuppressLint("CheckResult")
 class Account(private val appSchedulers: MySchedulers,
               private val inPlayerSDKConfiguration: InPlayerSDKConfiguration,
               private val domainMapper: DomainMapper<InPlayerDomainUser, InPlayerUser>,
@@ -63,7 +65,6 @@ class Account(private val appSchedulers: MySchedulers,
     }
     
     fun authenticate(username: String, password: String, callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
-        
         authenticatedUseCase.execute(AuthenticateUserUseCase.Params(username = username, password = password, grantType = GrantType.PASSWORD, clientId = inPlayerSDKConfiguration.merchantUUID))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)

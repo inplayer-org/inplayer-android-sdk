@@ -140,7 +140,7 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun forgotPassword(merchantUUID: String, email: String) {
-        InPlayer.Account.forgotPassword(merchantUUID, email, InPlayerCallback { sucessMessage, error ->
+        InPlayer.Account.forgotPassword(email, InPlayerCallback { sucessMessage, error ->
             if (error == null) {
                 //Handle InPlayerUser
                 Log.v("forgotPassword", "User Details ")
@@ -153,7 +153,7 @@ class Main2Activity : AppCompatActivity() {
     
     private fun updateUser(fullName: String) {
         
-        var map = HashMap<String, String>()
+        val map = HashMap<String, String>()
         map["country"] = "Spain"
         
         

@@ -1,11 +1,8 @@
 package com.s.data.remote.api
 
-import com.s.data.BuildConfig
-import com.s.data.model.notification.AWSCredentialsModel
 import com.s.data.remote.error.AuthTokenMissingException
 import com.s.data.remote.refresh_token.RefreshAuthenticator
 import com.s.data.repository.gateway.UserLocalAuthenticator
-import io.reactivex.Single
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -170,8 +167,22 @@ class InPlayerRemoteProvider(val baseUrl: String,
     /**
      * Notifications
      */
-    override fun getAwsCredentials(url: String): Single<AWSCredentialsModel> {
-     
-        return retrofitAPI.getAwsCredentials(url)
-    }
+    override fun getAwsCredentials(url: String) = retrofitAPI.getAwsCredentials(url)
+    
+    
+    /**
+     * END Notifications
+     */
+    
+    
+    /**
+     *  Payments
+     */
+    
+    override fun validateAndroidReceipt(receipt: String, item_id: Int, access_fee_id: Int) = retrofitAPI.validateAndroidReceipt(receipt, item_id, access_fee_id)
+    
+    
+    /**
+     * END  Payments
+     */
 }
