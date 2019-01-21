@@ -45,7 +45,7 @@ class Main2Activity : AppCompatActivity() {
         }
         
         forgot_password.setOnClickListener {
-            forgotPassword(BuildConfig.UUID, "victorpetrovski93+test94@gmail.com")
+            forgotPassword("victorpetrovski93+test94@gmail.com")
         }
         
         update.setOnClickListener {
@@ -93,17 +93,13 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun logOut() {
-        InPlayer.Account.logout(InPlayerCallback { sucessMessage, error ->
-        
-        })
+        InPlayer.Account.logout(InPlayerCallback { sucessMessage, error -> })
     }
     
     private fun signUp() {
-        
-        
         InPlayer.Account.createAccount("Viktor Petrovski", "victorpetrovski93+test105@gmail.com", "androidsdk123", "androidsdk123", InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
-                Log.v("createAccount", "User created $inPlayerUser")
+                Log.v("signUp", "User created $inPlayerUser")
             } else {
                 //error.printStackTrace()
             }
@@ -114,33 +110,30 @@ class Main2Activity : AppCompatActivity() {
         InPlayer.Account.getAccountDetails(InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
                 //Handle InPlayerUser
-                Log.v("createAccount", "User Details $inPlayerUser")
+                Log.v("accountDetails", "User Details: $inPlayerUser")
             } else {
-                val errors = error.errorsList
+                error.errorsList
                 error.e.printStackTrace()
             }
         })
     }
     
     private fun eraseUser() {
-        InPlayer.Account.eraseAccount("androidsdk123", InPlayerCallback { sucessMessage, error ->
-        
-        })
+        InPlayer.Account.eraseAccount("androidsdk123", InPlayerCallback { sucessMessage, error -> })
     }
     
     private fun changePassword() {
         InPlayer.Account.changePassword("newpassword12345", "newpassword12345", "newpassword123",
                 InPlayerCallback { sucessMessage, error ->
-                    //                    if (error != null)
-//                        error.printStackTrace()
+    
                 })
     }
     
-    private fun forgotPassword(merchantUUID: String, email: String) {
+    private fun forgotPassword(email: String) {
         InPlayer.Account.forgotPassword(email, InPlayerCallback { sucessMessage, error ->
             if (error == null) {
                 //Handle InPlayerUser
-                Log.v("forgotPassword", "User Details ")
+                Log.v("forgotPassword", sucessMessage)
             } else {
                 //Handle Error
                 //  error.printStackTrace()
@@ -154,10 +147,10 @@ class Main2Activity : AppCompatActivity() {
         
         InPlayer.Account.updateAccount(fullName, map, InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
-                Log.v("updateAccount", "User Details  Updated $inPlayerUser")
+                Log.v("updateAccount", "$inPlayerUser")
             } else {
                 //Handle Error
-                // error.printStackTrace()
+                error.e.printStackTrace()
             }
         })
     }
@@ -165,7 +158,7 @@ class Main2Activity : AppCompatActivity() {
     private fun setNewPassword(token: String, newPassword: String, newPasswordConfirmation: String) {
         InPlayer.Account.setNewPassword(token, newPassword, newPasswordConfirmation, InPlayerCallback { message, error ->
             if (error == null) {
-                Log.v("setNewPassword", "User setNewPassword $message")
+                Log.v("setNewPassword", "User setNewPassword: $message")
             } else {
                 //Handle Error
                 Log.v("setNewPassword", "Error block $message")
@@ -176,7 +169,7 @@ class Main2Activity : AppCompatActivity() {
     private fun getAccess() {
         InPlayer.Assets.getItemAccess(43871, InPlayerCallback { itemAccess, error ->
             if (error == null) {
-                Log.v("getAccess", "getAccess $itemAccess")
+                Log.v("getAccess", "Access: $itemAccess")
             } else {
                 //Handle Error
                 Log.v("getAccess", "Error block $error")
@@ -200,7 +193,7 @@ class Main2Activity : AppCompatActivity() {
     private fun getAccessFees() {
         InPlayer.Assets.getAccessFees(43871, InPlayerCallback { accsFee, error ->
             if (error == null) {
-                Log.v("getAccessFees", "getAccessFees $accsFee")
+                Log.v("getAccessFees", "Access Fees: $accsFee")
             } else {
                 //Handle Error
                 Log.v("getAccessFees", "Error block $error")

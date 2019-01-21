@@ -1,7 +1,7 @@
 package com.s.data.model.mapper
 
+import com.s.data.model.asset.AccessTypeModel
 import com.s.domain.entity.asset.AccessTypeEntity
-import com.s.domain.entity.asset.AccessTypeModel
 
 /**
  * Created by victor on 1/6/19

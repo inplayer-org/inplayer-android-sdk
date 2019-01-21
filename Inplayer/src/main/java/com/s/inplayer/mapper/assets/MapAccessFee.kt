@@ -17,10 +17,10 @@ class MapAccessFee constructor(private val mapAccessType: MapAccessType, private
                 amount = domainEntity.amount,
                 currency = domainEntity.currency,
                 description = domainEntity.description,
-                inPlayerAccessTypeEntity = mapAccessType.mapFromDomain(domainEntity.accessTypeEntity),
+                accessType = mapAccessType.mapFromDomain(domainEntity.accessTypeEntity),
                 itemType = domainEntity.itemType,
-                inPlayerTrialPeriodEntity = domainEntity.trialPeriodEntity?.let { mapTrialPeriod.mapFromDomain(it) },
-                inPlayerSetupFeeEntity = domainEntity.setupFeeEntity?.let { mapSetupFee.mapFromDomain(it) },
+                trialPeriod = domainEntity.trialPeriodEntity?.let { mapTrialPeriod.mapFromDomain(it) },
+                setupFee = domainEntity.setupFeeEntity?.let { mapSetupFee.mapFromDomain(it) },
                 expiresAt = domainEntity.expiresAt)
     }
     

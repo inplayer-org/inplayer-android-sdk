@@ -21,7 +21,6 @@ import com.s.data.repository.InPlayerAssetsRepositoryImpl
 import com.s.data.repository.InPlayerPaymentsRepositoryImpl
 import com.s.data.repository.gateway.*
 import com.s.domain.entity.account.InPlayerDomainUser
-import com.s.domain.entity.mapper.DomainMapper
 import com.s.domain.gateway.InPlayerAccountRepository
 import com.s.domain.gateway.InPlayerAssetsRepository
 import com.s.domain.gateway.InPlayerPaymentRepository
@@ -44,7 +43,6 @@ import com.s.inplayer.mapper.assets.*
 import com.s.inplayer.mapper.notification.AccessGrantedNotificationMapper
 import com.s.inplayer.mapper.notification.AccessRevokedNotificationMapper
 import com.s.inplayer.mapper.notification.NotificationMapper
-import com.s.inplayer.model.account.InPlayerUser
 import com.s.inplayer.util.AppSchedulers
 import com.s.notification.AWSNotificationManager
 import com.s.notification.gateway.InPlayerAWSCredentialsRepository
@@ -85,8 +83,8 @@ object InjectModules : KoinComponent {
             factory { MapInPlayerUser() as ModelMapper<InPlayerAccount, InPlayerDomainUser> }
             
             factory { MapDataItemAccess(get()) }
-            
-            factory { MapDataItemDetails(get(), get()) }
+    
+            factory { MapDataItemDetails(get(), get(), get()) }
             
             factory { MapDataItemType() }
             
@@ -215,8 +213,8 @@ object InjectModules : KoinComponent {
             factory { MapInPlayerUser() }
             
             factory { MapItemAccess(get()) }
-            
-            factory { MapItemDetails(get(), get()) }
+    
+            factory { MapItemDetails(get(), get(), get()) }
             
             factory { MapItemType() }
             

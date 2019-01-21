@@ -1,4 +1,4 @@
-package com.s.domain.entity.asset
+package com.s.data.model.asset
 
 import com.google.gson.annotations.SerializedName
 
