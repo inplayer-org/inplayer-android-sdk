@@ -59,8 +59,9 @@ class Account internal constructor(private val appSchedulers: MySchedulers,
     
     
     /**
+     * Return the authenticated user
      *
-     * @return [ERROR : No type, no body]
+     * @return InPlayerUser? Return null if user is not authenticated
      */
     fun getAccount() : InPlayerUser? {
         getAccountUseCase.execute()?.let {
