@@ -3,12 +3,12 @@ package com.inplayersdk
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.s.inplayer.InPlayer
-import com.s.inplayer.callback.InPlayerCallback
-import com.s.inplayer.callback.NotificationsCallback
-import com.s.inplayer.model.error.InPlayerException
-import com.s.inplayer.model.notification.InPlayerNotification
-import com.s.inplayer.model.notification.InPlayerNotificationStatus
+import com.sdk.inplayer.configuration.InPlayer
+import com.sdk.inplayer.callback.InPlayerCallback
+import com.sdk.inplayer.callback.InPlayerNotificationCallback
+import com.sdk.inplayer.model.error.InPlayerException
+import com.sdk.inplayer.model.notification.InPlayerNotification
+import com.sdk.inplayer.model.notification.InPlayerNotificationStatus
 import kotlinx.android.synthetic.main.activity_main2.*
 import kotlinx.android.synthetic.main.content_main2.*
 
@@ -203,7 +203,7 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun initNotification() {
-        InPlayer.Notification.subscribe(object : NotificationsCallback {
+        InPlayer.Notification.subscribe(object : InPlayerNotificationCallback {
             
             override fun onStatusChanged(status: InPlayerNotificationStatus) {
             

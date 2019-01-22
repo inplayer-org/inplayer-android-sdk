@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'org.jetbrains.dokka'
 android {
     compileSdkVersion rootProject.androidCompileSdkVersion
     defaultConfig {
@@ -26,6 +27,35 @@ android {
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
+    }
+
+    dokka {
+        outputFormat = 'html'
+        outputDirectory = "$buildDir/javadoc"
+
+        impliedPlatforms = ["JVM"]
+
+        for (def pkg : ["com.amazonaws",
+                        "io.reactivex",
+                        "com.sdk.notification",
+                        "com.sdk.inplayer.util",
+                        "com.sdk.data",
+                        "com.sdk.inplayer"]) {
+            packageOptions {
+                prefix = pkg
+                suppress = true
+            }
+        }
+
+        for (def pkg : ["com.sdk.inplayer.api","com.sdk.inplayer.model","com.sdk.inplayer.callback","com.sdk.inplayer.configuration"]) {
+            packageOptions {
+                prefix = pkg
+                suppress = false
+                impliedPlatforms = ["JVM"]
+            }
+        }
+
+
     }
 }
 
