@@ -21,7 +21,6 @@ import com.s.data.repository.InPlayerAssetsRepositoryImpl
 import com.s.data.repository.InPlayerPaymentsRepositoryImpl
 import com.s.data.repository.gateway.*
 import com.s.domain.entity.account.InPlayerDomainUser
-import com.s.domain.entity.mapper.DomainMapper
 import com.s.domain.gateway.InPlayerAccountRepository
 import com.s.domain.gateway.InPlayerAssetsRepository
 import com.s.domain.gateway.InPlayerPaymentRepository
@@ -37,12 +36,13 @@ import com.s.inplayer.api.Account
 import com.s.inplayer.api.Asset
 import com.s.inplayer.api.Notification
 import com.s.inplayer.api.Payment
-import com.s.inplayer.mapper.InPlayerUserMapper
+import com.s.inplayer.mapper.account.AuthorizationModelMapper
+import com.s.inplayer.mapper.account.InPlayerCredentialsMapper
+import com.s.inplayer.mapper.account.InPlayerUserMapper
 import com.s.inplayer.mapper.assets.*
 import com.s.inplayer.mapper.notification.AccessGrantedNotificationMapper
 import com.s.inplayer.mapper.notification.AccessRevokedNotificationMapper
 import com.s.inplayer.mapper.notification.NotificationMapper
-import com.s.inplayer.model.InPlayerUser
 import com.s.inplayer.util.AppSchedulers
 import com.s.notification.AWSNotificationManager
 import com.s.notification.gateway.InPlayerAWSCredentialsRepository
@@ -83,8 +83,8 @@ object InjectModules : KoinComponent {
             factory { MapInPlayerUser() as ModelMapper<InPlayerAccount, InPlayerDomainUser> }
             
             factory { MapDataItemAccess(get()) }
-            
-            factory { MapDataItemDetails(get(), get()) }
+    
+            factory { MapDataItemDetails(get(), get(), get()) }
             
             factory { MapDataItemType() }
             
@@ -93,6 +93,8 @@ object InjectModules : KoinComponent {
             factory { MapDataTrialPeriod() }
             
             factory { MapAWSCredentials() }
+            
+            factory { MapAuthorizationModel(get()) }
             
             /**
              * END Data Module Mapper
@@ -104,7 +106,7 @@ object InjectModules : KoinComponent {
              * REFRESH TOKEN
              * */
             
-            factory { InPlayerRemoteRefreshTokenProvider(getProperty(Const.serverUrl), true) as InPlayerRemoteRefreshServiceAPI }
+            factory { InPlayerRemoteRefreshTokenProvider(getProperty(Const.serverUrl), configuration.isDebug) as InPlayerRemoteRefreshServiceAPI }
             
             factory { RefreshAuthenticator(configuration.mMerchantUUID, get(), get()) }
             
@@ -112,9 +114,9 @@ object InjectModules : KoinComponent {
              * END REFRESH TOKEN
              * */
             
-            single { InPlayerRemotePublicProvider(getProperty(Const.serverUrl), true) as InPlayerRemotePublicServiceAPI }
+            single { InPlayerRemotePublicProvider(getProperty(Const.serverUrl), configuration.isDebug) as InPlayerRemotePublicServiceAPI }
             
-            single { InPlayerRemoteProvider(getProperty(Const.serverUrl), true, get(), get()) as InPlayerRemoteServiceAPI }
+            single { InPlayerRemoteProvider(getProperty(Const.serverUrl), configuration.isDebug, get(), get()) as InPlayerRemoteServiceAPI }
             
             
             
@@ -122,7 +124,7 @@ object InjectModules : KoinComponent {
             
             factory { AssetsRemoteImpl(get(), get()) as AssetsRemote }
             
-            factory { NotificationsRemoteImpl(true, get()) as NotificationsRemote }
+            factory { NotificationsRemoteImpl(configuration.isDebug, get()) as NotificationsRemote }
             
             factory { PaymentsRemoteImpl(get()) as PaymentsRemote }
             
@@ -131,7 +133,7 @@ object InjectModules : KoinComponent {
              * */
             factory { InPlayerAssetsRepositoryImpl(get(), get(), get(), get()) as InPlayerAssetsRepository }
             
-            factory { InPlayerAccountRepositoryImpl(get(), get(), get()) as InPlayerAccountRepository }
+            factory { InPlayerAccountRepositoryImpl(get(), get(), get(),get()) as InPlayerAccountRepository }
             
             factory { InPlayerAWSCredentialsRepositoryImpl(get(), get(), get()) as InPlayerAWSCredentialsRepository }
             
@@ -147,7 +149,7 @@ object InjectModules : KoinComponent {
             
             factory { Asset(get(), get(), get(), get(), get(), get(), get(), get()) }
             
-            factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+            factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(),get()) }
             
             factory { Notification(get(), get()) }
             
@@ -177,6 +179,8 @@ object InjectModules : KoinComponent {
             factory { UpdateUserUseCase(get(), get()) }
             
             factory { SetNewPasswordUseCase(get(), get()) }
+            
+            factory { CredentialsUseCase(get()) }
         }
         
         val assetsUseCaseModule = module {
@@ -198,7 +202,7 @@ object InjectModules : KoinComponent {
         
         val mapperModule = module {
             
-            factory { InPlayerUserMapper() as DomainMapper<InPlayerDomainUser, InPlayerUser> }
+            factory { InPlayerUserMapper()  }
             
             factory { MapAccessControlType() }
             
@@ -209,14 +213,18 @@ object InjectModules : KoinComponent {
             factory { MapInPlayerUser() }
             
             factory { MapItemAccess(get()) }
-            
-            factory { MapItemDetails(get(), get()) }
+    
+            factory { MapItemDetails(get(), get(), get()) }
             
             factory { MapItemType() }
             
             factory { MapSetupFee() }
             
             factory { MapTrialPeriod() }
+            
+            factory { InPlayerCredentialsMapper() }
+            
+            factory { AuthorizationModelMapper(get()) }
             
             //NOTIFICATION MAPPER
             

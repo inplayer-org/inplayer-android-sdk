@@ -1,7 +1,7 @@
 package com.s.data.model.mapper
 
+import com.s.data.model.asset.ItemTypeModel
 import com.s.domain.entity.asset.ItemTypeEntity
-import com.s.domain.entity.asset.ItemTypeModel
 
 /**
  * Created by victor on 1/6/19

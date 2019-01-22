@@ -1,7 +1,7 @@
 package com.s.data.model.mapper
 
+import com.s.data.model.asset.AccessFeeModel
 import com.s.domain.entity.asset.AccessFeeEntity
-import com.s.domain.entity.asset.AccessFeeModel
 
 /**
  * Created by victor on 1/6/19

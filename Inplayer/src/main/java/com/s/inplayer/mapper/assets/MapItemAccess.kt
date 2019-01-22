@@ -12,9 +12,15 @@ class MapItemAccess constructor(private val mapItemDetails: MapItemDetails)
     
     
     override fun mapFromDomain(domainEntity: ItemAccessEntity): InPlayerItemAccess {
-        return InPlayerItemAccess(id = domainEntity.id, accountId = domainEntity.accountId, customerId = domainEntity.customerId, customerUUID = domainEntity.customerUUID,
-                ipAddress = domainEntity.ipAddress, countryCode = domainEntity.countryCode, createdAt = domainEntity.createdAt, expiresAt = domainEntity.expiresAt,
-                itemDetailsEntity = mapItemDetails.mapFromDomain(domainEntity.itemDetailsEntity))
+        return InPlayerItemAccess(id = domainEntity.id,
+                accountId = domainEntity.accountId,
+                customerId = domainEntity.customerId,
+                customerUUID = domainEntity.customerUUID,
+                ipAddress = domainEntity.ipAddress,
+                countryCode = domainEntity.countryCode,
+                createdAt = domainEntity.createdAt,
+                expiresAt = domainEntity.expiresAt,
+                itemEntity = mapItemDetails.mapFromDomain(domainEntity.itemDetailsEntity))
     }
     
     override fun mapToDomain(viewModel: InPlayerItemAccess): ItemAccessEntity {

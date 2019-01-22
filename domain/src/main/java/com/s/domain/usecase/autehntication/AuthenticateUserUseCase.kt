@@ -1,5 +1,6 @@
 package com.s.domain.usecase.autehntication
 
+import com.s.domain.entity.account.AuthorizationHolder
 import com.s.domain.entity.account.GrantType
 import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.gateway.InPlayerAccountRepository
@@ -12,9 +13,9 @@ import io.reactivex.Single
  */
 class AuthenticateUserUseCase constructor(schedulers: MySchedulers,
                                           private val inPlayerAuthenticatorRepository: InPlayerAccountRepository)
-    : SingleUseCase<InPlayerDomainUser, AuthenticateUserUseCase.Params>(schedulers) {
+    : SingleUseCase<AuthorizationHolder, AuthenticateUserUseCase.Params>(schedulers) {
     
-    override fun buildUseCaseObservable(params: Params?): Single<InPlayerDomainUser> {
+    override fun buildUseCaseObservable(params: Params?): Single<AuthorizationHolder> {
         
         params?.let { params ->
             

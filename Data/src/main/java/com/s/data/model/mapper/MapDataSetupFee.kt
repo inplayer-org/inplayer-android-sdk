@@ -1,7 +1,7 @@
 package com.s.data.model.mapper
 
+import com.s.data.model.asset.SetupFeeModel
 import com.s.domain.entity.asset.SetupFeeEntity
-import com.s.domain.entity.asset.SetupFeeModel
 
 /**
  * Created by victor on 1/6/19

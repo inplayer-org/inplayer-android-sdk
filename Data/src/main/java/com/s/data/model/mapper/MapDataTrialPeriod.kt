@@ -1,7 +1,7 @@
 package com.s.data.model.mapper
 
+import com.s.data.model.asset.TrialPeriodModel
 import com.s.domain.entity.asset.TrialPeriodEntity
-import com.s.domain.entity.asset.TrialPeriodModel
 
 /**
  * Created by victor on 1/6/19

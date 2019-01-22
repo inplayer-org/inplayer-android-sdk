@@ -1,6 +1,7 @@
 package com.s.domain.usecase.autehntication
 
 import com.s.domain.entity.account.AccountType
+import com.s.domain.entity.account.AuthorizationHolder
 import com.s.domain.entity.account.InPlayerDomainUser
 import com.s.domain.gateway.InPlayerAccountRepository
 import com.s.domain.schedulers.MySchedulers
@@ -12,13 +13,13 @@ import io.reactivex.Single
  */
 class CreateAccountUseCase constructor(schedulers: MySchedulers,
                                        private val inPlayerAuthenticatorRepository: InPlayerAccountRepository)
-    : SingleUseCase<InPlayerDomainUser, CreateAccountUseCase.Params>(schedulers) {
+    : SingleUseCase<AuthorizationHolder, CreateAccountUseCase.Params>(schedulers) {
     
-    override fun buildUseCaseObservable(params: Params?): Single<InPlayerDomainUser> {
+    override fun buildUseCaseObservable(params: Params?): Single<AuthorizationHolder> {
         
         params?.let {
             
-            return inPlayerAuthenticatorRepository.createAccount(it.fullName, it.email, it.password, it.passwordConfirmation, it.accType.toString(), it.merchantUUID, it.referrer)
+            return inPlayerAuthenticatorRepository.createAccount(it.fullName, it.email, it.password, it.passwordConfirmation, it.accType.toString(), it.merchantUUID, it.referrer, it.metadata)
             
         }
         
@@ -28,6 +29,6 @@ class CreateAccountUseCase constructor(schedulers: MySchedulers,
     
     data class Params(val fullName: String, val email: String, val password: String,
                       val passwordConfirmation: String, val accType: AccountType,
-                      val merchantUUID: String, val referrer: String)
+                      val merchantUUID: String, val referrer: String, val metadata: HashMap<String, String>?)
     
 }

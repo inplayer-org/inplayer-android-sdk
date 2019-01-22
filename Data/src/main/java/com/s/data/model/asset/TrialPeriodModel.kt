@@ -1,4 +1,4 @@
-package com.s.domain.entity.asset
+package com.s.data.model.asset
 
 /**
  * Created by victor on 1/5/19

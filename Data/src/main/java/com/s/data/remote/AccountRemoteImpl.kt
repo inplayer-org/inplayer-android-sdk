@@ -1,6 +1,7 @@
 package com.s.data.remote
 
 import com.s.data.model.account.InPlayerAccount
+import com.s.data.model.account.InPlayerAuthorizationModel
 import com.s.data.remote.api.InPlayerRemotePublicServiceAPI
 import com.s.data.remote.api.InPlayerRemoteServiceAPI
 import com.s.data.repository.gateway.AccountRemote
@@ -25,7 +26,16 @@ class AccountRemoteImpl constructor(private val inPlayerRemoteProvider: InPlayer
     override fun authenticateWithClientSecret(clientSecret: String, grantType: String, clientId: String) =
             inPlayerRemotePublicServiceAPI.authenticate(clientSecret = clientSecret, grantType = grantType, clientId = clientId)
     
-    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String) = inPlayerRemotePublicServiceAPI.createAccount(fullName, email, password, passwordConfirmation, type.toLowerCase(), merchantUUID, referrer)
+    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String, metadata: HashMap<String, String>?): Single<InPlayerAuthorizationModel> {
+        var updatedMetadataMap = hashMapOf<String, String>()
+        
+        metadata?.forEach {
+            updatedMetadataMap["metadata[${it.key}]"] = it.value
+        }
+        
+        return inPlayerRemotePublicServiceAPI.createAccount(fullName, email, password, passwordConfirmation, type.toLowerCase(), merchantUUID, referrer, updatedMetadataMap)
+    }
+    
     
     override fun setNewPassword(token: String, password: String, passwordConfirmation: String) = inPlayerRemotePublicServiceAPI.setNewPassword(token, password, passwordConfirmation)
     

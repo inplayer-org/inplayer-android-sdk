@@ -12,8 +12,8 @@ import com.s.inplayer.mapper.assets.MapAccessFee
 import com.s.inplayer.mapper.assets.MapItemAccess
 import com.s.inplayer.mapper.assets.MapItemDetails
 import com.s.inplayer.model.assets.InPlayerAccessFee
+import com.s.inplayer.model.assets.InPlayerItem
 import com.s.inplayer.model.assets.InPlayerItemAccess
-import com.s.inplayer.model.assets.InPlayerItemDetails
 import com.s.inplayer.model.error.InPlayerException
 
 /**
@@ -30,7 +30,7 @@ class Asset constructor(private val appSchedulers: MySchedulers,
                         private val mapItemAccess: MapItemAccess) {
     
     
-    fun getItemDetails(id: Int, callback: InPlayerCallback<InPlayerItemDetails, InPlayerException>) {
+    fun getItemDetails(id: Int, callback: InPlayerCallback<InPlayerItem, InPlayerException>) {
         getItemDetailsUseCase.execute(GetItemDetailsUseCase.Params(id, inPlayerSDKConfiguration.merchantUUID))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)

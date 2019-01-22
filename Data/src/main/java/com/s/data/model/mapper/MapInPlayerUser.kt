@@ -1,7 +1,6 @@
 package com.s.data.model.mapper
 
 import com.s.data.model.account.InPlayerAccount
-import com.s.data.model.account.Metadata
 import com.s.domain.entity.account.AccountType
 import com.s.domain.entity.account.InPlayerDomainUser
 
@@ -24,7 +23,7 @@ class MapInPlayerUser : ModelMapper<InPlayerAccount, InPlayerDomainUser> {
                 createdAt = model.createdAt,
                 updatedAt = model.updatedAt,
                 roles = model.roles,
-                metadata = com.s.domain.entity.account.Metadata(model.metadata.clientId, model.metadata.register_source),
+                metadata = model.metadata,
                 merchantId = model.merchantId,
                 merchantUUID = model.merchantUUID,
                 username = model.username,
@@ -48,7 +47,7 @@ class MapInPlayerUser : ModelMapper<InPlayerAccount, InPlayerDomainUser> {
                 isCompleted = entity.isCompleted,
                 createdAt = entity.createdAt,
                 updatedAt = entity.updatedAt,
-                metadata = Metadata(entity.metadata.clientId, entity.metadata.register_source),
+                metadata = entity.metadata,
                 merchantId = entity.merchantId,
                 merchantUUID = entity.merchantUUID,
                 username = entity.username,

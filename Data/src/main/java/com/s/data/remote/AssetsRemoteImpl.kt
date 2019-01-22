@@ -1,11 +1,11 @@
 package com.s.data.remote
 
+import com.s.data.model.asset.AccessFeeModel
+import com.s.data.model.asset.ItemAccessModel
+import com.s.data.model.asset.ItemDetailsModel
 import com.s.data.remote.api.InPlayerRemotePublicServiceAPI
 import com.s.data.remote.api.InPlayerRemoteServiceAPI
 import com.s.data.repository.gateway.AssetsRemote
-import com.s.domain.entity.asset.AccessFeeModel
-import com.s.domain.entity.asset.ItemAccessModel
-import com.s.domain.entity.asset.ItemDetailsModel
 import io.reactivex.Single
 
 /**

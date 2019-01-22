@@ -3,6 +3,7 @@ package com.s.inplayer.api
 import com.s.inplayer.callback.NotificationsCallback
 import com.s.inplayer.mapper.ThrowableToInPlayerExceptionMapper
 import com.s.inplayer.mapper.notification.NotificationMapper
+import com.s.inplayer.model.notification.InPlayerNotificationStatus
 import com.s.notification.AWSNotificationCallback
 import com.s.notification.AWSNotificationManager
 import com.s.notification.model.notification.InPlayerNotificationEntity
@@ -21,7 +22,7 @@ class Notification constructor(private val notificationManager: AWSNotificationM
             }
             
             override fun onStatusChanged(status: String) {
-                callback.onStatusChanged(status)
+                callback.onStatusChanged(InPlayerNotificationStatus.valueOf(status.toLowerCase().capitalize()))
             }
             
             override fun onError(t: Throwable) {
@@ -33,4 +34,5 @@ class Notification constructor(private val notificationManager: AWSNotificationM
     fun disconnect() {
         notificationManager.discconnect()
     }
+    
 }

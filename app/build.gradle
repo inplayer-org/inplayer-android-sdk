@@ -29,7 +29,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':Inplayer')
-    implementation project(':Notification')
 
     def inPlayerSDK = rootProject.ext.inPlayerSDKDependencies
 

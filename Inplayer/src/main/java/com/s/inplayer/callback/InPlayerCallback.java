@@ -7,6 +7,6 @@ import com.s.inplayer.model.error.InPlayerException;
  */
 public interface InPlayerCallback<V, E extends InPlayerException> {
 
-    void done(V vaue, E exception);
+    void done(V value, E exception);
 
 }

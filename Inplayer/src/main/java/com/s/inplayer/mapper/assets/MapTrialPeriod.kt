@@ -10,7 +10,9 @@ import com.s.inplayer.model.assets.InPlayerTrialPeriod
 class MapTrialPeriod : DomainMapper<TrialPeriodEntity, InPlayerTrialPeriod> {
     
     override fun mapFromDomain(domainEntity: TrialPeriodEntity): InPlayerTrialPeriod {
-        return InPlayerTrialPeriod(quantity = domainEntity.quantity, period = domainEntity.period, description = domainEntity.description)
+        return InPlayerTrialPeriod(quantity = domainEntity.quantity,
+                period = domainEntity.period,
+                description = domainEntity.description)
     }
     
     override fun mapToDomain(viewModel: InPlayerTrialPeriod): TrialPeriodEntity {

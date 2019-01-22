@@ -2,8 +2,8 @@ package com.s.data.remote.api
 
 import com.s.data.model.ResponseModel
 import com.s.data.model.account.InPlayerAccount
+import com.s.data.model.asset.ItemAccessModel
 import com.s.data.model.notification.AWSCredentialsModel
-import com.s.domain.entity.asset.ItemAccessModel
 import io.reactivex.Single
 import retrofit2.http.*
 
