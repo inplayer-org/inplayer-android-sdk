@@ -74,6 +74,8 @@ class Main2Activity : AppCompatActivity() {
         }
         
         publish.setOnClickListener {
+            val account = InPlayer.Account.getAccount()
+            
         }
         
     }

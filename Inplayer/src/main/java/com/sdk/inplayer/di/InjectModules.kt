@@ -52,7 +52,7 @@ import org.koin.standalone.StandAloneContext.startKoin
 import org.koin.standalone.setProperty
 
 
-object InjectModules : KoinComponent {
+internal object  InjectModules : KoinComponent {
     
     fun init(configuration: InPlayer.Configuration) {
         
@@ -138,7 +138,7 @@ object InjectModules : KoinComponent {
             
             factory { Asset(get(), get(), get(), get(), get(), get(), get(), get()) }
             
-            factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(),get()) }
+            factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(),get(),get()) }
             
             factory { Notification(get(), get()) }
             
@@ -170,6 +170,8 @@ object InjectModules : KoinComponent {
             factory { SetNewPasswordUseCase(get(), get()) }
             
             factory { CredentialsUseCase(get()) }
+            
+            factory { GetAccountUseCase(get()) }
         }
         
         val assetsUseCaseModule = module {

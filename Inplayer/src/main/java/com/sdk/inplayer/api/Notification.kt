@@ -14,6 +14,11 @@ import com.sdk.notification.model.notification.InPlayerNotificationEntity
 class Notification internal constructor(private val notificationManager: AWSNotificationManager,
                                private val notificationMapper: NotificationMapper) {
     
+    /**
+     * Subscribes the user to listen for Notifications
+     *
+     * @param callback InPlayerNotificationCallback
+     */
     fun subscribe(callback: InPlayerNotificationCallback) {
         notificationManager.subscribe(object : AWSNotificationCallback {
             
@@ -31,6 +36,9 @@ class Notification internal constructor(private val notificationManager: AWSNoti
         })
     }
     
+    /**
+     * Closes the connection for notifications
+     */
     fun disconnect() {
         notificationManager.discconnect()
     }

@@ -7,7 +7,7 @@ import com.sdk.inplayer.model.assets.InPlayerItemType
 /**
  * Created by victor on 1/6/19
  */
-class MapItemType : DomainMapper<ItemTypeEntity, InPlayerItemType> {
+internal class MapItemType : DomainMapper<ItemTypeEntity, InPlayerItemType> {
     
     override fun mapFromDomain(domainEntity: ItemTypeEntity): InPlayerItemType {
         return InPlayerItemType(id = domainEntity.id,

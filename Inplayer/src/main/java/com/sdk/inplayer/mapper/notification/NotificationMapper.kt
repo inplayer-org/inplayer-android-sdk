@@ -10,8 +10,8 @@ import com.sdk.notification.model.notification.*
 /**
  * Created by victor on 1/17/19
  */
-class NotificationMapper constructor(val accessGrantedNotificationMapper: AccessGrantedNotificationMapper,
-                                     val accessRevokedNotificationMapper: AccessRevokedNotificationMapper) : DomainMapper<InPlayerNotificationEntity, InPlayerNotification> {
+internal class NotificationMapper constructor(private val accessGrantedNotificationMapper: AccessGrantedNotificationMapper,
+                                              private val accessRevokedNotificationMapper: AccessRevokedNotificationMapper) : DomainMapper<InPlayerNotificationEntity, InPlayerNotification> {
     
     override fun mapFromDomain(inPlayerNotification: InPlayerNotificationEntity): InPlayerNotification {
         

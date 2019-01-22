@@ -7,7 +7,7 @@ import com.sdk.inplayer.model.assets.InPlayerSetupFee
 /**
  * Created by victor on 1/6/19
  */
-class MapSetupFee : DomainMapper<SetupFeeEntity, InPlayerSetupFee> {
+internal class MapSetupFee : DomainMapper<SetupFeeEntity, InPlayerSetupFee> {
     
     override fun mapFromDomain(domainEntity: SetupFeeEntity): InPlayerSetupFee {
         return InPlayerSetupFee(feeAmount = domainEntity.feeAmount,

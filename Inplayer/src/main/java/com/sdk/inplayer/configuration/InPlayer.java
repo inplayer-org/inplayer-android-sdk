@@ -1,6 +1,7 @@
 package com.sdk.inplayer.configuration;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.sdk.inplayer.BuildConfig;
 import com.sdk.inplayer.api.Asset;
@@ -16,14 +17,11 @@ import static org.koin.java.standalone.KoinJavaComponent.inject;
  */
 public class InPlayer {
 
-
     public static com.sdk.inplayer.api.Account Account;
-
     public static Asset Assets;
-
     public static Notification Notification;
-
     public static Payment Payment;
+    private static boolean isInitialized = false;
 
     // Suppress constructor to prevent subclassing
     private InPlayer() {
@@ -36,11 +34,11 @@ public class InPlayer {
      * application can use the InPlayer SDK . The recommended way is to put a call to
      * {@code InPlayer.initialize} in your {@code Application}'s {@code onCreate} method:
      * <p/>
-     *
+     * <p>
      * public class MyApplication extends Application {
-     *   public void onCreate() {
-     *     InPlayer.initialize(configuration);
-     *   }
+     * public void onCreate() {
+     * InPlayer.initialize(configuration);
+     * }
      * }
      *
      * @param configuration The configuration for your application.
@@ -54,7 +52,12 @@ public class InPlayer {
      *
      * @param configuration the configuration
      */
-    static void init(Configuration configuration) {
+    private static void init(Configuration configuration) {
+
+        if (isInitialized) {
+            Log.e("InPlayer", "InPlayer is already initialized");
+            return;
+        }
 
         InjectModules.INSTANCE.init(configuration);
 
@@ -66,6 +69,8 @@ public class InPlayer {
 
         Payment = inject(Payment.class).getValue();
 
+        isInitialized = true;
+
     }
 
     /**
@@ -73,14 +78,19 @@ public class InPlayer {
      */
     public enum EnvironmentType {
         /**
-         * The Production. (Default)
+         * Define the Production environment. (Default)
          */
         PRODUCTION,
 
         /**
-         * The Staging.
+         * Define the Staging environment.
          */
-        STAGING
+        STAGING,
+
+        /**
+         * Define the Debug environment.
+         */
+        DEBUG
     }
 
     /**
@@ -90,15 +100,10 @@ public class InPlayer {
 
 
         public final String referrer;
-
         public final Context context;
-
         public final String mServerUrl;
-
         public final String mMerchantUUID;
-
         public final Boolean isDebug;
-
         final EnvironmentType environmentType;
 
         private Configuration(Builder builder) {
@@ -113,6 +118,7 @@ public class InPlayer {
         private String getServerUrl(EnvironmentType environmentType) {
             switch (environmentType) {
                 case STAGING:
+                case DEBUG:
                     return BuildConfig.BASE_URL_STAGING;
                 case PRODUCTION:
                     return BuildConfig.BASE_URL_PRODUCTION;
@@ -123,6 +129,7 @@ public class InPlayer {
         private boolean isDebug(EnvironmentType environmentType) {
             switch (environmentType) {
                 case STAGING:
+                case DEBUG:
                     return true;
                 case PRODUCTION:
                     return false;
@@ -146,9 +153,9 @@ public class InPlayer {
              * This context will then be passed through to the rest of the InPlayer SDK for use during
              * initialization.
              *
-             * @param context The active {@link Context} for your application. Cannot be null.
+             * @param context      The active {@link Context} for your application. Cannot be null.
              * @param merchantUUID The Merchant UUID used for your InPlayer Account
-             * @param referrer The Referrer String used to describe the installation of the user.
+             * @param referrer     The Referrer String used to describe the installation of the user.
              */
             public Builder(Context context, String merchantUUID, String referrer) {
                 this.mReferrer = referrer;

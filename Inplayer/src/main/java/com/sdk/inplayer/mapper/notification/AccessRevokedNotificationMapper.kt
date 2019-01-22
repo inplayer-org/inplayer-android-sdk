@@ -8,7 +8,7 @@ import com.sdk.notification.model.notification.InPlayerAccessRevokedNotification
 /**
  * Created by victor on 1/17/19
  */
-class AccessRevokedNotificationMapper : DomainMapper<InPlayerAccessRevokedNotification, INPAccessRevokedNotification> {
+internal class AccessRevokedNotificationMapper : DomainMapper<InPlayerAccessRevokedNotification, INPAccessRevokedNotification> {
     
     override fun mapFromDomain(notifEntity: InPlayerAccessRevokedNotification): INPAccessRevokedNotification {
         return INPAccessRevokedNotification(resource = INPAccessRevokedNotificationResource(notifEntity.resource.item_id),

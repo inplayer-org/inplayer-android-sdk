@@ -7,7 +7,7 @@ import com.sdk.inplayer.model.assets.InPlayerTrialPeriod
 /**
  * Created by victor on 1/6/19
  */
-class MapTrialPeriod : DomainMapper<TrialPeriodEntity, InPlayerTrialPeriod> {
+internal class MapTrialPeriod : DomainMapper<TrialPeriodEntity, InPlayerTrialPeriod> {
     
     override fun mapFromDomain(domainEntity: TrialPeriodEntity): InPlayerTrialPeriod {
         return InPlayerTrialPeriod(quantity = domainEntity.quantity,

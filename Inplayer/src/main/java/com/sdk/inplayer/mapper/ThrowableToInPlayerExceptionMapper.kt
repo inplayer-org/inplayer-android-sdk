@@ -13,7 +13,7 @@ import java.net.UnknownHostException
 /**
  * Created by victor on 1/3/19
  */
-object ThrowableToInPlayerExceptionMapper {
+internal object ThrowableToInPlayerExceptionMapper {
     
     fun mapThrowableToException(e: Throwable): InPlayerException {
         

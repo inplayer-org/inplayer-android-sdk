@@ -21,6 +21,7 @@ class InPlayerAccountRepositoryImpl constructor(
         private val mapInPlayerUser: MapInPlayerUser,
         private val mapAuthorizationModel: MapAuthorizationModel
 ) : InPlayerAccountRepository {
+   
     
     /**
      *  Creating Users and handling Authorization
@@ -52,6 +53,13 @@ class InPlayerAccountRepositoryImpl constructor(
     }
     
     override fun isUserAuthenticated() = userLocalAuthenticator.isUserAutehnticated()
+    
+    override fun authenticatedUserAccount(): InPlayerDomainUser? {
+        userLocalAuthenticator.getAccount()?.let {
+            return mapInPlayerUser.mapFromModel(it)
+        }
+        return null
+    }
     
     override fun refreshToken(refreshToken: String, grantType: String, clientId: String): Single<AuthorizationHolder> {
         return accountRemote.refreshToken(refreshToken, grantType, clientId)

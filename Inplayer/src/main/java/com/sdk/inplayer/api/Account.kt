@@ -1,6 +1,7 @@
 package com.sdk.inplayer.api
 
 import android.annotation.SuppressLint
+import com.sdk.data.model.account.InPlayerAccount
 import com.sdk.domain.entity.account.GrantType
 import com.sdk.domain.schedulers.MySchedulers
 import com.sdk.domain.usecase.autehntication.*
@@ -35,7 +36,8 @@ class Account internal constructor(private val appSchedulers: MySchedulers,
                                    private val setNewPasswordUseCase: SetNewPasswordUseCase,
                                    private val credentialsUseCase: CredentialsUseCase,
                                    private val inPlayerCredentialsMapper: InPlayerCredentialsMapper,
-                                   private val domainMapper: InPlayerUserMapper,
+                                   private val inPlayerUserMapper: InPlayerUserMapper,
+                                   private val getAccountUseCase: GetAccountUseCase,
                                    private val authorizationMapper: AuthorizationModelMapper) {
     
     
@@ -47,12 +49,25 @@ class Account internal constructor(private val appSchedulers: MySchedulers,
      */
     fun getCredentials() = inPlayerCredentialsMapper.mapFromDomain(credentialsUseCase.execute())
     
+    
     /**
+     * Check's if the user is authenticated
      *
      * @return Boolean
      */
     fun isAuthenticated() = isUserAuthenticatedUseCase.execute()
     
+    
+    /**
+     *
+     * @return [ERROR : No type, no body]
+     */
+    fun getAccount() : InPlayerUser? {
+        getAccountUseCase.execute()?.let {
+            return inPlayerUserMapper.mapFromDomain(it)
+        }
+        return null
+    }
     
     /**
      * Registers a new InPlayer account.
@@ -103,7 +118,7 @@ class Account internal constructor(private val appSchedulers: MySchedulers,
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({
-                    callback.done(domainMapper.mapFromDomain(it), null)
+                    callback.done(inPlayerUserMapper.mapFromDomain(it), null)
                 }, {
                     callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
                 })
@@ -156,7 +171,7 @@ class Account internal constructor(private val appSchedulers: MySchedulers,
                 .subscribeOn(appSchedulers.observeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({
-                    callback.done(domainMapper.mapFromDomain(it), null)
+                    callback.done(inPlayerUserMapper.mapFromDomain(it), null)
                 }, {
                     callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
                 })

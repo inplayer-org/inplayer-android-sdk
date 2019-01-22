@@ -6,7 +6,7 @@ import io.reactivex.Scheduler
 /**
  * Created by victor on 12/23/18
  */
-class AppSchedulers : MySchedulers {
+internal class AppSchedulers : MySchedulers {
     
     override val computation: Scheduler
         get() = io.reactivex.schedulers.Schedulers.computation()

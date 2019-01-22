@@ -7,7 +7,7 @@ import com.sdk.inplayer.model.assets.InPlayerAccessControlType
 /**
  * Created by victor on 1/6/19
  */
-class MapAccessControlType : DomainMapper<AccessControlTypeEntity, InPlayerAccessControlType> {
+internal class MapAccessControlType : DomainMapper<AccessControlTypeEntity, InPlayerAccessControlType> {
     
     override fun mapFromDomain(domainEntity: AccessControlTypeEntity): InPlayerAccessControlType {
         return InPlayerAccessControlType(id = domainEntity.id, name = domainEntity.name, auth = domainEntity.auth)

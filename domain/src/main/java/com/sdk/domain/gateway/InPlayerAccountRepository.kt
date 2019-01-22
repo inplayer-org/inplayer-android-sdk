@@ -17,6 +17,8 @@ interface InPlayerAccountRepository {
     
     fun logout(): Completable
     
+    fun authenticatedUserAccount() : InPlayerDomainUser?
+    
     fun isUserAuthenticated(): Boolean
     
     fun refreshToken(refreshToken: String, grantType: String, clientId: String): Single<AuthorizationHolder>

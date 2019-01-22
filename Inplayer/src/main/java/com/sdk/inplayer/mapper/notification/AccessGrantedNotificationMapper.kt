@@ -9,7 +9,7 @@ import com.sdk.notification.model.notification.InPlayerAccessGrantedNotification
 /**
  * Created by victor on 1/17/19
  */
-class AccessGrantedNotificationMapper : DomainMapper<InPlayerAccessGrantedNotification, INPAccessGrantedNotification> {
+internal class AccessGrantedNotificationMapper : DomainMapper<InPlayerAccessGrantedNotification, INPAccessGrantedNotification> {
     
     override fun mapFromDomain(notificationEntity: InPlayerAccessGrantedNotification): INPAccessGrantedNotification {
         return INPAccessGrantedNotification(mapResource(notifResource = notificationEntity.resource), notificationEntity.type, notificationEntity.timestamp)

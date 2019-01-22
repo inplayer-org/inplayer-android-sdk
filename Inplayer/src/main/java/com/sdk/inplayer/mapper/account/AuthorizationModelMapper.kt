@@ -7,7 +7,7 @@ import com.sdk.inplayer.model.account.InPlayerAuthorizationModel
 /**
  * Created by victor on 1/21/19
  */
-class AuthorizationModelMapper constructor(private val inPlayerUserMapper: InPlayerUserMapper)
+internal class AuthorizationModelMapper constructor(private val inPlayerUserMapper: InPlayerUserMapper)
     : DomainMapper<AuthorizationHolder,InPlayerAuthorizationModel> {
     
     override fun mapFromDomain(domainEntity: AuthorizationHolder): InPlayerAuthorizationModel {
