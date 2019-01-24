@@ -12,9 +12,7 @@ import com.sdk.domain.gateway.InPlayerAccountRepository
 import io.reactivex.Completable
 import io.reactivex.Single
 
-/**
- * Created by victor on 12/20/18
- */
+
 class InPlayerAccountRepositoryImpl constructor(
         private val accountRemote: AccountRemote,
         private val userLocalAuthenticator: UserLocalAuthenticator,
@@ -26,7 +24,7 @@ class InPlayerAccountRepositoryImpl constructor(
     /**
      *  Creating Users and handling Authorization
      * */
-    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String, metadata: HashMap<String, String>?): Single<AuthorizationHolder> {
+    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String?, metadata: HashMap<String, String>?): Single<AuthorizationHolder> {
         return accountRemote
                 .createAccount(fullName, email, password, passwordConfirmation, type, merchantUUID, referrer,metadata)
                 .doOnSuccess {
@@ -35,7 +33,8 @@ class InPlayerAccountRepositoryImpl constructor(
                 .map { mapAuthorizationModel.mapFromModel(it) }
     }
     
-    override fun autehenticate(username: String, password: String, grantType: String, clientId: String): Single<AuthorizationHolder> {
+    //todo change
+    override fun authenticate(username: String, password: String, grantType: String, clientId: String): Single<AuthorizationHolder> {
         return accountRemote
                 .authenticateUser(username, password, grantType, clientId)
                 .doOnSuccess {
@@ -77,7 +76,7 @@ class InPlayerAccountRepositoryImpl constructor(
     }
     
     private fun updateLocalTokens(it: InPlayerAuthorizationModel) {
-        it.refreshToken?.let {
+        it.refreshToken.let {
             userLocalAuthenticator.saveRefreshToken(it)
         }
         

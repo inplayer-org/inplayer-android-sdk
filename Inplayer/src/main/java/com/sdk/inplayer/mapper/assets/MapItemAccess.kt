@@ -4,9 +4,7 @@ import com.sdk.domain.entity.asset.ItemAccessEntity
 import com.sdk.domain.entity.mapper.DomainMapper
 import com.sdk.inplayer.model.assets.InPlayerItemAccess
 
-/**
- * Created by victor on 1/6/19
- */
+
 internal class MapItemAccess constructor(private val mapItemDetails: MapItemDetails)
     : DomainMapper<ItemAccessEntity, InPlayerItemAccess> {
     

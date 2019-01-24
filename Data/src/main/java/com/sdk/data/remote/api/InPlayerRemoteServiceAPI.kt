@@ -7,9 +7,6 @@ import com.sdk.data.model.notification.AWSCredentialsModel
 import io.reactivex.Single
 import retrofit2.http.*
 
-/**
- * Created by victor on 12/21/18
- */
 interface InPlayerRemoteServiceAPI {
     
     

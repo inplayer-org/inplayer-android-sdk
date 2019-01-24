@@ -4,9 +4,7 @@ import com.sdk.domain.entity.asset.AccessFeeEntity
 import com.sdk.domain.entity.mapper.DomainMapper
 import com.sdk.inplayer.model.assets.InPlayerAccessFee
 
-/**
- * Created by victor on 1/6/19
- */
+
 internal class MapAccessFee constructor(private val mapAccessType: MapAccessType, private val mapItemType: MapItemType,
                                private val mapTrialPeriod: MapTrialPeriod, private val mapSetupFee: MapSetupFee)
     : DomainMapper<AccessFeeEntity, InPlayerAccessFee> {

@@ -2,17 +2,20 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 28
 
-
+    compileSdkVersion rootProject.androidCompileSdkVersion
 
     defaultConfig {
-        minSdkVersion 23
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.androidMinSdkVersion
+        targetSdkVersion rootProject.androidTargetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+
+        buildConfigField "String", "AWS_IOT_ENDPOINT", "\"a3gkl64duktvc4-ats.iot.eu-west-1.amazonaws.com\""
+
 
     }
 
@@ -28,11 +31,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(':domain')
+    implementation project(':Domain')
 
     def notification = rootProject.ext.notificationDependencies
     def reactive = rootProject.ext.reactive
-    def network = rootProject.ext.networkDependencies
 
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation reactive.rxJava

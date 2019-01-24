@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit
 
 
 /**
- * Created by victor on 12/21/18
  *
  * This Remote Providers attaches two interceptors
  * @see RefreshAuthenticator

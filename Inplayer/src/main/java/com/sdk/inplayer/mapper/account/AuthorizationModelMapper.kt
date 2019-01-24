@@ -4,9 +4,7 @@ import com.sdk.domain.entity.account.AuthorizationHolder
 import com.sdk.domain.entity.mapper.DomainMapper
 import com.sdk.inplayer.model.account.InPlayerAuthorizationModel
 
-/**
- * Created by victor on 1/21/19
- */
+
 internal class AuthorizationModelMapper constructor(private val inPlayerUserMapper: InPlayerUserMapper)
     : DomainMapper<AuthorizationHolder,InPlayerAuthorizationModel> {
     

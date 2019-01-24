@@ -3,9 +3,7 @@ package com.sdk.data.model.mapper
 import com.sdk.data.model.asset.SetupFeeModel
 import com.sdk.domain.entity.asset.SetupFeeEntity
 
-/**
- * Created by victor on 1/6/19
- */
+
 class MapDataSetupFee : ModelMapper<SetupFeeModel, SetupFeeEntity> {
     
     override fun mapFromModel(model: SetupFeeModel): SetupFeeEntity {

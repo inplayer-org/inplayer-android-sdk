@@ -3,9 +3,7 @@ package com.sdk.data.model.mapper
 import com.sdk.data.model.asset.TrialPeriodModel
 import com.sdk.domain.entity.asset.TrialPeriodEntity
 
-/**
- * Created by victor on 1/6/19
- */
+
 class MapDataTrialPeriod : ModelMapper<TrialPeriodModel, TrialPeriodEntity> {
     
     override fun mapFromModel(model: TrialPeriodModel): TrialPeriodEntity {

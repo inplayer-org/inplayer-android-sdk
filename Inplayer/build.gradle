@@ -29,8 +29,9 @@ android {
         sourceCompatibility 1.8
     }
 
+    //Generate documentation ./gradlew dokka
     dokka {
-        outputFormat = 'html'
+        outputFormat = 'javadoc'
         outputDirectory = "$buildDir/javadoc"
 
         impliedPlatforms = ["JVM"]
@@ -47,7 +48,10 @@ android {
             }
         }
 
-        for (def pkg : ["com.sdk.inplayer.api","com.sdk.inplayer.model","com.sdk.inplayer.callback","com.sdk.inplayer.configuration"]) {
+        for (def pkg : ["com.sdk.inplayer.api",
+                        "com.sdk.inplayer.model",
+                        "com.sdk.inplayer.callback",
+                        "com.sdk.inplayer.configuration"]) {
             packageOptions {
                 prefix = pkg
                 suppress = false
@@ -66,7 +70,7 @@ dependencies {
     def reactive = rootProject.ext.reactive
     def network = rootProject.ext.networkDependencies
 
-    implementation project(':domain')
+    implementation project(':Domain')
     implementation project(':Data')
     implementation project(':Notification')
 

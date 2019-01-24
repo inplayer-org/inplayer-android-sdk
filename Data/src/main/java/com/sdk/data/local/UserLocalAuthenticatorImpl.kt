@@ -8,9 +8,7 @@ import com.sdk.data.model.account.InPlayerAccount
 import com.sdk.data.repository.gateway.UserLocalAuthenticator
 
 
-/**
- * Created by victor on 12/25/18
- */
+
 class UserLocalAuthenticatorImpl(context: Context) : UserLocalAuthenticator {
     
     

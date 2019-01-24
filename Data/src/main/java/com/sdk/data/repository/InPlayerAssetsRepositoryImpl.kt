@@ -10,9 +10,7 @@ import com.sdk.domain.entity.asset.ItemDetailsEntity
 import com.sdk.domain.gateway.InPlayerAssetsRepository
 import io.reactivex.Single
 
-/**
- * Created by victor on 1/5/19
- */
+
 class InPlayerAssetsRepositoryImpl(private val assetsRemote: AssetsRemote,
                                    private val mapAccessFee: MapDataAccessFee,
                                    private val mapItemDetails: MapDataItemDetails,

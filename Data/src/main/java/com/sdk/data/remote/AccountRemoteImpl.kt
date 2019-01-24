@@ -7,9 +7,7 @@ import com.sdk.data.remote.api.InPlayerRemoteServiceAPI
 import com.sdk.data.repository.gateway.AccountRemote
 import io.reactivex.Single
 
-/**
- * Created by victor on 12/21/18
- */
+
 class AccountRemoteImpl constructor(private val inPlayerRemoteProvider: InPlayerRemoteServiceAPI,
                                     private val inPlayerRemotePublicServiceAPI: InPlayerRemotePublicServiceAPI) : AccountRemote {
     
@@ -26,7 +24,7 @@ class AccountRemoteImpl constructor(private val inPlayerRemoteProvider: InPlayer
     override fun authenticateWithClientSecret(clientSecret: String, grantType: String, clientId: String) =
             inPlayerRemotePublicServiceAPI.authenticate(clientSecret = clientSecret, grantType = grantType, clientId = clientId)
     
-    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String, metadata: HashMap<String, String>?): Single<InPlayerAuthorizationModel> {
+    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String?, metadata: HashMap<String, String>?): Single<InPlayerAuthorizationModel> {
         var updatedMetadataMap = hashMapOf<String, String>()
         
         metadata?.forEach {

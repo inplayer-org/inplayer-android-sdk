@@ -8,9 +8,7 @@ import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.*
 
-/**
- * Created by victor on 1/9/19
- */
+
 interface InPlayerRemotePublicServiceAPI {
     
     @FormUrlEncoded
@@ -22,7 +20,7 @@ interface InPlayerRemotePublicServiceAPI {
             @Field("password_confirmation") passwordConfirmation: String,
             @Field("type") type: String,
             @Field("merchant_uuid") merchantUUID: String,
-            @Field("referrer") referrer: String,
+            @Field("referrer") referrer: String?,
             @FieldMap metadata: HashMap<String, String>?): Single<InPlayerAuthorizationModel>
     
     

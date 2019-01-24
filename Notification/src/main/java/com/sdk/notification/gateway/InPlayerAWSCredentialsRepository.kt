@@ -1,12 +1,8 @@
 package com.sdk.notification.gateway
 
-import com.sdk.notification.entity.MyAWSCredentials
+import com.sdk.notification.entity.InPlayerAWSCredentials
 import io.reactivex.Single
 
-/**
- * Created by victor on 1/15/19
- */
 interface InPlayerAWSCredentialsRepository {
-    
-    fun getAwsCredentials(): Single<MyAWSCredentials>
+    fun getAwsCredentials(): Single<InPlayerAWSCredentials>
 }

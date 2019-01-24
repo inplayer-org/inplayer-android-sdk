@@ -6,9 +6,7 @@ import android.preference.PreferenceManager
 import com.sdk.data.Constants
 
 
-/**
- * Created by victor on 12/25/18
- */
+
 object PreferenceHelper {
     
     lateinit var prefs: SharedPreferences

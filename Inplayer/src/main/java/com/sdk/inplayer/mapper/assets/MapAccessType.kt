@@ -4,9 +4,7 @@ import com.sdk.domain.entity.asset.AccessTypeEntity
 import com.sdk.domain.entity.mapper.DomainMapper
 import com.sdk.inplayer.model.assets.InPlayerAccessType
 
-/**
- * Created by victor on 1/6/19
- */
+
 internal class MapAccessType : DomainMapper<AccessTypeEntity, InPlayerAccessType> {
     
     override fun mapFromDomain(domainEntity: AccessTypeEntity): InPlayerAccessType {

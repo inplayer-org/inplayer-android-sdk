@@ -1,11 +1,11 @@
 package com.sdk.inplayer.model.notification
 
-data class INPAccessGrantedNotification(
-        val resource: INPAccessGrantedNotificationResource,
+data class InPlayerAccessGrantedNotification(
+        val resource: InPlayerAccessGrantedNotificationResource,
         override val type: String, override val timestamp: Long
 ) : InPlayerNotification
 
-data class INPAccessGrantedNotificationResource(
+data class InPlayerAccessGrantedNotificationResource(
         val account_id: Int,
         val country_code: String,
         val created_at: Int,

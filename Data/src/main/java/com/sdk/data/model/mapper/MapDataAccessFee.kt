@@ -3,9 +3,7 @@ package com.sdk.data.model.mapper
 import com.sdk.data.model.asset.AccessFeeModel
 import com.sdk.domain.entity.asset.AccessFeeEntity
 
-/**
- * Created by victor on 1/6/19
- */
+
 class MapDataAccessFee constructor(private val mapAccessType: MapDataAccessType, private val mapItemType: MapDataItemType,
                                    private val mapTrialPeriod: MapDataTrialPeriod, private val mapSetupFee: MapDataSetupFee) : ModelMapper<AccessFeeModel, AccessFeeEntity> {
     

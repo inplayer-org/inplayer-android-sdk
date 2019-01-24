@@ -2,9 +2,7 @@ package com.sdk.data.model.asset
 
 import com.google.gson.annotations.SerializedName
 
-/**
- * Created by victor on 1/5/19
- */
+
 data class ItemDetailsModel(val id: Long,
                             @SerializedName("merchant_id") val merchantId: Long,
                             @SerializedName("merchant_uuid") val merchantUUID: String,

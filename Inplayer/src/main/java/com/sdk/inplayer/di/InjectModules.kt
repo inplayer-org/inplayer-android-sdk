@@ -24,18 +24,17 @@ import com.sdk.domain.entity.account.InPlayerDomainUser
 import com.sdk.domain.gateway.InPlayerAccountRepository
 import com.sdk.domain.gateway.InPlayerAssetsRepository
 import com.sdk.domain.gateway.InPlayerPaymentRepository
-import com.sdk.domain.schedulers.MySchedulers
+import com.sdk.domain.schedulers.InPlayerSchedulers
 import com.sdk.domain.usecase.assets.GetAccessFeesUseCase
 import com.sdk.domain.usecase.assets.GetItemAccessUseCase
 import com.sdk.domain.usecase.assets.GetItemDetailsUseCase
-import com.sdk.domain.usecase.autehntication.*
+import com.sdk.domain.usecase.authentication.*
 import com.sdk.domain.usecase.payments.ValidateReceiptUseCase
-import com.sdk.inplayer.configuration.InPlayer
-import com.sdk.inplayer.util.InPlayerSDKConfiguration
 import com.sdk.inplayer.api.Account
 import com.sdk.inplayer.api.Asset
 import com.sdk.inplayer.api.Notification
 import com.sdk.inplayer.api.Payment
+import com.sdk.inplayer.configuration.InPlayer
 import com.sdk.inplayer.mapper.account.AuthorizationModelMapper
 import com.sdk.inplayer.mapper.account.InPlayerCredentialsMapper
 import com.sdk.inplayer.mapper.account.InPlayerUserMapper
@@ -43,7 +42,11 @@ import com.sdk.inplayer.mapper.assets.*
 import com.sdk.inplayer.mapper.notification.AccessGrantedNotificationMapper
 import com.sdk.inplayer.mapper.notification.AccessRevokedNotificationMapper
 import com.sdk.inplayer.mapper.notification.NotificationMapper
+import com.sdk.inplayer.service.AccountService
+import com.sdk.inplayer.service.AssetService
+import com.sdk.inplayer.service.PaymentService
 import com.sdk.inplayer.util.AppSchedulers
+import com.sdk.inplayer.util.InPlayerSDKConfiguration
 import com.sdk.notification.AWSNotificationManager
 import com.sdk.notification.gateway.InPlayerAWSCredentialsRepository
 import org.koin.dsl.module.module
@@ -52,7 +55,7 @@ import org.koin.standalone.StandAloneContext.startKoin
 import org.koin.standalone.setProperty
 
 
-internal object  InjectModules : KoinComponent {
+internal object InjectModules : KoinComponent {
     
     fun init(configuration: InPlayer.Configuration) {
         
@@ -61,13 +64,13 @@ internal object  InjectModules : KoinComponent {
         }
         
         val configurationModule = module {
-            single { InPlayerSDKConfiguration(getProperty(Const.merchant_UUID), getProperty(Const.referrer)) }
+            single { InPlayerSDKConfiguration(getProperty(Const.merchant_UUID), configuration.referrer) }
         }
         
         // Dependency Injection for The Data Module
         val dataModule = module {
             
-            single { AppSchedulers() as MySchedulers }
+            single { AppSchedulers() as InPlayerSchedulers }
             
             
             //Data Module Mapper
@@ -81,7 +84,7 @@ internal object  InjectModules : KoinComponent {
             factory { MapInPlayerUser() as ModelMapper<InPlayerAccount, InPlayerDomainUser> }
             
             factory { MapDataItemAccess(get()) }
-    
+            
             factory { MapDataItemDetails(get(), get(), get()) }
             
             factory { MapDataItemType() }
@@ -124,7 +127,7 @@ internal object  InjectModules : KoinComponent {
             
             factory { InPlayerAssetsRepositoryImpl(get(), get(), get(), get()) as InPlayerAssetsRepository }
             
-            factory { InPlayerAccountRepositoryImpl(get(), get(), get(),get()) as InPlayerAccountRepository }
+            factory { InPlayerAccountRepositoryImpl(get(), get(), get(), get()) as InPlayerAccountRepository }
             
             factory { InPlayerAWSCredentialsRepositoryImpl(get(), get(), get()) as InPlayerAWSCredentialsRepository }
             
@@ -136,9 +139,9 @@ internal object  InjectModules : KoinComponent {
         
         val mainControllerModule = module {
             
-            factory { Asset(get(), get(), get(), get(), get(), get(), get(), get()) }
+            factory { Asset(get(), get(), get(), get(), get(), get()) }
             
-            factory { Account(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(),get(),get()) }
+            factory { Account(get(), get(), get(), get(), get(), get()) }
             
             factory { Notification(get(), get()) }
             
@@ -148,6 +151,8 @@ internal object  InjectModules : KoinComponent {
         }
         
         val accountUseCaseModule = module {
+            
+            factory { AccountService() }
             
             factory { ForgotPasswordUseCase(get(), get()) }
             
@@ -181,6 +186,8 @@ internal object  InjectModules : KoinComponent {
             factory { GetAccessFeesUseCase(get(), get()) }
             
             factory { GetItemAccessUseCase(get(), get()) }
+    
+            factory { AssetService() }
             
         }
         
@@ -188,12 +195,14 @@ internal object  InjectModules : KoinComponent {
             
             factory { ValidateReceiptUseCase(get(), get()) }
             
+            factory { PaymentService() }
+            
         }
         
         
         val mapperModule = module {
             
-            factory { InPlayerUserMapper()  }
+            factory { InPlayerUserMapper() }
             
             factory { MapAccessControlType() }
             
@@ -204,7 +213,7 @@ internal object  InjectModules : KoinComponent {
             factory { MapInPlayerUser() }
             
             factory { MapItemAccess(get()) }
-    
+            
             factory { MapItemDetails(get(), get(), get()) }
             
             factory { MapItemType() }
@@ -240,7 +249,7 @@ internal object  InjectModules : KoinComponent {
         
         setProperty(Const.merchant_UUID, configuration.mMerchantUUID)
         
-        setProperty(Const.referrer, configuration.referrer)
+        //setProperty(Const.referrer, configuration?.referrer)
         
     }
     

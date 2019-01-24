@@ -3,9 +3,7 @@ package com.sdk.data.model.mapper
 import com.sdk.data.model.account.InPlayerAuthorizationModel
 import com.sdk.domain.entity.account.AuthorizationHolder
 
-/**
- * Created by victor on 1/21/19
- */
+
 class MapAuthorizationModel  constructor(private val mapInPlayerUser: MapInPlayerUser): ModelMapper<InPlayerAuthorizationModel,AuthorizationHolder> {
     
     override fun mapFromModel(model: InPlayerAuthorizationModel): AuthorizationHolder {
