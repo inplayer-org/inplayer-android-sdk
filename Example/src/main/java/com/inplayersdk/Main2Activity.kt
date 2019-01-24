@@ -81,15 +81,11 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun logInuser() {
-        InPlayer.Account.authenticate("matej@inplayer.com", "matej123456", InPlayerCallback { inPlayerUser, error ->
+        InPlayer.Account.authenticate("YOUR_USERNAME_HERE", "YOUR_PASSWORD_HERE", InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
-                //Handle InPlayerUser
-                Log.v("logInuser", "User created $inPlayerUser")
-                
+                //SUCCESS - Handle InPlayerUser
             } else {
                 //Handle Error
-                Log.v("logInuser", "Error block $error")
-                error.e.printStackTrace()
             }
         })
     }
@@ -184,9 +180,9 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun getItem() {
-        InPlayer.Assets.getItemDetails(43871, InPlayerCallback { itemDetails, error ->
+        InPlayer.Assets.getItemDetails(1111, InPlayerCallback { inPlayerItem, error ->
             if (error == null) {
-                Log.v("getItem", "GET ITEM :  $itemDetails")
+                //SUCCESS - Handle InPlayerItem
             } else {
                 //Handle Error
                 Log.v("getItem", "Error block $error")
@@ -208,18 +204,19 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun initNotification() {
+   
+    }
+    
+    override fun onResume() {
+        super.onResume()
+    
         InPlayer.Notification.subscribe(object : InPlayerNotificationCallback {
-            
-            override fun onStatusChanged(status: InPlayerNotificationStatus) {
-            
-            }
-            
-            override fun onMessageReceived(message: InPlayerNotification) {
-            }
-            
-            override fun onError(t: InPlayerException) {
-                t.e.printStackTrace()
-            }
+        
+            override fun onStatusChanged(status: InPlayerNotificationStatus) {  }
+        
+            override fun onMessageReceived(message: InPlayerNotification) { }
+        
+            override fun onError(t: InPlayerException) {    }
         })
     }
     
