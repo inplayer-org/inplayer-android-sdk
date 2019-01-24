@@ -8,9 +8,7 @@ import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.*
 
-/**
- * Created by victor on 1/9/19
- */
+
 interface InPlayerRemotePublicServiceAPI {
     
     @FormUrlEncoded

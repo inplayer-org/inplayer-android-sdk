@@ -6,9 +6,6 @@ import com.sdk.domain.schedulers.InPlayerSchedulers
 import com.sdk.domain.usecase.base.SingleUseCase
 import io.reactivex.Single
 
-/**
- * Created by victor on 12/26/18
- */
 class AccountDetailsUseCase(val appSchedulers: InPlayerSchedulers,
                             val inPlayerAuthenticatorRepository: InPlayerAccountRepository)
     : SingleUseCase<InPlayerDomainUser, Nothing?>(appSchedulers) {

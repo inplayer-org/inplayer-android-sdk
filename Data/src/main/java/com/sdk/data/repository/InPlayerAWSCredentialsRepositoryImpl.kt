@@ -7,9 +7,7 @@ import com.sdk.notification.entity.InPlayerAWSCredentials
 import com.sdk.notification.gateway.InPlayerAWSCredentialsRepository
 import io.reactivex.Single
 
-/**
- * Created by victor on 1/15/19
- */
+
 class InPlayerAWSCredentialsRepositoryImpl constructor(private val notificationsRemote: NotificationsRemote,
                                                        private val userLocalAuthenticator: UserLocalAuthenticator,
                                                        private val mapAWSCredentials: MapAWSCredentials) : InPlayerAWSCredentialsRepository {

@@ -6,14 +6,12 @@ import com.sdk.domain.entity.account.InPlayerDomainUser
 import io.reactivex.Completable
 import io.reactivex.Single
 
-/**
- * Created by victor on 12/20/18
- */
+
 interface InPlayerAccountRepository {
     
     fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String?, metadata: HashMap<String, String>?): Single<AuthorizationHolder>
     
-    fun autehenticate(username: String, password: String, grantType: String, clientId: String): Single<AuthorizationHolder>
+    fun authenticate(username: String, password: String, grantType: String, clientId: String): Single<AuthorizationHolder>
     
     fun logout(): Completable
     

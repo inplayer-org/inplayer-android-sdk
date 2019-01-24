@@ -4,9 +4,7 @@ import com.sdk.domain.entity.asset.TrialPeriodEntity
 import com.sdk.domain.entity.mapper.DomainMapper
 import com.sdk.inplayer.model.assets.InPlayerTrialPeriod
 
-/**
- * Created by victor on 1/6/19
- */
+
 internal class MapTrialPeriod : DomainMapper<TrialPeriodEntity, InPlayerTrialPeriod> {
     
     override fun mapFromDomain(domainEntity: TrialPeriodEntity): InPlayerTrialPeriod {

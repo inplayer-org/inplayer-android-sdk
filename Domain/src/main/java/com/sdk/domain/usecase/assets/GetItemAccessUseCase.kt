@@ -6,10 +6,8 @@ import com.sdk.domain.schedulers.InPlayerSchedulers
 import com.sdk.domain.usecase.base.SingleUseCase
 import io.reactivex.Single
 
-/**
- * Created by victor on 1/5/19
- */
-class GetItemAccessUseCase(val inPlayerSchedulers: InPlayerSchedulers, val inPlayerAssetsRepository: InPlayerAssetsRepository)
+
+class GetItemAccessUseCase(private val inPlayerSchedulers: InPlayerSchedulers, private val inPlayerAssetsRepository: InPlayerAssetsRepository)
     : SingleUseCase<ItemAccessEntity, GetItemAccessUseCase.Params>(inPlayerSchedulers) {
     
     override fun buildUseCaseObservable(params: Params?): Single<ItemAccessEntity> {

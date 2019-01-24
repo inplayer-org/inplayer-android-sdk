@@ -5,10 +5,8 @@ import com.sdk.domain.schedulers.InPlayerSchedulers
 import com.sdk.domain.usecase.base.SingleUseCase
 import io.reactivex.Single
 
-/**
- * Created by victor on 12/27/18
- */
-class SetNewPasswordUseCase(val appSchedulers: InPlayerSchedulers,
+
+class SetNewPasswordUseCase(appSchedulers: InPlayerSchedulers,
                             private val inPlayerAccountRepository: InPlayerAccountRepository) : SingleUseCase<String, SetNewPasswordUseCase.Params>(appSchedulers) {
     
     override fun buildUseCaseObservable(params: Params?): Single<String> {

@@ -6,13 +6,12 @@ import com.sdk.domain.usecase.payments.ValidateReceiptUseCase
 import com.sdk.inplayer.callback.InPlayerCallback
 import com.sdk.inplayer.mapper.ThrowableToInPlayerExceptionMapper
 import com.sdk.inplayer.model.error.InPlayerException
+import com.sdk.inplayer.service.PaymentService
 
-/**
- * Created by victor on 1/21/19
- */
+
 @SuppressLint("CheckResult")
 class Payment internal constructor(private val appSchedulers: InPlayerSchedulers,
-                                   private val validateReceiptUseCase: ValidateReceiptUseCase) {
+                                   private val paymentService: PaymentService) {
     
     
     /**
@@ -23,8 +22,8 @@ class Payment internal constructor(private val appSchedulers: InPlayerSchedulers
      * @param productIdentifier String Product identifier in a format itemId_accessFeeId
      * @param callback InPlayerCallback<String, InPlayerException>
      */
-    fun validate(receipt: String,productIdentifier : String, callback: InPlayerCallback<String, InPlayerException>) {
-        validateReceiptUseCase.execute(ValidateReceiptUseCase.Params(receipt = receipt, productIdentifier = productIdentifier))
+    fun validate(receipt: String, productIdentifier: String, callback: InPlayerCallback<String, InPlayerException>) {
+        paymentService.validateReceiptUseCase.execute(ValidateReceiptUseCase.Params(receipt = receipt, productIdentifier = productIdentifier))
                 .observeOn(appSchedulers.observeOn)
                 .subscribeOn(appSchedulers.subscribeOn)
                 .subscribe({

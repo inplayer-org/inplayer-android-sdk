@@ -6,9 +6,7 @@ import com.sdk.data.model.account.InPlayerAuthorizationModel
 import io.reactivex.Single
 import retrofit2.Response
 
-/**
- * Created by victor on 12/21/18
- */
+
 interface AccountRemote {
     
     fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String?, metadata: HashMap<String, String>?): Single<InPlayerAuthorizationModel>

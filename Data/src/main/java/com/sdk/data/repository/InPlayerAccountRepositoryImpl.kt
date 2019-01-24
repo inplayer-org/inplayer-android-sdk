@@ -12,9 +12,7 @@ import com.sdk.domain.gateway.InPlayerAccountRepository
 import io.reactivex.Completable
 import io.reactivex.Single
 
-/**
- * Created by victor on 12/20/18
- */
+
 class InPlayerAccountRepositoryImpl constructor(
         private val accountRemote: AccountRemote,
         private val userLocalAuthenticator: UserLocalAuthenticator,
@@ -36,7 +34,7 @@ class InPlayerAccountRepositoryImpl constructor(
     }
     
     //todo change
-    override fun autehenticate(username: String, password: String, grantType: String, clientId: String): Single<AuthorizationHolder> {
+    override fun authenticate(username: String, password: String, grantType: String, clientId: String): Single<AuthorizationHolder> {
         return accountRemote
                 .authenticateUser(username, password, grantType, clientId)
                 .doOnSuccess {

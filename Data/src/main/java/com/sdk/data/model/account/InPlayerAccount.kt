@@ -2,9 +2,7 @@ package com.sdk.data.model.account
 
 import com.google.gson.annotations.SerializedName
 
-/**
- * Created by victor on 12/25/18
- */
+
 data class InPlayerAccount(val id: Long,
                            val email: String,
                            @SerializedName("full_name") val fullName: String,

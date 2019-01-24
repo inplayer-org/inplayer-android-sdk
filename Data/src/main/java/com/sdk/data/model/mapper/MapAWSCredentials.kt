@@ -3,9 +3,7 @@ package com.sdk.data.model.mapper
 import com.sdk.data.model.notification.AWSCredentialsModel
 import com.sdk.notification.entity.InPlayerAWSCredentials
 
-/**
- * Created by victor on 1/15/19
- */
+
 class MapAWSCredentials : ModelMapper<AWSCredentialsModel, InPlayerAWSCredentials> {
     
     override fun mapFromModel(model: AWSCredentialsModel): InPlayerAWSCredentials {

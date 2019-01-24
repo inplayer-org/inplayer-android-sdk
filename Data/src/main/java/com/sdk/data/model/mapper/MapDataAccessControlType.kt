@@ -3,9 +3,7 @@ package com.sdk.data.model.mapper
 import com.sdk.data.model.asset.AccessControlTypeModel
 import com.sdk.domain.entity.asset.AccessControlTypeEntity
 
-/**
- * Created by victor on 1/6/19
- */
+
 class MapDataAccessControlType : ModelMapper<AccessControlTypeModel, AccessControlTypeEntity> {
     
     override fun mapFromModel(model: AccessControlTypeModel): AccessControlTypeEntity {

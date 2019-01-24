@@ -7,9 +7,7 @@ import com.sdk.inplayer.model.notification.InPlayerAccountLogoutNotification
 import com.sdk.inplayer.model.notification.InPlayerNotification
 import com.sdk.notification.model.notification.*
 
-/**
- * Created by victor on 1/17/19
- */
+
 internal class NotificationMapper constructor(private val accessGrantedNotificationMapper: AccessGrantedNotificationMapper,
                                               private val accessRevokedNotificationMapper: AccessRevokedNotificationMapper) : DomainMapper<InPlayerNotificationEntity, InPlayerNotification> {
     

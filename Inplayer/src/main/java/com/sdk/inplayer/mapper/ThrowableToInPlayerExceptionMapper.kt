@@ -10,9 +10,6 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 
-/**
- * Created by victor on 1/3/19
- */
 internal object ThrowableToInPlayerExceptionMapper {
     
     fun mapThrowableToException(e: Throwable): InPlayerException {

@@ -7,9 +7,7 @@ import com.sdk.data.remote.api.InPlayerRemoteServiceAPI
 import com.sdk.data.repository.gateway.AccountRemote
 import io.reactivex.Single
 
-/**
- * Created by victor on 12/21/18
- */
+
 class AccountRemoteImpl constructor(private val inPlayerRemoteProvider: InPlayerRemoteServiceAPI,
                                     private val inPlayerRemotePublicServiceAPI: InPlayerRemotePublicServiceAPI) : AccountRemote {
     

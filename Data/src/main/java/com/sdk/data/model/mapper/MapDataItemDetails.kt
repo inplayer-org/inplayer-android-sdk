@@ -5,9 +5,7 @@ import com.sdk.data.model.asset.ItemMetadataModel
 import com.sdk.domain.entity.asset.ItemDetailsEntity
 import com.sdk.domain.entity.asset.ItemMetadataEntity
 
-/**
- * Created by victor on 1/6/19
- */
+
 class MapDataItemDetails constructor(
         private val mapDataAccessControlType: MapDataAccessControlType,
         private val mapItemType: MapDataItemType,

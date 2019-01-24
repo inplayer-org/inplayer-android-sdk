@@ -8,16 +8,14 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
 
-/**
- * Created by victor on 1/3/19
- */
-class RefreshAuthenticator constructor(val clientId: String,
-                                       val localAuthenticator: UserLocalAuthenticator,
-                                       val inPlayerRemoteRefreshServiceAPI: InPlayerRemoteRefreshServiceAPI) : Authenticator {
+
+class RefreshAuthenticator constructor(private val clientId: String,
+                                       private val localAuthenticator: UserLocalAuthenticator,
+                                       private val inPlayerRemoteRefreshServiceAPI: InPlayerRemoteRefreshServiceAPI) : Authenticator {
     
-    val MAX_RETRY = 3
+    private val MAX_RETRY = 3
     
-    val TAG = "RefreshAuthenticator"
+    private val TAG = "RefreshAuthenticator"
     
     override fun authenticate(route: Route, response: Response): Request? {
         Log.d(TAG, "Detected authentication error ${response.code()} on ${response.request()?.url()}")

@@ -6,9 +6,7 @@ import com.sdk.data.remote.api.InPlayerRemoteServiceAPI
 import com.sdk.data.repository.gateway.NotificationsRemote
 import io.reactivex.Single
 
-/**
- * Created by victor on 1/15/19
- */
+
 class NotificationsRemoteImpl constructor(private val isDebug: Boolean, private val inPlayerRemoteProvider: InPlayerRemoteServiceAPI) : NotificationsRemote {
     
     override fun getAwsCredentials(): Single<AWSCredentialsModel> {

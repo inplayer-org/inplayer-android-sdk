@@ -3,9 +3,7 @@ package com.sdk.data.model.mapper
 import com.sdk.data.model.asset.ItemAccessModel
 import com.sdk.domain.entity.asset.ItemAccessEntity
 
-/**
- * Created by victor on 1/6/19
- */
+
 class MapDataItemAccess constructor(private val mapItemDetails: MapDataItemDetails) : ModelMapper<ItemAccessModel, ItemAccessEntity> {
     
     override fun mapFromModel(model: ItemAccessModel): ItemAccessEntity {

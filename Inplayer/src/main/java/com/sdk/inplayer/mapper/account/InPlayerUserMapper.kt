@@ -4,9 +4,7 @@ import com.sdk.domain.entity.account.InPlayerDomainUser
 import com.sdk.domain.entity.mapper.DomainMapper
 import com.sdk.inplayer.model.account.InPlayerUser
 
-/**
- * Created by victor on 1/4/19
- */
+
 internal class InPlayerUserMapper : DomainMapper<InPlayerDomainUser, InPlayerUser> {
     
     override fun mapFromDomain(domainEntity: InPlayerDomainUser): InPlayerUser {

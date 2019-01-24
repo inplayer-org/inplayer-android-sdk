@@ -13,9 +13,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-/**
- * Created by victor on 1/3/19
- */
+
 class InPlayerRemoteRefreshTokenProvider(val baseUrl: String, val isDebug: Boolean) : InPlayerRemoteRefreshServiceAPI {
     
     /**

@@ -5,7 +5,6 @@ import com.sdk.domain.schedulers.InPlayerSchedulers
 import com.sdk.domain.usecase.assets.GetAccessFeesUseCase
 import com.sdk.domain.usecase.assets.GetItemAccessUseCase
 import com.sdk.domain.usecase.assets.GetItemDetailsUseCase
-import com.sdk.inplayer.util.InPlayerSDKConfiguration
 import com.sdk.inplayer.callback.InPlayerCallback
 import com.sdk.inplayer.mapper.ThrowableToInPlayerExceptionMapper
 import com.sdk.inplayer.mapper.assets.MapAccessFee
@@ -15,6 +14,8 @@ import com.sdk.inplayer.model.assets.InPlayerAccessFee
 import com.sdk.inplayer.model.assets.InPlayerItem
 import com.sdk.inplayer.model.assets.InPlayerItemAccess
 import com.sdk.inplayer.model.error.InPlayerException
+import com.sdk.inplayer.service.AssetService
+import com.sdk.inplayer.util.InPlayerSDKConfiguration
 
 /**
  * In this section, you can find all the necessary endpoints for creating
@@ -23,9 +24,7 @@ import com.sdk.inplayer.model.error.InPlayerException
 @SuppressLint("CheckResult")
 class Asset internal constructor(private val appSchedulers: InPlayerSchedulers,
                                  private val inPlayerSDKConfiguration: InPlayerSDKConfiguration,
-                                 private val getItemAccessUseCase: GetItemAccessUseCase,
-                                 private val getAccessFeesUseCase: GetAccessFeesUseCase,
-                                 private val getItemDetailsUseCase: GetItemDetailsUseCase,
+                                 private val assetService: AssetService,
                                  private val mapItemDetails: MapItemDetails,
                                  private val mapAccessFee: MapAccessFee,
                                  private val mapItemAccess: MapItemAccess) {
@@ -39,7 +38,7 @@ class Asset internal constructor(private val appSchedulers: InPlayerSchedulers,
      * @param callback InPlayerCallback<InPlayerItem, InPlayerException>
      */
     fun getItemDetails(id: Int, callback: InPlayerCallback<InPlayerItem, InPlayerException>) {
-        getItemDetailsUseCase.execute(GetItemDetailsUseCase.Params(id, inPlayerSDKConfiguration.merchantUUID))
+        assetService.getItemDetailsUseCase.execute(GetItemDetailsUseCase.Params(id, inPlayerSDKConfiguration.merchantUUID))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({
@@ -56,7 +55,7 @@ class Asset internal constructor(private val appSchedulers: InPlayerSchedulers,
      * @param callback InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
      */
     fun getAccessFees(id: Int, callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>) {
-        getAccessFeesUseCase.execute(GetAccessFeesUseCase.Params(id))
+        assetService.getAccessFeesUseCase.execute(GetAccessFeesUseCase.Params(id))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({ list ->
@@ -74,7 +73,7 @@ class Asset internal constructor(private val appSchedulers: InPlayerSchedulers,
      * @param callback InPlayerCallback<InPlayerItemAccess, InPlayerException>
      */
     fun getItemAccess(id: Int, callback: InPlayerCallback<InPlayerItemAccess, InPlayerException>) {
-        getItemAccessUseCase.execute(GetItemAccessUseCase.Params(id))
+        assetService.getItemAccessUseCase.execute(GetItemAccessUseCase.Params(id))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({

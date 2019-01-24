@@ -1,8 +1,6 @@
 package com.sdk.domain.entity.asset
 
-/**
- * Created by victor on 1/5/19
- */
+
 data class ItemDetailsEntity(val id: Long,
                              val merchantId: Long,
                              val merchantUUID: String,

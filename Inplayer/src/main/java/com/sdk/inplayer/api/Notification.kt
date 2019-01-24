@@ -8,9 +8,7 @@ import com.sdk.notification.AWSNotificationCallback
 import com.sdk.notification.AWSNotificationManager
 import com.sdk.notification.model.notification.InPlayerNotificationEntity
 
-/**
- * Created by victor on 1/16/19
- */
+
 class Notification internal constructor(private val notificationManager: AWSNotificationManager,
                                private val notificationMapper: NotificationMapper) {
     

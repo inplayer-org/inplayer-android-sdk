@@ -7,9 +7,7 @@ import com.sdk.domain.schedulers.InPlayerSchedulers
 import com.sdk.domain.usecase.base.SingleUseCase
 import io.reactivex.Single
 
-/**
- * Created by victor on 12/20/18
- */
+
 class AuthenticateUserUseCase constructor(schedulers: InPlayerSchedulers,
                                           private val inPlayerAuthenticatorRepository: InPlayerAccountRepository)
     : SingleUseCase<AuthorizationHolder, AuthenticateUserUseCase.Params>(schedulers) {
@@ -22,7 +20,7 @@ class AuthenticateUserUseCase constructor(schedulers: InPlayerSchedulers,
                 
                 params.username?.let { username ->
                     params.password?.let { password ->
-                        return inPlayerAuthenticatorRepository.autehenticate(username, password, params.grantType.toString(), params.clientId)
+                        return inPlayerAuthenticatorRepository.authenticate(username, password, params.grantType.toString(), params.clientId)
                     }
                     throw IllegalStateException("Password can't be null for GrantType Password!")
                 }

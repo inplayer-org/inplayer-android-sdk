@@ -5,11 +5,9 @@ import com.sdk.domain.schedulers.InPlayerSchedulers
 import com.sdk.domain.usecase.base.SingleUseCase
 import io.reactivex.Single
 
-/**
- * Created by victor on 12/26/18
- */
-class ChangePasswordUseCase constructor(val inPlayerSchedulers: InPlayerSchedulers,
-                                        val inPlayerAuthenticatorRepository: InPlayerAccountRepository)
+
+class ChangePasswordUseCase constructor(private val inPlayerSchedulers: InPlayerSchedulers,
+                                        private val inPlayerAuthenticatorRepository: InPlayerAccountRepository)
     : SingleUseCase<String, ChangePasswordUseCase.Params>(inPlayerSchedulers) {
     
     

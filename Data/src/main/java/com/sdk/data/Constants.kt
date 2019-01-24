@@ -1,8 +1,6 @@
 package com.sdk.data
 
-/**
- * Created by victor on 12/25/18
- */
+
 object Constants {
     
     object SharedPrefsKey {

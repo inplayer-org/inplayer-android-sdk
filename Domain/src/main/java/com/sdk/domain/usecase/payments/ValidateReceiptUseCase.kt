@@ -6,9 +6,7 @@ import com.sdk.domain.usecase.base.SingleUseCase
 import io.reactivex.Single
 import java.lang.Exception
 
-/**
- * Created by victor on 1/21/19
- */
+
 class ValidateReceiptUseCase(inPlayerSchedulers: InPlayerSchedulers, private val inPlayerPaymentRepository: InPlayerPaymentRepository)
     : SingleUseCase<String, ValidateReceiptUseCase.Params>(inPlayerSchedulers) {
     

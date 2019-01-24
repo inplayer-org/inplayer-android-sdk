@@ -1,8 +1,6 @@
 package com.sdk.domain.entity.account
 
-/**
- * Created by victor on 12/20/18
- */
+
 data class InPlayerDomainUser(val id: Long,
                               val email: String,
                               val fullName: String,

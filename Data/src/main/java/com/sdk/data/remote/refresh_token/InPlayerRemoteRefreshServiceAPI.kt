@@ -6,9 +6,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
-/**
- * Created by victor on 1/3/19
- */
+
 interface InPlayerRemoteRefreshServiceAPI {
     
     @FormUrlEncoded

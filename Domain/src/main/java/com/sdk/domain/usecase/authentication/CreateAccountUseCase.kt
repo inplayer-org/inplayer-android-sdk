@@ -7,9 +7,7 @@ import com.sdk.domain.schedulers.InPlayerSchedulers
 import com.sdk.domain.usecase.base.SingleUseCase
 import io.reactivex.Single
 
-/**
- * Created by victor on 12/20/18
- */
+
 class CreateAccountUseCase constructor(schedulers: InPlayerSchedulers,
                                        private val inPlayerAuthenticatorRepository: InPlayerAccountRepository)
     : SingleUseCase<AuthorizationHolder, CreateAccountUseCase.Params>(schedulers) {

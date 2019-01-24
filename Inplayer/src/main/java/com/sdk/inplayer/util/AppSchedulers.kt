@@ -3,9 +3,7 @@ package com.sdk.inplayer.util
 import com.sdk.domain.schedulers.InPlayerSchedulers
 import io.reactivex.Scheduler
 
-/**
- * Created by victor on 12/23/18
- */
+
 internal class AppSchedulers : InPlayerSchedulers {
     
     override val computation: Scheduler
