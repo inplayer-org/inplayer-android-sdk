@@ -12,6 +12,7 @@ import com.sdk.notification.BuildConfig.AWS_IOT_ENDPOINT
 import com.sdk.notification.entity.InPlayerAWSCredentials
 import com.sdk.notification.gateway.InPlayerAWSCredentialsRepository
 import com.sdk.notification.modelparser.InPlayerNotificationParser
+import io.reactivex.disposables.Disposable
 import java.io.UnsupportedEncodingException
 
 
@@ -29,8 +30,8 @@ class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCr
         this.callback = callback
         
         //Check if the user is already subscribed
-        if(isSubscribed) {
-            Log.i("AWSNotificationManager","Already subscribed")
+        if (isSubscribed) {
+            Log.i("AWSNotificationManager", "Already subscribed")
             return
         }
         
@@ -42,14 +43,15 @@ class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCr
     fun disconnect() {
         mqttManager?.let {
             it.disconnect()
-            
         }
+        subscribe?.dispose()
         isSubscribed = false
     }
     
+    var subscribe: Disposable? = null
+    
     private fun initIotMqttManager() {
-        
-        inPlayerAWSCredentialsRepository.getAwsCredentials()
+        subscribe = inPlayerAWSCredentialsRepository.getAwsCredentials()
                 .observeOn(appSchedulers.observeOn)
                 .subscribeOn(appSchedulers.subscribeOn)
                 .subscribe({

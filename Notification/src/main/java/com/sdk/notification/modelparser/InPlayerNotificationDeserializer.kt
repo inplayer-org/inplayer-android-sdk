@@ -19,7 +19,7 @@ class InPlayerNotificationDeserializer : JsonDeserializer<InPlayerNotificationEn
             "payment.card.failed" to InPlayerPaymentCardFailedNotification::class.java,
             "subscribe.success" to InPlayerSubscribeSuccessNotification::class.java,
             "subscribe.failed" to InPlayerSubscribeFailedNotification::class.java,
-            "access.granted" to InPlayerAccessGrantedNotification::class.java,
+            "access.granted" to InPlayerAccessGrantedNotificationEntity::class.java,
             "access.revoked" to InPlayerAccessRevokedNotification::class.java,
             
             "account.logout" to InPlayerAccountLogoutNotificationEntity::class.java,

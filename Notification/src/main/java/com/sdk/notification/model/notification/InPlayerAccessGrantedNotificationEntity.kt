@@ -1,6 +1,6 @@
 package com.sdk.notification.model.notification
 
-data class InPlayerAccessGrantedNotification(
+data class InPlayerAccessGrantedNotificationEntity(
         val resource: InPlayerAccessGrantedNotificationResource,
         override val type: String, override val timestamp: Long
 ) : InPlayerNotificationEntity

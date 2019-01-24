@@ -7,7 +7,6 @@ import com.sdk.inplayer.model.notification.InPlayerAccountLogoutNotification
 import com.sdk.inplayer.model.notification.InPlayerNotification
 import com.sdk.notification.model.notification.*
 
-
 internal class NotificationMapper constructor(private val accessGrantedNotificationMapper: AccessGrantedNotificationMapper,
                                               private val accessRevokedNotificationMapper: AccessRevokedNotificationMapper) : DomainMapper<InPlayerNotificationEntity, InPlayerNotification> {
     
@@ -17,7 +16,7 @@ internal class NotificationMapper constructor(private val accessGrantedNotificat
             return accessRevokedNotificationMapper.mapFromDomain(inPlayerNotification)
         }
         
-        if (inPlayerNotification is InPlayerAccessGrantedNotification) {
+        if (inPlayerNotification is com.sdk.notification.model.notification.InPlayerAccessGrantedNotificationEntity) {
             return accessGrantedNotificationMapper.mapFromDomain(inPlayerNotification)
         }
         
