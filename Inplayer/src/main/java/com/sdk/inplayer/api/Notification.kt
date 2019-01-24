@@ -40,7 +40,7 @@ class Notification internal constructor(private val notificationManager: AWSNoti
      * Closes the connection for notifications
      */
     fun disconnect() {
-        notificationManager.discconnect()
+        notificationManager.disconnect()
     }
     
 }

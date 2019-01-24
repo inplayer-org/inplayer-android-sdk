@@ -35,6 +35,7 @@ class InPlayerAccountRepositoryImpl constructor(
                 .map { mapAuthorizationModel.mapFromModel(it) }
     }
     
+    //todo change
     override fun autehenticate(username: String, password: String, grantType: String, clientId: String): Single<AuthorizationHolder> {
         return accountRemote
                 .authenticateUser(username, password, grantType, clientId)
@@ -77,7 +78,7 @@ class InPlayerAccountRepositoryImpl constructor(
     }
     
     private fun updateLocalTokens(it: InPlayerAuthorizationModel) {
-        it.refreshToken?.let {
+        it.refreshToken.let {
             userLocalAuthenticator.saveRefreshToken(it)
         }
         

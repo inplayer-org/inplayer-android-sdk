@@ -1,10 +1,20 @@
 package com.sdk.inplayer.api
 
 import android.annotation.SuppressLint
-import com.sdk.data.model.account.InPlayerAccount
 import com.sdk.domain.entity.account.GrantType
-import com.sdk.domain.schedulers.MySchedulers
-import com.sdk.domain.usecase.autehntication.*
+import com.sdk.domain.schedulers.InPlayerSchedulers
+import com.sdk.domain.usecase.authentication.AccountDetailsUseCase
+import com.sdk.domain.usecase.authentication.AuthenticateUserUseCase
+import com.sdk.domain.usecase.authentication.ChangePasswordUseCase
+import com.sdk.domain.usecase.authentication.CreateAccountUseCase
+import com.sdk.domain.usecase.authentication.CredentialsUseCase
+import com.sdk.domain.usecase.authentication.EraseUserUseCase
+import com.sdk.domain.usecase.authentication.ForgotPasswordUseCase
+import com.sdk.domain.usecase.authentication.GetAccountUseCase
+import com.sdk.domain.usecase.authentication.IsUserAuthenticatedUseCase
+import com.sdk.domain.usecase.authentication.LogOutUserUseCase
+import com.sdk.domain.usecase.authentication.SetNewPasswordUseCase
+import com.sdk.domain.usecase.authentication.UpdateUserUseCase
 import com.sdk.inplayer.util.InPlayerSDKConfiguration
 import com.sdk.inplayer.callback.InPlayerCallback
 import com.sdk.inplayer.mapper.ThrowableToInPlayerExceptionMapper
@@ -21,8 +31,9 @@ import com.sdk.inplayer.model.error.InPlayerException
  * (de)activate your account and so on.
  *
  */
+//todo group usecases
 @SuppressLint("CheckResult")
-class Account internal constructor(private val appSchedulers: MySchedulers,
+class Account internal constructor(private val appSchedulers: InPlayerSchedulers,
                                    private val inPlayerSDKConfiguration: InPlayerSDKConfiguration,
                                    private val createAccountUseCase: CreateAccountUseCase,
                                    private val authenticatedUseCase: AuthenticateUserUseCase,

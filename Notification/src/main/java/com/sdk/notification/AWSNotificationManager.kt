@@ -1,38 +1,50 @@
 package com.sdk.notification
 
+import android.util.Log
 import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.auth.AWSSessionCredentials
 import com.amazonaws.internal.StaticCredentialsProvider
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttClientStatusCallback
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttManager
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttQos
-import com.sdk.domain.schedulers.MySchedulers
-import com.sdk.notification.entity.MyAWSCredentials
+import com.sdk.domain.schedulers.InPlayerSchedulers
+import com.sdk.notification.BuildConfig.AWS_IOT_ENDPOINT
+import com.sdk.notification.entity.InPlayerAWSCredentials
 import com.sdk.notification.gateway.InPlayerAWSCredentialsRepository
 import com.sdk.notification.modelparser.InPlayerNotificationParser
 import java.io.UnsupportedEncodingException
 
 
-/**
- * Created by victor on 1/14/19
- */
-class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCredentialsRepository, val appSchedulers: MySchedulers) {
+class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCredentialsRepository, val appSchedulers: InPlayerSchedulers) {
     
     private lateinit var callback: AWSNotificationCallback
     
     private var mqttManager: AWSIotMqttManager? = null
     
-    private lateinit var myAWSCredentials: MyAWSCredentials
+    private lateinit var inPlayerAWSCredentials: InPlayerAWSCredentials
+    
+    private var isSubcribed = false
     
     fun subscribe(callback: AWSNotificationCallback) {
         this.callback = callback
+        
+        //Check if the user is already subscribed
+        if(isSubcribed) {
+            Log.i("AWSNotificationManager","Already subscribed")
+            return
+        }
+        
         initIotMqttManager()
+        
+        isSubcribed = true
     }
     
-    fun discconnect() {
+    fun disconnect() {
         mqttManager?.let {
             it.disconnect()
+            
         }
+        isSubcribed = false
     }
     
     private fun initIotMqttManager() {
@@ -41,23 +53,25 @@ class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCr
                 .observeOn(appSchedulers.observeOn)
                 .subscribeOn(appSchedulers.subscribeOn)
                 .subscribe({
-                    myAWSCredentials = it
+                    inPlayerAWSCredentials = it
                     configureConnectingWithIoT()
                 }, {
                     callback.onError(it)
+                    isSubcribed = false
                 })
         
     }
     
     private fun configureConnectingWithIoT() {
         mqttManager = AWSIotMqttManager(
-                myAWSCredentials.accessKey,
-                myAWSCredentials.iotEndpoint)
+                inPlayerAWSCredentials.accessKey,
+                AWS_IOT_ENDPOINT)
         
-        mqttManager?.connect(StaticCredentialsProvider(MyAwsProvider(myAWSCredentials.accessKey, myAWSCredentials.secretKey, myAWSCredentials.sessionToken))) { status: AWSIotMqttClientStatusCallback.AWSIotMqttClientStatus?, throwable: Throwable? ->
+        mqttManager?.connect(StaticCredentialsProvider(MyAwsProvider(inPlayerAWSCredentials.accessKey, inPlayerAWSCredentials.secretKey, inPlayerAWSCredentials.sessionToken))) { status: AWSIotMqttClientStatusCallback.AWSIotMqttClientStatus?, throwable: Throwable? ->
             throwable?.let {
                 callback.onError(it)
                 it.printStackTrace()
+                isSubcribed = false
             }
             
             status?.let {
@@ -71,7 +85,7 @@ class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCr
     
     
     private fun subscribeToTopic() {
-        mqttManager?.subscribeToTopic(myAWSCredentials.userUUID, AWSIotMqttQos.QOS0) { _: String?, data: ByteArray? ->
+        mqttManager?.subscribeToTopic(inPlayerAWSCredentials.userUUID, AWSIotMqttQos.QOS0) { _: String?, data: ByteArray? ->
             try {
                 val message = String(data!!)
                 callback.onMessageReceived(InPlayerNotificationParser.parseJSON(message))
@@ -81,10 +95,6 @@ class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCr
         }
     }
     
-    
-    fun publish() {
-    
-    }
     
     private class MyAwsProvider(private val accessKey: String, private val secretKey: String, private val accessSessionKey: String)
         : AWSCredentials, AWSSessionCredentials {

@@ -24,11 +24,22 @@ import com.sdk.domain.entity.account.InPlayerDomainUser
 import com.sdk.domain.gateway.InPlayerAccountRepository
 import com.sdk.domain.gateway.InPlayerAssetsRepository
 import com.sdk.domain.gateway.InPlayerPaymentRepository
-import com.sdk.domain.schedulers.MySchedulers
+import com.sdk.domain.schedulers.InPlayerSchedulers
 import com.sdk.domain.usecase.assets.GetAccessFeesUseCase
 import com.sdk.domain.usecase.assets.GetItemAccessUseCase
 import com.sdk.domain.usecase.assets.GetItemDetailsUseCase
-import com.sdk.domain.usecase.autehntication.*
+import com.sdk.domain.usecase.authentication.AccountDetailsUseCase
+import com.sdk.domain.usecase.authentication.AuthenticateUserUseCase
+import com.sdk.domain.usecase.authentication.ChangePasswordUseCase
+import com.sdk.domain.usecase.authentication.CreateAccountUseCase
+import com.sdk.domain.usecase.authentication.CredentialsUseCase
+import com.sdk.domain.usecase.authentication.EraseUserUseCase
+import com.sdk.domain.usecase.authentication.ForgotPasswordUseCase
+import com.sdk.domain.usecase.authentication.GetAccountUseCase
+import com.sdk.domain.usecase.authentication.IsUserAuthenticatedUseCase
+import com.sdk.domain.usecase.authentication.LogOutUserUseCase
+import com.sdk.domain.usecase.authentication.SetNewPasswordUseCase
+import com.sdk.domain.usecase.authentication.UpdateUserUseCase
 import com.sdk.domain.usecase.payments.ValidateReceiptUseCase
 import com.sdk.inplayer.configuration.InPlayer
 import com.sdk.inplayer.util.InPlayerSDKConfiguration
@@ -67,7 +78,7 @@ internal object  InjectModules : KoinComponent {
         // Dependency Injection for The Data Module
         val dataModule = module {
             
-            single { AppSchedulers() as MySchedulers }
+            single { AppSchedulers() as InPlayerSchedulers }
             
             
             //Data Module Mapper

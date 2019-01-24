@@ -21,6 +21,7 @@ public class InPlayer {
     public static Asset Assets;
     public static Notification Notification;
     public static Payment Payment;
+
     private static boolean isInitialized = false;
 
     // Suppress constructor to prevent subclassing

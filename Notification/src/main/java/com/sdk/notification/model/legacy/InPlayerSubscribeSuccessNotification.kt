@@ -2,9 +2,7 @@ package com.sdk.notification.model.legacy
 
 import com.sdk.notification.model.notification.InPlayerNotificationEntity
 
-/**
- * Created by victor on 1/16/19
- */
+
 data class InPlayerSubscribeSuccessNotification(val resource: InPlayerSubscribeSuccessNotificationResource,
                                                 override val type: String, override val timestamp: Long) : InPlayerNotificationEntity
 

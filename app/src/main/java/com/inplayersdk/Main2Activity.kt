@@ -99,7 +99,10 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun signUp() {
-        InPlayer.Account.createAccount("Viktor Petrovski", "victorpetrovski93+test105@gmail.com", "androidsdk123", "androidsdk123", InPlayerCallback { inPlayerUser, error ->
+        InPlayer.Account.createAccount("Viktor Petrovski",
+                "victorpetrovski93+test1054@gmail.com",
+                "androidsdk123",
+                "androidsdk123", InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
                 Log.v("signUp", "User created $inPlayerUser")
             } else {

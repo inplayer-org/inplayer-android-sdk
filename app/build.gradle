@@ -5,6 +5,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+
+
     compileSdkVersion rootProject.androidCompileSdkVersion
     defaultConfig {
         applicationId "com.inplayersdk"
@@ -27,6 +29,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+
+    //implementation 'com.github.inplayer-org.inplayer-android-sdk:InPlayer:0.9'
 
     implementation project(':Inplayer')
 

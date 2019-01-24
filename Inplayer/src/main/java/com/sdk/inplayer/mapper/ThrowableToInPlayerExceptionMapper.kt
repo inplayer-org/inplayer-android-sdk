@@ -17,7 +17,6 @@ internal object ThrowableToInPlayerExceptionMapper {
     
     fun mapThrowableToException(e: Throwable): InPlayerException {
         
-        
         return when (e) {
             is AuthTokenMissingException -> {
                 handleUnauthorizedUser(e)

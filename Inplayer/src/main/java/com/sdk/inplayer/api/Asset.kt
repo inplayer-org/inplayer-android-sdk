@@ -1,7 +1,7 @@
 package com.sdk.inplayer.api
 
 import android.annotation.SuppressLint
-import com.sdk.domain.schedulers.MySchedulers
+import com.sdk.domain.schedulers.InPlayerSchedulers
 import com.sdk.domain.usecase.assets.GetAccessFeesUseCase
 import com.sdk.domain.usecase.assets.GetItemAccessUseCase
 import com.sdk.domain.usecase.assets.GetItemDetailsUseCase
@@ -21,7 +21,7 @@ import com.sdk.inplayer.model.error.InPlayerException
  * an asset and partaking in any operation regarding the asset resource.
  */
 @SuppressLint("CheckResult")
-class Asset internal constructor(private val appSchedulers: MySchedulers,
+class Asset internal constructor(private val appSchedulers: InPlayerSchedulers,
                                  private val inPlayerSDKConfiguration: InPlayerSDKConfiguration,
                                  private val getItemAccessUseCase: GetItemAccessUseCase,
                                  private val getAccessFeesUseCase: GetAccessFeesUseCase,
