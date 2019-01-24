@@ -15,7 +15,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
 
-        buildConfigField "String", "AWS_IOT_ENDPOINT", "\"https://staging-v2.inplayer.com/\""
+        buildConfigField "String", "AWS_IOT_ENDPOINT", "\"http://a3gkl64duktvc4-ats.iot.eu-west-1.amazonaws.com/\""
 
 
     }

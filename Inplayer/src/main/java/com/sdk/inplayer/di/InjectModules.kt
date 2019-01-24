@@ -72,7 +72,7 @@ internal object  InjectModules : KoinComponent {
         }
         
         val configurationModule = module {
-            single { InPlayerSDKConfiguration(getProperty(Const.merchant_UUID), getProperty(Const.referrer)) }
+            single { InPlayerSDKConfiguration(getProperty(Const.merchant_UUID), configuration.referrer) }
         }
         
         // Dependency Injection for The Data Module
@@ -251,7 +251,7 @@ internal object  InjectModules : KoinComponent {
         
         setProperty(Const.merchant_UUID, configuration.mMerchantUUID)
         
-        setProperty(Const.referrer, configuration.referrer)
+        //setProperty(Const.referrer, configuration?.referrer)
         
     }
     

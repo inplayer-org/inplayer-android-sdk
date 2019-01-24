@@ -26,7 +26,7 @@ class AccountRemoteImpl constructor(private val inPlayerRemoteProvider: InPlayer
     override fun authenticateWithClientSecret(clientSecret: String, grantType: String, clientId: String) =
             inPlayerRemotePublicServiceAPI.authenticate(clientSecret = clientSecret, grantType = grantType, clientId = clientId)
     
-    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String, metadata: HashMap<String, String>?): Single<InPlayerAuthorizationModel> {
+    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String?, metadata: HashMap<String, String>?): Single<InPlayerAuthorizationModel> {
         var updatedMetadataMap = hashMapOf<String, String>()
         
         metadata?.forEach {

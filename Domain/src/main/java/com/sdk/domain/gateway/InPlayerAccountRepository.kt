@@ -11,7 +11,7 @@ import io.reactivex.Single
  */
 interface InPlayerAccountRepository {
     
-    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String, metadata: HashMap<String, String>?): Single<AuthorizationHolder>
+    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String?, metadata: HashMap<String, String>?): Single<AuthorizationHolder>
     
     fun autehenticate(username: String, password: String, grantType: String, clientId: String): Single<AuthorizationHolder>
     

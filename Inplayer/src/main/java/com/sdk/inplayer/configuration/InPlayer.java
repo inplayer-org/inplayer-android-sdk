@@ -109,9 +109,9 @@ public class InPlayer {
 
         private Configuration(Builder builder) {
             this.mServerUrl = getServerUrl(builder.environmentType);
-            this.referrer = builder.mReferrer;
+            this.referrer = builder.referrer;
             this.context = builder.context;
-            this.mMerchantUUID = builder.mMerchantUUID;
+            this.mMerchantUUID = builder.merchantUUID;
             this.environmentType = builder.environmentType;
             this.isDebug = isDebug(builder.environmentType);
         }
@@ -143,8 +143,8 @@ public class InPlayer {
          * Allows for simple constructing of a {@code Configuration} object.
          */
         public static final class Builder {
-            private String mReferrer;
-            private String mMerchantUUID;
+            private String referrer;
+            private String merchantUUID;
             private Context context;
             private EnvironmentType environmentType = EnvironmentType.PRODUCTION;
 
@@ -156,11 +156,10 @@ public class InPlayer {
              *
              * @param context      The active {@link Context} for your application. Cannot be null.
              * @param merchantUUID The Merchant UUID used for your InPlayer Account
-             * @param referrer     The Referrer String used to describe the installation of the user.
+
              */
-            public Builder(Context context, String merchantUUID, String referrer) {
-                this.mReferrer = referrer;
-                this.mMerchantUUID = merchantUUID;
+            public Builder(Context context, String merchantUUID) {
+                this.merchantUUID = merchantUUID;
                 this.context = context;
             }
 
@@ -174,6 +173,19 @@ public class InPlayer {
                 this.environmentType = environment;
                 return this;
             }
+
+            /**
+             * Set the Referrer string used for your application
+             *
+             * @param referrer     The Referrer String used to describe the installation of the user.
+             * @return The same builder, for easy chaining.
+             */
+            public Builder withReferrer(String referrer) {
+                this.referrer = referrer;
+                return this;
+            }
+
+
 
             /**
              * Construct this builder into a concrete {@code Configuration} instance.

@@ -26,7 +26,7 @@ class InPlayerAccountRepositoryImpl constructor(
     /**
      *  Creating Users and handling Authorization
      * */
-    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String, metadata: HashMap<String, String>?): Single<AuthorizationHolder> {
+    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String?, metadata: HashMap<String, String>?): Single<AuthorizationHolder> {
         return accountRemote
                 .createAccount(fullName, email, password, passwordConfirmation, type, merchantUUID, referrer,metadata)
                 .doOnSuccess {

@@ -13,8 +13,7 @@ public class InPlayerApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        InPlayer.initialize(new InPlayer.Configuration.Builder(this, "7ad8a510-b720-4a18-aa38-0260e5fd1cb2",
-                "https://services.inplayer.com")
+        InPlayer.initialize(new InPlayer.Configuration.Builder(this, "7ad8a510-b720-4a18-aa38-0260e5fd1cb2")
                 .withEnvironment(InPlayer.EnvironmentType.STAGING).build());
 
     }

@@ -100,7 +100,7 @@ class Main2Activity : AppCompatActivity() {
     
     private fun signUp() {
         InPlayer.Account.createAccount("Viktor Petrovski",
-                "victorpetrovski93+test1054@gmail.com",
+                "victorpetrovski93+test9954@gmail.com",
                 "androidsdk123",
                 "androidsdk123", InPlayerCallback { inPlayerUser, error ->
             if (error == null) {

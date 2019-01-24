@@ -22,7 +22,7 @@ interface InPlayerRemotePublicServiceAPI {
             @Field("password_confirmation") passwordConfirmation: String,
             @Field("type") type: String,
             @Field("merchant_uuid") merchantUUID: String,
-            @Field("referrer") referrer: String,
+            @Field("referrer") referrer: String?,
             @FieldMap metadata: HashMap<String, String>?): Single<InPlayerAuthorizationModel>
     
     

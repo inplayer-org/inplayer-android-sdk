@@ -23,20 +23,20 @@ class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCr
     
     private lateinit var inPlayerAWSCredentials: InPlayerAWSCredentials
     
-    private var isSubcribed = false
+    private var isSubscribed = false
     
     fun subscribe(callback: AWSNotificationCallback) {
         this.callback = callback
         
         //Check if the user is already subscribed
-        if(isSubcribed) {
+        if(isSubscribed) {
             Log.i("AWSNotificationManager","Already subscribed")
             return
         }
         
         initIotMqttManager()
         
-        isSubcribed = true
+        isSubscribed = true
     }
     
     fun disconnect() {
@@ -44,7 +44,7 @@ class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCr
             it.disconnect()
             
         }
-        isSubcribed = false
+        isSubscribed = false
     }
     
     private fun initIotMqttManager() {
@@ -57,21 +57,19 @@ class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCr
                     configureConnectingWithIoT()
                 }, {
                     callback.onError(it)
-                    isSubcribed = false
+                    isSubscribed = false
                 })
         
     }
     
     private fun configureConnectingWithIoT() {
-        mqttManager = AWSIotMqttManager(
-                inPlayerAWSCredentials.accessKey,
-                AWS_IOT_ENDPOINT)
+        mqttManager = AWSIotMqttManager(inPlayerAWSCredentials.accessKey, AWS_IOT_ENDPOINT)
         
         mqttManager?.connect(StaticCredentialsProvider(MyAwsProvider(inPlayerAWSCredentials.accessKey, inPlayerAWSCredentials.secretKey, inPlayerAWSCredentials.sessionToken))) { status: AWSIotMqttClientStatusCallback.AWSIotMqttClientStatus?, throwable: Throwable? ->
             throwable?.let {
                 callback.onError(it)
                 it.printStackTrace()
-                isSubcribed = false
+                isSubscribed = false
             }
             
             status?.let {
