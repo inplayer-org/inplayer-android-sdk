@@ -6,12 +6,8 @@ group='https://github.com/inplayer-org/inplayer-android-sdk'
 dependencies {
 
     def reactive = rootProject.ext.reactive
-    def annotations = rootProject.ext.annotations
 
     implementation reactive.rxJava
-
-//    implementation annotations.javaxInject
-//    implementation annotations.javaxAnnotation
 
 
 }

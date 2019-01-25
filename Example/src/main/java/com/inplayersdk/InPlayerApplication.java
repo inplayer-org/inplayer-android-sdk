@@ -1,12 +1,13 @@
 package com.inplayersdk;
 
 import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.sdk.inplayer.configuration.InPlayer;
 
 
 //7ad8a510-b720-4a18-aa38-0260e5fd1cb2
-public class InPlayerApplication extends Application {
+public class InPlayerApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {

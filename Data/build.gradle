@@ -12,7 +12,6 @@ android {
         targetSdkVersion rootProject.androidTargetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
 
         buildConfigField "String", "AWS_CREDENTIALS_URL_PROD", "\"https://eynmuj2g26.execute-api.eu-west-1.amazonaws.com/prod/iot/keys\""
