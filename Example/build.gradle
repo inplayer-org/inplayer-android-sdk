@@ -4,8 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'com.github.dcendents.android-maven'
-group='https://github.com/inplayer-org/inplayer-android-sdk'
+//apply plugin: 'com.github.dcendents.android-maven'
+//group='https://github.com/inplayer-org/inplayer-android-sdk'
 
 android {
 
