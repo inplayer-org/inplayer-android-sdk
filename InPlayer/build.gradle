@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'com.github.dcendents.android-maven'
-group='https://github.com/inplayer-org/inplayer-android-sdk'
+group='com.github.inplayer-org.inplayer-android-sdk'
 
 android {
     compileSdkVersion rootProject.androidCompileSdkVersion
