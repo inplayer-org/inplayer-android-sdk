@@ -4,6 +4,9 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'com.github.dcendents.android-maven'
+group='https://github.com/inplayer-org/inplayer-android-sdk'
+
 android {
 
 
@@ -31,7 +34,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 
-    //implementation 'com.github.inplayer-org.inplayer-android-sdk:InPlayer:0.9'
+    //implementation 'com.github.inplayer-org.inplayer-android-sdk:InPlayer:0.9.1'
 
     implementation project(':Inplayer')
 
