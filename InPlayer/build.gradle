@@ -1,6 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.inplayer-org.inplayer-android-sdk'
+
 android {
     compileSdkVersion rootProject.androidCompileSdkVersion
     defaultConfig {
@@ -32,9 +35,8 @@ android {
     //Generate documentation ./gradlew dokka
     dokka {
         outputFormat = 'javadoc'
-        outputDirectory = "$buildDir/javadoc"
+        outputDirectory = "../javadoc"
 
-        impliedPlatforms = ["JVM"]
 
         for (def pkg : ["com.amazonaws",
                         "io.reactivex",
@@ -55,7 +57,6 @@ android {
             packageOptions {
                 prefix = pkg
                 suppress = false
-                impliedPlatforms = ["JVM"]
             }
         }
 

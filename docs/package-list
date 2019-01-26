@@ -1,0 +1,7 @@
+com.sdk.inplayer.api
+com.sdk.inplayer.callback
+com.sdk.inplayer.configuration
+com.sdk.inplayer.model.account
+com.sdk.inplayer.model.assets
+com.sdk.inplayer.model.error
+com.sdk.inplayer.model.notification
