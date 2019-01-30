@@ -1,4 +1,11 @@
-# inplayer-Android-sdk
+<h1 align="center">
+  <a target="_blank" href="https://inplayer-org.github.io/inplayer-ui/">
+    <img src="https://assets.inplayer.com/images/inplayer-256.png" alt="inplayer-ui" title="InPlayer UI" width="300">
+    <br />
+    <span style="font-size: 1.5rem; color: blue">InPlayer's Android SDK</span>
+  </a>
+</h1>
+<p align="center" style="font-size: 1.2rem;">InPlayer's Android API Client Wrapper</p>
 
 ## Requirements
 
@@ -133,15 +140,15 @@ import com.sdk.inplayer.configuration.InPlayer
 
     override fun onResume() {
         super.onResume()
-    
+
         InPlayer.Notification.subscribe(object : InPlayerNotificationCallback {
-        
+
         override fun onStatusChanged(status: InPlayerNotificationStatus) {  }
-        
+
         override fun onMessageReceived(message: InPlayerNotification) { }
-        
+
         override fun onError(t: InPlayerException) {    }
-    
+
     })
     }
 ```
@@ -151,22 +158,22 @@ import com.sdk.inplayer.configuration.InPlayer
 @Override
     protected void onResume() {
         super.onResume();
-    
+
         InPlayer.Notification.subscribe(new InPlayerNotificationCallback() {
-        
+
             @Override
             public void onStatusChanged(@NotNull InPlayerNotificationStatus status) {
-            
+
             }
-            
+
             @Override
             public void onMessageReceived(@NotNull InPlayerNotification message) {
-            
+
             }
-            
+
             @Override
             public void onError(@NotNull InPlayerException t) {
-            
+
             }
         });
     }
@@ -182,10 +189,13 @@ For disconnect
 
 ```
 
-## License
-Copyright (c) 2018 InPlayer
-All rights reserved.
+## Contributing
 
-This source code is licensed under the MIT License-style  found in the
-LICENSE file in the root directory of this source tree. 
------
+We are thankful for any contributions made by the community. By contributing you agree to abide by
+the Code of Conduct in the [Contributing Guidelines](https://github.com/inplayer-org/inplayer-ui/blob/master/.github/CONTRIBUTING.md).
+
+## License
+
+Licensed under the MIT License, Copyright © 2018-present InPlayer.
+
+See [LICENSE](https://github.com/inplayer-org/inplayer-android-sdk/blob/master/LICENSE) for more information.
