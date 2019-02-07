@@ -10,7 +10,7 @@ import com.sdk.notification.model.notification.InPlayerNotificationEntity
 
 
 class Notification internal constructor(private val notificationManager: AWSNotificationManager,
-                               private val notificationMapper: NotificationMapper) {
+                                        private val notificationMapper: NotificationMapper) {
     
     /**
      * Subscribes the user to listen for Notifications
@@ -37,8 +37,10 @@ class Notification internal constructor(private val notificationManager: AWSNoti
     /**
      * Closes the connection for notifications
      */
-    fun disconnect() {
+    fun unsubscribe() {
         notificationManager.disconnect()
     }
+    
+    fun isSubscribed() = notificationManager.isSubscribed
     
 }

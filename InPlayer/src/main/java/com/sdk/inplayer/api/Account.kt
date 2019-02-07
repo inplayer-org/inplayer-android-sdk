@@ -53,7 +53,7 @@ class Account internal constructor(private val appSchedulers: InPlayerSchedulers
      *
      * @return InPlayerUser? Return null if user is not authenticated
      */
-    fun getAccount(): InPlayerUser? {
+    fun getAccountInfo(): InPlayerUser? {
         accountService.getAccountUseCase.execute()?.let {
             return inPlayerUserMapper.mapFromDomain(it)
         }
@@ -69,8 +69,8 @@ class Account internal constructor(private val appSchedulers: InPlayerSchedulers
      * @param passwordConfirmation String The same password with minimum 8 characters
      * @param callback InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>
      */
-    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>) {
-        createAccount(fullName = fullName, email = email, password = password, passwordConfirmation = passwordConfirmation, metadata = hashMapOf(), callback = callback)
+    fun signUp(fullName: String, email: String, password: String, passwordConfirmation: String, callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>) {
+        signUp(fullName = fullName, email = email, password = password, passwordConfirmation = passwordConfirmation, metadata = hashMapOf(), callback = callback)
     }
     
     
@@ -84,7 +84,7 @@ class Account internal constructor(private val appSchedulers: InPlayerSchedulers
      * @param metadata HashMap<String,String> Additional information about the account that can be attached to the account object
      * @param callback InPlayerCallback<{@code InPlayerAuthorizationModel}, {@code InPlayerException}>
      */
-    fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, metadata: HashMap<String, String>? = hashMapOf(), callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>) {
+    fun signUp(fullName: String, email: String, password: String, passwordConfirmation: String, metadata: HashMap<String, String>? = hashMapOf(), callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>) {
         
         val accType = com.sdk.domain.entity.account.AccountType.CONSUMER
         
@@ -104,7 +104,7 @@ class Account internal constructor(private val appSchedulers: InPlayerSchedulers
      *
      * @param callback InPlayerCallback<InPlayerUser, InPlayerException>
      */
-    fun getAccountDetails(callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
+    fun getAccount(callback: InPlayerCallback<InPlayerUser, InPlayerException>) {
         accountService.accountDetailsUseCase.execute()
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
@@ -139,7 +139,7 @@ class Account internal constructor(private val appSchedulers: InPlayerSchedulers
      *
      * @param callback InPlayerCallback<String?, InPlayerException>
      */
-    fun logout(callback: InPlayerCallback<String?, InPlayerException>) {
+    fun signOut(callback: InPlayerCallback<String?, InPlayerException>) {
         accountService.logOutUserUseCase.execute()
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
@@ -176,8 +176,10 @@ class Account internal constructor(private val appSchedulers: InPlayerSchedulers
      * @param oldPassword String Account's old password
      * @param callback InPlayerCallback<String?, InPlayerException>
      */
-    fun changePassword(newPassword: String, newPasswordConfirmation: String, oldPassword: String, callback: InPlayerCallback<String?, InPlayerException>) {
-        accountService.changePasswordUseCase.execute(ChangePasswordUseCase.Params(newPassword, newPasswordConfirmation, oldPassword))
+    fun changePassword(oldPassword: String, newPassword: String, newPasswordConfirmation: String, callback: InPlayerCallback<String?, InPlayerException>) {
+        accountService.changePasswordUseCase.execute(ChangePasswordUseCase.Params(newPassword = newPassword,
+                newPasswordConfirmation = newPasswordConfirmation,
+                oldPassword = oldPassword))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({
@@ -194,7 +196,7 @@ class Account internal constructor(private val appSchedulers: InPlayerSchedulers
      * requiring re authentication
      * @param callback InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>
      */
-    fun refreshAccessToken(refreshToken: String, callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>) {
+    fun refreshToken(refreshToken: String, callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>) {
         accountService.authenticatedUseCase.execute(AuthenticateUserUseCase.Params(refreshToken = refreshToken, grantType = GrantType.REFRESH_TOKEN, clientId = inPlayerSDKConfiguration.merchantUUID))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
@@ -205,22 +207,6 @@ class Account internal constructor(private val appSchedulers: InPlayerSchedulers
                 })
     }
     
-    /**
-     * Authenticates account using clientSecret
-     *
-     * @param clientSecret String Corresponding secret between the client and the application
-     * @param callback InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>
-     */
-    fun authenticateWithUser(clientSecret: String, callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>) {
-        accountService.authenticatedUseCase.execute(AuthenticateUserUseCase.Params(clientSecret = clientSecret, grantType = GrantType.CLIENT_CREDENTIALS, clientId = inPlayerSDKConfiguration.merchantUUID))
-                .subscribeOn(appSchedulers.subscribeOn)
-                .observeOn(appSchedulers.observeOn)
-                .subscribe({
-                    callback.done(authorizationMapper.mapFromDomain(it), null)
-                }, {
-                    callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
-                })
-    }
     
     /**
      * Provides you with a token for resetting your password via email.
@@ -228,7 +214,7 @@ class Account internal constructor(private val appSchedulers: InPlayerSchedulers
      * @param email String Account’s email address
      * @param callback InPlayerCallback<String?, InPlayerException>
      */
-    fun forgotPassword(email: String, callback: InPlayerCallback<String?, InPlayerException>) {
+    fun requestNewPassword(email: String, callback: InPlayerCallback<String?, InPlayerException>) {
         accountService.forgotPasswordUseCase.execute(ForgotPasswordUseCase.Params(inPlayerSDKConfiguration.merchantUUID, email))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
@@ -245,7 +231,7 @@ class Account internal constructor(private val appSchedulers: InPlayerSchedulers
      * @param password String Password confirmation
      * @param callback InPlayerCallback<String?, InPlayerException>
      */
-    fun eraseAccount(password: String, callback: InPlayerCallback<String?, InPlayerException>) {
+    fun deleteAccount(password: String, callback: InPlayerCallback<String?, InPlayerException>) {
         accountService.eraseUserUseCase.execute(EraseUserUseCase.Params(password))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)

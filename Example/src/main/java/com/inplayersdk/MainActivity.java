@@ -5,11 +5,8 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.sdk.inplayer.callback.InPlayerCallback;
 import com.sdk.inplayer.callback.InPlayerNotificationCallback;
 import com.sdk.inplayer.configuration.InPlayer;
-import com.sdk.inplayer.model.account.InPlayerAuthorizationModel;
-import com.sdk.inplayer.model.assets.InPlayerItem;
 import com.sdk.inplayer.model.error.InPlayerException;
 import com.sdk.inplayer.model.notification.InPlayerNotification;
 import com.sdk.inplayer.model.notification.InPlayerNotificationStatus;
@@ -44,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        InPlayer.Notification.disconnect();
+        InPlayer.Notification.unsubscribe();
 
     }
 
@@ -74,6 +71,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        InPlayer.Notification.disconnect();
+        InPlayer.Notification.unsubscribe();
     }
 }
