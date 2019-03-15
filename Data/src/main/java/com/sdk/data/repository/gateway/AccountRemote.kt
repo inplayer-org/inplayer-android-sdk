@@ -26,6 +26,8 @@ interface AccountRemote {
     
     fun accountDetails(): Single<InPlayerAccount>
     
+    fun exportUserData(password: String): Single<ResponseModel>
+    
     fun eraseUser(password: String): Single<ResponseModel>
     
     fun changePassword(newPassword: String, newPasswordConfirmation: String, oldPassword: String): Single<ResponseModel>

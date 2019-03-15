@@ -19,21 +19,21 @@ class InPlayerAccountRepositoryImpl constructor(
         private val mapInPlayerUser: MapInPlayerUser,
         private val mapAuthorizationModel: MapAuthorizationModel
 ) : InPlayerAccountRepository {
-   
+    
     
     /**
      *  Creating Users and handling Authorization
      * */
     override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String?, metadata: HashMap<String, String>?): Single<AuthorizationHolder> {
         return accountRemote
-                .createAccount(fullName, email, password, passwordConfirmation, type, merchantUUID, referrer,metadata)
+                .createAccount(fullName, email, password, passwordConfirmation, type, merchantUUID, referrer, metadata)
                 .doOnSuccess {
                     updateLocalTokens(it)
                 }
                 .map { mapAuthorizationModel.mapFromModel(it) }
     }
     
-    //todo change
+    
     override fun authenticate(username: String, password: String, grantType: String, clientId: String): Single<AuthorizationHolder> {
         return accountRemote
                 .authenticateUser(username, password, grantType, clientId)
@@ -41,6 +41,14 @@ class InPlayerAccountRepositoryImpl constructor(
                     updateLocalTokens(it)
                 }
                 .map { mapAuthorizationModel.mapFromModel(it) }
+    }
+    
+    override fun exportUserData(password: String): Single<String> {
+        return accountRemote
+                .exportUserData(password)
+                .map {
+                    it.message
+                }
     }
     
     override fun logout(): Completable {

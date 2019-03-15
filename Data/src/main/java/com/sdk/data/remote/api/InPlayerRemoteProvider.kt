@@ -1,8 +1,10 @@
 package com.sdk.data.remote.api
 
+import com.sdk.data.model.account.InPlayerRegisterFieldsModel
 import com.sdk.data.remote.error.AuthTokenMissingException
 import com.sdk.data.remote.refresh_token.RefreshAuthenticator
 import com.sdk.data.repository.gateway.UserLocalAuthenticator
+import io.reactivex.Single
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -145,6 +147,13 @@ class InPlayerRemoteProvider(val baseUrl: String,
     
     override fun changePassword(password: String, passwordConfirmation: String, oldPassword: String) = retrofitAPI.changePassword(password, passwordConfirmation, oldPassword)
     
+    override fun exportAccountData(password: String) = retrofitAPI.exportAccountData(password)
+    
+    
+    override fun exportRegisterFields(merchantUUID: String): Single<InPlayerRegisterFieldsModel> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+    
     
     /**
      * END -> ACCOUNT Endpoint Implementations
@@ -180,6 +189,8 @@ class InPlayerRemoteProvider(val baseUrl: String,
     
     override fun validateAndroidReceipt(receipt: String, item_id: Int, access_fee_id: Int) = retrofitAPI.validateAndroidReceipt(receipt, item_id, access_fee_id)
     
+    
+    override fun getCustomerAccessList(status: String, page: Int, limit: Int, type: String?) = retrofitAPI.getCustomerAccessList(status, page, limit, type)
     
     /**
      * END  Payments

@@ -1,5 +1,6 @@
 package com.sdk.data.remote
 
+import com.sdk.data.model.ResponseModel
 import com.sdk.data.model.account.InPlayerAccount
 import com.sdk.data.model.account.InPlayerAuthorizationModel
 import com.sdk.data.remote.api.InPlayerRemotePublicServiceAPI
@@ -10,7 +11,6 @@ import io.reactivex.Single
 
 class AccountRemoteImpl constructor(private val inPlayerRemoteProvider: InPlayerRemoteServiceAPI,
                                     private val inPlayerRemotePublicServiceAPI: InPlayerRemotePublicServiceAPI) : AccountRemote {
-    
     
     /**
      * API's that are public and don't require Auth Token in their Header, should be calling the
@@ -50,6 +50,12 @@ class AccountRemoteImpl constructor(private val inPlayerRemoteProvider: InPlayer
      * */
     
     override fun accountDetails() = inPlayerRemoteProvider.getAccount()
+    
+    
+    override fun exportUserData(password: String): Single<ResponseModel> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+    
     
     override fun updateAccount(fullName: String, metadata: HashMap<String, String>?): Single<InPlayerAccount> {
         

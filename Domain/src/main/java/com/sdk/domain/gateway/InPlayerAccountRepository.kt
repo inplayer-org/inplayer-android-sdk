@@ -15,7 +15,7 @@ interface InPlayerAccountRepository {
     
     fun logout(): Completable
     
-    fun authenticatedUserAccount() : InPlayerDomainUser?
+    fun authenticatedUserAccount(): InPlayerDomainUser?
     
     fun isUserAuthenticated(): Boolean
     
@@ -28,6 +28,8 @@ interface InPlayerAccountRepository {
     fun updateUser(fullName: String, metadata: HashMap<String, String>? = null): Single<InPlayerDomainUser>
     
     fun eraseUser(password: String): Single<String>
+    
+    fun exportUserData(password: String): Single<String>
     
     fun changePassword(newPassword: String, newPasswordConfirmation: String, oldPassword: String): Single<String>
     

@@ -3,12 +3,14 @@ package com.inplayersdk
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.sdk.inplayer.configuration.InPlayer
 import com.sdk.inplayer.callback.InPlayerCallback
 import com.sdk.inplayer.callback.InPlayerNotificationCallback
+import com.sdk.inplayer.configuration.InPlayer
 import com.sdk.inplayer.model.error.InPlayerException
 import com.sdk.inplayer.model.notification.InPlayerNotification
 import com.sdk.inplayer.model.notification.InPlayerNotificationStatus
+import kotlinx.android.synthetic.main.activity_main2.*
+import kotlinx.android.synthetic.main.content_main2.*
 
 class Main2Activity : AppCompatActivity() {
     
@@ -79,7 +81,7 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun logInuser() {
-        InPlayer.Account.authenticate("YOUR_USERNAME_HERE", "YOUR_PASSWORD_HERE", InPlayerCallback { inPlayerUser, error ->
+        InPlayer.Account.authenticate("matej@inplayer.com", "matej123456", InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
                 //SUCCESS - Handle InPlayerUser
             } else {
@@ -94,7 +96,7 @@ class Main2Activity : AppCompatActivity() {
     
     private fun signUp() {
         InPlayer.Account.signUp("Viktor Petrovski",
-                "victorpetrovski93+test9954@gmail.com",
+                "victorpetrovski93+test99541@gmail.com",
                 "androidsdk123",
                 "androidsdk123", InPlayerCallback { inPlayerUser, error ->
             if (error == null) {
@@ -124,7 +126,7 @@ class Main2Activity : AppCompatActivity() {
     private fun changePassword() {
         InPlayer.Account.changePassword("newpassword12345", "newpassword12345", "newpassword123",
                 InPlayerCallback { sucessMessage, error ->
-    
+                
                 })
     }
     
@@ -202,19 +204,19 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun initNotification() {
-   
+    
     }
     
     override fun onResume() {
         super.onResume()
-    
+        
         InPlayer.Notification.subscribe(object : InPlayerNotificationCallback {
-        
-            override fun onStatusChanged(status: InPlayerNotificationStatus) {  }
-        
-            override fun onMessageReceived(message: InPlayerNotification) { }
-        
-            override fun onError(t: InPlayerException) {    }
+            
+            override fun onStatusChanged(status: InPlayerNotificationStatus) {}
+            
+            override fun onMessageReceived(message: InPlayerNotification) {}
+            
+            override fun onError(t: InPlayerException) {}
         })
     }
     

@@ -115,6 +115,26 @@ class Account internal constructor(private val appSchedulers: InPlayerSchedulers
                 })
     }
     
+    
+    /**
+     * Exports account data such as logins, payments, subscriptions, access to assets etc.
+     * After invoking the request the account will receive the data in a json format via e-mail.
+     *
+     * @param password of the current logged user
+     * */
+    fun exportData(password: String, callback: InPlayerCallback<String, InPlayerException>) {
+        accountService.exportAccountDataUseCase.execute(ExportAccountDataUseCase.Params(password))
+                .subscribeOn(appSchedulers.subscribeOn)
+                .observeOn(appSchedulers.observeOn)
+                .subscribe({
+                    callback.done(it, null)
+                }, {
+                    callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+                })
+    }
+    
+    
+    
     /**
      * Authenticates an account by creating an access token that can be used for future requests.
      *
