@@ -1,8 +1,8 @@
 package com.sdk.data.remote
 
-import com.sdk.data.model.ResponseModel
 import com.sdk.data.model.account.InPlayerAccount
 import com.sdk.data.model.account.InPlayerAuthorizationModel
+import com.sdk.data.model.account.InPlayerRegisterFieldsModel
 import com.sdk.data.remote.api.InPlayerRemotePublicServiceAPI
 import com.sdk.data.remote.api.InPlayerRemoteServiceAPI
 import com.sdk.data.repository.gateway.AccountRemote
@@ -51,10 +51,13 @@ class AccountRemoteImpl constructor(private val inPlayerRemoteProvider: InPlayer
     
     override fun accountDetails() = inPlayerRemoteProvider.getAccount()
     
-    
-    override fun exportUserData(password: String): Single<ResponseModel> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getRegisterFields(merchantUUID: String): Single<List<InPlayerRegisterFieldsModel>> {
+        return inPlayerRemoteProvider.exportRegisterFields(merchantUUID).map {
+            it.collection
+        }
     }
+    
+    override fun exportUserData(password: String) = inPlayerRemoteProvider.exportAccountData(password)
     
     
     override fun updateAccount(fullName: String, metadata: HashMap<String, String>?): Single<InPlayerAccount> {

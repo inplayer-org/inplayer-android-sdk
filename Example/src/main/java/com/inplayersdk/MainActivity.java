@@ -19,9 +19,22 @@ import org.jetbrains.annotations.NotNull;
 public class MainActivity extends AppCompatActivity {
 
     @Override
-    public void onCreate( @Nullable Bundle savedInstanceState,  @Nullable PersistableBundle persistentState) {
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
 
+
+//        InPlayer.Account.getRegisterFields((value, exception) -> {
+//
+//            for (InPlayerRegisterFields registerFields : value) {
+//
+//                if (registerFields.getType() instanceof RegisterFieldType.Country) {
+//
+//                    ((RegisterFieldType.Country) registerFields.getType()).getOptions().
+//                }
+//
+//            }
+//
+//        });
 
 
         InPlayer.Notification.subscribe(new InPlayerNotificationCallback() {

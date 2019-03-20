@@ -6,6 +6,7 @@ import android.util.Log
 import com.sdk.inplayer.callback.InPlayerCallback
 import com.sdk.inplayer.callback.InPlayerNotificationCallback
 import com.sdk.inplayer.configuration.InPlayer
+import com.sdk.inplayer.model.account.RegisterFieldType
 import com.sdk.inplayer.model.error.InPlayerException
 import com.sdk.inplayer.model.notification.InPlayerNotification
 import com.sdk.inplayer.model.notification.InPlayerNotificationStatus
@@ -75,9 +76,12 @@ class Main2Activity : AppCompatActivity() {
         
         publish.setOnClickListener {
             val account = InPlayer.Account.getAccountInfo()
-            
         }
         
+        
+        btn_subscriptions.setOnClickListener {
+            getSubscriptions()
+        }
     }
     
     private fun logInuser() {
@@ -86,6 +90,34 @@ class Main2Activity : AppCompatActivity() {
                 //SUCCESS - Handle InPlayerUser
             } else {
                 //Handle Error
+            }
+        })
+    }
+    
+    private fun getSubscriptions() {
+//        InPlayer.Subscription.getSubscriptions(1, 10, InPlayerCallback { value, exception ->
+//
+//        })
+
+//        InPlayer.Account.exportData("matej123456", InPlayerCallback { value, exception ->
+//
+//        })
+//
+//        InPlayer.Payment.getPurchaseHistory("all", 1, 10, null, InPlayerCallback { value, exception ->
+//
+//        })
+//
+        InPlayer.Account.getRegisterFields(InPlayerCallback { list, exception ->
+            list.forEach {
+                Log.v("Register Fields", "This is it $it")
+                
+                when (it.type) {
+                    is RegisterFieldType.Country -> {
+                        (it.type as RegisterFieldType.Country).options.forEach {
+                        
+                        }
+                    }
+                }
             }
         })
     }

@@ -11,12 +11,12 @@ import io.reactivex.Single
  */
 class GetRegisterFieldsUseCase constructor(private val inPlayerSchedulers: InPlayerSchedulers,
                                            private val inPlayerAccountRepository: InPlayerAccountRepository)
-    : SingleUseCase<RegisterFieldsEntity, GetRegisterFieldsUseCase.Params>(inPlayerSchedulers) {
+    : SingleUseCase<List<RegisterFieldsEntity>, GetRegisterFieldsUseCase.Params>(inPlayerSchedulers) {
     
-    override fun buildUseCaseObservable(params: Params?): Single<RegisterFieldsEntity> {
+    override fun buildUseCaseObservable(params: Params?): Single<List<RegisterFieldsEntity>> {
         
         params?.let {
-        
+            return inPlayerAccountRepository.getRegisterFields(it.merchantUUID)
         }
         
         throw IllegalStateException("Params can't be null for ExportAccountDataUseCase")

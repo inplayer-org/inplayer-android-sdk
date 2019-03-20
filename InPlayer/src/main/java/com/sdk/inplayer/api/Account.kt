@@ -9,11 +9,14 @@ import com.sdk.inplayer.mapper.ThrowableToInPlayerExceptionMapper
 import com.sdk.inplayer.mapper.account.AuthorizationModelMapper
 import com.sdk.inplayer.mapper.account.InPlayerCredentialsMapper
 import com.sdk.inplayer.mapper.account.InPlayerUserMapper
+import com.sdk.inplayer.mapper.account.RegisterFieldsMapper
 import com.sdk.inplayer.model.account.InPlayerAuthorizationModel
+import com.sdk.inplayer.model.account.InPlayerRegisterFields
 import com.sdk.inplayer.model.account.InPlayerUser
 import com.sdk.inplayer.model.error.InPlayerException
 import com.sdk.inplayer.service.AccountService
 import com.sdk.inplayer.util.InPlayerSDKConfiguration
+
 
 /**
  * An account represents a user.
@@ -28,7 +31,8 @@ class Account internal constructor(private val appSchedulers: InPlayerSchedulers
                                    private val accountService: AccountService,
                                    private val inPlayerCredentialsMapper: InPlayerCredentialsMapper,
                                    private val inPlayerUserMapper: InPlayerUserMapper,
-                                   private val authorizationMapper: AuthorizationModelMapper) {
+                                   private val authorizationMapper: AuthorizationModelMapper,
+                                   private val registerFieldsMapper: RegisterFieldsMapper) {
     
     
     /**
@@ -133,7 +137,16 @@ class Account internal constructor(private val appSchedulers: InPlayerSchedulers
                 })
     }
     
-    
+    fun getRegisterFields(callback: InPlayerCallback<List<InPlayerRegisterFields>, InPlayerException>) {
+        accountService.getRegisterFieldsUseCase.execute(GetRegisterFieldsUseCase.Params(inPlayerSDKConfiguration.merchantUUID))
+                .observeOn(appSchedulers.observeOn)
+                .subscribeOn(appSchedulers.subscribeOn)
+                .subscribe({
+                    callback.done(it.map { domainItem -> registerFieldsMapper.mapFromDomain(domainItem) }, null)
+                }, {
+                    callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+                })
+    }
     
     /**
      * Authenticates an account by creating an access token that can be used for future requests.

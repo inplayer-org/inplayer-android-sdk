@@ -7,6 +7,16 @@ data class RegisterFieldsEntity(
         val name: String,
         val placeholder: String,
         val required: Boolean,
-        val type: String,
-        val options: HashMap<String, String>
+        val type: RegisterFieldTypeEntity,
+        val options: Any?
 )
+
+enum class RegisterFieldTypeEntity(val value: String) {
+    Dropdown("select"),
+    Radio("radio"),
+    Country("country"),
+    Input("input"),
+    Datepicker("datepicker"),
+    Checkbox("checkbox")
+}
+

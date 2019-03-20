@@ -3,6 +3,7 @@ package com.sdk.domain.gateway
 import com.sdk.domain.entity.account.AuthorizationHolder
 import com.sdk.domain.entity.account.CredentialsEntity
 import com.sdk.domain.entity.account.InPlayerDomainUser
+import com.sdk.domain.entity.account.RegisterFieldsEntity
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -18,6 +19,8 @@ interface InPlayerAccountRepository {
     fun authenticatedUserAccount(): InPlayerDomainUser?
     
     fun isUserAuthenticated(): Boolean
+    
+    fun getRegisterFields(merchantUUID: String): Single<List<RegisterFieldsEntity>>
     
     fun refreshToken(refreshToken: String, grantType: String, clientId: String): Single<AuthorizationHolder>
     

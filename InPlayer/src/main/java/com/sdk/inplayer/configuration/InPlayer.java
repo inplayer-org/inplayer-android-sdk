@@ -7,6 +7,7 @@ import com.sdk.inplayer.BuildConfig;
 import com.sdk.inplayer.api.Asset;
 import com.sdk.inplayer.api.Notification;
 import com.sdk.inplayer.api.Payment;
+import com.sdk.inplayer.api.Subscription;
 import com.sdk.inplayer.di.InjectModules;
 
 import static org.koin.java.standalone.KoinJavaComponent.inject;
@@ -21,6 +22,7 @@ public class InPlayer {
     public static Asset Assets;
     public static Notification Notification;
     public static Payment Payment;
+    public static Subscription Subscription;
 
     private static boolean isInitialized = false;
 
@@ -69,6 +71,8 @@ public class InPlayer {
         Notification = inject(com.sdk.inplayer.api.Notification.class).getValue();
 
         Payment = inject(Payment.class).getValue();
+
+        Subscription = inject(Subscription.class).getValue();
 
         isInitialized = true;
 
@@ -156,7 +160,6 @@ public class InPlayer {
              *
              * @param context      The active {@link Context} for your application. Cannot be null.
              * @param merchantUUID The Merchant UUID used for your InPlayer Account
-
              */
             public Builder(Context context, String merchantUUID) {
                 this.merchantUUID = merchantUUID;
@@ -177,14 +180,13 @@ public class InPlayer {
             /**
              * Set the Referrer string used for your application
              *
-             * @param referrer     The Referrer String used to describe the installation of the user.
+             * @param referrer The Referrer String used to describe the installation of the user.
              * @return The same builder, for easy chaining.
              */
             public Builder withReferrer(String referrer) {
                 this.referrer = referrer;
                 return this;
             }
-
 
 
             /**

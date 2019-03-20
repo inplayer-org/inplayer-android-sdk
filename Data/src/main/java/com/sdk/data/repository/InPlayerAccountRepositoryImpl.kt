@@ -2,12 +2,14 @@ package com.sdk.data.repository
 
 import com.sdk.data.model.account.InPlayerAuthorizationModel
 import com.sdk.data.model.mapper.MapAuthorizationModel
-import com.sdk.data.model.mapper.MapInPlayerUser
+import com.sdk.data.model.mapper.UserModelMapper
+import com.sdk.data.model.mapper.account.MapRegisterFields
 import com.sdk.data.repository.gateway.AccountRemote
 import com.sdk.data.repository.gateway.UserLocalAuthenticator
 import com.sdk.domain.entity.account.AuthorizationHolder
 import com.sdk.domain.entity.account.CredentialsEntity
 import com.sdk.domain.entity.account.InPlayerDomainUser
+import com.sdk.domain.entity.account.RegisterFieldsEntity
 import com.sdk.domain.gateway.InPlayerAccountRepository
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -16,7 +18,8 @@ import io.reactivex.Single
 class InPlayerAccountRepositoryImpl constructor(
         private val accountRemote: AccountRemote,
         private val userLocalAuthenticator: UserLocalAuthenticator,
-        private val mapInPlayerUser: MapInPlayerUser,
+        private val userModelMapper: UserModelMapper,
+        private val mapRegisterFields: MapRegisterFields,
         private val mapAuthorizationModel: MapAuthorizationModel
 ) : InPlayerAccountRepository {
     
@@ -63,7 +66,7 @@ class InPlayerAccountRepositoryImpl constructor(
     
     override fun authenticatedUserAccount(): InPlayerDomainUser? {
         userLocalAuthenticator.getAccount()?.let {
-            return mapInPlayerUser.mapFromModel(it)
+            return userModelMapper.mapFromModel(it)
         }
         return null
     }
@@ -117,12 +120,12 @@ class InPlayerAccountRepositoryImpl constructor(
     override fun getUser(): Single<InPlayerDomainUser> {
         return accountRemote
                 .accountDetails()
-                .map { mapInPlayerUser.mapFromModel(it) }
+                .map { userModelMapper.mapFromModel(it) }
     }
     
     override fun updateUser(fullName: String, metadata: HashMap<String, String>?): Single<InPlayerDomainUser> {
         return accountRemote.updateAccount(fullName, metadata)
-                .map { mapInPlayerUser.mapFromModel(it) }
+                .map { userModelMapper.mapFromModel(it) }
     }
     
     override fun eraseUser(password: String): Single<String> {
@@ -152,6 +155,16 @@ class InPlayerAccountRepositoryImpl constructor(
         return accountRemote.forgotPassword(merchantUUID, email)
                 .map { it.explain }
     }
+    
+    
+    override fun getRegisterFields(merchantUUID: String): Single<List<RegisterFieldsEntity>> {
+        return accountRemote.getRegisterFields(merchantUUID).map {
+            it.map { listItem ->
+                mapRegisterFields.mapFromModel(listItem)
+            }
+        }
+    }
+    
     
     /**
      * END Account data
