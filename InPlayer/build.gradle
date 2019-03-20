@@ -35,7 +35,7 @@ android {
     //Generate documentation ./gradlew dokka
     dokka {
         outputFormat = 'javadoc'
-        outputDirectory = "../javadoc"
+        outputDirectory = "$buildDir/javadoc"
 
 
         for (def pkg : ["com.amazonaws",
