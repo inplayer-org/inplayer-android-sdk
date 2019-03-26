@@ -3,6 +3,7 @@ package com.sdk.data.repository.gateway
 import com.sdk.data.model.ResponseModel
 import com.sdk.data.model.account.InPlayerAccount
 import com.sdk.data.model.account.InPlayerAuthorizationModel
+import com.sdk.data.model.account.InPlayerRegisterFieldsModel
 import io.reactivex.Single
 import retrofit2.Response
 
@@ -21,10 +22,13 @@ interface AccountRemote {
     
     fun setNewPassword(token: String, password: String, passwordConfirmation: String): Single<Response<Void>>
     
+    fun getRegisterFields(merchantUUID: String): Single<List<InPlayerRegisterFieldsModel>>
     
     fun logOut(): Single<ResponseModel>
     
     fun accountDetails(): Single<InPlayerAccount>
+    
+    fun exportUserData(password: String): Single<ResponseModel>
     
     fun eraseUser(password: String): Single<ResponseModel>
     

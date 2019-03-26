@@ -2,12 +2,10 @@ package com.sdk.inplayer.di
 
 import android.content.Context
 import com.sdk.data.local.UserLocalAuthenticatorImpl
-import com.sdk.data.model.account.InPlayerAccount
 import com.sdk.data.model.mapper.*
-import com.sdk.data.remote.AccountRemoteImpl
-import com.sdk.data.remote.AssetsRemoteImpl
-import com.sdk.data.remote.NotificationsRemoteImpl
-import com.sdk.data.remote.PaymentsRemoteImpl
+import com.sdk.data.model.mapper.account.MapRegisterFields
+import com.sdk.data.model.subscription.SubscriptionModel
+import com.sdk.data.remote.*
 import com.sdk.data.remote.api.InPlayerRemoteProvider
 import com.sdk.data.remote.api.InPlayerRemotePublicProvider
 import com.sdk.data.remote.api.InPlayerRemotePublicServiceAPI
@@ -15,36 +13,40 @@ import com.sdk.data.remote.api.InPlayerRemoteServiceAPI
 import com.sdk.data.remote.refresh_token.InPlayerRemoteRefreshServiceAPI
 import com.sdk.data.remote.refresh_token.InPlayerRemoteRefreshTokenProvider
 import com.sdk.data.remote.refresh_token.RefreshAuthenticator
-import com.sdk.data.repository.InPlayerAWSCredentialsRepositoryImpl
-import com.sdk.data.repository.InPlayerAccountRepositoryImpl
-import com.sdk.data.repository.InPlayerAssetsRepositoryImpl
-import com.sdk.data.repository.InPlayerPaymentsRepositoryImpl
+import com.sdk.data.repository.*
 import com.sdk.data.repository.gateway.*
-import com.sdk.domain.entity.account.InPlayerDomainUser
+import com.sdk.domain.entity.mapper.DomainMapper
+import com.sdk.domain.entity.subscribtion.SubscriptionEntity
 import com.sdk.domain.gateway.InPlayerAccountRepository
 import com.sdk.domain.gateway.InPlayerAssetsRepository
 import com.sdk.domain.gateway.InPlayerPaymentRepository
+import com.sdk.domain.gateway.InPlayerSubscriptionsRepository
 import com.sdk.domain.schedulers.InPlayerSchedulers
 import com.sdk.domain.usecase.assets.GetAccessFeesUseCase
 import com.sdk.domain.usecase.assets.GetItemAccessUseCase
 import com.sdk.domain.usecase.assets.GetItemDetailsUseCase
 import com.sdk.domain.usecase.authentication.*
+import com.sdk.domain.usecase.payments.GetItemAccessListUseCase
 import com.sdk.domain.usecase.payments.ValidateReceiptUseCase
-import com.sdk.inplayer.api.Account
-import com.sdk.inplayer.api.Asset
-import com.sdk.inplayer.api.Notification
-import com.sdk.inplayer.api.Payment
+import com.sdk.domain.usecase.subscription.GetSubscriptionsUseCase
+import com.sdk.inplayer.api.*
 import com.sdk.inplayer.configuration.InPlayer
+import com.sdk.inplayer.mapper.MapInPlayerCollection
 import com.sdk.inplayer.mapper.account.AuthorizationModelMapper
 import com.sdk.inplayer.mapper.account.InPlayerCredentialsMapper
 import com.sdk.inplayer.mapper.account.InPlayerUserMapper
+import com.sdk.inplayer.mapper.account.RegisterFieldsMapper
 import com.sdk.inplayer.mapper.assets.*
 import com.sdk.inplayer.mapper.notification.AccessGrantedNotificationMapper
 import com.sdk.inplayer.mapper.notification.AccessRevokedNotificationMapper
 import com.sdk.inplayer.mapper.notification.NotificationMapper
+import com.sdk.inplayer.mapper.payment.CustomerAccessItemMapper
+import com.sdk.inplayer.mapper.subscription.SubscriptionMapper
+import com.sdk.inplayer.model.subscription.InPlayerSubscription
 import com.sdk.inplayer.service.AccountService
 import com.sdk.inplayer.service.AssetService
 import com.sdk.inplayer.service.PaymentService
+import com.sdk.inplayer.service.SubscriptionService
 import com.sdk.inplayer.util.AppSchedulers
 import com.sdk.inplayer.util.InPlayerSDKConfiguration
 import com.sdk.notification.AWSNotificationManager
@@ -67,13 +69,8 @@ internal object InjectModules : KoinComponent {
             single { InPlayerSDKConfiguration(getProperty(Const.merchant_UUID), configuration.referrer) }
         }
         
-        // Dependency Injection for The Data Module
-        val dataModule = module {
-            
-            single { AppSchedulers() as InPlayerSchedulers }
-            
-            
-            //Data Module Mapper
+        //Data Module Mapper
+        val dataMapper = module {
             
             factory { MapDataAccessControlType() }
             
@@ -81,7 +78,7 @@ internal object InjectModules : KoinComponent {
             
             factory { MapDataAccessType() }
             
-            factory { MapInPlayerUser() as ModelMapper<InPlayerAccount, InPlayerDomainUser> }
+            factory { UserModelMapper() }
             
             factory { MapDataItemAccess(get()) }
             
@@ -96,6 +93,23 @@ internal object InjectModules : KoinComponent {
             factory { MapAWSCredentials() }
             
             factory { MapAuthorizationModel(get()) }
+            
+            factory { MapCustomerAccessItem() }
+            
+            factory { MapRegisterFields() }
+            
+            //Subscription MAPPER
+            
+            factory { MapSubscriptionModel() as ModelMapper<SubscriptionModel, SubscriptionEntity> }
+            
+            factory { MapCollectionModel<SubscriptionModel, SubscriptionEntity>(get()) }
+        }
+        
+        // Dependency Injection for The Data Module
+        val dataModule = module {
+            
+            single { AppSchedulers() as InPlayerSchedulers }
+            
             
             //END Data Module Mapper
             
@@ -123,15 +137,19 @@ internal object InjectModules : KoinComponent {
             
             factory { PaymentsRemoteImpl(get()) as PaymentsRemote }
             
+            factory { SubscriptionRemoteImpl(get()) as SubscriptionRemote }
+            
             //REPOSITORY
             
             factory { InPlayerAssetsRepositoryImpl(get(), get(), get(), get()) as InPlayerAssetsRepository }
             
-            factory { InPlayerAccountRepositoryImpl(get(), get(), get(), get()) as InPlayerAccountRepository }
+            factory { InPlayerAccountRepositoryImpl(get(), get(), get(), get(), get()) as InPlayerAccountRepository }
             
             factory { InPlayerAWSCredentialsRepositoryImpl(get(), get(), get()) as InPlayerAWSCredentialsRepository }
             
-            factory { InPlayerPaymentsRepositoryImpl(get()) as InPlayerPaymentRepository }
+            factory { InPlayerPaymentsRepositoryImpl(get(), get()) as InPlayerPaymentRepository }
+            
+            factory { InPlayerSubscriptionRepositoryImpl(get(), get()) as InPlayerSubscriptionsRepository }
             
             //END REPOSITORY
             
@@ -141,12 +159,13 @@ internal object InjectModules : KoinComponent {
             
             factory { Asset(get(), get(), get(), get(), get(), get()) }
             
-            factory { Account(get(), get(), get(), get(), get(), get()) }
+            factory { Account(get(), get(), get(), get(), get(), get(), get()) }
             
             factory { Notification(get(), get()) }
             
-            factory { Payment(get(), get()) }
+            factory { Payment(get(), get(), get()) }
             
+            factory { Subscription(get(), get(), get()) }
             
         }
         
@@ -177,6 +196,10 @@ internal object InjectModules : KoinComponent {
             factory { CredentialsUseCase(get()) }
             
             factory { GetAccountUseCase(get()) }
+            
+            factory { ExportAccountDataUseCase(get(), get()) }
+            
+            factory { GetRegisterFieldsUseCase(get(), get()) }
         }
         
         val assetsUseCaseModule = module {
@@ -186,7 +209,7 @@ internal object InjectModules : KoinComponent {
             factory { GetAccessFeesUseCase(get(), get()) }
             
             factory { GetItemAccessUseCase(get(), get()) }
-    
+            
             factory { AssetService() }
             
         }
@@ -197,6 +220,15 @@ internal object InjectModules : KoinComponent {
             
             factory { PaymentService() }
             
+            factory { GetItemAccessListUseCase(get(), get()) }
+            
+        }
+        
+        val subscriptionUseCaseModule = module {
+            
+            factory { GetSubscriptionsUseCase(get(), get()) }
+            
+            factory { SubscriptionService() }
         }
         
         
@@ -209,8 +241,6 @@ internal object InjectModules : KoinComponent {
             factory { MapAccessFee(get(), get(), get(), get()) }
             
             factory { MapAccessType() }
-            
-            factory { MapInPlayerUser() }
             
             factory { MapItemAccess(get()) }
             
@@ -226,6 +256,8 @@ internal object InjectModules : KoinComponent {
             
             factory { AuthorizationModelMapper(get()) }
             
+            factory { RegisterFieldsMapper(get()) }
+            
             //NOTIFICATION MAPPER
             
             factory { AccessGrantedNotificationMapper() }
@@ -234,6 +266,17 @@ internal object InjectModules : KoinComponent {
             
             factory { NotificationMapper(get(), get()) }
             
+            
+            //SubscribtionMapper
+            
+            factory { SubscriptionMapper() as DomainMapper<SubscriptionEntity, InPlayerSubscription> }
+            
+            factory { MapInPlayerCollection<SubscriptionEntity, InPlayerSubscription>(get()) }
+            
+            
+            //PAYMENT MAPPER
+            factory { CustomerAccessItemMapper() }
+            
         }
         
         val notificationModule = module {
@@ -241,7 +284,8 @@ internal object InjectModules : KoinComponent {
         }
         
         startKoin(listOf(contextModule, mapperModule, configurationModule, dataModule, accountUseCaseModule,
-                mainControllerModule, assetsUseCaseModule, notificationModule, paymentUseCaseModule))
+                mainControllerModule, assetsUseCaseModule, notificationModule, paymentUseCaseModule, dataMapper,
+                subscriptionUseCaseModule))
         
         setProperty(Const.context, configuration.context)
         
