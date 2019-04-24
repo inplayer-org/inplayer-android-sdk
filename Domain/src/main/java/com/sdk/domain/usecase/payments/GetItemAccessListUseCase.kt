@@ -6,6 +6,7 @@ import com.sdk.domain.schedulers.InPlayerSchedulers
 import com.sdk.domain.usecase.base.SingleUseCase
 import io.reactivex.Single
 
+
 /**
  * Created by victor on 3/13/19
  */

@@ -22,6 +22,10 @@ import com.sdk.domain.gateway.InPlayerAssetsRepository
 import com.sdk.domain.gateway.InPlayerPaymentRepository
 import com.sdk.domain.gateway.InPlayerSubscriptionsRepository
 import com.sdk.domain.schedulers.InPlayerSchedulers
+import com.sdk.domain.usecase.account.AccountDetailsUseCase
+import com.sdk.domain.usecase.account.ExportAccountDataUseCase
+import com.sdk.domain.usecase.account.GetAccountUseCase
+import com.sdk.domain.usecase.account.UpdateUserUseCase
 import com.sdk.domain.usecase.assets.GetAccessFeesUseCase
 import com.sdk.domain.usecase.assets.GetItemAccessUseCase
 import com.sdk.domain.usecase.assets.GetItemDetailsUseCase

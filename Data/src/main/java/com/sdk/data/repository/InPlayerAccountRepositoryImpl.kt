@@ -1,5 +1,7 @@
 package com.sdk.data.repository
 
+import android.util.Base64
+import com.sdk.data.BuildConfig
 import com.sdk.data.model.account.InPlayerAuthorizationModel
 import com.sdk.data.model.mapper.MapAuthorizationModel
 import com.sdk.data.model.mapper.UserModelMapper
@@ -13,53 +15,77 @@ import com.sdk.domain.entity.account.RegisterFieldsEntity
 import com.sdk.domain.gateway.InPlayerAccountRepository
 import io.reactivex.Completable
 import io.reactivex.Single
+import org.json.JSONObject
 
 
 class InPlayerAccountRepositoryImpl constructor(
-        private val accountRemote: AccountRemote,
-        private val userLocalAuthenticator: UserLocalAuthenticator,
-        private val userModelMapper: UserModelMapper,
-        private val mapRegisterFields: MapRegisterFields,
-        private val mapAuthorizationModel: MapAuthorizationModel
+    private val accountRemote: AccountRemote,
+    private val userLocalAuthenticator: UserLocalAuthenticator,
+    private val userModelMapper: UserModelMapper,
+    private val mapRegisterFields: MapRegisterFields,
+    private val mapAuthorizationModel: MapAuthorizationModel
 ) : InPlayerAccountRepository {
     
     
     /**
      *  Creating Users and handling Authorization
      * */
-    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String?, metadata: HashMap<String, String>?): Single<AuthorizationHolder> {
+    override fun createAccount(
+        fullName: String,
+        email: String,
+        password: String,
+        passwordConfirmation: String,
+        type: String,
+        merchantUUID: String,
+        referrer: String?,
+        metadata: HashMap<String, String>?
+    ): Single<AuthorizationHolder> {
         return accountRemote
-                .createAccount(fullName, email, password, passwordConfirmation, type, merchantUUID, referrer, metadata)
-                .doOnSuccess {
-                    updateLocalTokens(it)
-                }
-                .map { mapAuthorizationModel.mapFromModel(it) }
+            .createAccount(
+                fullName,
+                email,
+                password,
+                passwordConfirmation,
+                type,
+                merchantUUID,
+                referrer,
+                metadata
+            )
+            .doOnSuccess {
+                updateLocalTokens(it)
+            }
+            .map { mapAuthorizationModel.mapFromModel(it) }
     }
     
     
-    override fun authenticate(username: String, password: String, grantType: String, clientId: String): Single<AuthorizationHolder> {
+    override fun authenticate(
+        username: String,
+        password: String,
+        grantType: String,
+        clientId: String
+    ): Single<AuthorizationHolder> {
         return accountRemote
-                .authenticateUser(username, password, grantType, clientId)
-                .doOnSuccess {
-                    updateLocalTokens(it)
-                }
-                .map { mapAuthorizationModel.mapFromModel(it) }
+            .authenticateUser(username, password, grantType, clientId)
+            .doOnSuccess {
+                updateLocalTokens(it)
+            }
+            .map { mapAuthorizationModel.mapFromModel(it) }
     }
     
     override fun exportUserData(password: String): Single<String> {
         return accountRemote
-                .exportUserData(password)
-                .map {
-                    it.message
-                }
+            .exportUserData(password)
+            .map {
+                it.message
+            }
     }
     
     override fun logout(): Completable {
         return accountRemote
-                .logOut()
-                .doOnSuccess {
-                    cleanLocalPrefs()
-                }.toCompletable()
+            .logOut()
+            .doOnSuccess {
+                cleanLocalPrefs()
+            }.toCompletable()
     }
     
     override fun isUserAuthenticated() = userLocalAuthenticator.isUserAutehnticated()
@@ -71,19 +97,31 @@ class InPlayerAccountRepositoryImpl constructor(
         return null
     }
     
-    override fun refreshToken(refreshToken: String, grantType: String, clientId: String): Single<AuthorizationHolder> {
+    override fun refreshToken(
+        refreshToken: String,
+        grantType: String,
+        clientId: String
+    ): Single<AuthorizationHolder> {
         return accountRemote.refreshToken(refreshToken, grantType, clientId)
-                .doOnSuccess {
-                    updateLocalTokens(it)
-                }.map { mapAuthorizationModel.mapFromModel(it) }
+            .doOnSuccess {
+                updateLocalTokens(it)
+            }.map { mapAuthorizationModel.mapFromModel(it) }
         
     }
     
-    override fun clientCredentialsAuthentication(clientSecret: String, grantType: String, clientId: String): Single<AuthorizationHolder> {
-        return accountRemote.authenticateWithClientSecret(clientSecret = clientSecret, grantType = grantType, clientId = clientId)
-                .doOnSuccess {
-                    updateLocalTokens(it)
-                }.map { mapAuthorizationModel.mapFromModel(it) }
+    override fun clientCredentialsAuthentication(
+        clientSecret: String,
+        grantType: String,
+        clientId: String
+    ): Single<AuthorizationHolder> {
+        return accountRemote.authenticateWithClientSecret(
+            clientSecret = clientSecret,
+            grantType = grantType,
+            clientId = clientId
+        )
+            .doOnSuccess {
+                updateLocalTokens(it)
+            }.map { mapAuthorizationModel.mapFromModel(it) }
     }
     
     private fun updateLocalTokens(it: InPlayerAuthorizationModel) {
@@ -106,8 +144,23 @@ class InPlayerAccountRepositoryImpl constructor(
     
     
     override fun getUserCredentials(): CredentialsEntity {
-        return CredentialsEntity(accessToken = userLocalAuthenticator.getAuthenticationToken(), refreshToken = userLocalAuthenticator.getRefreshToken())
+        return CredentialsEntity(
+            accessToken = userLocalAuthenticator.getAuthenticationToken(),
+            refreshToken = userLocalAuthenticator.getRefreshToken()
+        )
     }
+    
+    override fun getSocialUrls(clientId: String): Single<HashMap<String, String>> {
+        
+        val jsonObject = JSONObject()
+        jsonObject.put("client_id", clientId)
+        jsonObject.put("redirect", BuildConfig.RedirectURL)
+        
+        val base64 = Base64.encodeToString(jsonObject.toString().toByteArray(), Base64.DEFAULT)
+        
+        return accountRemote.getSocialUrls(base64)
+    }
+    
     /**
      * END Creating Users and handling Authorization
      * */
@@ -119,41 +172,52 @@ class InPlayerAccountRepositoryImpl constructor(
     
     override fun getUser(): Single<InPlayerDomainUser> {
         return accountRemote
-                .accountDetails()
-                .map { userModelMapper.mapFromModel(it) }
+            .accountDetails()
+            .map { userModelMapper.mapFromModel(it) }
     }
     
-    override fun updateUser(fullName: String, metadata: HashMap<String, String>?): Single<InPlayerDomainUser> {
+    override fun updateUser(
+        fullName: String,
+        metadata: HashMap<String, String>?
+    ): Single<InPlayerDomainUser> {
         return accountRemote.updateAccount(fullName, metadata)
-                .map { userModelMapper.mapFromModel(it) }
+            .map { userModelMapper.mapFromModel(it) }
     }
     
     override fun eraseUser(password: String): Single<String> {
         return accountRemote
-                .eraseUser(password)
-                .doOnSuccess {
-                    cleanLocalPrefs()
-                }.map {
-                    it.message
-                }
+            .eraseUser(password)
+            .doOnSuccess {
+                cleanLocalPrefs()
+            }.map {
+                it.message
+            }
     }
     
-    override fun changePassword(newPassword: String, newPasswordConfirmation: String, oldPassword: String): Single<String> {
+    override fun changePassword(
+        newPassword: String,
+        newPasswordConfirmation: String,
+        oldPassword: String
+    ): Single<String> {
         return accountRemote
-                .changePassword(newPassword, newPasswordConfirmation, oldPassword)
-                .map { it.explain }
+            .changePassword(newPassword, newPasswordConfirmation, oldPassword)
+            .map { it.explain }
     }
     
-    override fun setNewPassword(token: String, password: String, passwordConfirmation: String): Single<String> {
+    override fun setNewPassword(
+        token: String,
+        password: String,
+        passwordConfirmation: String
+    ): Single<String> {
         return accountRemote.setNewPassword(token, password, passwordConfirmation)
-                .flatMap {
-                    return@flatMap Single.just("Password Updated")
-                }
+            .flatMap {
+                return@flatMap Single.just("Password Updated")
+            }
     }
     
     override fun requestForgotPassword(merchantUUID: String, email: String): Single<String> {
         return accountRemote.forgotPassword(merchantUUID, email)
-                .map { it.explain }
+            .map { it.explain }
     }
     
     

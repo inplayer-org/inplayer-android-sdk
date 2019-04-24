@@ -1,5 +1,9 @@
 package com.sdk.inplayer.service
 
+import com.sdk.domain.usecase.account.AccountDetailsUseCase
+import com.sdk.domain.usecase.account.ExportAccountDataUseCase
+import com.sdk.domain.usecase.account.GetAccountUseCase
+import com.sdk.domain.usecase.account.UpdateUserUseCase
 import com.sdk.domain.usecase.authentication.*
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject

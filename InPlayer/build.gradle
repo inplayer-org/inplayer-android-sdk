@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.inplayer-org.inplayer-android-sdk'
+group = 'com.github.inplayer-org.inplayer-android-sdk'
 
 android {
     compileSdkVersion rootProject.androidCompileSdkVersion
@@ -12,7 +12,7 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "BASE_URL_PRODUCTION", "\"https://services.inplayer.com/\""
 
