@@ -6,6 +6,7 @@ import com.sdk.inplayer.model.error.*
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.HttpException
+import java.net.MalformedURLException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
@@ -29,15 +30,26 @@ internal object ThrowableToInPlayerExceptionMapper {
             is SocketTimeoutException, is UnknownHostException -> {
                 InPlayerNetworkException(0, mutableListOf(e.localizedMessage), e)
             }
+            is MalformedURLException -> {
+                InPlayerMalformedUrlError(0, mutableListOf(e.localizedMessage), e)
+            }
             else -> {
-                InPlayerUnknownException(0, mutableListOf("Unknown exception occurred, Error: ${e.localizedMessage}"), e)
+                InPlayerUnknownException(
+                    0,
+                    mutableListOf("Unknown exception occurred, Error: ${e.localizedMessage}"),
+                    e
+                )
             }
         }
         
     }
     
     private fun handleUnauthorizedUser(e: Throwable) =
-            InPlayerUnauthorizedException(401, mutableListOf("User not authenticated, please authenticate first."), e)
+        InPlayerUnauthorizedException(
+            401,
+            mutableListOf("User not authenticated, please authenticate first."),
+            e
+        )
     
     private fun getErrorMessage(responseBody: ResponseBody): List<String> {
         try {
@@ -46,7 +58,10 @@ internal object ThrowableToInPlayerExceptionMapper {
             
             val errorObject = jsonObject.getJSONObject("errors")
             
-            val errorsMap = Gson().fromJson(errorObject.toString(), HashMap::class.java) as HashMap<String, String>
+            val errorsMap = Gson().fromJson(
+                errorObject.toString(),
+                HashMap::class.java
+            ) as HashMap<String, String>
             
             val errorsMessages = mutableListOf<String>()
             

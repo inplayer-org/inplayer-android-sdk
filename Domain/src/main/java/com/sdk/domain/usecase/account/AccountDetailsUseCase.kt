@@ -1,4 +1,4 @@
-package com.sdk.domain.usecase.authentication
+package com.sdk.domain.usecase.account
 
 import com.sdk.domain.entity.account.InPlayerDomainUser
 import com.sdk.domain.gateway.InPlayerAccountRepository

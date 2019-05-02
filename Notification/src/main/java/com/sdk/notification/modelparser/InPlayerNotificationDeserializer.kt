@@ -15,19 +15,23 @@ import java.lang.reflect.Type
 class InPlayerNotificationDeserializer : JsonDeserializer<InPlayerNotificationEntity> {
     
     var notificationType = hashMapOf(
-            "payment.card.success" to InPlayerPaymentCardSuccessNotifcation::class.java,
-            "payment.card.failed" to InPlayerPaymentCardFailedNotification::class.java,
-            "subscribe.success" to InPlayerSubscribeSuccessNotification::class.java,
-            "subscribe.failed" to InPlayerSubscribeFailedNotification::class.java,
-            "access.granted" to InPlayerAccessGrantedNotificationEntity::class.java,
-            "access.revoked" to InPlayerAccessRevokedNotification::class.java,
-            
-            "account.logout" to InPlayerAccountLogoutNotificationEntity::class.java,
-            "account.erased" to InPlayerAccountErasedNotificationEntity::class.java,
-            "account.deactivated" to InPlayerAccountDeactivatedNotificationEntity::class.java
+        "payment.card.success" to InPlayerPaymentCardSuccessNotifcation::class.java,
+        "payment.card.failed" to InPlayerPaymentCardFailedNotification::class.java,
+        "subscribe.success" to InPlayerSubscribeSuccessNotification::class.java,
+        "subscribe.failed" to InPlayerSubscribeFailedNotification::class.java,
+        "access.granted" to InPlayerAccessGrantedNotificationEntity::class.java,
+        "access.revoked" to InPlayerAccessRevokedNotification::class.java,
+        
+        "account.logout" to InPlayerAccountLogoutNotificationEntity::class.java,
+        "account.erased" to InPlayerAccountErasedNotificationEntity::class.java,
+        "account.deactivated" to InPlayerAccountDeactivatedNotificationEntity::class.java
     )
     
-    override fun deserialize(json: JsonElement?, typeOfT: Type?, context: JsonDeserializationContext?): InPlayerNotificationEntity {
+    override fun deserialize(
+        json: JsonElement?,
+        typeOfT: Type?,
+        context: JsonDeserializationContext?
+    ): InPlayerNotificationEntity {
         json?.let {
             val notificationJson = it.asJsonObject
             val type = notificationJson.get("type").asString
@@ -36,7 +40,7 @@ class InPlayerNotificationDeserializer : JsonDeserializer<InPlayerNotificationEn
             
             return Gson().fromJson(json, classType)
         }
-        
+        throw IllegalStateException("InPlayerNotificationDeserializer unable to parse! JsonElement is null ")
     }
     
 }
