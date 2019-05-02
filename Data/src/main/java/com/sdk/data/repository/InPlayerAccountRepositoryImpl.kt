@@ -231,6 +231,16 @@ class InPlayerAccountRepositoryImpl constructor(
         }
     }
     
+    override fun authenticateWithSocialUrl(
+        token: String,
+        refreshToken: String
+    ): Single<InPlayerDomainUser> {
+        userLocalAuthenticator.saveAuthenticationToken(token)
+        userLocalAuthenticator.saveRefreshToken(refreshToken)
+        
+        return getUser()
+    }
+    
     
     /**
      * END Account data

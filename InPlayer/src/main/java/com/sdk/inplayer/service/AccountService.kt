@@ -38,5 +38,6 @@ class AccountService : KoinComponent {
     
     val getSocialUrlsUseCase: GetSocialUrlsUseCase by inject()
     
+    val validateSocialLoginUseCase: ValidateSocialLoginUseCase by inject()
     
 }

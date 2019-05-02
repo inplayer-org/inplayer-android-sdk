@@ -79,4 +79,9 @@ interface InPlayerAccountRepository {
         clientId: String,
         redirectUri: String
     ): Single<ArrayList<HashMap<String, String>>>
+    
+    fun authenticateWithSocialUrl(
+        token: String,
+        refreshToken: String
+    ): Single<InPlayerDomainUser>
 }

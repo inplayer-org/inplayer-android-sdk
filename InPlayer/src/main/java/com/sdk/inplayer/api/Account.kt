@@ -2,11 +2,13 @@ package com.sdk.inplayer.api
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
 import com.sdk.domain.entity.account.GrantType
 import com.sdk.domain.schedulers.InPlayerSchedulers
 import com.sdk.domain.usecase.account.ExportAccountDataUseCase
 import com.sdk.domain.usecase.account.GetSocialUrlsUseCase
 import com.sdk.domain.usecase.account.UpdateUserUseCase
+import com.sdk.domain.usecase.account.ValidateSocialLoginUseCase
 import com.sdk.domain.usecase.authentication.*
 import com.sdk.inplayer.callback.InPlayerCallback
 import com.sdk.inplayer.mapper.ThrowableToInPlayerExceptionMapper
@@ -17,7 +19,6 @@ import com.sdk.inplayer.model.account.InPlayerSocialUrls
 import com.sdk.inplayer.model.account.InPlayerUser
 import com.sdk.inplayer.model.error.InPlayerException
 import com.sdk.inplayer.service.AccountService
-import com.sdk.inplayer.ui.WebViewActivity
 import com.sdk.inplayer.util.InPlayerSDKConfiguration
 
 
@@ -413,12 +414,28 @@ class Account internal constructor(
             })
     }
     
-    fun openSocialAuthScreen(socialAuthUrl: String) {
-//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(socialAuthUrl))
-//        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//        context.startActivity(intent)
-        context.startActivity(WebViewActivity.startActivity(socialAuthUrl, context))
+    
+    /**
+     * Validate the tokens retrived from the Redirect after successfull Social authentication
+     *
+     * @param tokenUri: Uri The Uri containing the Token and Refresh token, retried from intent data
+     * @param callback: InPlayerCallback<InPlayerUser, InPlayerException>
+     * */
+    fun validateSocialLoginToken(
+        tokenUri: Uri,
+        callback: InPlayerCallback<InPlayerUser, InPlayerException>
+    ) {
+        accountService.validateSocialLoginUseCase.execute(ValidateSocialLoginUseCase.Params(tokenUri.toString()))
+            .subscribeOn(appSchedulers.subscribeOn)
+            .observeOn(appSchedulers.observeOn)
+            .subscribe({
+                callback.done(inPlayerUserMapper.mapFromDomain(it), null)
+            }, {
+                callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+            })
+        
     }
+    
 }
 
 

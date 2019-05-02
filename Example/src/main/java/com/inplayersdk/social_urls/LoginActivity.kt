@@ -1,6 +1,9 @@
 package com.inplayersdk.social_urls
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +42,24 @@ class LoginActivity : AppCompatActivity() {
     }
     
     
+    override fun onResume() {
+        super.onResume()
+        
+        intent.data?.let { uri ->
+            Log.v("onResume", "${uri.encodedQuery}")
+            InPlayer.Account.validateSocialLoginToken(uri, InPlayerCallback { value, error ->
+                if (error == null) {
+                    tv_welcome_user.text = "Welcome ${value.fullName}"
+                } else {
+                    //Handle Error
+                    tv_welcome_user.text = "Error executing request ${error.errorsList}"
+                }
+            })
+        }
+        
+    }
+    
+    
     private fun configureRecyclerView(list: ArrayList<InPlayerSocialUrls>) {
         rv_social_button.apply {
             adapter = SocialUrlsAdapter(list)
@@ -68,7 +89,11 @@ class LoginActivity : AppCompatActivity() {
             var socialButton: AppCompatButton = itemView.findViewById(R.id.btn_social)
             
             fun bind(socialUrls: InPlayerSocialUrls) {
-                socialButton.text = socialUrls.socialNetworkName
+                socialButton.text = socialUrls.socialNetworkName.capitalize()
+                
+                socialButton.setOnClickListener {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(socialUrls.socialAuthUrl)))
+                }
             }
         }
     }

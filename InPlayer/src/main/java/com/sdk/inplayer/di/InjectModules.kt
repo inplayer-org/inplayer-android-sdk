@@ -260,6 +260,8 @@ internal object InjectModules : KoinComponent {
             factory { GetRegisterFieldsUseCase(get(), get()) }
             
             factory { GetSocialUrlsUseCase(get(), get()) }
+            
+            factory { ValidateSocialLoginUseCase(get(), get()) }
         }
         
         val assetsUseCaseModule = module {

@@ -90,6 +90,7 @@ class Main2Activity : AppCompatActivity() {
     
     private fun getSocialUrls() {
     
+    
     }
     
     
