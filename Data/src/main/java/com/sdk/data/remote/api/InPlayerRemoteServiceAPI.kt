@@ -1,9 +1,14 @@
 package com.sdk.data.remote.api
 
+import com.sdk.data.model.CollectionModel
+import com.sdk.data.model.ResponseListModel
 import com.sdk.data.model.ResponseModel
 import com.sdk.data.model.account.InPlayerAccount
+import com.sdk.data.model.account.InPlayerRegisterFieldsModel
 import com.sdk.data.model.asset.ItemAccessModel
 import com.sdk.data.model.notification.AWSCredentialsModel
+import com.sdk.data.model.payment.CustomerAccessItemModel
+import com.sdk.data.model.subscription.SubscriptionModel
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -39,6 +44,22 @@ interface InPlayerRemoteServiceAPI {
     fun changePassword(@Field("password") password: String,
                        @Field("password_confirmation") passwordConfirmation: String,
                        @Field("old_password") oldPassword: String): Single<ResponseModel>
+    
+    
+    @FormUrlEncoded
+    @POST("/accounts/export")
+    fun exportAccountData(@Field("password") password: String): Single<ResponseModel>
+    
+    
+    @GET("/accounts/register-fields/{merchant_uuid}")
+    fun exportRegisterFields(@Path("merchant_uuid") merchantUUID: String): Single<CollectionModel<InPlayerRegisterFieldsModel>>
+    
+    
+    @GET("/items/access/customers")
+    fun getCustomerAccessList(@Query("status") status: String,
+                              @Query("page") page: Int,
+                              @Query("size") limit: Int,
+                              @Query("type") type: String?): Single<ResponseListModel<CustomerAccessItemModel>>
     
     
     /**
@@ -80,6 +101,19 @@ interface InPlayerRemoteServiceAPI {
     
     /**
      * END Payments
+     * */
+    
+    
+    /**
+     * Subscription
+     * */
+    
+    @GET("/subscriptions")
+    fun getSubscriptions(@Query("page") page: Int, @Query("size") limit: Int): Single<CollectionModel<SubscriptionModel>>
+    
+    
+    /**
+     * END Subscription
      * */
     
     

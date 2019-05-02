@@ -1,6 +1,5 @@
 package com.inplayersdk;
 
-import android.app.Application;
 import android.support.multidex.MultiDexApplication;
 
 import com.sdk.inplayer.configuration.InPlayer;
@@ -13,9 +12,9 @@ public class InPlayerApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
-        InPlayer.initialize(new InPlayer.Configuration.Builder(this, "YOUR_MERCHANT_UUID_HERE")
+        InPlayer.initialize(new InPlayer.Configuration.Builder(this, BuildConfig.UUID)
                 //Optional
-                .withReferrer("YOUR_REFERRER_STRING_HERE")
+                //.withReferrer("www.android.com")
                 //Default is set to Production
                 .withEnvironment(InPlayer.EnvironmentType.STAGING)
                 .build());

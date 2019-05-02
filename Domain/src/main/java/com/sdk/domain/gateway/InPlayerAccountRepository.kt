@@ -3,6 +3,7 @@ package com.sdk.domain.gateway
 import com.sdk.domain.entity.account.AuthorizationHolder
 import com.sdk.domain.entity.account.CredentialsEntity
 import com.sdk.domain.entity.account.InPlayerDomainUser
+import com.sdk.domain.entity.account.RegisterFieldsEntity
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -15,9 +16,11 @@ interface InPlayerAccountRepository {
     
     fun logout(): Completable
     
-    fun authenticatedUserAccount() : InPlayerDomainUser?
+    fun authenticatedUserAccount(): InPlayerDomainUser?
     
     fun isUserAuthenticated(): Boolean
+    
+    fun getRegisterFields(merchantUUID: String): Single<List<RegisterFieldsEntity>>
     
     fun refreshToken(refreshToken: String, grantType: String, clientId: String): Single<AuthorizationHolder>
     
@@ -28,6 +31,8 @@ interface InPlayerAccountRepository {
     fun updateUser(fullName: String, metadata: HashMap<String, String>? = null): Single<InPlayerDomainUser>
     
     fun eraseUser(password: String): Single<String>
+    
+    fun exportUserData(password: String): Single<String>
     
     fun changePassword(newPassword: String, newPasswordConfirmation: String, oldPassword: String): Single<String>
     

@@ -24,7 +24,7 @@ class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCr
     
     private lateinit var inPlayerAWSCredentials: InPlayerAWSCredentials
     
-    private var isSubscribed = false
+    public var isSubscribed = false
     
     fun subscribe(callback: AWSNotificationCallback) {
         this.callback = callback

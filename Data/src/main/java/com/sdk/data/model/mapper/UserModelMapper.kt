@@ -5,7 +5,7 @@ import com.sdk.domain.entity.account.AccountType
 import com.sdk.domain.entity.account.InPlayerDomainUser
 
 
-class MapInPlayerUser : ModelMapper<InPlayerAccount, InPlayerDomainUser> {
+class UserModelMapper : ModelMapper<InPlayerAccount, InPlayerDomainUser> {
     
     override fun mapFromModel(model: InPlayerAccount): InPlayerDomainUser {
         

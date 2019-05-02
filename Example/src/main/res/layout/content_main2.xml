@@ -159,4 +159,16 @@
         app:layout_constraintStart_toStartOf="@+id/notification"
         app:layout_constraintTop_toBottomOf="@+id/notification" />
 
+    <Button
+        android:id="@+id/btn_subscriptions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Get Subscription"
+        app:layout_constraintEnd_toEndOf="@+id/update"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/update" />
+
 </android.support.constraint.ConstraintLayout>

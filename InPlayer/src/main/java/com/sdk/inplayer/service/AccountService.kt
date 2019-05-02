@@ -31,5 +31,9 @@ class AccountService : KoinComponent {
     
     val getAccountUseCase: GetAccountUseCase by inject()
     
+    val exportAccountDataUseCase: ExportAccountDataUseCase by inject()
+    
+    val getRegisterFieldsUseCase: GetRegisterFieldsUseCase by inject()
+    
     
 }
