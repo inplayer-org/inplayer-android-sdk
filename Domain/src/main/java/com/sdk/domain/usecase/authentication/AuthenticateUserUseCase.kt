@@ -17,7 +17,6 @@ class AuthenticateUserUseCase constructor(schedulers: InPlayerSchedulers,
         params?.let { params ->
             
             if (params.grantType == GrantType.PASSWORD) {
-                
                 params.username?.let { username ->
                     params.password?.let { password ->
                         return inPlayerAuthenticatorRepository.authenticate(username, password, params.grantType.toString(), params.clientId)

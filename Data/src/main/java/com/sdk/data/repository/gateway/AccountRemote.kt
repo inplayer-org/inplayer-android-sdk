@@ -69,5 +69,5 @@ interface AccountRemote {
         metadata: HashMap<String, String>? = null
     ): Single<InPlayerAccount>
     
-    fun getSocialUrls(state: String): Single<HashMap<String, String>>
+    fun getSocialUrls(state: String): Single<ArrayList<HashMap<String, String>>>
 }

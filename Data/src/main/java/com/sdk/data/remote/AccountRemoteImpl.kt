@@ -84,7 +84,7 @@ class AccountRemoteImpl constructor(
     override fun forgotPassword(merchantUUID: String, email: String) =
         inPlayerRemotePublicServiceAPI.forgotPassword(merchantUUID, email)
     
-    override fun getSocialUrls(state: String): Single<HashMap<String, String>> {
+    override fun getSocialUrls(state: String): Single<ArrayList<HashMap<String, String>>> {
         return inPlayerRemoteProvider.getSocialUrls(state).map {
             it.socialUrls
         }

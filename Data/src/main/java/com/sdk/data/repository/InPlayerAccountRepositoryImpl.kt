@@ -1,7 +1,6 @@
 package com.sdk.data.repository
 
 import android.util.Base64
-import com.sdk.data.BuildConfig
 import com.sdk.data.model.account.InPlayerAuthorizationModel
 import com.sdk.data.model.mapper.MapAuthorizationModel
 import com.sdk.data.model.mapper.UserModelMapper
@@ -150,11 +149,14 @@ class InPlayerAccountRepositoryImpl constructor(
         )
     }
     
-    override fun getSocialUrls(clientId: String): Single<HashMap<String, String>> {
+    override fun getSocialUrls(
+        clientId: String,
+        redirectUri: String
+    ): Single<ArrayList<HashMap<String, String>>> {
         
         val jsonObject = JSONObject()
         jsonObject.put("client_id", clientId)
-        jsonObject.put("redirect", BuildConfig.RedirectURL)
+        jsonObject.put("redirect", "viktor.inplayer://")
         
         val base64 = Base64.encodeToString(jsonObject.toString().toByteArray(), Base64.DEFAULT)
         

@@ -75,5 +75,8 @@ interface InPlayerAccountRepository {
     
     fun getUserCredentials(): CredentialsEntity
     
-    fun getSocialUrls(clientId: String): Single<HashMap<String, String>>
+    fun getSocialUrls(
+        clientId: String,
+        redirectUri: String
+    ): Single<ArrayList<HashMap<String, String>>>
 }

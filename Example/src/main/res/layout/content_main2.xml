@@ -171,4 +171,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/update" />
 
+    <Button
+        android:id="@+id/btn_get_social_urls"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Get Social"
+        app:layout_constraintEnd_toEndOf="@+id/btn_subscriptions"
+        app:layout_constraintStart_toStartOf="@+id/btn_subscriptions"
+        app:layout_constraintTop_toBottomOf="@+id/btn_subscriptions" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

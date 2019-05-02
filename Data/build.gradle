@@ -25,12 +25,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
-            buildConfigField "String", "RedirectURL", '"https://native.accounts.staging-v2.inplayer.com/sso/social/callback"'
+            buildConfigField "String", "RedirectURL", '"viktor.inplayer://"'
 
         }
 
         debug {
-            buildConfigField "String", "RedirectURL", '"https://native.accounts.staging-v2.inplayer.com/sso/social/callback"'
+            buildConfigField "String", "RedirectURL", '"viktor.inplayer://"'
         }
     }
 
