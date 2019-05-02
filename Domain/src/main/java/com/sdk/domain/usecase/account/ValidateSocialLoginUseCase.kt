@@ -5,6 +5,7 @@ import com.sdk.domain.gateway.InPlayerAccountRepository
 import com.sdk.domain.schedulers.InPlayerSchedulers
 import com.sdk.domain.usecase.base.SingleUseCase
 import io.reactivex.Single
+import java.net.MalformedURLException
 import java.net.URLDecoder
 
 
@@ -23,17 +24,25 @@ class ValidateSocialLoginUseCase(
         
         params?.let {
             
-            val getParamsFromUri = it.toString().split("://#")[1]
+            try {
+                val getParamsFromUri = it.toString().split("://#")[1]
+                val components = splitQuery(getParamsFromUri)
+                
+                val token = components["token"]
+                val refreshToken = components["refresh_token"]
+                
+                return inPlayerAuthenticatorRepository.authenticateWithSocialUrl(
+                    token!!,
+                    refreshToken!!
+                )
+            } catch (e: Exception) {
+                return Single.create<InPlayerDomainUser> { emitter ->
+                    emitter.onError(
+                        MalformedURLException("URL is malformed and unprocessable.")
+                    )
+                }
+            }
             
-            val components = splitQuery(getParamsFromUri)
-            
-            val token = components["token"]
-            val refreshToken = components["refresh_token"]
-            
-            return inPlayerAuthenticatorRepository.authenticateWithSocialUrl(
-                token!!,
-                refreshToken!!
-            )
         }
         
         throw IllegalStateException("Params can't be null for ValidateSocialLoginUseCase")
