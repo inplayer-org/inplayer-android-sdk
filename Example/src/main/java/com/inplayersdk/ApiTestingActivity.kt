@@ -13,7 +13,7 @@ import com.sdk.inplayer.model.notification.InPlayerNotificationStatus
 import kotlinx.android.synthetic.main.activity_main2.*
 import kotlinx.android.synthetic.main.content_main2.*
 
-class Main2Activity : AppCompatActivity() {
+class ApiTestingActivity : AppCompatActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -253,11 +253,6 @@ class Main2Activity : AppCompatActivity() {
     
     override fun onResume() {
         super.onResume()
-        
-        
-        val uri = intent.data
-        
-        Log.v("onResume", "URI $uri")
         
         InPlayer.Notification.subscribe(object : InPlayerNotificationCallback {
             

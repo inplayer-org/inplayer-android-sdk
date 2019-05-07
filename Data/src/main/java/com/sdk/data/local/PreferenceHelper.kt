@@ -11,7 +11,6 @@ object PreferenceHelper {
     
     lateinit var prefs: SharedPreferences
     
-    
     fun defaultPrefs(context: Context): PreferenceHelper {
         prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return this
