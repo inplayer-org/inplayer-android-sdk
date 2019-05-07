@@ -11,7 +11,6 @@ import com.sdk.data.repository.gateway.UserLocalAuthenticator
 
 class UserLocalAuthenticatorImpl(context: Context) : UserLocalAuthenticator {
     
-    
     val prefs = defaultPrefs(context)
     
     override fun saveAuthenticationToken(accessToken: String) {

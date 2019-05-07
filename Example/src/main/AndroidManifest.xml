@@ -37,7 +37,7 @@
 
 
         <activity
-            android:name=".Main2Activity"
+            android:name=".ApiTestingActivity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar">
 
