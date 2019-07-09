@@ -29,7 +29,18 @@ class Assets constructor(private val appSchedulers: MySchedulers,
     
     
     fun getItemDetails(id: Int, callback: InPlayerCallback<ItemDetails, InPlayerException>) {
-        getItemDetailsUseCase.execute(GetItemDetailsUseCase.Params(id, inPlayerSDKConfiguration.merchantUUID))
+        getItemDetailsUseCase.execute(GetItemDetailsUseCase.Params.ItemDetailsParams(id, inPlayerSDKConfiguration.merchantUUID))
+                .subscribeOn(appSchedulers.subscribeOn)
+                .observeOn(appSchedulers.observeOn)
+                .subscribe({
+                    callback.done(mapItemDetails.mapFromDomain(it), null)
+                }, {
+                    callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+                })
+    }
+
+    fun getExternalAsset(assetType: String, externalId: String, callback: InPlayerCallback<ItemDetails, InPlayerException>) {
+        getItemDetailsUseCase.execute(GetItemDetailsUseCase.Params.ExternalAssetParams(assetType, externalId))
                 .subscribeOn(appSchedulers.subscribeOn)
                 .observeOn(appSchedulers.observeOn)
                 .subscribe({
