@@ -3,6 +3,7 @@ package com.s.data.remote.api
 import com.s.data.model.ResponseModel
 import com.s.data.model.account.InPlayerAuthorizationModel
 import com.s.domain.entity.asset.AccessFeeModel
+import com.s.domain.entity.asset.ItemAccessModel
 import com.s.domain.entity.asset.ItemDetailsModel
 import io.reactivex.Single
 import retrofit2.Response
@@ -52,7 +53,10 @@ interface InPlayerRemotePublicServiceAPI {
     
     @GET("/items/{merchant_uuid}/{id}")
     fun getItemDetails(@Path("id") id: Int, @Path("merchant_uuid") merchantUUID: String): Single<ItemDetailsModel>
-    
+
+    @GET("/items/assets/external/{asset_type}/{external_asset_id}")
+    fun getExternalAsset(@Path("asset_type") assetType: String, @Path("external_asset_id") externalId: String): Single<ItemDetailsModel>
+
     @GET("/items/{id}/access-fees")
     fun getAccessFees(@Path("id") id: Int): Single<List<AccessFeeModel>>
     

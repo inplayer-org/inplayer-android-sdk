@@ -9,10 +9,12 @@ import io.reactivex.Single
  * Created by victor on 1/5/19
  */
 interface AssetsRemote {
-    
+
     fun getItemAccess(id: Int): Single<ItemAccessModel>
-    
+
     fun getItemDetails(id: Int, merchantUUID: String): Single<ItemDetailsModel>
-    
+
+    fun getExternalAsset(assetType: String, externalId: String): Single<ItemDetailsModel>
+
     fun getAccessFees(id: Int): Single<List<AccessFeeModel>>
 }
