@@ -54,6 +54,9 @@ interface InPlayerRemoteServiceAPI {
     
     @GET("/items/{id}/access")
     fun getItemAccess(@Path("id") id: Int): Single<ItemAccessModel>
+
+    @GET("/items/assets/external/{asset_type}/{external_asset_id}")
+    fun getExternalAsset(@Path("asset_type") assetType: String, @Path("external_asset_id") externalId: String): Single<ItemAccessModel>
     
     
     /**
