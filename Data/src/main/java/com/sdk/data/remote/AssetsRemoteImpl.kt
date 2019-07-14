@@ -8,7 +8,6 @@ import com.sdk.data.remote.api.InPlayerRemoteServiceAPI
 import com.sdk.data.repository.gateway.AssetsRemote
 import io.reactivex.Single
 
-
 class AssetsRemoteImpl constructor(
     private val inPlayerRemoteServiceAPI: InPlayerRemoteServiceAPI,
     private val inPlayerRemotePublicServiceAPI: InPlayerRemotePublicServiceAPI

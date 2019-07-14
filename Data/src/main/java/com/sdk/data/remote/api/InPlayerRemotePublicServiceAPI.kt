@@ -58,9 +58,9 @@ interface InPlayerRemotePublicServiceAPI {
     
     @GET("/items/assets/external/{asset_type}/{external_asset_id}")
     fun getExternalAsset(
-        @Path("asset_type") assetType: String, @Path("external_asset_id") externalId: String, @Query(
-            "merchant_uuid"
-        ) merchantUUID: String
+        @Path("asset_type") assetType: String,
+        @Path("external_asset_id") externalId: String,
+        @Query("merchant_uuid") merchantUUID: String
     ): Single<ItemDetailsModel>
     
     @GET("/items/{id}/access-fees")
