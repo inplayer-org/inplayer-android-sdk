@@ -36,8 +36,7 @@ android {
     //Generate documentation ./gradlew dokka
     dokka {
         outputFormat = 'javadoc'
-        outputDirectory = "$buildDir/javadoc"
-
+        outputDirectory = "$buildDir/docs"
 
         for (def pkg : ["com.amazonaws",
                         "io.reactivex",
@@ -60,8 +59,6 @@ android {
                 suppress = false
             }
         }
-
-
     }
 }
 

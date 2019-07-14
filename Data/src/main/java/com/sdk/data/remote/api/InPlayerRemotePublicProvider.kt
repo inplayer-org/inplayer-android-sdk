@@ -10,10 +10,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-
 class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
     InPlayerRemotePublicServiceAPI {
-    
     
     /**
      * Creating Retrofit and setting up Logging
@@ -145,6 +143,12 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
     
     override fun getItemDetails(id: Int, merchantUUID: String) =
         retrofitAPI.getItemDetails(id, merchantUUID)
+    
+    override fun getExternalAsset(
+        assetType: String,
+        externalId: String,
+        merchantUUID: String
+    ) = retrofitAPI.getExternalAsset(assetType, externalId, merchantUUID)
     
     override fun getAccessFees(id: Int) = retrofitAPI.getAccessFees(id)
     
