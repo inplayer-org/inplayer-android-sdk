@@ -27,10 +27,14 @@ class InPlayerAssetsRepositoryImpl(private val assetsRemote: AssetsRemote,
                 .map { mapItemAccess.mapFromModel(it) }
     }
     
+    override fun getExternalAsset(assetType: String, externalId: String, merchantUUID: String): Single<ItemDetailsEntity> {
+        return assetsRemote.getExternalAsset(assetType = assetType, externalId = externalId, merchantUUID = merchantUUID)
+            .map { mapItemDetails.mapFromModel(it) }
+    }
+    
     override fun getAccessFees(id: Int): Single<List<AccessFeeEntity>> {
         return assetsRemote.getAccessFees(id).map { list ->
             list.map { mapAccessFee.mapFromModel(it) }
         }
     }
-    
 }
