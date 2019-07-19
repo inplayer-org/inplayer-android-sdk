@@ -5,7 +5,6 @@ import com.sdk.domain.entity.asset.ItemAccessEntity
 import com.sdk.domain.entity.asset.ItemDetailsEntity
 import io.reactivex.Single
 
-
 interface InPlayerAssetsRepository {
     
     fun getItemDetails(id: Int, merchantUUID: String): Single<ItemDetailsEntity>
@@ -13,4 +12,10 @@ interface InPlayerAssetsRepository {
     fun getItemAccess(id: Int): Single<ItemAccessEntity>
     
     fun getAccessFees(id: Int): Single<List<AccessFeeEntity>>
+    
+    fun getExternalAsset(
+        assetType: String,
+        externalId: String,
+        merchantUUID: String
+    ): Single<ItemDetailsEntity>
 }

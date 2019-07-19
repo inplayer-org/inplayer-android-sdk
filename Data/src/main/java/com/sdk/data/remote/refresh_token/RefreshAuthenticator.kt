@@ -9,16 +9,21 @@ import okhttp3.Response
 import okhttp3.Route
 
 
-class RefreshAuthenticator constructor(private val clientId: String,
-                                       private val localAuthenticator: UserLocalAuthenticator,
-                                       private val inPlayerRemoteRefreshServiceAPI: InPlayerRemoteRefreshServiceAPI) : Authenticator {
+class RefreshAuthenticator constructor(
+    private val clientId: String,
+    private val localAuthenticator: UserLocalAuthenticator,
+    private val inPlayerRemoteRefreshServiceAPI: InPlayerRemoteRefreshServiceAPI
+) : Authenticator {
     
     private val MAX_RETRY = 3
     
     private val TAG = "RefreshAuthenticator"
     
     override fun authenticate(route: Route, response: Response): Request? {
-        Log.d(TAG, "Detected authentication error ${response.code()} on ${response.request()?.url()}")
+        Log.d(
+            TAG,
+            "Detected authentication error ${response.code()} on ${response.request()?.url()}"
+        )
         
         when (hasBearerAuthorizationToken(response)) {
             false -> {
@@ -32,8 +37,8 @@ class RefreshAuthenticator constructor(private val clientId: String,
                 val previousRetryCount = retryCount(response)
                 // Attempt to reauthenticate using the refresh token!
                 return reAuthenticateRequestUsingRefreshToken(
-                        response,
-                        previousRetryCount + 1
+                    response,
+                    previousRetryCount + 1
                 )
             }
         }
@@ -62,7 +67,10 @@ class RefreshAuthenticator constructor(private val clientId: String,
     // We synchronize this request, so that multiple concurrent failures
     // don't all try to use the same refresh token!
     @Synchronized
-    private fun reAuthenticateRequestUsingRefreshToken(staleRequest: Response, retryCount: Int): Request? {
+    private fun reAuthenticateRequestUsingRefreshToken(
+        staleRequest: Response,
+        retryCount: Int
+    ): Request? {
         
         // See if we have gone too far:
         if (retryCount > MAX_RETRY) {
@@ -86,14 +94,22 @@ class RefreshAuthenticator constructor(private val clientId: String,
         
         // Try for the new token:
         Log.d(TAG, "Retreived new token, re-authenticating...")
-        return rewriteRequest(staleRequest.request(), retryCount, localAuthenticator.getBearerAuthToken())
+        return rewriteRequest(
+            staleRequest.request(),
+            retryCount,
+            localAuthenticator.getBearerAuthToken()
+        )
         
     }
     
     private fun makeRefreshTokenRequest() {
         Log.d(TAG, "Creating new Refresh Token Request")
         
-        val refreshTokenCall = inPlayerRemoteRefreshServiceAPI.authenticate(localAuthenticator.getRefreshToken(), "refresh_token", clientId)
+        val refreshTokenCall = inPlayerRemoteRefreshServiceAPI.authenticate(
+            localAuthenticator.getRefreshToken(),
+            "refresh_token",
+            clientId
+        )
         
         val request = refreshTokenCall.execute()
         
@@ -110,18 +126,18 @@ class RefreshAuthenticator constructor(private val clientId: String,
     }
     
     private fun rewriteRequest(
-            staleRequest: Request?, retryCount: Int, authToken: String
+        staleRequest: Request?, retryCount: Int, authToken: String
     ): Request? {
         return staleRequest?.newBuilder()
-                ?.header(
-                        Constants.HttpHeaderAuthorization,
-                        authToken
-                )
-                ?.header(
-                        Constants.HttpHeaderRetryCount,
-                        "$retryCount"
-                )
-                ?.build()
+            ?.header(
+                Constants.HttpHeaderAuthorization,
+                authToken
+            )
+            ?.header(
+                Constants.HttpHeaderRetryCount,
+                "$retryCount"
+            )
+            ?.build()
     }
     
 }

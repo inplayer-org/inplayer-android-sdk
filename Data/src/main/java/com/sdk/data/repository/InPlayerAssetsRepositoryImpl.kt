@@ -10,7 +10,6 @@ import com.sdk.domain.entity.asset.ItemDetailsEntity
 import com.sdk.domain.gateway.InPlayerAssetsRepository
 import io.reactivex.Single
 
-
 class InPlayerAssetsRepositoryImpl(private val assetsRemote: AssetsRemote,
                                    private val mapAccessFee: MapDataAccessFee,
                                    private val mapItemDetails: MapDataItemDetails,
@@ -27,10 +26,14 @@ class InPlayerAssetsRepositoryImpl(private val assetsRemote: AssetsRemote,
                 .map { mapItemAccess.mapFromModel(it) }
     }
     
+    override fun getExternalAsset(assetType: String, externalId: String, merchantUUID: String): Single<ItemDetailsEntity> {
+        return assetsRemote.getExternalAsset(assetType = assetType, externalId = externalId, merchantUUID = merchantUUID)
+            .map { mapItemDetails.mapFromModel(it) }
+    }
+    
     override fun getAccessFees(id: Int): Single<List<AccessFeeEntity>> {
         return assetsRemote.getAccessFees(id).map { list ->
             list.map { mapAccessFee.mapFromModel(it) }
         }
     }
-    
 }

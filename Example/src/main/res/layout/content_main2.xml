@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Main2Activity"
+    tools:context=".ApiTestingActivity"
     tools:showIn="@layout/activity_main2">
 
 
@@ -171,4 +171,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/update" />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/btn_get_social_urls"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Get Social"
+        app:layout_constraintEnd_toEndOf="@+id/btn_subscriptions"
+        app:layout_constraintStart_toStartOf="@+id/btn_subscriptions"
+        app:layout_constraintTop_toBottomOf="@+id/btn_subscriptions" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

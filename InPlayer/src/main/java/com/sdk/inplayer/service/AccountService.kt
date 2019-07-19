@@ -1,5 +1,6 @@
 package com.sdk.inplayer.service
 
+import com.sdk.domain.usecase.account.*
 import com.sdk.domain.usecase.authentication.*
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
@@ -35,5 +36,8 @@ class AccountService : KoinComponent {
     
     val getRegisterFieldsUseCase: GetRegisterFieldsUseCase by inject()
     
+    val getSocialUrlsUseCase: GetSocialUrlsUseCase by inject()
+    
+    val validateSocialLoginUseCase: ValidateSocialLoginUseCase by inject()
     
 }

@@ -22,6 +22,7 @@ import com.sdk.domain.gateway.InPlayerAssetsRepository
 import com.sdk.domain.gateway.InPlayerPaymentRepository
 import com.sdk.domain.gateway.InPlayerSubscriptionsRepository
 import com.sdk.domain.schedulers.InPlayerSchedulers
+import com.sdk.domain.usecase.account.*
 import com.sdk.domain.usecase.assets.GetAccessFeesUseCase
 import com.sdk.domain.usecase.assets.GetItemAccessUseCase
 import com.sdk.domain.usecase.assets.GetItemDetailsUseCase
@@ -32,10 +33,7 @@ import com.sdk.domain.usecase.subscription.GetSubscriptionsUseCase
 import com.sdk.inplayer.api.*
 import com.sdk.inplayer.configuration.InPlayer
 import com.sdk.inplayer.mapper.MapInPlayerCollection
-import com.sdk.inplayer.mapper.account.AuthorizationModelMapper
-import com.sdk.inplayer.mapper.account.InPlayerCredentialsMapper
-import com.sdk.inplayer.mapper.account.InPlayerUserMapper
-import com.sdk.inplayer.mapper.account.RegisterFieldsMapper
+import com.sdk.inplayer.mapper.account.*
 import com.sdk.inplayer.mapper.assets.*
 import com.sdk.inplayer.mapper.notification.AccessGrantedNotificationMapper
 import com.sdk.inplayer.mapper.notification.AccessRevokedNotificationMapper
@@ -66,7 +64,12 @@ internal object InjectModules : KoinComponent {
         }
         
         val configurationModule = module {
-            single { InPlayerSDKConfiguration(getProperty(Const.merchant_UUID), configuration.referrer) }
+            single {
+                InPlayerSDKConfiguration(
+                    getProperty(Const.merchant_UUID),
+                    configuration.referrer
+                )
+            }
         }
         
         //Data Module Mapper
@@ -117,15 +120,32 @@ internal object InjectModules : KoinComponent {
             
             //REFRESH TOKEN
             
-            factory { InPlayerRemoteRefreshTokenProvider(getProperty(Const.serverUrl), configuration.isDebug) as InPlayerRemoteRefreshServiceAPI }
+            factory {
+                InPlayerRemoteRefreshTokenProvider(
+                    getProperty(Const.serverUrl),
+                    configuration.isDebug
+                ) as InPlayerRemoteRefreshServiceAPI
+            }
             
             factory { RefreshAuthenticator(configuration.mMerchantUUID, get(), get()) }
             
             //END REFRESH TOKEN
             
-            single { InPlayerRemotePublicProvider(getProperty(Const.serverUrl), configuration.isDebug) as InPlayerRemotePublicServiceAPI }
+            single {
+                InPlayerRemotePublicProvider(
+                    getProperty(Const.serverUrl),
+                    configuration.isDebug
+                ) as InPlayerRemotePublicServiceAPI
+            }
             
-            single { InPlayerRemoteProvider(getProperty(Const.serverUrl), configuration.isDebug, get(), get()) as InPlayerRemoteServiceAPI }
+            single {
+                InPlayerRemoteProvider(
+                    getProperty(Const.serverUrl),
+                    configuration.isDebug,
+                    get(),
+                    get()
+                ) as InPlayerRemoteServiceAPI
+            }
             
             
             
@@ -141,15 +161,41 @@ internal object InjectModules : KoinComponent {
             
             //REPOSITORY
             
-            factory { InPlayerAssetsRepositoryImpl(get(), get(), get(), get()) as InPlayerAssetsRepository }
+            factory {
+                InPlayerAssetsRepositoryImpl(
+                    get(),
+                    get(),
+                    get(),
+                    get()
+                ) as InPlayerAssetsRepository
+            }
             
-            factory { InPlayerAccountRepositoryImpl(get(), get(), get(), get(), get()) as InPlayerAccountRepository }
+            factory {
+                InPlayerAccountRepositoryImpl(
+                    get(),
+                    get(),
+                    get(),
+                    get(),
+                    get()
+                ) as InPlayerAccountRepository
+            }
             
-            factory { InPlayerAWSCredentialsRepositoryImpl(get(), get(), get()) as InPlayerAWSCredentialsRepository }
+            factory {
+                InPlayerAWSCredentialsRepositoryImpl(
+                    get(),
+                    get(),
+                    get()
+                ) as InPlayerAWSCredentialsRepository
+            }
             
             factory { InPlayerPaymentsRepositoryImpl(get(), get()) as InPlayerPaymentRepository }
             
-            factory { InPlayerSubscriptionRepositoryImpl(get(), get()) as InPlayerSubscriptionsRepository }
+            factory {
+                InPlayerSubscriptionRepositoryImpl(
+                    get(),
+                    get()
+                ) as InPlayerSubscriptionsRepository
+            }
             
             //END REPOSITORY
             
@@ -159,7 +205,19 @@ internal object InjectModules : KoinComponent {
             
             factory { Asset(get(), get(), get(), get(), get(), get()) }
             
-            factory { Account(get(), get(), get(), get(), get(), get(), get()) }
+            factory {
+                Account(
+                    (getProperty(Const.context)),
+                    get(),
+                    get(),
+                    get(),
+                    get(),
+                    get(),
+                    get(),
+                    get(),
+                    get()
+                )
+            }
             
             factory { Notification(get(), get()) }
             
@@ -200,6 +258,10 @@ internal object InjectModules : KoinComponent {
             factory { ExportAccountDataUseCase(get(), get()) }
             
             factory { GetRegisterFieldsUseCase(get(), get()) }
+            
+            factory { GetSocialUrlsUseCase(get(), get()) }
+            
+            factory { ValidateSocialLoginUseCase(get(), get()) }
         }
         
         val assetsUseCaseModule = module {
@@ -258,6 +320,8 @@ internal object InjectModules : KoinComponent {
             
             factory { RegisterFieldsMapper(get()) }
             
+            factory { InPlayerSocialUrlsMapper() }
+            
             //NOTIFICATION MAPPER
             
             factory { AccessGrantedNotificationMapper() }
@@ -283,9 +347,21 @@ internal object InjectModules : KoinComponent {
             single { AWSNotificationManager(get(), get()) }
         }
         
-        startKoin(listOf(contextModule, mapperModule, configurationModule, dataModule, accountUseCaseModule,
-                mainControllerModule, assetsUseCaseModule, notificationModule, paymentUseCaseModule, dataMapper,
-                subscriptionUseCaseModule))
+        startKoin(
+            listOf(
+                contextModule,
+                mapperModule,
+                configurationModule,
+                dataModule,
+                accountUseCaseModule,
+                mainControllerModule,
+                assetsUseCaseModule,
+                notificationModule,
+                paymentUseCaseModule,
+                dataMapper,
+                subscriptionUseCaseModule
+            )
+        )
         
         setProperty(Const.context, configuration.context)
         

@@ -10,6 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -24,10 +25,12 @@ import java.util.concurrent.TimeUnit
  *  @see UserLocalAuthenticator if the user is not authenticated we will return error without even trying to reach the API
  *
  */
-class InPlayerRemoteProvider(val baseUrl: String,
-                             val isDebug: Boolean,
-                             val refreshAuthenticator: RefreshAuthenticator,
-                             val localAuthenticator: UserLocalAuthenticator) : InPlayerRemoteServiceAPI {
+class InPlayerRemoteProvider(
+    val baseUrl: String,
+    val isDebug: Boolean,
+    val refreshAuthenticator: RefreshAuthenticator,
+    val localAuthenticator: UserLocalAuthenticator
+) : InPlayerRemoteServiceAPI {
     
     
     /**
@@ -48,11 +51,11 @@ class InPlayerRemoteProvider(val baseUrl: String,
     
     private fun buildService(okHttpClient: OkHttpClient): InPlayerRemoteServiceAPI {
         val retrofit = Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .client(okHttpClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+            .baseUrl(baseUrl)
+            .client(okHttpClient)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
         return retrofit.create(InPlayerRemoteServiceAPI::class.java)
     }
     
@@ -69,12 +72,12 @@ class InPlayerRemoteProvider(val baseUrl: String,
     
     private fun makeOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         var builder = OkHttpClient.Builder()
-                .addInterceptor(httpLoggingInterceptor)
-                .addInterceptor {
-                    customHeaderIntercepted(it)
-                }
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor {
+                customHeaderIntercepted(it)
+            }
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
         
         builder = addCustomInterceptors(builder)
         
@@ -92,8 +95,8 @@ class InPlayerRemoteProvider(val baseUrl: String,
         
         // Request customization: add request headers
         val requestBuilder = original.newBuilder()
-                .addHeader("Accept", "application/json")
-                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+            .addHeader("Accept", "application/json")
+            .addHeader("Content-Type", "application/x-www-form-urlencoded")
         
         val request = requestBuilder.build()
         return it.proceed(request)
@@ -111,9 +114,9 @@ class InPlayerRemoteProvider(val baseUrl: String,
         
         val original = chain.request()
         val request = original.newBuilder()
-                .header("Authorization", localAuthenticator.getBearerAuthToken())
-                .method(original.method(), original.body())
-                .build()
+            .header("Authorization", localAuthenticator.getBearerAuthToken())
+            .method(original.method(), original.body())
+            .build()
         return chain.proceed(request)
     }
     
@@ -137,18 +140,30 @@ class InPlayerRemoteProvider(val baseUrl: String,
     
     override fun logout() = retrofitAPI.logout()
     
+    
     override fun getAccount() = retrofitAPI.getAccount()
     
-    override fun updateAccount(fullName: String, metadata: HashMap<String, String>?) = retrofitAPI.updateAccount(fullName, metadata)
+    
+    override fun updateAccount(fullName: String, metadata: HashMap<String, String>?) =
+        retrofitAPI.updateAccount(fullName, metadata)
     
     override fun eraseAccount(password: String) = retrofitAPI.eraseAccount(password)
     
-    override fun changePassword(password: String, passwordConfirmation: String, oldPassword: String) = retrofitAPI.changePassword(password, passwordConfirmation, oldPassword)
+    
+    override fun changePassword(
+        password: String,
+        passwordConfirmation: String,
+        oldPassword: String
+    ) = retrofitAPI.changePassword(password, passwordConfirmation, oldPassword)
+    
     
     override fun exportAccountData(password: String) = retrofitAPI.exportAccountData(password)
     
     
-    override fun exportRegisterFields(merchantUUID: String) = retrofitAPI.exportRegisterFields(merchantUUID)
+    override fun exportRegisterFields(merchantUUID: String) =
+        retrofitAPI.exportRegisterFields(merchantUUID)
+    
+    override fun getSocialUrls(socialUrlState: String) = retrofitAPI.getSocialUrls(socialUrlState)
     
     
     /**
@@ -183,10 +198,12 @@ class InPlayerRemoteProvider(val baseUrl: String,
      *  Payments
      */
     
-    override fun validateAndroidReceipt(receipt: String, item_id: Int, access_fee_id: Int) = retrofitAPI.validateAndroidReceipt(receipt, item_id, access_fee_id)
+    override fun validateAndroidReceipt(receipt: String, item_id: Int, access_fee_id: Int) =
+        retrofitAPI.validateAndroidReceipt(receipt, item_id, access_fee_id)
     
     
-    override fun getCustomerAccessList(status: String, page: Int, limit: Int, type: String?) = retrofitAPI.getCustomerAccessList(status, page, limit, type)
+    override fun getCustomerAccessList(status: String, page: Int, limit: Int, type: String?) =
+        retrofitAPI.getCustomerAccessList(status, page, limit, type)
     
     /**
      * END  Payments

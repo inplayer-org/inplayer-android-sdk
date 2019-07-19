@@ -22,12 +22,14 @@ import com.sdk.inplayer.util.InPlayerSDKConfiguration
  * an asset and partaking in any operation regarding the asset resource.
  */
 @SuppressLint("CheckResult")
-class Asset internal constructor(private val appSchedulers: InPlayerSchedulers,
-                                 private val inPlayerSDKConfiguration: InPlayerSDKConfiguration,
-                                 private val assetService: AssetService,
-                                 private val mapItemDetails: MapItemDetails,
-                                 private val mapAccessFee: MapAccessFee,
-                                 private val mapItemAccess: MapItemAccess) {
+class Asset internal constructor(
+    private val appSchedulers: InPlayerSchedulers,
+    private val inPlayerSDKConfiguration: InPlayerSDKConfiguration,
+    private val assetService: AssetService,
+    private val mapItemDetails: MapItemDetails,
+    private val mapAccessFee: MapAccessFee,
+    private val mapItemAccess: MapItemAccess
+) {
     
     
     /**
@@ -38,14 +40,44 @@ class Asset internal constructor(private val appSchedulers: InPlayerSchedulers,
      * @param callback InPlayerCallback<InPlayerItem, InPlayerException>
      */
     fun getAsset(id: Int, callback: InPlayerCallback<InPlayerItem, InPlayerException>) {
-        assetService.getItemDetailsUseCase.execute(GetItemDetailsUseCase.Params(id, inPlayerSDKConfiguration.merchantUUID))
-                .subscribeOn(appSchedulers.subscribeOn)
-                .observeOn(appSchedulers.observeOn)
-                .subscribe({
-                    callback.done(mapItemDetails.mapFromDomain(it), null)
-                }, {
-                    callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
-                })
+        assetService.getItemDetailsUseCase.execute(
+            GetItemDetailsUseCase.Params.ItemDetailsParams(
+                id,
+                inPlayerSDKConfiguration.merchantUUID
+            )
+        )
+            .subscribeOn(appSchedulers.subscribeOn)
+            .observeOn(appSchedulers.observeOn)
+            .subscribe({
+                callback.done(mapItemDetails.mapFromDomain(it), null)
+            }, {
+                callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+            })
+    }
+    
+    /**
+     * Get an external assets info
+     *
+     *
+     * @param assetType String The type ID of the asset
+     * @param externalId String The ID of the external asset
+     * @param merchantUUID String The merchant uuid
+     * @param callback InPlayerCallback<InPlayerItem, InPlayerException>
+     */
+    fun getExternalAsset(assetType: String, externalId: String, merchantUUID: String, callback: InPlayerCallback<InPlayerItem, InPlayerException>) {
+        assetService.getItemDetailsUseCase.execute(
+            GetItemDetailsUseCase.Params.ExternalAssetParams(
+                assetType = assetType,
+                externalId = externalId,
+                merchantUUID = merchantUUID
+            )
+        ).subscribeOn(appSchedulers.subscribeOn)
+            .observeOn(appSchedulers.observeOn)
+            .subscribe({
+                callback.done(mapItemDetails.mapFromDomain(it), null)
+            }, {
+                callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+            })
     }
     
     /**
@@ -54,15 +86,18 @@ class Asset internal constructor(private val appSchedulers: InPlayerSchedulers,
      * @param id Int Item ID
      * @param callback InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
      */
-    fun getAssetAccessFees(id: Int, callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>) {
+    fun getAssetAccessFees(
+        id: Int,
+        callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
+    ) {
         assetService.getAccessFeesUseCase.execute(GetAccessFeesUseCase.Params(id))
-                .subscribeOn(appSchedulers.subscribeOn)
-                .observeOn(appSchedulers.observeOn)
-                .subscribe({ list ->
-                    callback.done(list.map { mapAccessFee.mapFromDomain(it) }, null)
-                }, {
-                    callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
-                })
+            .subscribeOn(appSchedulers.subscribeOn)
+            .observeOn(appSchedulers.observeOn)
+            .subscribe({ list ->
+                callback.done(list.map { mapAccessFee.mapFromDomain(it) }, null)
+            }, {
+                callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+            })
     }
     
     /**
@@ -72,14 +107,17 @@ class Asset internal constructor(private val appSchedulers: InPlayerSchedulers,
      * @param id Int Item ID
      * @param callback InPlayerCallback<InPlayerItemAccess, InPlayerException>
      */
-    fun checkAccessForAsset(id: Int, callback: InPlayerCallback<InPlayerItemAccess, InPlayerException>) {
+    fun checkAccessForAsset(
+        id: Int,
+        callback: InPlayerCallback<InPlayerItemAccess, InPlayerException>
+    ) {
         assetService.getItemAccessUseCase.execute(GetItemAccessUseCase.Params(id))
-                .subscribeOn(appSchedulers.subscribeOn)
-                .observeOn(appSchedulers.observeOn)
-                .subscribe({
-                    callback.done(mapItemAccess.mapFromDomain(it), null)
-                }, {
-                    callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
-                })
+            .subscribeOn(appSchedulers.subscribeOn)
+            .observeOn(appSchedulers.observeOn)
+            .subscribe({
+                callback.done(mapItemAccess.mapFromDomain(it), null)
+            }, {
+                callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+            })
     }
 }

@@ -1,6 +1,6 @@
 package com.inplayersdk;
 
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 
 import com.sdk.inplayer.configuration.InPlayer;
 

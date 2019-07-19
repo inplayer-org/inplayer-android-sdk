@@ -1,7 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.inplayer-org.inplayer-android-sdk'
+group = 'com.github.inplayer-org.inplayer-android-sdk'
 
 android {
 
@@ -13,11 +14,9 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "AWS_IOT_ENDPOINT", "\"a3gkl64duktvc4-ats.iot.eu-west-1.amazonaws.com\""
-
 
     }
 
@@ -41,8 +40,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation reactive.rxJava
     implementation notification.aws_iot
-    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
-
+    implementation('com.amazonaws:aws-android-sdk-mobile-client:2.9.+@aar') { transitive = true }
+    implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 

@@ -1,8 +1,8 @@
 package com.inplayersdk
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.sdk.inplayer.callback.InPlayerCallback
 import com.sdk.inplayer.callback.InPlayerNotificationCallback
 import com.sdk.inplayer.configuration.InPlayer
@@ -13,7 +13,7 @@ import com.sdk.inplayer.model.notification.InPlayerNotificationStatus
 import kotlinx.android.synthetic.main.activity_main2.*
 import kotlinx.android.synthetic.main.content_main2.*
 
-class Main2Activity : AppCompatActivity() {
+class ApiTestingActivity : AppCompatActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,31 +82,33 @@ class Main2Activity : AppCompatActivity() {
         btn_subscriptions.setOnClickListener {
             getSubscriptions()
         }
+        
+        btn_get_social_urls.setOnClickListener {
+            getSocialUrls()
+        }
     }
     
+    private fun getSocialUrls() {
+    
+    
+    }
+    
+    
     private fun logInuser() {
-        InPlayer.Account.authenticate("matej@inplayer.com", "matej123456", InPlayerCallback { inPlayerUser, error ->
-            if (error == null) {
-                //SUCCESS - Handle InPlayerUser
-            } else {
-                //Handle Error
-            }
-        })
+        InPlayer.Account.authenticate(
+            "matej@inplayer.com",
+            "matej123456",
+            InPlayerCallback { inPlayerUser, error ->
+                if (error == null) {
+                    //SUCCESS - Handle InPlayerUser
+                } else {
+                    //Handle Error
+                }
+            })
     }
     
     private fun getSubscriptions() {
-//        InPlayer.Subscription.getSubscriptions(1, 10, InPlayerCallback { value, exception ->
-//
-//        })
-
-//        InPlayer.Account.exportData("matej123456", InPlayerCallback { value, exception ->
-//
-//        })
-//
-//        InPlayer.Payment.getPurchaseHistory("all", 1, 10, null, InPlayerCallback { value, exception ->
-//
-//        })
-//
+        
         InPlayer.Account.getRegisterFields(InPlayerCallback { list, exception ->
             list.forEach {
                 Log.v("Register Fields", "This is it $it")
@@ -128,15 +130,15 @@ class Main2Activity : AppCompatActivity() {
     
     private fun signUp() {
         InPlayer.Account.signUp("Viktor Petrovski",
-                "victorpetrovski93+test99541@gmail.com",
-                "androidsdk123",
-                "androidsdk123", InPlayerCallback { inPlayerUser, error ->
-            if (error == null) {
-                Log.v("signUp", "User created $inPlayerUser")
-            } else {
-                //error.printStackTrace()
-            }
-        })
+            "victorpetrovski93+test99541@gmail.com",
+            "androidsdk123",
+            "androidsdk123", InPlayerCallback { inPlayerUser, error ->
+                if (error == null) {
+                    Log.v("signUp", "User created $inPlayerUser")
+                } else {
+                    //error.printStackTrace()
+                }
+            })
     }
     
     private fun accountDetails() {
@@ -152,14 +154,16 @@ class Main2Activity : AppCompatActivity() {
     }
     
     private fun eraseUser() {
-        InPlayer.Account.deleteAccount("androidsdk123", InPlayerCallback { sucessMessage, error -> })
+        InPlayer.Account.deleteAccount(
+            "androidsdk123",
+            InPlayerCallback { sucessMessage, error -> })
     }
     
     private fun changePassword() {
         InPlayer.Account.changePassword("newpassword12345", "newpassword12345", "newpassword123",
-                InPlayerCallback { sucessMessage, error ->
+            InPlayerCallback { sucessMessage, error ->
                 
-                })
+            })
     }
     
     private fun forgotPassword(email: String) {
@@ -188,15 +192,23 @@ class Main2Activity : AppCompatActivity() {
         })
     }
     
-    private fun setNewPassword(token: String, newPassword: String, newPasswordConfirmation: String) {
-        InPlayer.Account.setNewPassword(token, newPassword, newPasswordConfirmation, InPlayerCallback { message, error ->
-            if (error == null) {
-                Log.v("setNewPassword", "User setNewPassword: $message")
-            } else {
-                //Handle Error
-                Log.v("setNewPassword", "Error block $message")
-            }
-        })
+    private fun setNewPassword(
+        token: String,
+        newPassword: String,
+        newPasswordConfirmation: String
+    ) {
+        InPlayer.Account.setNewPassword(
+            token,
+            newPassword,
+            newPasswordConfirmation,
+            InPlayerCallback { message, error ->
+                if (error == null) {
+                    Log.v("setNewPassword", "User setNewPassword: $message")
+                } else {
+                    //Handle Error
+                    Log.v("setNewPassword", "Error block $message")
+                }
+            })
     }
     
     private fun getAccess() {

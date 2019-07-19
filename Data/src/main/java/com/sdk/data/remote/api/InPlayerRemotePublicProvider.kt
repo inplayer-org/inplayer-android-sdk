@@ -7,11 +7,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 import java.util.concurrent.TimeUnit
 
-
-class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) : InPlayerRemotePublicServiceAPI {
-    
+class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
+    InPlayerRemotePublicServiceAPI {
     
     /**
      * Creating Retrofit and setting up Logging
@@ -32,11 +32,11 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) : 
     
     private fun buildService(okHttpClient: OkHttpClient): InPlayerRemotePublicServiceAPI {
         val retrofit = Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .client(okHttpClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+            .baseUrl(baseUrl)
+            .client(okHttpClient)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
         return retrofit.create(InPlayerRemotePublicServiceAPI::class.java)
     }
     
@@ -53,12 +53,12 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) : 
     
     private fun makeOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         var builder = OkHttpClient.Builder()
-                .addInterceptor(httpLoggingInterceptor)
-                .addInterceptor {
-                    customHeaderIntercepted(it)
-                }
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor {
+                customHeaderIntercepted(it)
+            }
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
         
         return buildOkHttpClient(builder)
         
@@ -74,8 +74,8 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) : 
         
         // Request customization: add request headers
         val requestBuilder = original.newBuilder()
-                .addHeader("Accept", "application/json")
-                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+            .addHeader("Accept", "application/json")
+            .addHeader("Content-Type", "application/x-www-form-urlencoded")
         
         val request = requestBuilder.build()
         return it.proceed(request)
@@ -90,13 +90,47 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) : 
      * AUTHENTICATION Endpoint Implementations
      * */
     
-    override fun createAccount(fullName: String, email: String, password: String, passwordConfirmation: String, type: String, merchantUUID: String, referrer: String?, metadata: HashMap<String, String>?) = retrofitAPI.createAccount(fullName, email, password, passwordConfirmation, type, merchantUUID, referrer, metadata)
+    override fun createAccount(
+        fullName: String,
+        email: String,
+        password: String,
+        passwordConfirmation: String,
+        type: String,
+        merchantUUID: String,
+        referrer: String?,
+        metadata: HashMap<String, String>?
+    ) = retrofitAPI.createAccount(
+        fullName,
+        email,
+        password,
+        passwordConfirmation,
+        type,
+        merchantUUID,
+        referrer,
+        metadata
+    )
     
-    override fun authenticate(username: String?, password: String?, clientSecret: String?, refreshToken: String?, grantType: String, clientId: String) = retrofitAPI.authenticate(username, password, clientSecret, refreshToken, grantType, clientId)
+    override fun authenticate(
+        username: String?,
+        password: String?,
+        clientSecret: String?,
+        refreshToken: String?,
+        grantType: String,
+        clientId: String
+    ) = retrofitAPI.authenticate(
+        username,
+        password,
+        clientSecret,
+        refreshToken,
+        grantType,
+        clientId
+    )
     
-    override fun setNewPassword(token: String, password: String, passwordConfirmation: String) = retrofitAPI.setNewPassword(token, password, passwordConfirmation)
+    override fun setNewPassword(token: String, password: String, passwordConfirmation: String) =
+        retrofitAPI.setNewPassword(token, password, passwordConfirmation)
     
-    override fun forgotPassword(merchantUUID: String, email: String) = retrofitAPI.forgotPassword(merchantUUID, email)
+    override fun forgotPassword(merchantUUID: String, email: String) =
+        retrofitAPI.forgotPassword(merchantUUID, email)
     
     /**
      * END -> AUTHENTICATION Endpoint Implementations
@@ -107,7 +141,14 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) : 
      * ASSETS PUBLIC Endpoint Implementations
      * */
     
-    override fun getItemDetails(id: Int, merchantUUID: String) = retrofitAPI.getItemDetails(id, merchantUUID)
+    override fun getItemDetails(id: Int, merchantUUID: String) =
+        retrofitAPI.getItemDetails(id, merchantUUID)
+    
+    override fun getExternalAsset(
+        assetType: String,
+        externalId: String,
+        merchantUUID: String
+    ) = retrofitAPI.getExternalAsset(assetType, externalId, merchantUUID)
     
     override fun getAccessFees(id: Int) = retrofitAPI.getAccessFees(id)
     
