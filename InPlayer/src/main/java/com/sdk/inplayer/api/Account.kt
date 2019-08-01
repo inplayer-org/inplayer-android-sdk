@@ -460,6 +460,11 @@ class Account internal constructor(
      * @param brandingID: Optional parameter
      * @param callback: InPlayerCallback<String, InPlayerException>
      * */
+    
+    fun sendPinCode(callback: InPlayerCallback<String?, InPlayerException>) {
+        sendPinCode(null, callback)
+    }
+    
     fun sendPinCode(
         brandingId: String? = null,
         callback: InPlayerCallback<String?, InPlayerException>

@@ -12,7 +12,7 @@ class PinCodeVerificationUseCase(
     
     override fun buildUseCaseObservable(params: PinCodeInput?): Completable {
         params?.let {
-            when(it){
+            return when(it){
                 is PinCodeInput.ValidatePinCode -> inPlayerAccountRepository.validatePinCode(pinCode = it.pinCode)
                 is PinCodeInput.SendPinCode -> inPlayerAccountRepository.sendPinCode(brandingId = it.brandingId)
             }
