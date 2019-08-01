@@ -6,6 +6,7 @@ import com.sdk.data.model.account.InPlayerRegisterFieldsModel
 import com.sdk.data.remote.api.InPlayerRemotePublicServiceAPI
 import com.sdk.data.remote.api.InPlayerRemoteServiceAPI
 import com.sdk.data.repository.gateway.AccountRemote
+import io.reactivex.Completable
 import io.reactivex.Single
 
 
@@ -13,7 +14,6 @@ class AccountRemoteImpl constructor(
     private val inPlayerRemoteProvider: InPlayerRemoteServiceAPI,
     private val inPlayerRemotePublicServiceAPI: InPlayerRemotePublicServiceAPI
 ) : AccountRemote {
-    
     
     /**
      * API's that are public and don't require Auth Token in their Header, should be calling the
@@ -88,6 +88,14 @@ class AccountRemoteImpl constructor(
         return inPlayerRemoteProvider.getSocialUrls(state).map {
             it.socialUrls
         }
+    }
+    
+    override fun sendPinCode(brandingId: String?): Completable {
+        return inPlayerRemoteProvider.sendPinCode(brandingId)
+    }
+    
+    override fun validatePinCode(pinCode: String): Completable {
+        return inPlayerRemoteProvider.validatePinCode(pinCode)
     }
     
     /**

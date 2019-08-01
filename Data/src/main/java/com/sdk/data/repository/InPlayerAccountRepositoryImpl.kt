@@ -24,8 +24,6 @@ class InPlayerAccountRepositoryImpl constructor(
     private val mapRegisterFields: MapRegisterFields,
     private val mapAuthorizationModel: MapAuthorizationModel
 ) : InPlayerAccountRepository {
-    
-    
     /**
      *  Creating Users and handling Authorization
      * */
@@ -241,6 +239,13 @@ class InPlayerAccountRepositoryImpl constructor(
         return getUser()
     }
     
+    override fun validatePinCode(pinCode: String): Completable {
+        return accountRemote.validatePinCode(pinCode)
+    }
+    
+    override fun sendPinCode(brandingId: String?): Completable {
+        return accountRemote.sendPinCode(brandingId)
+    }
     
     /**
      * END Account data
