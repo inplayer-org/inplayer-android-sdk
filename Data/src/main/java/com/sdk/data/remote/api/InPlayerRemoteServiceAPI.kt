@@ -10,6 +10,7 @@ import com.sdk.data.model.asset.ItemAccessModel
 import com.sdk.data.model.notification.AWSCredentialsModel
 import com.sdk.data.model.payment.CustomerAccessItemModel
 import com.sdk.data.model.subscription.SubscriptionModel
+import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*
 import java.util.*
@@ -72,6 +73,13 @@ interface InPlayerRemoteServiceAPI {
     
     @GET("/accounts/social")
     fun getSocialUrls(@Query("state") socialUrlState: String): Single<InPlayerSocialUrlsReponse>
+    
+    
+    @POST("/v2/accounts/pin-codes/validate")
+    fun validatePinCode(@Field("pin_code") pinCode: String): Completable
+    
+    @POST("/v2/accounts/pin-codes/send")
+    fun sendPinCode(@Field("branding_id") brandingId: String? = null): Completable
     
     
     /**
