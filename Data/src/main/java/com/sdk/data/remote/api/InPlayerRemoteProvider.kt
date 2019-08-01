@@ -32,7 +32,6 @@ class InPlayerRemoteProvider(
     val localAuthenticator: UserLocalAuthenticator
 ) : InPlayerRemoteServiceAPI {
     
-    
     /**
      * Creating Retrofit and setting up Logging
      * */
@@ -165,6 +164,9 @@ class InPlayerRemoteProvider(
     
     override fun getSocialUrls(socialUrlState: String) = retrofitAPI.getSocialUrls(socialUrlState)
     
+    override fun validatePinCode(pinCode: String) = retrofitAPI.validatePinCode(pinCode)
+    
+    override fun sendPinCode(brandingId: String?) = retrofitAPI.sendPinCode(brandingId)
     
     /**
      * END -> ACCOUNT Endpoint Implementations
