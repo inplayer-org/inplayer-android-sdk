@@ -82,17 +82,7 @@ class ApiTestingActivity : AppCompatActivity() {
         btn_subscriptions.setOnClickListener {
             getSubscriptions()
         }
-        
-        btn_get_social_urls.setOnClickListener {
-            getSocialUrls()
-        }
     }
-    
-    private fun getSocialUrls() {
-    
-    
-    }
-    
     
     private fun logInuser() {
         InPlayer.Account.authenticate(

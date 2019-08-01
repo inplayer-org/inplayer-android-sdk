@@ -74,10 +74,11 @@ interface InPlayerRemoteServiceAPI {
     @GET("/accounts/social")
     fun getSocialUrls(@Query("state") socialUrlState: String): Single<InPlayerSocialUrlsReponse>
     
-    
+    @FormUrlEncoded
     @POST("/v2/accounts/pin-codes/validate")
     fun validatePinCode(@Field("pin_code") pinCode: String): Completable
     
+    @FormUrlEncoded
     @POST("/v2/accounts/pin-codes/send")
     fun sendPinCode(@Field("branding_id") brandingId: String? = null): Completable
     
