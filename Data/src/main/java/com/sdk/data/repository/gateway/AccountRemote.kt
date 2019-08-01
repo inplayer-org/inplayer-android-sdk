@@ -4,6 +4,7 @@ import com.sdk.data.model.ResponseModel
 import com.sdk.data.model.account.InPlayerAccount
 import com.sdk.data.model.account.InPlayerAuthorizationModel
 import com.sdk.data.model.account.InPlayerRegisterFieldsModel
+import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.Response
 
@@ -70,4 +71,8 @@ interface AccountRemote {
     ): Single<InPlayerAccount>
     
     fun getSocialUrls(state: String): Single<ArrayList<HashMap<String, String>>>
+    
+    fun validatePinCode(pinCode: String): Completable
+    
+    fun sendPinCode(brandingId: String? = null): Completable
 }

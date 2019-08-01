@@ -84,4 +84,8 @@ interface InPlayerAccountRepository {
         token: String,
         refreshToken: String
     ): Single<InPlayerDomainUser>
+    
+    fun validatePinCode(pinCode: String): Completable
+    
+    fun sendPinCode(brandingId: String? = null): Completable
 }
