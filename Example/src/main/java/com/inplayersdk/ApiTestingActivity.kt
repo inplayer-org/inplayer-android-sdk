@@ -120,7 +120,7 @@ class ApiTestingActivity : AppCompatActivity() {
     
     private fun signUp() {
         InPlayer.Account.signUp("Viktor Petrovski",
-            "victorpetrovski93+test99541@gmail.com",
+            "victorpetrovski93+test995419@gmail.com",
             "androidsdk123",
             "androidsdk123", InPlayerCallback { inPlayerUser, error ->
                 if (error == null) {

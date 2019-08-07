@@ -71,6 +71,7 @@ class AccountRemoteImpl constructor(
             password,
             passwordConfirmation,
             type.toLowerCase(),
+            "password",
             merchantUUID,
             referrer,
             updatedMetadataMap

@@ -96,6 +96,7 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
         password: String,
         passwordConfirmation: String,
         type: String,
+        grantType: String,
         merchantUUID: String,
         referrer: String?,
         metadata: HashMap<String, String>?
@@ -105,6 +106,7 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
         password,
         passwordConfirmation,
         type,
+        grantType,
         merchantUUID,
         referrer,
         metadata
