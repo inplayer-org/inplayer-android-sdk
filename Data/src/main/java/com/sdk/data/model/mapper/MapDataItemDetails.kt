@@ -23,7 +23,8 @@ class MapDataItemDetails constructor(
                 createdAt = model.createdAt,
                 updatedAt = model.updatedAt,
                 metadata = model.metadata.map { mapItemMetadata(it) },
-                accessFees = model.accessFees.map { mapDataAccessFee.mapFromModel(it) })
+                accessFees = model.accessFees.map { mapDataAccessFee.mapFromModel(it) },
+                content = model.content)
     }
     
     private fun mapItemMetadata(itemMetadata: ItemMetadataModel): ItemMetadataEntity {

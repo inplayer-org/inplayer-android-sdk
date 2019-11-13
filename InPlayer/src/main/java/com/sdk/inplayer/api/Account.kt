@@ -5,11 +5,9 @@ import android.content.Context
 import android.net.Uri
 import com.sdk.domain.entity.account.GrantType
 import com.sdk.domain.schedulers.InPlayerSchedulers
-import com.sdk.domain.usecase.account.ExportAccountDataUseCase
-import com.sdk.domain.usecase.account.GetSocialUrlsUseCase
-import com.sdk.domain.usecase.account.UpdateUserUseCase
-import com.sdk.domain.usecase.account.ValidateSocialLoginUseCase
+import com.sdk.domain.usecase.account.*
 import com.sdk.domain.usecase.authentication.*
+import com.sdk.inplayer.R
 import com.sdk.inplayer.callback.InPlayerCallback
 import com.sdk.inplayer.mapper.ThrowableToInPlayerExceptionMapper
 import com.sdk.inplayer.mapper.account.*
@@ -433,9 +431,57 @@ class Account internal constructor(
             }, {
                 callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
             })
-        
     }
     
+    /**
+     * Checks validity of pin code
+     *
+     * @param pinCode: The pin code that was sent to your email
+     * @param callback: InPlayerCallback<String, InPlayerException>
+     * */
+    fun validatePinCode(pinCode: String, callback: InPlayerCallback<String?, InPlayerException>) {
+        accountService.pinCodeVerificationUseCase.execute(
+            PinCodeVerificationUseCase.PinCodeInput.ValidatePinCode(
+                pinCode
+            )
+        )
+            .subscribeOn(appSchedulers.subscribeOn)
+            .observeOn(appSchedulers.observeOn)
+            .subscribe({
+                callback.done(context.getString(R.string.pin_code_is_valid), null)
+            }, {
+                callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+            })
+    }
+    
+    /**
+     * Creates pin code and sends it to your email
+     *
+     * @param brandingID: Optional parameter
+     * @param callback: InPlayerCallback<String, InPlayerException>
+     * */
+    
+    fun sendPinCode(callback: InPlayerCallback<String?, InPlayerException>) {
+        sendPinCode(null, callback)
+    }
+    
+    fun sendPinCode(
+        brandingId: String? = null,
+        callback: InPlayerCallback<String?, InPlayerException>
+    ) {
+        accountService.pinCodeVerificationUseCase.execute(
+            PinCodeVerificationUseCase.PinCodeInput.SendPinCode(
+                brandingId
+            )
+        )
+            .subscribeOn(appSchedulers.subscribeOn)
+            .observeOn(appSchedulers.observeOn)
+            .subscribe({
+                callback.done(context.getString(R.string.check_mail_for_code), null)
+            }, {
+                callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+            })
+    }
 }
 
 

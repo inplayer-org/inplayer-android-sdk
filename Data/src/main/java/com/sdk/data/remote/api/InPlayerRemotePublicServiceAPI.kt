@@ -15,11 +15,12 @@ interface InPlayerRemotePublicServiceAPI {
     @POST("/accounts")
     fun createAccount(
         @Field("full_name") fullName: String,
-        @Field("email") email: String,
+        @Field("username") email: String,
         @Field("password") password: String,
         @Field("password_confirmation") passwordConfirmation: String,
         @Field("type") type: String,
-        @Field("merchant_uuid") merchantUUID: String,
+        @Field("grant_type") grantType: String,
+        @Field("client_id") merchantUUID: String,
         @Field("referrer") referrer: String?,
         @FieldMap metadata: HashMap<String, String>?
     ): Single<InPlayerAuthorizationModel>

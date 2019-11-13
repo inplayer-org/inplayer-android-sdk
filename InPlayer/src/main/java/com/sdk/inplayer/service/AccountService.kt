@@ -40,4 +40,5 @@ class AccountService : KoinComponent {
     
     val validateSocialLoginUseCase: ValidateSocialLoginUseCase by inject()
     
+    val pinCodeVerificationUseCase: PinCodeVerificationUseCase by inject()
 }

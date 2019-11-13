@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">InPlayer</string>
     <string name="title_activity_web_view">WebViewActivity</string>
+    <string name="pin_code_is_valid">The pin code is valid</string>
+    <string name="check_mail_for_code">Please check your email for your pin code.</string>
 </resources>
