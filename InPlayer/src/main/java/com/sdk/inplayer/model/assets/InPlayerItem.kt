@@ -1,6 +1,5 @@
 package com.sdk.inplayer.model.assets
 
-
 class InPlayerItem(
     val id: Long,
     val merchantId: Long,
