@@ -12,4 +12,5 @@ data class ItemDetailsEntity(val id: Long,
                              val accessControlType: AccessControlTypeEntity,
                              val itemType: ItemTypeEntity,
                              val metahash: Map<String, String>,
-                             val metadata: List<ItemMetadataEntity>)
+                             val metadata: List<ItemMetadataEntity>,
+                             val content: String?)
