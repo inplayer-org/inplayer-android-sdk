@@ -112,7 +112,7 @@ class AccountRemoteImpl constructor(
     override fun accountDetails() = inPlayerRemoteProvider.getAccount()
     
     override fun getRegisterFields(merchantUUID: String): Single<List<InPlayerRegisterFieldsModel>> {
-        return inPlayerRemoteProvider.exportRegisterFields(merchantUUID).map {
+        return inPlayerRemotePublicServiceAPI.exportRegisterFields(merchantUUID).map {
             it.collection
         }
     }

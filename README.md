@@ -127,6 +127,42 @@ import com.sdk.inplayer.configuration.InPlayer;
     });
 ```
 
+Additionally when checking access for asset, in itemAccess.item there is content that can be plain string or json string. 
+In order to parse the model accordingly and have access to its properties (every type has different properties)
+All class types are under the sealed class ```kotlin InPlayerItem.InPlayerAsset ```
+
+If we know for certain what type we should get back in response we can directly cast the InPlayerAsset like:
+```java
+        InPlayer.Assets.checkAccessForAsset(ASSET_ID, InPlayerCallback { itemAccess, error ->
+            if (error == null) {
+                val sportsRadar = itemAccess.itemEntity.content as InPlayerItem.InPlayerAsset.SportRadar
+            } else {
+                //Handle Error
+            }
+        })
+```
+
+We can also use the kotlin when function for this case:
+```java
+    when(itemAccess.itemEntity.content){
+        is InPlayerItem.InPlayerAsset.Accedo -> // Continue working with your object
+        is InPlayerItem.InPlayerAsset.Brightcove -> // Continue working with your object
+        is InPlayerItem.InPlayerAsset.Cloudfront -> // Continue working with your object
+        is InPlayerItem.InPlayerAsset.DaCast -> // Continue working with your object
+        is InPlayerItem.InPlayerAsset.JwPlayer -> // Continue working with your object
+        is InPlayerItem.InPlayerAsset.Laola -> // Continue working with your object
+        is InPlayerItem.InPlayerAsset.Kaltura -> // Continue working with your object
+        is InPlayerItem.InPlayerAsset.Livestream -> // Continue working with your object
+        is InPlayerItem.InPlayerAsset.Qbrick -> // Continue working with your object
+        is InPlayerItem.InPlayerAsset.SportOne -> // Continue working with your object
+        is InPlayerItem.InPlayerAsset.SportRadar -> // Continue working with your object
+        is InPlayerItem.InPlayerAsset.StreamAMG -> // Continue working with your object
+        is InPlayerItem.InPlayerAsset.Wistia -> // Continue working with your object
+        is InPlayerItem.InPlayerAsset.Wowza -> // Continue working with your object
+        is InPlayerItem.InPlayerAsset.UnkownType -> // Unkown type, the response is returned as string value
+    }
+```
+        
 ##### Notification
 
 Notification service has two methods:
