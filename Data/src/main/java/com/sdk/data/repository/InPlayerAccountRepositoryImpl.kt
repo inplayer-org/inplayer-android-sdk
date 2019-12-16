@@ -24,6 +24,7 @@ class InPlayerAccountRepositoryImpl constructor(
     private val mapRegisterFields: MapRegisterFields,
     private val mapAuthorizationModel: MapAuthorizationModel
 ) : InPlayerAccountRepository {
+    
     /**
      *  Creating Users and handling Authorization
      * */
@@ -86,6 +87,8 @@ class InPlayerAccountRepositoryImpl constructor(
     }
     
     override fun isUserAuthenticated() = userLocalAuthenticator.isUserAutehnticated()
+    
+    override fun tokenExpirationTime() = userLocalAuthenticator.getExpiresAt()
     
     override fun authenticatedUserAccount(): InPlayerDomainUser? {
         userLocalAuthenticator.getAccount()?.let {

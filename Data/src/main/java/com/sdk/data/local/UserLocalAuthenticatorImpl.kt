@@ -44,6 +44,8 @@ class UserLocalAuthenticatorImpl(context: Context) : UserLocalAuthenticator {
         prefs.refreshToken = null
     }
     
+    override fun getExpiresAt() = prefs.refreshTokenExpiresAt
+    
     override fun saveCurrentUser(inPlayerAccount: InPlayerAccount) {
         val currentUserJSON = Gson().toJson(inPlayerAccount)
         prefs.currentUser = currentUserJSON

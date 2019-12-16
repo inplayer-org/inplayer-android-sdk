@@ -5,6 +5,9 @@ import com.sdk.domain.gateway.InPlayerAccountRepository
 
 class IsUserAuthenticatedUseCase constructor(private val inPlayerAuthenticatorRepository: InPlayerAccountRepository) {
     
-    fun execute() = inPlayerAuthenticatorRepository.isUserAuthenticated()
-    
+    fun execute(): Boolean{
+        val isAuthenticated = inPlayerAuthenticatorRepository.isUserAuthenticated()
+        val isExpired = System.currentTimeMillis() > inPlayerAuthenticatorRepository.tokenExpirationTime()
+        return isAuthenticated && isExpired
+    }
 }

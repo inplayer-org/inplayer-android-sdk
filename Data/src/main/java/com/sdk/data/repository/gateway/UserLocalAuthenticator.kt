@@ -23,6 +23,8 @@ interface UserLocalAuthenticator {
     
     fun deleteRefreshToken()
     
+    fun getExpiresAt(): Long
+    
     
     //Current User
     fun saveCurrentUser(inPlayerAccount: InPlayerAccount)

@@ -34,6 +34,8 @@ interface InPlayerAccountRepository {
     
     fun isUserAuthenticated(): Boolean
     
+    fun tokenExpirationTime(): Long
+    
     fun getRegisterFields(merchantUUID: String): Single<List<RegisterFieldsEntity>>
     
     fun refreshToken(
