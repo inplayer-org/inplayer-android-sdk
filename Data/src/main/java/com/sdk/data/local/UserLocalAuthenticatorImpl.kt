@@ -34,7 +34,7 @@ class UserLocalAuthenticatorImpl(context: Context) : UserLocalAuthenticator {
     
     override fun saveRefreshToken(refreshToken: String, expiresAt: Long) {
         prefs.refreshToken = refreshToken
-        prefs.refreshTokenExpiresAt = expiresAt + System.currentTimeMillis()
+        prefs.refreshTokenExpiresAt = expiresAt
     }
     
     override fun getRefreshToken(): String {
