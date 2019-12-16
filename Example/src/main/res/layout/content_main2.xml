@@ -181,4 +181,14 @@
         app:layout_constraintStart_toStartOf="@+id/btn_subscriptions"
         app:layout_constraintTop_toBottomOf="@+id/btn_subscriptions" />
 
+    <Button
+        android:id="@+id/isAuthenticated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="is Authenticated"
+        app:layout_constraintEnd_toEndOf="@+id/notification"
+        app:layout_constraintStart_toStartOf="@+id/notification"
+        app:layout_constraintTop_toBottomOf="@+id/publish" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

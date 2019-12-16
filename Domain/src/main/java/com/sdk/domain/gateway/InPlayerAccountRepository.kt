@@ -34,6 +34,8 @@ interface InPlayerAccountRepository {
     
     fun isUserAuthenticated(): Boolean
     
+    fun tokenExpirationTime(): Long
+    
     fun getRegisterFields(merchantUUID: String): Single<List<RegisterFieldsEntity>>
     
     fun refreshToken(
@@ -82,7 +84,8 @@ interface InPlayerAccountRepository {
     
     fun authenticateWithSocialUrl(
         token: String,
-        refreshToken: String
+        refreshToken: String,
+        expires: Long
     ): Single<InPlayerDomainUser>
     
     fun validatePinCode(pinCode: String): Completable

@@ -24,6 +24,7 @@ class InPlayerAccountRepositoryImpl constructor(
     private val mapRegisterFields: MapRegisterFields,
     private val mapAuthorizationModel: MapAuthorizationModel
 ) : InPlayerAccountRepository {
+    
     /**
      *  Creating Users and handling Authorization
      * */
@@ -87,6 +88,8 @@ class InPlayerAccountRepositoryImpl constructor(
     
     override fun isUserAuthenticated() = userLocalAuthenticator.isUserAutehnticated()
     
+    override fun tokenExpirationTime() = userLocalAuthenticator.getExpiresAt()
+    
     override fun authenticatedUserAccount(): InPlayerDomainUser? {
         userLocalAuthenticator.getAccount()?.let {
             return userModelMapper.mapFromModel(it)
@@ -122,9 +125,7 @@ class InPlayerAccountRepositoryImpl constructor(
     }
     
     private fun updateLocalTokens(it: InPlayerAuthorizationModel) {
-        it.refreshToken.let {
-            userLocalAuthenticator.saveRefreshToken(it)
-        }
+        userLocalAuthenticator.saveRefreshToken(it.refreshToken, it.expires)
         
         it.account.let {
             userLocalAuthenticator.saveCurrentUser(it)
@@ -231,11 +232,11 @@ class InPlayerAccountRepositoryImpl constructor(
     
     override fun authenticateWithSocialUrl(
         token: String,
-        refreshToken: String
+        refreshToken: String,
+        expires: Long
     ): Single<InPlayerDomainUser> {
         userLocalAuthenticator.saveAuthenticationToken(token)
-        userLocalAuthenticator.saveRefreshToken(refreshToken)
-        
+        userLocalAuthenticator.saveRefreshToken(refreshToken, expires)
         return getUser()
     }
     

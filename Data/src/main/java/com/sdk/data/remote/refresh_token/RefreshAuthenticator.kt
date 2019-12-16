@@ -118,9 +118,7 @@ class RefreshAuthenticator constructor(
         if (authorizationModelResponse != null) {
             Log.d(TAG, "Creating new Refresh SUCCESS!! $authorizationModelResponse")
             localAuthenticator.saveAuthenticationToken(authorizationModelResponse.accessToken)
-            authorizationModelResponse.refreshToken?.let {
-                localAuthenticator.saveRefreshToken(it)
-            }
+            localAuthenticator.saveRefreshToken(authorizationModelResponse.refreshToken, authorizationModelResponse.expires)
         } else
             Log.d(TAG, "Creating new Refresh FAILED!!")
     }

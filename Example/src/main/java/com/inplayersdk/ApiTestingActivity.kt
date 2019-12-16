@@ -2,6 +2,7 @@ package com.inplayersdk
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.sdk.inplayer.callback.InPlayerCallback
 import com.sdk.inplayer.callback.InPlayerNotificationCallback
@@ -81,6 +82,10 @@ class ApiTestingActivity : AppCompatActivity() {
         
         btn_subscriptions.setOnClickListener {
             getSubscriptions()
+        }
+        
+        isAuthenticated.setOnClickListener {
+            Toast.makeText(this,"Is Authenticated is ${InPlayer.Account.isAuthenticated()}", Toast.LENGTH_LONG).show()
         }
     }
     
