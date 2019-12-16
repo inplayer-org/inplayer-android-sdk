@@ -30,10 +30,12 @@ class ValidateSocialLoginUseCase(
                 
                 val token = components["token"]
                 val refreshToken = components["refresh_token"]
+                val expires = components["expires"]?.toLong() ?: 0
                 
                 return inPlayerAuthenticatorRepository.authenticateWithSocialUrl(
                     token!!,
-                    refreshToken!!
+                    refreshToken!!,
+                    expires
                 )
             } catch (e: Exception) {
                 return Single.create<InPlayerDomainUser> { emitter ->

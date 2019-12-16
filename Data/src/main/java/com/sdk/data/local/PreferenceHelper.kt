@@ -28,4 +28,8 @@ object PreferenceHelper {
         get() = prefs.getString(Constants.SharedPrefsKey.CurrentUser, null)
         set(value) = prefs.edit().putString(Constants.SharedPrefsKey.CurrentUser, value).apply()
     
+    var refreshTokenExpiresAt: Long
+        get() = prefs.getLong(Constants.SharedPrefsKey.TokenExpiresAt, 0)
+        set(value) = prefs.edit().putLong(Constants.SharedPrefsKey.TokenExpiresAt, value).apply()
+    
 }

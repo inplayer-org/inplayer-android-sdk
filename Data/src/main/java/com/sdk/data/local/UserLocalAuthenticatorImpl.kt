@@ -32,7 +32,7 @@ class UserLocalAuthenticatorImpl(context: Context) : UserLocalAuthenticator {
         prefs.acccessToken = null
     }
     
-    override fun saveRefreshToken(refreshToken: String) {
+    override fun saveRefreshToken(refreshToken: String, expiresAt: Long) {
         prefs.refreshToken = refreshToken
     }
     

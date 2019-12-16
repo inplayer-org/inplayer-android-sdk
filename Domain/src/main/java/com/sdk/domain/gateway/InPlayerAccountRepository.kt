@@ -82,7 +82,8 @@ interface InPlayerAccountRepository {
     
     fun authenticateWithSocialUrl(
         token: String,
-        refreshToken: String
+        refreshToken: String,
+        expires: Long
     ): Single<InPlayerDomainUser>
     
     fun validatePinCode(pinCode: String): Completable

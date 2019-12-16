@@ -122,9 +122,7 @@ class InPlayerAccountRepositoryImpl constructor(
     }
     
     private fun updateLocalTokens(it: InPlayerAuthorizationModel) {
-        it.refreshToken.let {
-            userLocalAuthenticator.saveRefreshToken(it)
-        }
+        userLocalAuthenticator.saveRefreshToken(it.refreshToken, it.expires)
         
         it.account.let {
             userLocalAuthenticator.saveCurrentUser(it)
@@ -231,11 +229,11 @@ class InPlayerAccountRepositoryImpl constructor(
     
     override fun authenticateWithSocialUrl(
         token: String,
-        refreshToken: String
+        refreshToken: String,
+        expires: Long
     ): Single<InPlayerDomainUser> {
         userLocalAuthenticator.saveAuthenticationToken(token)
-        userLocalAuthenticator.saveRefreshToken(refreshToken)
-        
+        userLocalAuthenticator.saveRefreshToken(refreshToken, expires)
         return getUser()
     }
     
