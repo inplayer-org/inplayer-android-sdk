@@ -1,7 +1,9 @@
 package com.sdk.data.remote.api
 
+import com.sdk.data.model.CollectionModel
 import com.sdk.data.model.ResponseModel
 import com.sdk.data.model.account.InPlayerAuthorizationModel
+import com.sdk.data.model.account.InPlayerRegisterFieldsModel
 import com.sdk.data.model.asset.AccessFeeModel
 import com.sdk.data.model.asset.ItemDetailsModel
 import io.reactivex.Single
@@ -66,4 +68,7 @@ interface InPlayerRemotePublicServiceAPI {
     
     @GET("/items/{id}/access-fees")
     fun getAccessFees(@Path("id") id: Int): Single<List<AccessFeeModel>>
+    
+    @GET("/accounts/register-fields/{merchant_uuid}")
+    fun exportRegisterFields(@Path("merchant_uuid") merchantUUID: String): Single<CollectionModel<InPlayerRegisterFieldsModel>>
 }

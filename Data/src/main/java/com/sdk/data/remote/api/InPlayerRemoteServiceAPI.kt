@@ -58,10 +58,6 @@ interface InPlayerRemoteServiceAPI {
     fun exportAccountData(@Field("password") password: String): Single<ResponseModel>
     
     
-    @GET("/accounts/register-fields/{merchant_uuid}")
-    fun exportRegisterFields(@Path("merchant_uuid") merchantUUID: String): Single<CollectionModel<InPlayerRegisterFieldsModel>>
-    
-    
     @GET("/items/access/customers")
     fun getCustomerAccessList(
         @Query("status") status: String,

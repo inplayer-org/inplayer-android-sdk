@@ -7,7 +7,7 @@ dependencies {
 
     implementation reactive.rxJava
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
 
 }
 

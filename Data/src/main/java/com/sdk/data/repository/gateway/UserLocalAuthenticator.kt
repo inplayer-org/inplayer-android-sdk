@@ -17,11 +17,13 @@ interface UserLocalAuthenticator {
     fun deleteAuthentiationToken()
     
     //Refresh Token
-    fun saveRefreshToken(refreshToken: String)
+    fun saveRefreshToken(refreshToken: String, expiresAt: Long)
     
     fun getRefreshToken(): String
     
     fun deleteRefreshToken()
+    
+    fun getExpiresAt(): Long
     
     
     //Current User

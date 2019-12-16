@@ -8,6 +8,8 @@ object Constants {
         val AccessToken = "ACCESS_TOKEN"
         
         val RefreshToken = "REFRESH_TOKEN"
+    
+        val TokenExpiresAt = "TokenExpiresAt"
         
         val CurrentUser = "CURRENT_USER"
         
