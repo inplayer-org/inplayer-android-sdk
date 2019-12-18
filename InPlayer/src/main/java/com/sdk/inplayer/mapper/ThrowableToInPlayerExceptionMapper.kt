@@ -65,10 +65,9 @@ internal object ThrowableToInPlayerExceptionMapper {
             
             val errorsMessages = mutableListOf<String>()
             
-            errorsMap.forEach { key, value ->
+            for ((_, value) in errorsMap) {
                 errorsMessages.add(value)
             }
-            
             return errorsMessages
         } catch (e: Exception) {
             return mutableListOf("${e.message}")
