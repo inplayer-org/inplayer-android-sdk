@@ -158,10 +158,6 @@ class InPlayerRemoteProvider(
     
     override fun exportAccountData(password: String) = retrofitAPI.exportAccountData(password)
     
-    
-    override fun exportRegisterFields(merchantUUID: String) =
-        retrofitAPI.exportRegisterFields(merchantUUID)
-    
     override fun getSocialUrls(socialUrlState: String) = retrofitAPI.getSocialUrls(socialUrlState)
     
     override fun validatePinCode(pinCode: String) = retrofitAPI.validatePinCode(pinCode)
