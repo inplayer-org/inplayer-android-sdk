@@ -13,8 +13,8 @@ class AssetsRemoteImpl constructor(
     private val inPlayerRemotePublicServiceAPI: InPlayerRemotePublicServiceAPI
 ) : AssetsRemote {
     
-    override fun getItemAccess(id: Int): Single<ItemAccessModel> {
-        return inPlayerRemoteServiceAPI.getItemAccess(id)
+    override fun getItemAccess(id: Int, entryId: String?): Single<ItemAccessModel> {
+        return inPlayerRemoteServiceAPI.getItemAccess(id, entryId)
     }
     
     override fun getItemDetails(id: Int, merchantUUID: String): Single<ItemDetailsModel> {

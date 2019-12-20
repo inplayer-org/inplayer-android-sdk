@@ -9,7 +9,7 @@ interface InPlayerAssetsRepository {
     
     fun getItemDetails(id: Int, merchantUUID: String): Single<ItemDetailsEntity>
     
-    fun getItemAccess(id: Int): Single<ItemAccessEntity>
+    fun getItemAccess(id: Int, entryId: String?): Single<ItemAccessEntity>
     
     fun getAccessFees(id: Int): Single<List<AccessFeeEntity>>
     

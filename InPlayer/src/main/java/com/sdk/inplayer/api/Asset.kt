@@ -105,13 +105,15 @@ class Asset internal constructor(
      *
      *
      * @param id Int Item ID
+     * @param entryId String Optional parameter specify the external video id
      * @param callback InPlayerCallback<InPlayerItemAccess, InPlayerException>
      */
     fun checkAccessForAsset(
         id: Int,
+        entryId: String?,
         callback: InPlayerCallback<InPlayerItemAccess, InPlayerException>
     ) {
-        assetService.getItemAccessUseCase.execute(GetItemAccessUseCase.Params(id))
+        assetService.getItemAccessUseCase.execute(GetItemAccessUseCase.Params(id, entryId))
             .subscribeOn(appSchedulers.subscribeOn)
             .observeOn(appSchedulers.observeOn)
             .subscribe({
@@ -119,5 +121,19 @@ class Asset internal constructor(
             }, {
                 callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
             })
+    }
+    
+    /**
+     * Checks and retrieves the customer’s entitlement to an asset.
+     *
+     *
+     * @param id Int Item ID
+     * @param callback InPlayerCallback<InPlayerItemAccess, InPlayerException>
+     */
+    fun checkAccessForAsset(
+        id: Int,
+        callback: InPlayerCallback<InPlayerItemAccess, InPlayerException>
+    ) {
+        checkAccessForAsset(id, null, callback)
     }
 }

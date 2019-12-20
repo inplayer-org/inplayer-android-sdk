@@ -173,7 +173,7 @@ class InPlayerRemoteProvider(
      * ASSETS Endpoint Implementations
      * */
     
-    override fun getItemAccess(id: Int) = retrofitAPI.getItemAccess(id)
+    override fun getItemAccess(id: Int, entryId: String?) = retrofitAPI.getItemAccess(id, entryId)
     
     
     /**
