@@ -13,12 +13,12 @@ class GetItemAccessUseCase(private val inPlayerSchedulers: InPlayerSchedulers, p
     override fun buildUseCaseObservable(params: Params?): Single<ItemAccessEntity> {
         
         params?.let {
-            return inPlayerAssetsRepository.getItemAccess(it.id)
+            return inPlayerAssetsRepository.getItemAccess(it.id, it.entryId)
         }
         
         throw IllegalStateException("Params can't be null for GetItemAccessUseCase")
         
     }
     
-    data class Params(val id: Int)
+    data class Params(val id: Int, val entryId: String? = null)
 }

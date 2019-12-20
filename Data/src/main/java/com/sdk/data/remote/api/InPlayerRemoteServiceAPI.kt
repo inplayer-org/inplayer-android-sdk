@@ -88,7 +88,7 @@ interface InPlayerRemoteServiceAPI {
      * */
     
     @GET("/items/{id}/access")
-    fun getItemAccess(@Path("id") id: Int): Single<ItemAccessModel>
+    fun getItemAccess(@Path("id") id: Int, @Query("entry_id") entryId: String?): Single<ItemAccessModel>
     
     
     /**
