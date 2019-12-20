@@ -21,8 +21,8 @@ class InPlayerAssetsRepositoryImpl(private val assetsRemote: AssetsRemote,
         }
     }
     
-    override fun getItemAccess(id: Int): Single<ItemAccessEntity> {
-        return assetsRemote.getItemAccess(id = id)
+    override fun getItemAccess(id: Int, entryId: String?): Single<ItemAccessEntity> {
+        return assetsRemote.getItemAccess(id = id, entryId = entryId)
                 .map { mapItemAccess.mapFromModel(it) }
     }
     

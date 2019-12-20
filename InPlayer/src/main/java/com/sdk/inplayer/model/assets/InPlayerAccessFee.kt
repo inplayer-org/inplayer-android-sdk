@@ -3,7 +3,7 @@ package com.sdk.inplayer.model.assets
 
 class InPlayerAccessFee(val id: Long,
                              val merchantId: Long,
-                             val amount: Long,
+                             val amount: Float,
                              val currency: String,
                              val description: String,
                              val accessType: InPlayerAccessType,
