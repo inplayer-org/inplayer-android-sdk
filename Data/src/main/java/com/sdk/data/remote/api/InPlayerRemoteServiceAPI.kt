@@ -110,7 +110,7 @@ interface InPlayerRemoteServiceAPI {
     /**
      *  Payments
      * */
-    
+    @FormUrlEncoded
     @POST("/v2/external-payments/android/validate")
     fun validateAndroidReceipt(
         @Field("receipt") receipt: String,
