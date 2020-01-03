@@ -7,18 +7,31 @@ import com.sdk.domain.gateway.InPlayerPaymentRepository
 import io.reactivex.Single
 
 
-class InPlayerPaymentsRepositoryImpl constructor(private val paymentsRemote: PaymentsRemote,
-                                                 private val mapCustomerAccessItem: MapCustomerAccessItem) : InPlayerPaymentRepository {
+class InPlayerPaymentsRepositoryImpl constructor(
+    private val paymentsRemote: PaymentsRemote,
+    private val mapCustomerAccessItem: MapCustomerAccessItem
+) : InPlayerPaymentRepository {
     
-    override fun validateReceipt(receipt: String, itemId: Int, accessFeeId: Int) = paymentsRemote.validateReceipt(receipt, itemId, accessFeeId)
+    override fun validateReceiptByProductName(
+        receipt: String,
+        productName: String
+    ) = paymentsRemote.validateByProductName(receipt, productName)
     
-    override fun getCustomerAccessList(status: String, page: Int, limit: Int, type: String?): Single<List<CustomerAccessItemEntity>> {
+    override fun validateReceipt(receipt: String, itemId: Int, accessFeeId: Int) =
+        paymentsRemote.validateReceipt(receipt, itemId, accessFeeId)
+    
+    override fun getCustomerAccessList(
+        status: String,
+        page: Int,
+        limit: Int,
+        type: String?
+    ): Single<List<CustomerAccessItemEntity>> {
         return paymentsRemote.getCustomerAccessList(status, page, limit, type)
-                .map {
-                    it.collection.map { customerAccessItem ->
-                        mapCustomerAccessItem.mapFromModel(customerAccessItem)
-                    }
+            .map {
+                it.collection.map { customerAccessItem ->
+                    mapCustomerAccessItem.mapFromModel(customerAccessItem)
                 }
+            }
     }
     
 }

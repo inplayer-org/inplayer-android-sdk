@@ -199,6 +199,11 @@ class InPlayerRemoteProvider(
     override fun validateAndroidReceipt(receipt: String, item_id: Int, access_fee_id: Int) =
         retrofitAPI.validateAndroidReceipt(receipt, item_id, access_fee_id)
     
+    override fun validateByProductName(
+        receipt: String,
+        productName: String
+    ) = retrofitAPI.validateByProductName(receipt, productName)
+    
     
     override fun getCustomerAccessList(status: String, page: Int, limit: Int, type: String?) =
         retrofitAPI.getCustomerAccessList(status, page, limit, type)
