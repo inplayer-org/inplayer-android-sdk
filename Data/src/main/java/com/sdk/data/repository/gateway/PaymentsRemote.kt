@@ -9,6 +9,8 @@ interface PaymentsRemote {
     
     fun validateReceipt(receipt: String, itemId: Int, accessFeeId: Int): Single<String>
     
+    fun validateByProductName(receipt: String, productName: String): Single<String>
+    
     fun getCustomerAccessList(status: String, page: Int, limit: Int, type: String?): Single<ResponseListModel<CustomerAccessItemModel>>
     
 }

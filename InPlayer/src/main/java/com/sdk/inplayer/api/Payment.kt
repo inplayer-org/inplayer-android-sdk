@@ -27,7 +27,7 @@ class Payment internal constructor(private val appSchedulers: InPlayerSchedulers
      * @param callback InPlayerCallback<String, InPlayerException>
      */
     fun validate(receipt: String, productIdentifier: String, callback: InPlayerCallback<String, InPlayerException>) {
-        paymentService.validateReceiptUseCase.execute(ValidateReceiptUseCase.Params(receipt = receipt, productIdentifier = productIdentifier))
+        paymentService.validateReceiptUseCase.execute(ValidateReceiptUseCase.Params.ProductId(_receipt = receipt, productIdentifier = productIdentifier))
                 .observeOn(appSchedulers.observeOn)
                 .subscribeOn(appSchedulers.subscribeOn)
                 .subscribe({
@@ -35,6 +35,25 @@ class Payment internal constructor(private val appSchedulers: InPlayerSchedulers
                 }, {
                     callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
                 })
+    }
+    
+    /**
+     * Validates an In App purchase from Google Play store services
+     *
+     *
+     * @param receipt String The Purchase object from Google Play response after a successful purchase
+     * @param productName String Product Name
+     * @param callback InPlayerCallback<String, InPlayerException>
+     */
+    fun validateByProductName(receipt: String, productName: String, callback: InPlayerCallback<String, InPlayerException>) {
+        paymentService.validateReceiptUseCase.execute(ValidateReceiptUseCase.Params.ProductName(_receipt = receipt, productName = productName))
+            .observeOn(appSchedulers.observeOn)
+            .subscribeOn(appSchedulers.subscribeOn)
+            .subscribe({
+                callback.done(it, null)
+            }, {
+                callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+            })
     }
     
     

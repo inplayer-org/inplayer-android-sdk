@@ -118,6 +118,13 @@ interface InPlayerRemoteServiceAPI {
         @Field("access_fee_id") access_fee_id: Int
     ): Single<ResponseModel>
     
+    @FormUrlEncoded
+    @POST("/v2/external-payments/android/validate")
+    fun validateByProductName(
+        @Field("receipt") receipt: String,
+        @Field("product_name") productName: String
+    ): Single<ResponseModel>
+    
     /**
      * END Payments
      * */
