@@ -111,7 +111,7 @@ interface InPlayerRemoteServiceAPI {
      *  Payments
      * */
     @FormUrlEncoded
-    @POST("/v2/external-payments/android/validate")
+    @POST("/v2/external-payments/google-play/validate")
     fun validateAndroidReceipt(
         @Field("receipt") receipt: String,
         @Field("item_id") item_id: Int,
@@ -119,7 +119,7 @@ interface InPlayerRemoteServiceAPI {
     ): Single<ResponseModel>
     
     @FormUrlEncoded
-    @POST("/v2/external-payments/android/validate")
+    @POST("/v2/external-payments/google-play/validate")
     fun validateByProductName(
         @Field("receipt") receipt: String,
         @Field("product_name") productName: String
