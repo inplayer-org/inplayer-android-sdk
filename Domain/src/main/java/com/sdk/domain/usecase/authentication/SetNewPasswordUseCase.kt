@@ -12,7 +12,9 @@ class SetNewPasswordUseCase(appSchedulers: InPlayerSchedulers,
     override fun buildUseCaseObservable(params: Params?): Single<String> {
         
         params?.let {
-            return inPlayerAccountRepository.setNewPassword(it.token, it.password, it.passwordConfirmation)
+            return inPlayerAccountRepository.setNewPassword(it.token, it.password, it.passwordConfirmation).toSingle {
+                "Password updated successfully"
+            }
         }
         
         throw IllegalStateException("Params Can't be null for SetNewPasswordUseCase")

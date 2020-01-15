@@ -47,7 +47,7 @@ interface AccountRemote {
         token: String,
         password: String,
         passwordConfirmation: String
-    ): Single<Response<Void>>
+    ): Completable
     
     fun getRegisterFields(merchantUUID: String): Single<List<InPlayerRegisterFieldsModel>>
     
