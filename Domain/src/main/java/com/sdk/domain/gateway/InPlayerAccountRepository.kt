@@ -71,7 +71,7 @@ interface InPlayerAccountRepository {
         token: String,
         password: String,
         passwordConfirmation: String
-    ): Single<String>
+    ): Completable
     
     fun requestForgotPassword(merchantUUID: String, email: String): Single<String>
     

@@ -6,6 +6,7 @@ import com.sdk.data.model.account.InPlayerAuthorizationModel
 import com.sdk.data.model.account.InPlayerRegisterFieldsModel
 import com.sdk.data.model.asset.AccessFeeModel
 import com.sdk.data.model.asset.ItemDetailsModel
+import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.*
@@ -54,7 +55,7 @@ interface InPlayerRemotePublicServiceAPI {
         @Path("token") token: String,
         @Field("password") password: String,
         @Field("password_confirmation") passwordConfirmation: String
-    ): Single<Response<Void>>
+    ): Completable
     
     @GET("/items/{merchant_uuid}/{id}")
     fun getItemDetails(@Path("id") id: Int, @Path("merchant_uuid") merchantUUID: String): Single<ItemDetailsModel>

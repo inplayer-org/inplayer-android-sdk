@@ -209,11 +209,8 @@ class InPlayerAccountRepositoryImpl constructor(
         token: String,
         password: String,
         passwordConfirmation: String
-    ): Single<String> {
+    ): Completable {
         return accountRemote.setNewPassword(token, password, passwordConfirmation)
-            .flatMap {
-                return@flatMap Single.just("Password Updated")
-            }
     }
     
     override fun requestForgotPassword(merchantUUID: String, email: String): Single<String> {
