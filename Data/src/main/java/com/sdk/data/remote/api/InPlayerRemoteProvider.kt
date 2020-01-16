@@ -1,7 +1,7 @@
 package com.sdk.data.remote.api
 
 import com.sdk.data.remote.error.AuthTokenMissingException
-import com.sdk.data.remote.refresh_token.RefreshAuthenticator
+import com.sdk.data.remote.refresh_token.RefreshTokenInterceptor
 import com.sdk.data.repository.gateway.UserLocalAuthenticator
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit
 class InPlayerRemoteProvider(
     val baseUrl: String,
     val isDebug: Boolean,
-    val refreshAuthenticator: RefreshAuthenticator,
+    val refreshTokenInterceptor: RefreshTokenInterceptor,
     val localAuthenticator: UserLocalAuthenticator
 ) : InPlayerRemoteServiceAPI {
     
@@ -75,6 +75,7 @@ class InPlayerRemoteProvider(
             .addInterceptor {
                 customHeaderIntercepted(it)
             }
+            .addInterceptor(refreshTokenInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
         
@@ -101,7 +102,6 @@ class InPlayerRemoteProvider(
         return it.proceed(request)
     }
     
-    
     /**
      * Creating Retrofit and setting up Logging
      * */
@@ -120,7 +120,6 @@ class InPlayerRemoteProvider(
     }
     
     fun addCustomInterceptors(builder: OkHttpClient.Builder): OkHttpClient.Builder {
-        builder.authenticator(refreshAuthenticator)
         builder.addInterceptor {
             addAuthorizationHeader(it)
         }
@@ -224,5 +223,4 @@ class InPlayerRemoteProvider(
     /**
      * END Subscriptions
      * */
-    
 }

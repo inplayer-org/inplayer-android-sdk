@@ -12,7 +12,7 @@ import com.sdk.data.remote.api.InPlayerRemotePublicServiceAPI
 import com.sdk.data.remote.api.InPlayerRemoteServiceAPI
 import com.sdk.data.remote.refresh_token.InPlayerRemoteRefreshServiceAPI
 import com.sdk.data.remote.refresh_token.InPlayerRemoteRefreshTokenProvider
-import com.sdk.data.remote.refresh_token.RefreshAuthenticator
+import com.sdk.data.remote.refresh_token.RefreshTokenInterceptor
 import com.sdk.data.repository.*
 import com.sdk.data.repository.gateway.*
 import com.sdk.domain.entity.mapper.DomainMapper
@@ -127,7 +127,7 @@ internal object InjectModules : KoinComponent {
                 ) as InPlayerRemoteRefreshServiceAPI
             }
             
-            factory { RefreshAuthenticator(configuration.mMerchantUUID, get(), get()) }
+            factory { RefreshTokenInterceptor(configuration.mMerchantUUID, get(), get()) }
             
             //END REFRESH TOKEN
             
