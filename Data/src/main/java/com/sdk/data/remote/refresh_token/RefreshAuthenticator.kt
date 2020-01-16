@@ -7,7 +7,7 @@ import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-
+import java.util.*
 
 class RefreshAuthenticator constructor(
     private val clientId: String,
@@ -15,7 +15,7 @@ class RefreshAuthenticator constructor(
     private val inPlayerRemoteRefreshServiceAPI: InPlayerRemoteRefreshServiceAPI
 ) : Authenticator {
     
-    private val MAX_RETRY = 3
+    private val MAX_RETRY = 2
     
     private val TAG = "RefreshAuthenticator"
     
@@ -28,6 +28,7 @@ class RefreshAuthenticator constructor(
         when (hasBearerAuthorizationToken(response)) {
             false -> {
                 // No bearer auth token; nothing to refresh!
+                localAuthenticator.deleteTokens()
                 Log.d(TAG, "No bearer authentication to refresh.")
                 return null
             }
@@ -72,6 +73,13 @@ class RefreshAuthenticator constructor(
         retryCount: Int
     ): Request? {
         
+        // If the token is not expired do not retry the logic clear all the credentials and return
+        if(!isTokenExpired()){
+            Log.d(TAG, "Token is not expired, but overridden somewhere. Deleting tokens ")
+            localAuthenticator.deleteTokens()
+            return null
+        }
+        
         // See if we have gone too far:
         if (retryCount > MAX_RETRY) {
             // Yup!
@@ -85,6 +93,7 @@ class RefreshAuthenticator constructor(
         
         // Could not retrieve new token! Unable to re-authenticate!
         if (localAuthenticator.getRefreshToken().isEmpty()) {
+            localAuthenticator.deleteTokens()
             Log.d(TAG, "Failed to retrieve new token, unable to re-authenticate!")
             return null
         }
@@ -100,6 +109,12 @@ class RefreshAuthenticator constructor(
             localAuthenticator.getBearerAuthToken()
         )
         
+    }
+    
+    private fun isTokenExpired(): Boolean {
+        val dateNow = Date(System.currentTimeMillis())
+        val dateThen = Date(localAuthenticator.getExpiresAt() * 1000)
+        return dateNow.after(dateThen)
     }
     
     private fun makeRefreshTokenRequest() {
@@ -118,7 +133,10 @@ class RefreshAuthenticator constructor(
         if (authorizationModelResponse != null) {
             Log.d(TAG, "Creating new Refresh SUCCESS!! $authorizationModelResponse")
             localAuthenticator.saveAuthenticationToken(authorizationModelResponse.accessToken)
-            localAuthenticator.saveRefreshToken(authorizationModelResponse.refreshToken, authorizationModelResponse.expires)
+            localAuthenticator.saveRefreshToken(
+                authorizationModelResponse.refreshToken,
+                authorizationModelResponse.expires
+            )
         } else
             Log.d(TAG, "Creating new Refresh FAILED!!")
     }

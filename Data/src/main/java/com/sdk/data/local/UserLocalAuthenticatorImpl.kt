@@ -45,6 +45,12 @@ class UserLocalAuthenticatorImpl(context: Context) : UserLocalAuthenticator {
         prefs.refreshToken = null
     }
     
+    override fun deleteTokens() {
+        prefs.refreshToken = null
+        prefs.refreshTokenExpiresAt = 0
+        prefs.acccessToken = null
+    }
+    
     override fun getExpiresAt() = prefs.refreshTokenExpiresAt
     
     override fun saveCurrentUser(inPlayerAccount: InPlayerAccount) {
