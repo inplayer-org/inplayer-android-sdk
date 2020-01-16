@@ -1,6 +1,8 @@
 package com.inplayersdk
 
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.provider.SyncStateContract
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +29,7 @@ class ApiTestingActivity : AppCompatActivity() {
         }
         
         logout.setOnClickListener {
-            logOut()
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putLong("TokenExpiresAt", 1516063572).apply()
         }
         
         sign_up.setOnClickListener {
@@ -91,8 +93,8 @@ class ApiTestingActivity : AppCompatActivity() {
     
     private fun logInuser() {
         InPlayer.Account.authenticate(
-            "matej@inplayer.com",
-            "matej123456",
+            "victorpetrovski93+test995419@gmail.com",
+            "androidsdk123",
             InPlayerCallback { inPlayerUser, error ->
                 if (error == null) {
                     //SUCCESS - Handle InPlayerUser
@@ -103,7 +105,6 @@ class ApiTestingActivity : AppCompatActivity() {
     }
     
     private fun getSubscriptions() {
-        
         InPlayer.Account.getRegisterFields(InPlayerCallback { list, exception ->
             list.forEach {
                 Log.v("Register Fields", "This is it $it")

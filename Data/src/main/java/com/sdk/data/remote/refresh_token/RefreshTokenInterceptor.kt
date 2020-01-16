@@ -3,28 +3,30 @@ package com.sdk.data.remote.refresh_token
 import android.util.Log
 import com.sdk.data.Constants
 import com.sdk.data.repository.gateway.UserLocalAuthenticator
-import okhttp3.Authenticator
+import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
-import okhttp3.Route
 import java.util.*
 
-class RefreshAuthenticator constructor(
-    private val clientId: String,
-    private val localAuthenticator: UserLocalAuthenticator,
-    private val inPlayerRemoteRefreshServiceAPI: InPlayerRemoteRefreshServiceAPI
-) : Authenticator {
+private const val TAG = "RefreshTokenInterceptor"
+private const val MAX_RETRY = 2
+
+class RefreshTokenInterceptor(private val clientId: String,
+                              private val localAuthenticator: UserLocalAuthenticator,
+                              private val inPlayerRemoteRefreshServiceAPI: InPlayerRemoteRefreshServiceAPI): Interceptor{
     
-    private val MAX_RETRY = 2
+    override fun intercept(chain: Interceptor.Chain): Response? {
+        val request = chain.request()
+        val response = chain.proceed(request)
+        if (response.code() == 401 || response.code() == 403) {
+            return handle40XRequest(chain)
+        }
+        return response
+    }
     
-    private val TAG = "RefreshAuthenticator"
-    
-    override fun authenticate(route: Route, response: Response): Request? {
-        Log.d(
-            TAG,
-            "Detected authentication error ${response.code()} on ${response.request()?.url()}"
-        )
-        
+    private fun handle40XRequest(chain: Interceptor.Chain): Response?{
+        val request = chain.request()
+        val response = chain.proceed(request)
         when (hasBearerAuthorizationToken(response)) {
             false -> {
                 // No bearer auth token; nothing to refresh!
@@ -37,32 +39,13 @@ class RefreshAuthenticator constructor(
                 Log.d(TAG, "Bearer authentication present!")
                 val previousRetryCount = retryCount(response)
                 // Attempt to reauthenticate using the refresh token!
-                return reAuthenticateRequestUsingRefreshToken(
+                val request = reAuthenticateRequestUsingRefreshToken(
                     response,
                     previousRetryCount + 1
                 )
+                return chain.proceed(request)
             }
         }
-    }
-    
-    private fun retryCount(response: Response?): Int {
-        return response?.request()?.header(Constants.HttpHeaderRetryCount)?.toInt() ?: 0
-    }
-    
-    private fun hasBearerAuthorizationToken(response: Response?): Boolean {
-        response?.let { response ->
-            val authorizationHeader = response.request().header(Constants.HttpHeaderAuthorization)
-            return authorizationHeader.startsWith(Constants.HttpHeaderBearerTokenPrefix)
-        }
-        return false
-    }
-    
-    private fun isBearerAuthorizationTokenDifferent(response: Response?): Boolean {
-        response?.let { response ->
-            val authorizationHeader = response.request().header(Constants.HttpHeaderAuthorization)
-            return authorizationHeader == localAuthenticator.getBearerAuthToken()
-        }
-        return false
     }
     
     // We synchronize this request, so that multiple concurrent failures
@@ -90,7 +73,6 @@ class RefreshAuthenticator constructor(
         
         // We have some retries left!
         Log.d(TAG, "Attempting to fetch a new token...")
-        
         // Could not retrieve new token! Unable to re-authenticate!
         if (localAuthenticator.getRefreshToken().isEmpty()) {
             localAuthenticator.deleteTokens()
@@ -108,28 +90,18 @@ class RefreshAuthenticator constructor(
             retryCount,
             localAuthenticator.getBearerAuthToken()
         )
-        
     }
     
-    private fun isTokenExpired(): Boolean {
-        val dateNow = Date(System.currentTimeMillis())
-        val dateThen = Date(localAuthenticator.getExpiresAt() * 1000)
-        return dateNow.after(dateThen)
-    }
     
     private fun makeRefreshTokenRequest() {
         Log.d(TAG, "Creating new Refresh Token Request")
-        
         val refreshTokenCall = inPlayerRemoteRefreshServiceAPI.authenticate(
             localAuthenticator.getRefreshToken(),
             "refresh_token",
             clientId
         )
-        
         val request = refreshTokenCall.execute()
-        
         val authorizationModelResponse = request.body()
-        
         if (authorizationModelResponse != null) {
             Log.d(TAG, "Creating new Refresh SUCCESS!! $authorizationModelResponse")
             localAuthenticator.saveAuthenticationToken(authorizationModelResponse.accessToken)
@@ -156,4 +128,29 @@ class RefreshAuthenticator constructor(
             ?.build()
     }
     
+    private fun retryCount(response: Response?): Int {
+        return response?.request()?.header(Constants.HttpHeaderRetryCount)?.toInt() ?: 0
+    }
+    
+    private fun hasBearerAuthorizationToken(response: Response?): Boolean {
+        response?.let { response ->
+            val authorizationHeader = response.request().header(Constants.HttpHeaderAuthorization)
+            return authorizationHeader.startsWith(Constants.HttpHeaderBearerTokenPrefix)
+        }
+        return false
+    }
+    
+    private fun isBearerAuthorizationTokenDifferent(response: Response?): Boolean {
+        response?.let { response ->
+            val authorizationHeader = response.request().header(Constants.HttpHeaderAuthorization)
+            return authorizationHeader == localAuthenticator.getBearerAuthToken()
+        }
+        return false
+    }
+    
+    private fun isTokenExpired(): Boolean {
+        val dateNow = Date(System.currentTimeMillis())
+        val dateThen = Date(localAuthenticator.getExpiresAt() * 1000)
+        return dateNow.after(dateThen)
+    }
 }
