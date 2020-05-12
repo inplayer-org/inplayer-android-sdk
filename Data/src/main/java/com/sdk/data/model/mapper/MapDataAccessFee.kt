@@ -29,7 +29,7 @@ class MapDataAccessFee constructor(private val mapAccessType: MapDataAccessType,
                 startsAt = model.startsAt,
                 geoRestrictionEntity = model.geoRestrictionApiModel?.let { mapGeoRestrictionEntity(it) },
                 seasonalFeeEntity = model.seasonalFeeApiModel?.let { mapSeasonalFeeEntity(it) },
-                externalFeesEntity = model.externalFees?.let { mapExternalFeesEntity(it) },
+                externalFeesEntity = model.externalFees?.map { mapExternalFeesEntity(it) },
                 item = null)
     }
     

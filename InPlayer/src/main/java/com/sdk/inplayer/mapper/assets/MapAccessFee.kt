@@ -30,7 +30,7 @@ internal class MapAccessFee constructor(
             updatedAt = domainEntity.updatedAt,
             geoRestriction = domainEntity.geoRestrictionEntity?.let { InPlayerGeoRestriction(it) },
             seasonalFee = domainEntity.seasonalFeeEntity?.let { InPlayerSeasonalFee(it) },
-            externalFees = domainEntity.externalFeesEntity?.let { InPlayerExternalFees(it) },
+            externalFees = domainEntity.externalFeesEntity?.map { InPlayerExternalFees(it) },
             item = null
         )
     }

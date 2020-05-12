@@ -13,7 +13,7 @@ data class AccessFeeEntity(
     val trialPeriodEntity: TrialPeriodEntity?,
     val setupFeeEntity: SetupFeeEntity?,
     val geoRestrictionEntity: GeoRestrictionEntity?,
-    val externalFeesEntity: ExternalFeesEntity?,
+    val externalFeesEntity: List<ExternalFeesEntity>?,
     val seasonalFeeEntity: SeasonalFeeEntity?,
     val expiresAt: Long?,
     val createdAt: Long?,

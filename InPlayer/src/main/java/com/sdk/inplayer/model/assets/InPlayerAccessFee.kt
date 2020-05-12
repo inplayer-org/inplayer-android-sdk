@@ -18,6 +18,6 @@ class InPlayerAccessFee(
     val startsAt: Long?,
     val item: InPlayerItem?,
     val geoRestriction: InPlayerGeoRestriction?,
-    val externalFees: InPlayerExternalFees?,
+    val externalFees: List<InPlayerExternalFees>?,
     val seasonalFee: InPlayerSeasonalFee?
 )

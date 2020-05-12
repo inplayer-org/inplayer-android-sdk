@@ -18,6 +18,6 @@ data class AccessFeeModel(
     @SerializedName("created_at") val createdAt: Long?,
     @SerializedName("updated_at") val updatedAt: Long?,
     @SerializedName("starts_at") val startsAt: Long?,
-    @SerializedName("external_fees") val externalFees: ExternalFeesApiModel? = null,
+    @SerializedName("external_fees") val externalFees: List<ExternalFeesApiModel>? = null,
     @SerializedName("seasonal_fee") val seasonalFeeApiModel: SeasonalFeeApiModel? = null
 )
