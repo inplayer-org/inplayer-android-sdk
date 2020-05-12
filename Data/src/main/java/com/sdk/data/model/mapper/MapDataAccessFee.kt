@@ -7,7 +7,7 @@ import com.sdk.data.model.asset.SeasonalFeeApiModel
 import com.sdk.domain.entity.asset.AccessFeeEntity
 import com.sdk.domain.entity.asset.ExternalFeesEntity
 import com.sdk.domain.entity.asset.GeoRestrictionEntity
-import com.sdk.domain.entity.asset.InPlayerSeasonalFeeModel
+import com.sdk.domain.entity.asset.SeasonalFeeEntity
 
 class MapDataAccessFee constructor(private val mapAccessType: MapDataAccessType, private val mapItemType: MapDataItemType,
                                    private val mapTrialPeriod: MapDataTrialPeriod, private val mapSetupFee: MapDataSetupFee) : ModelMapper<AccessFeeModel, AccessFeeEntity> {
@@ -46,7 +46,7 @@ class MapDataAccessFee constructor(private val mapAccessType: MapDataAccessType,
         )
     
     fun mapSeasonalFeeEntity(seasonalFeeApiModel: SeasonalFeeApiModel) =
-        InPlayerSeasonalFeeModel(
+        SeasonalFeeEntity(
             offSeasonAccess = seasonalFeeApiModel.offSeasonAccess,
             currentPriceAmount = seasonalFeeApiModel.currentPriceAmount,
             anchorDate = seasonalFeeApiModel.anchorDate

@@ -105,15 +105,15 @@ class Asset internal constructor(
      * Lists the various fees for a specific asset v2.
      *
      * @param id Int Item ID
-     * @param voucher Int Voucher
+     * @param voucherId Int Voucher
      * @param callback InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
      */
     fun getAssetAccessFeesv2(
         id: Int,
-        voucher: Int,
+        voucherId: Int,
         callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
     ) {
-        assetService.getAccessFeesUseCase.execute(GetAccessFeesUseCase.Params(id, voucher))
+        assetService.getAccessFeesUseCase.execute(GetAccessFeesUseCase.Params(id, voucherId))
             .subscribeOn(appSchedulers.subscribeOn)
             .observeOn(appSchedulers.observeOn)
             .subscribe({ list ->
