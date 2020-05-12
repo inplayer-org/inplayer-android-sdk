@@ -7,7 +7,11 @@ import com.sdk.domain.entity.asset.TrialPeriodEntity
 class MapDataTrialPeriod : ModelMapper<TrialPeriodModel, TrialPeriodEntity> {
     
     override fun mapFromModel(model: TrialPeriodModel): TrialPeriodEntity {
-        return TrialPeriodEntity(quantity = model.quantity, period = model.period, description = model.description)
+        return TrialPeriodEntity(
+            quantity = model.quantity,
+            period = model.period ?: "",
+            description = model.description ?: ""
+        )
     }
     
     override fun mapToModel(entity: TrialPeriodEntity): TrialPeriodModel {

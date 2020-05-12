@@ -7,7 +7,7 @@ import com.sdk.domain.entity.asset.SetupFeeEntity
 class MapDataSetupFee : ModelMapper<SetupFeeModel, SetupFeeEntity> {
     
     override fun mapFromModel(model: SetupFeeModel): SetupFeeEntity {
-        return SetupFeeEntity(feeAmount = model.feeAmount, description = model.description)
+        return SetupFeeEntity(feeAmount = model.feeAmount, description = model.description ?: "")
     }
     
     override fun mapToModel(entity: SetupFeeEntity): SetupFeeModel {
