@@ -100,6 +100,29 @@ class Asset internal constructor(
             })
     }
     
+    
+    /**
+     * Lists the various fees for a specific asset v2.
+     *
+     * @param id Int Item ID
+     * @param voucher Int Voucher
+     * @param callback InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
+     */
+    fun getAssetAccessFeesv2(
+        id: Int,
+        voucher: Int,
+        callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
+    ) {
+        assetService.getAccessFeesUseCase.execute(GetAccessFeesUseCase.Params(id, voucher))
+            .subscribeOn(appSchedulers.subscribeOn)
+            .observeOn(appSchedulers.observeOn)
+            .subscribe({ list ->
+                callback.done(list.map { mapAccessFee.mapFromDomain(it) }, null)
+            }, {
+                callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+            })
+    }
+    
     /**
      * Checks and retrieves the customer’s entitlement to an asset.
      *
