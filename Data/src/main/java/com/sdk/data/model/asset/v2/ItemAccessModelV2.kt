@@ -1,13 +1,13 @@
-package com.sdk.data.model.asset
+package com.sdk.data.model.asset.v2
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
+import com.sdk.data.model.asset.ItemDetailsModel
 
-data class ItemAccessModel(
+data class ItemAccessModelV2(
     @SerializedName("id") val id: Long,
     @SerializedName("merchant_id") val merchantId: Long,
     @SerializedName("merchant_uuid") val merchantUUID: String?,
-    @SerializedName("access_control_type") val accessControlTypeModel: AccessControlTypeModel?,
+    @SerializedName("access_control_type") val accessControlTypeModel: AccessControlTypeModelV2?,
     @SerializedName("account_id") val accountId: Long,
     @SerializedName("customer_id") val customerId: Long,
     @SerializedName("customer_uuid") val customerUUID: String,

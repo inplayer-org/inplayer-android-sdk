@@ -3,6 +3,7 @@ package com.sdk.data.remote
 import com.sdk.data.model.asset.AccessFeeModel
 import com.sdk.data.model.asset.ItemAccessModel
 import com.sdk.data.model.asset.ItemDetailsModel
+import com.sdk.data.model.asset.v2.AccessFeeModelV2
 import com.sdk.data.remote.api.InPlayerRemotePublicServiceAPI
 import com.sdk.data.remote.api.InPlayerRemoteServiceAPI
 import com.sdk.data.repository.gateway.AssetsRemote
@@ -37,7 +38,7 @@ class AssetsRemoteImpl constructor(
         return inPlayerRemotePublicServiceAPI.getAccessFees(id = id)
     }
     
-    override fun getAccessFeesV2(id: Int, voucher: Int): Single<List<AccessFeeModel>> {
+    override fun getAccessFeesV2(id: Int, voucher: Int): Single<List<AccessFeeModelV2>> {
         return inPlayerRemotePublicServiceAPI.getAccessFeesV2(id = id, voucher = voucher)
     }
 }
