@@ -1,7 +1,5 @@
 package com.sdk.inplayer.model.assets
 
-import com.sdk.domain.entity.asset.*
-
 class InPlayerAccessFee(
     val id: Long,
     val merchantId: Long,

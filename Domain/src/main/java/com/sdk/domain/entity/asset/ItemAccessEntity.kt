@@ -13,5 +13,7 @@ data class ItemAccessEntity(
     val createdAt: Long,
     val expiresAt: Long,
     val itemDetailsEntity: ItemDetailsEntity? = null,
-    val active: Boolean
+    val active: Boolean,
+    val content: String?,
+    val title: String?
 )

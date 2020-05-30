@@ -20,7 +20,10 @@ class MapDataItemAccess constructor(private val mapItemDetails: MapDataItemDetai
             itemDetailsEntity = mapItemDetails.mapFromModel(model.itemDetailsModel),
             merchantUUID = model.merchantUUID ?: "",
             accessControlTypeEntity = null,
-            merchantId = model.merchantId
+            merchantId = model.merchantId,
+            active = model.isActive ?: false || model.active ?: false,
+            content = "",
+            title = ""
         )
     }
     

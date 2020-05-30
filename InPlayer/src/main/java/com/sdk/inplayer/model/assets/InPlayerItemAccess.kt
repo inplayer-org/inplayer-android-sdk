@@ -13,5 +13,7 @@ class InPlayerItemAccess(
     val expiresAt: Long,
     val itemEntity: InPlayerItem?,
     val accessControlType: InPlayerAccessControlType?,
-    val active: Boolean
+    val active: Boolean,
+    val content: String,
+    val title: String
 )

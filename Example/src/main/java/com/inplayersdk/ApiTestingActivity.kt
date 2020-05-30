@@ -2,7 +2,6 @@ package com.inplayersdk
 
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.provider.SyncStateContract
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -73,7 +72,7 @@ class ApiTestingActivity : AppCompatActivity() {
             getItem()
         }
         
-        notification.setOnClickListener {
+        get_access_fee_v2.setOnClickListener {
             initNotification()
         }
         
@@ -81,13 +80,24 @@ class ApiTestingActivity : AppCompatActivity() {
             val account = InPlayer.Account.getAccountInfo()
         }
         
-        
         btn_subscriptions.setOnClickListener {
             getSubscriptions()
         }
         
         isAuthenticated.setOnClickListener {
             Toast.makeText(this,"Is Authenticated is ${InPlayer.Account.isAuthenticated()}", Toast.LENGTH_LONG).show()
+        }
+    
+        get_access_fee_v2.setOnClickListener {
+            InPlayer.Assets.getAssetAccessFeesv2(58458, 1255, InPlayerCallback { accessFee, error ->
+                if (error == null) {
+                    Log.v("getAssetAccessFees", "Access Fees: ${accessFee[1].seasonalFee}")
+                } else {
+                    //Handle Error
+                    Log.v("getAssetAccessFees", "Error block $error")
+                    error.e.printStackTrace()
+                }
+            })
         }
     }
     

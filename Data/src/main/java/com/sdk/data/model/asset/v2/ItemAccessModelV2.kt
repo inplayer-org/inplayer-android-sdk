@@ -15,7 +15,9 @@ data class ItemAccessModelV2(
     @SerializedName("country_code") val countryCode: String?,
     @SerializedName("created_at") val createdAt: Long,
     @SerializedName("expires_at") val expiresAt: Long,
-    @SerializedName("active") val active: Boolean
+    @SerializedName("active") val active: Boolean,
+    @SerializedName("content") val content: String?,
+    @SerializedName("title") val title: String?
 ) {
     fun mapToEntity(): ItemAccessEntity {
         return ItemAccessEntity(
@@ -31,7 +33,9 @@ data class ItemAccessModelV2(
             createdAt = createdAt,
             expiresAt = expiresAt,
             itemDetailsEntity = null,
-            active = active
+            active = active,
+            content = content,
+            title = title
         )
     }
 }

@@ -24,7 +24,9 @@ internal class MapItemAccess constructor(private val mapItemDetails: MapItemDeta
                 active = domainEntity.active,
                 merchantId = domainEntity.merchantId,
                 merchantUUID = domainEntity.merchantUUID,
-                accessControlType = domainEntity.accessControlTypeEntity?.let { mapAccessControlType(it) }
+                accessControlType = domainEntity.accessControlTypeEntity?.let { mapAccessControlType(it) },
+                content = domainEntity.content ?: "",
+                title = domainEntity.title ?: ""
             )
     }
     

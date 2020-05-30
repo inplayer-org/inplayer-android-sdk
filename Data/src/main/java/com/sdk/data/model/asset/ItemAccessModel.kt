@@ -1,7 +1,6 @@
 package com.sdk.data.model.asset
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 data class ItemAccessModel(
     @SerializedName("id") val id: Long,
@@ -15,5 +14,7 @@ data class ItemAccessModel(
     @SerializedName("country_code") val countryCode: String,
     @SerializedName("created_at") val createdAt: Long,
     @SerializedName("expires_at") val expiresAt: Long,
-    @SerializedName("item") val itemDetailsModel: ItemDetailsModel
+    @SerializedName("item") val itemDetailsModel: ItemDetailsModel,
+    @SerializedName("is_active") val isActive: Boolean?,
+    @SerializedName("active") val active: Boolean?
 )
