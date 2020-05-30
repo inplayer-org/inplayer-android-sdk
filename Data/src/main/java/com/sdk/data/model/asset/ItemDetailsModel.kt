@@ -1,8 +1,6 @@
 package com.sdk.data.model.asset
 
-import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-
 
 data class ItemDetailsModel(
     @SerializedName("id") val id: Long,

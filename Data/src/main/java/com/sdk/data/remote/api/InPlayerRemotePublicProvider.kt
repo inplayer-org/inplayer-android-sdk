@@ -1,7 +1,5 @@
 package com.sdk.data.remote.api
 
-import com.sdk.data.model.asset.AccessFeeModel
-import io.reactivex.Single
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
