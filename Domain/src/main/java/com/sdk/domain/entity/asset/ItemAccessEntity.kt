@@ -12,5 +12,6 @@ data class ItemAccessEntity(
     val countryCode: String,
     val createdAt: Long,
     val expiresAt: Long,
-    val itemDetailsEntity: ItemDetailsEntity? = null
+    val itemDetailsEntity: ItemDetailsEntity? = null,
+    val active: Boolean
 )

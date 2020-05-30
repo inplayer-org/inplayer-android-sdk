@@ -1,8 +1,9 @@
 package com.sdk.inplayer.model.assets
 
-
 class InPlayerItemAccess(
     val id: Long,
+    val merchantId: Long,
+    val merchantUUID: String,
     val accountId: Long,
     val customerId: Long,
     val customerUUID: String,
@@ -10,5 +11,7 @@ class InPlayerItemAccess(
     val countryCode: String,
     val createdAt: Long,
     val expiresAt: Long,
-    val itemEntity: InPlayerItem?
+    val itemEntity: InPlayerItem?,
+    val accessControlType: InPlayerAccessControlType?,
+    val active: Boolean
 )
