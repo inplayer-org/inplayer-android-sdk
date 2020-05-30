@@ -1,7 +1,12 @@
 package com.sdk.domain.entity.asset
 
 data class SeasonalFeeEntity(
-    val offSeasonAccess: Boolean,
+    val id: Long,
+    val accessFeeId: Long,
+    val merchantId: Long,
     val currentPriceAmount: Double,
-    val anchorDate: Long
+    val offSeasonAccess: Boolean,
+    val anchorDate: Long,
+    val createdAt: Long,
+    val updatedAt: Long
 )

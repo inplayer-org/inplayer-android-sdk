@@ -70,7 +70,12 @@ class MapDataAccessFee constructor(private val mapAccessType: MapDataAccessType,
         SeasonalFeeEntity(
             offSeasonAccess = seasonalFeeApiModel.offSeasonAccess,
             currentPriceAmount = seasonalFeeApiModel.currentPriceAmount,
-            anchorDate = seasonalFeeApiModel.anchorDate
+            anchorDate = seasonalFeeApiModel.anchorDate,
+            accessFeeId = seasonalFeeApiModel.accessFeeId,
+            merchantId = seasonalFeeApiModel.merchantId,
+            createdAt = seasonalFeeApiModel.createdAt,
+            id = seasonalFeeApiModel.id,
+            updatedAt = seasonalFeeApiModel.updatedAt
         )
     
     fun mapExternalFeesEntity(externalFeesApiModel: ExternalFeesApiModel) =
