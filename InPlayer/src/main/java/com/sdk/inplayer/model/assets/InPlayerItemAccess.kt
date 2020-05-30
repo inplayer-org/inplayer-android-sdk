@@ -10,5 +10,5 @@ class InPlayerItemAccess(
     val countryCode: String,
     val createdAt: Long,
     val expiresAt: Long,
-    val itemEntity: InPlayerItem
+    val itemEntity: InPlayerItem?
 )

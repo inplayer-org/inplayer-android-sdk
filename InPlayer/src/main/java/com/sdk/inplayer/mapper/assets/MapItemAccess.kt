@@ -18,7 +18,7 @@ internal class MapItemAccess constructor(private val mapItemDetails: MapItemDeta
                 countryCode = domainEntity.countryCode,
                 createdAt = domainEntity.createdAt,
                 expiresAt = domainEntity.expiresAt,
-                itemEntity = mapItemDetails.mapFromDomain(domainEntity.itemDetailsEntity))
+                itemEntity = domainEntity.itemDetailsEntity?.let { mapItemDetails.mapFromDomain(it) })
     }
     
     override fun mapToDomain(viewModel: InPlayerItemAccess): ItemAccessEntity {
