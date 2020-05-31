@@ -42,7 +42,7 @@ class MapDataAccessFee constructor(private val mapAccessType: MapDataAccessType,
             amount = model.amount,
             currency = model.currency ?: "",
             description = model.description ?: "",
-            accessTypeEntity = mapAccessType.mapFromModel(model.accessTypeModel),
+            accessTypeEntity = model.accessTypeModel?.let { mapAccessType.mapFromModel(it) },
             itemType = model.itemType ?: "",
             trialPeriodEntity = model.trialPeriodModel?.let { mapTrialPeriod.mapFromModel(it) },
             setupFeeEntity = model.setupFeeModel?.let { mapSetupFee.mapFromModel(it) },
@@ -53,7 +53,7 @@ class MapDataAccessFee constructor(private val mapAccessType: MapDataAccessType,
             geoRestrictionEntity = model.geoRestrictionApiModel?.let { mapGeoRestrictionEntity(it) },
             seasonalFeeEntity = model.seasonalFeeApiModel?.let { mapSeasonalFeeEntity(it) },
             externalFeesEntity = model.externalFees?.map { mapExternalFeesEntity(it) },
-            item = model.accessItemModel.mapToEntity(),
+            item = model.accessItemModel?.mapToEntity(),
             voucherRule = model.voucherRule?.let { it.mapToEntity() })
     }
     
