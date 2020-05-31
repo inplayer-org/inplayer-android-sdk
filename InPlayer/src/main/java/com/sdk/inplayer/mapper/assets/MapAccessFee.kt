@@ -2,11 +2,7 @@ package com.sdk.inplayer.mapper.assets
 
 import com.sdk.domain.entity.asset.AccessFeeEntity
 import com.sdk.domain.entity.mapper.DomainMapper
-import com.sdk.inplayer.model.assets.InPlayerAccessFee
-import com.sdk.inplayer.model.assets.InPlayerExternalFees
-import com.sdk.inplayer.model.assets.InPlayerGeoRestriction
-import com.sdk.inplayer.model.assets.InPlayerSeasonalFee
-
+import com.sdk.inplayer.model.assets.*
 
 internal class MapAccessFee constructor(
     private val mapAccessType: MapAccessType, private val mapItemType: MapItemType,
@@ -31,7 +27,8 @@ internal class MapAccessFee constructor(
             geoRestriction = domainEntity.geoRestrictionEntity?.let { InPlayerGeoRestriction(it) },
             seasonalFee = domainEntity.seasonalFeeEntity?.let { InPlayerSeasonalFee(it) },
             externalFees = domainEntity.externalFeesEntity?.map { InPlayerExternalFees(it) },
-            item = null
+            item = null,
+            voucherRule = domainEntity.voucherRule?.let { InPlayerVoucherRule(it) }
         )
     }
     

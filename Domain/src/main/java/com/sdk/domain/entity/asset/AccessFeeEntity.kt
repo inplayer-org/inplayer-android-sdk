@@ -18,5 +18,6 @@ data class AccessFeeEntity(
     val expiresAt: Long?,
     val createdAt: Long?,
     val updatedAt: Long?,
-    val startsAt: Long?
+    val startsAt: Long?,
+    val voucherRule: VoucherRuleEntity?
 )
