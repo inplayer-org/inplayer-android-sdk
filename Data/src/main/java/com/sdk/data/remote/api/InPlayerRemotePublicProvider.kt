@@ -154,7 +154,7 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
     
     override fun getAccessFees(id: Int) = retrofitAPI.getAccessFees(id)
     
-    override fun getAccessFeesV2(id: Int, voucher: Int) = retrofitAPI.getAccessFeesV2(id, voucher)
+    override fun getAccessFeesV2(id: Int, voucher: Int?) = retrofitAPI.getAccessFeesV2(id, voucher)
     
     /**
      * ASSETS PUBLIC Endpoint Implementations

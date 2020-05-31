@@ -73,7 +73,7 @@ interface InPlayerRemotePublicServiceAPI {
     @GET("/v2/items/{id}/access-fees")
     fun getAccessFeesV2(
         @Path("id") id: Int,
-        @Query("expand[voucher]") voucher: Int
+        @Query("expand[voucher]") voucher: Int?
     ): Single<List<AccessFeeModelV2>>
     
     @GET("/accounts/register-fields/{merchant_uuid}")

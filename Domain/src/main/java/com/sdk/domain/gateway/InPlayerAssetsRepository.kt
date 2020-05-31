@@ -13,7 +13,7 @@ interface InPlayerAssetsRepository {
     
     fun getAccessFees(id: Int): Single<List<AccessFeeEntity>>
     
-    fun getAccessFeesv2(id: Int, voucher: Int): Single<List<AccessFeeEntity>>
+    fun getAccessFeesv2(id: Int, voucher: Int?): Single<List<AccessFeeEntity>>
     
     fun getExternalAsset(
         assetType: String,

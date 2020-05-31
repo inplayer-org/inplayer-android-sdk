@@ -83,7 +83,7 @@ class Asset internal constructor(
         id: Int,
         callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
     ) {
-        assetService.getAccessFeesUseCase.execute(GetAccessFeesUseCase.Params(id))
+        assetService.getAccessFeesUseCase.execute(GetAccessFeesUseCase.Params.V1(id))
             .subscribeOn(appSchedulers.subscribeOn)
             .observeOn(appSchedulers.observeOn)
             .subscribe({ list ->
@@ -103,10 +103,10 @@ class Asset internal constructor(
      */
     fun getAssetAccessFeesv2(
         id: Int,
-        voucherId: Int,
+        voucherId: Int? = null,
         callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
     ) {
-        assetService.getAccessFeesUseCase.execute(GetAccessFeesUseCase.Params(id, voucherId))
+        assetService.getAccessFeesUseCase.execute(GetAccessFeesUseCase.Params.V2(id, voucherId))
             .subscribeOn(appSchedulers.subscribeOn)
             .observeOn(appSchedulers.observeOn)
             .subscribe({ list ->
@@ -114,6 +114,10 @@ class Asset internal constructor(
             }, {
                 callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
             })
+    }
+    
+    fun getAssetAccessFeesv2(id: Int, callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>) {
+        getAssetAccessFeesv2(id, null, callback)
     }
     
     /**

@@ -14,15 +14,18 @@ class GetAccessFeesUseCase(
     override fun buildUseCaseObservable(params: Params?): Single<List<AccessFeeEntity>> {
         
         params?.let {
-            return if (it.voucher == null)
-                inPlayerAssetsRepository.getAccessFees(it.id)
-            else
-                inPlayerAssetsRepository.getAccessFeesv2(it.id, it.voucher)
+            return when (it) {
+                is Params.V1 -> inPlayerAssetsRepository.getAccessFees(it.id)
+                is Params.V2 -> inPlayerAssetsRepository.getAccessFeesv2(it.id, it.voucher)
+            }
         }
         
         throw IllegalStateException("Params can't be null for GetAccessFeesUseCase")
         
     }
     
-    data class Params(val id: Int, val voucher: Int? = null)
+    sealed class Params(val id: Int){
+        data class V1(val _id: Int): Params(_id)
+        data class V2(val _id: Int, val voucher: Int? = null): Params(_id)
+    }
 }

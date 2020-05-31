@@ -37,7 +37,7 @@ class InPlayerAssetsRepositoryImpl(private val assetsRemote: AssetsRemote,
         }
     }
     
-    override fun getAccessFeesv2(id: Int, voucher: Int): Single<List<AccessFeeEntity>> {
+    override fun getAccessFeesv2(id: Int, voucher: Int?): Single<List<AccessFeeEntity>> {
         return assetsRemote.getAccessFeesV2(id, voucher).map { list ->
             list.map { mapAccessFee.mapFromModelV2(it) }
         }

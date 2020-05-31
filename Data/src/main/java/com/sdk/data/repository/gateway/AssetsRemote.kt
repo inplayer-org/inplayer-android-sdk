@@ -16,5 +16,5 @@ interface AssetsRemote {
     
     fun getExternalAsset(assetType: String, externalId: String, merchantUUID: String): Single<ItemDetailsModel>
     
-    fun getAccessFeesV2(id: Int, voucher: Int): Single<List<AccessFeeModelV2>>
+    fun getAccessFeesV2(id: Int, voucher: Int?): Single<List<AccessFeeModelV2>>
 }
