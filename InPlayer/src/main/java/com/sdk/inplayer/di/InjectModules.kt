@@ -302,7 +302,7 @@ internal object InjectModules : KoinComponent {
             
             factory { MapAccessControlType() }
             
-            factory { MapAccessFee(get(), get(), get(), get()) }
+            factory { MapAccessFee(get(), get(), get(), get(), get()) }
             
             factory { MapAccessType() }
             

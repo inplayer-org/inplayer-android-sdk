@@ -1,5 +1,9 @@
 package com.sdk.inplayer.model.assets
 
+import com.google.gson.Gson
+import com.sdk.domain.entity.asset.ItemDetailsEntity
+import com.sdk.inplayer.mapper.assets.MapItemDetails
+
 class InPlayerItem(
     val id: Long,
     val merchantId: Long,
@@ -15,7 +19,39 @@ class InPlayerItem(
     val metadata: List<ItemMetadata>,
     val content: InPlayerAsset?
 ) {
+    constructor(model: ItemDetailsEntity) : this(
+        id = model.id,
+        merchantId = model.merchantId,
+        merchantUUID = model.merchantUUID,
+        isActive = model.isActive,
+        title = model.title,
+        accessControlType = InPlayerAccessControlType(model.accessControlType),
+        itemType = InPlayerItemType(model.itemType),
+        metahash = model.metahash,
+        createdAt = model.createdAt,
+        updatedAt = model.updatedAt,
+        metadata = model.metadata.map { ItemMetadata(it) },
+        accessFees = model.accessFees.map { mapDataAccessFee.mapFromModel(it) },
+        content = parseContent(model.content, model.itemType.name)
+    )
+    
+    companion object{
+        fun parseContent(
+            contentString: String?,
+            type: String
+        ): InPlayerItem.InPlayerAsset? {
+            if (contentString == null)
+                return null
+            MapItemDetails.AssetContent.values().forEach {
+                if(it.item_type == type)
+                    return Gson().fromJson(contentString, it.contentClassType)
+            }
+            return InPlayerItem.InPlayerAsset.UnkownType("$contentString")
+        }
+    }
+    
     sealed class InPlayerAsset {
+
         data class UnkownType(val value: String) : InPlayerAsset()
         data class Accedo(val video_key: String) :
             InPlayerAsset()

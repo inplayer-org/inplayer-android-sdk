@@ -5,8 +5,9 @@ import com.sdk.domain.entity.mapper.DomainMapper
 import com.sdk.inplayer.model.assets.*
 
 internal class MapAccessFee constructor(
-    private val mapAccessType: MapAccessType, private val mapItemType: MapItemType,
-    private val mapTrialPeriod: MapTrialPeriod, private val mapSetupFee: MapSetupFee
+    private val mapAccessType: MapAccessType,
+    private val mapTrialPeriod: MapTrialPeriod,
+    private val mapSetupFee: MapSetupFee
 ) : DomainMapper<AccessFeeEntity, InPlayerAccessFee> {
     
     override fun mapFromDomain(domainEntity: AccessFeeEntity): InPlayerAccessFee {
@@ -27,7 +28,7 @@ internal class MapAccessFee constructor(
             geoRestriction = domainEntity.geoRestrictionEntity?.let { InPlayerGeoRestriction(it) },
             seasonalFee = domainEntity.seasonalFeeEntity?.let { InPlayerSeasonalFee(it) },
             externalFees = domainEntity.externalFeesEntity?.map { InPlayerExternalFees(it) },
-            item = null,
+            item = domainEntity.item?.let { InPlayerItemAccess(it) },
             voucherRule = domainEntity.voucherRule?.let { InPlayerVoucherRule(it) }
         )
     }
