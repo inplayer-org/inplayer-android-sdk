@@ -10,8 +10,8 @@ data class ItemDetailsEntity(
     val createdAt: Long,
     val updatedAt: Long,
     val accessFees: List<AccessFeeEntity>,
-    val accessControlType: AccessControlTypeEntity,
-    val itemType: ItemTypeEntity,
+    val accessControlType: AccessControlTypeEntity?,
+    val itemType: ItemTypeEntity?,
     val metahash: Map<String, String>,
     val metadata: List<ItemMetadataEntity>,
     val content: String?

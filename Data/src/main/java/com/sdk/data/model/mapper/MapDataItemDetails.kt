@@ -14,16 +14,16 @@ class MapDataItemDetails constructor(
     override fun mapFromModel(model: ItemDetailsModel): ItemDetailsEntity {
         return ItemDetailsEntity(id = model.id,
                 merchantId = model.merchantId,
-                merchantUUID = model.merchantUUID,
+                merchantUUID = model.merchantUUID ?: "",
                 isActive = model.isActive,
-                title = model.title,
-                accessControlType = mapDataAccessControlType.mapFromModel(model.accessControlTypeModel),
-                itemType = mapItemType.mapFromModel(model.itemTypeModel),
-                metahash = model.metahash,
+                title = model.title ?: "",
+                accessControlType = model.accessControlTypeModel?.let { mapDataAccessControlType.mapFromModel(it) },
+                itemType = model.itemTypeModel?.let { mapItemType.mapFromModel(it) },
+                metahash = model.metahash ?: hashMapOf(),
                 createdAt = model.createdAt,
                 updatedAt = model.updatedAt,
-                metadata = model.metadata.map { mapItemMetadata(it) },
-                accessFees = model.accessFees.map { mapDataAccessFee.mapFromModel(it) },
+                metadata = model.metadata?.map { mapItemMetadata(it) } ?: listOf(),
+                accessFees = model.accessFees?.map { mapDataAccessFee.mapFromModel(it) } ?: listOf(),
                 content = model.content)
     }
     

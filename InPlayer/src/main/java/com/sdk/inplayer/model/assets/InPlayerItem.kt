@@ -14,8 +14,8 @@ class InPlayerItem(
     val createdAt: Long,
     val updatedAt: Long,
     val accessFees: List<InPlayerAccessFee>,
-    val accessControlType: InPlayerAccessControlType,
-    val itemType: InPlayerItemType,
+    val accessControlType: InPlayerAccessControlType?,
+    val itemType: InPlayerItemType?,
     val metahash: Map<String, String>,
     val metadata: List<ItemMetadata>,
     val content: InPlayerAsset?
@@ -26,14 +26,14 @@ class InPlayerItem(
         merchantUUID = model.merchantUUID,
         isActive = model.isActive,
         title = model.title,
-        accessControlType = InPlayerAccessControlType(model.accessControlType),
-        itemType = InPlayerItemType(model.itemType),
+        accessControlType = model.accessControlType?.let { InPlayerAccessControlType(it) },
+        itemType = model.itemType?.let { InPlayerItemType(it) },
         metahash = model.metahash,
         createdAt = model.createdAt,
         updatedAt = model.updatedAt,
         metadata = model.metadata.map { ItemMetadata(it) },
         accessFees = model.accessFees.map { InPlayerAccessFee(it) },
-        content = parseContent(model.content, model.itemType.name)
+        content = parseContent(model.content, model.itemType?.name ?: "")
     )
     
     companion object{
