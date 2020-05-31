@@ -31,7 +31,7 @@ class InPlayerItem(
         createdAt = model.createdAt,
         updatedAt = model.updatedAt,
         metadata = model.metadata.map { ItemMetadata(it) },
-        accessFees = model.accessFees.map { mapDataAccessFee.mapFromModel(it) },
+        accessFees = model.accessFees.map { InPlayerAccessFee(it) },
         content = parseContent(model.content, model.itemType.name)
     )
     

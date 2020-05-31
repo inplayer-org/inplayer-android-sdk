@@ -94,7 +94,7 @@ class Asset internal constructor(
             .subscribeOn(appSchedulers.subscribeOn)
             .observeOn(appSchedulers.observeOn)
             .subscribe({ list ->
-                callback.done(list.map { mapAccessFee.mapFromDomain(it) }, null)
+                callback.done(list.map { InPlayerAccessFee(it) }, null)
             }, {
                 callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
             })
@@ -117,7 +117,7 @@ class Asset internal constructor(
             .subscribeOn(appSchedulers.subscribeOn)
             .observeOn(appSchedulers.observeOn)
             .subscribe({ list ->
-                callback.done(list.map { mapAccessFee.mapFromDomain(it) }, null)
+                callback.done(list.map { InPlayerAccessFee(it) }, null)
             }, {
                 callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
             })

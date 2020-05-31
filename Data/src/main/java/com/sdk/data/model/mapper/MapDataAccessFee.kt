@@ -31,7 +31,9 @@ class MapDataAccessFee constructor(private val mapAccessType: MapDataAccessType,
                 geoRestrictionEntity = model.geoRestrictionApiModel?.let { mapGeoRestrictionEntity(it) },
                 seasonalFeeEntity = model.seasonalFeeApiModel?.let { mapSeasonalFeeEntity(it) },
                 externalFeesEntity = model.externalFees?.map { mapExternalFeesEntity(it) },
-                item = null)
+                item = null,
+                voucherRule = null
+        )
     }
     
     fun mapFromModelV2(model: AccessFeeModelV2): AccessFeeEntity {
@@ -51,7 +53,8 @@ class MapDataAccessFee constructor(private val mapAccessType: MapDataAccessType,
             geoRestrictionEntity = model.geoRestrictionApiModel?.let { mapGeoRestrictionEntity(it) },
             seasonalFeeEntity = model.seasonalFeeApiModel?.let { mapSeasonalFeeEntity(it) },
             externalFeesEntity = model.externalFees?.map { mapExternalFeesEntity(it) },
-            item = model.accessItemModel.mapToEntity())
+            item = model.accessItemModel.mapToEntity(),
+            voucherRule = model.voucherRule?.let { it.mapToEntity() })
     }
     
     override fun mapToModel(entity: AccessFeeEntity): AccessFeeModel {

@@ -230,7 +230,7 @@ class ApiTestingActivity : AppCompatActivity() {
     }
     
     private fun getItem() {
-        InPlayer.Assets.getAsset(1111, InPlayerCallback { inPlayerItem, error ->
+        InPlayer.Assets.getAsset(43871, InPlayerCallback { inPlayerItem, error ->
             if (error == null) {
                 //SUCCESS - Handle InPlayerItem
             } else {
