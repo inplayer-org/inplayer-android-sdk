@@ -203,7 +203,7 @@ internal object InjectModules : KoinComponent {
         
         val mainControllerModule = module {
             
-            factory { Asset(get(), get(), get(), get(), get(), get()) }
+            factory { Asset(get(), get(), get()) }
             
             factory {
                 Account(
@@ -302,13 +302,7 @@ internal object InjectModules : KoinComponent {
             
             factory { MapAccessControlType() }
             
-            factory { MapAccessFee(get(), get(), get()) }
-            
             factory { MapAccessType() }
-            
-            factory { MapItemAccess(get()) }
-            
-            factory { MapItemDetails(get(), get(), get()) }
             
             factory { MapItemType() }
             
