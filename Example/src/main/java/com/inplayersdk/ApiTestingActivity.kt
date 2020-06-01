@@ -218,7 +218,7 @@ class ApiTestingActivity : AppCompatActivity() {
     }
     
     private fun getAccess() {
-        InPlayer.Assets.checkAccessForAsset(43871, InPlayerCallback { itemAccess, error ->
+        InPlayer.Assets.checkAccessForAsset(58458, InPlayerCallback { itemAccess, error ->
             if (error == null) {
                 Log.v("getAccess", "Access: $itemAccess")
             } else {
@@ -230,9 +230,9 @@ class ApiTestingActivity : AppCompatActivity() {
     }
     
     private fun getItem() {
-        InPlayer.Assets.getAsset(43871, InPlayerCallback { inPlayerItem, error ->
+        InPlayer.Assets.getAsset(58458, InPlayerCallback { inPlayerItem, error ->
             if (error == null) {
-                //SUCCESS - Handle InPlayerItem
+                Log.v("getAccess", "Item: ${inPlayerItem.accessControlType?.auth}")
             } else {
                 //Handle Error
                 Log.v("getItem", "Error block $error")

@@ -23,7 +23,7 @@ data class ItemDetailsModel(
         return ItemDetailsEntity(id = id,
             merchantId = merchantId,
             merchantUUID = merchantUUID ?: "",
-            isActive = isActive,
+            isActive = isActive || active,
             title = title ?: "",
             accessControlType = accessControlTypeModel?.mapToEntity(),
             itemType = itemTypeModel?.mapToEntity(),
