@@ -6,7 +6,6 @@ import com.sdk.data.model.account.InPlayerAuthorizationModel
 import com.sdk.data.model.account.InPlayerRegisterFieldsModel
 import com.sdk.data.model.asset.AccessFeeModel
 import com.sdk.data.model.asset.ItemDetailsModel
-import com.sdk.data.model.asset.v2.AccessFeeModelV2
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*
@@ -74,7 +73,7 @@ interface InPlayerRemotePublicServiceAPI {
     fun getAccessFeesV2(
         @Path("id") id: Int,
         @Query("expand[voucher]") voucher: Int?
-    ): Single<List<AccessFeeModelV2>>
+    ): Single<List<AccessFeeModel>>
     
     @GET("/accounts/register-fields/{merchant_uuid}")
     fun exportRegisterFields(@Path("merchant_uuid") merchantUUID: String): Single<CollectionModel<InPlayerRegisterFieldsModel>>
