@@ -79,6 +79,7 @@ class Asset internal constructor(
      * @param id Int Item ID
      * @param callback InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
      */
+    @Deprecated("Deprecated with v2")
     fun getAssetAccessFees(
         id: Int,
         callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
@@ -101,7 +102,7 @@ class Asset internal constructor(
      * @param voucherId Int Voucher
      * @param callback InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
      */
-    fun getAssetAccessFeesv2(
+    fun getAssetAccessFeesV2(
         id: Int,
         voucherId: Int? = null,
         callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
@@ -116,8 +117,8 @@ class Asset internal constructor(
             })
     }
     
-    fun getAssetAccessFeesv2(id: Int, callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>) {
-        getAssetAccessFeesv2(id, null, callback)
+    fun getAssetAccessFeesV2(id: Int, callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>) {
+        getAssetAccessFeesV2(id, null, callback)
     }
     
     /**

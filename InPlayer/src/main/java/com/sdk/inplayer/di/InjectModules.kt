@@ -75,23 +75,9 @@ internal object InjectModules : KoinComponent {
         //Data Module Mapper
         val dataMapper = module {
             
-            factory { MapDataAccessControlType() }
-            
-            factory { MapDataAccessFee(get(), get(), get(), get()) }
-            
-            factory { MapDataAccessType() }
-            
             factory { UserModelMapper() }
             
-            factory { MapDataItemAccess(get()) }
-            
-            factory { MapDataItemDetails(get(), get()) }
-            
-            factory { MapDataItemType() }
-            
-            factory { MapDataSetupFee() }
-            
-            factory { MapDataTrialPeriod() }
+            factory { MapDataItemAccess() }
             
             factory { MapAWSCredentials() }
             
@@ -163,8 +149,6 @@ internal object InjectModules : KoinComponent {
             
             factory {
                 InPlayerAssetsRepositoryImpl(
-                    get(),
-                    get(),
                     get(),
                     get()
                 ) as InPlayerAssetsRepository

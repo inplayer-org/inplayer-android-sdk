@@ -4,7 +4,7 @@ import com.sdk.data.model.asset.ItemAccessModel
 import com.sdk.domain.entity.asset.ItemAccessEntity
 
 
-class MapDataItemAccess constructor(private val mapItemDetails: MapDataItemDetails) :
+class MapDataItemAccess constructor() :
     ModelMapper<ItemAccessModel, ItemAccessEntity> {
     
     override fun mapFromModel(model: ItemAccessModel): ItemAccessEntity {
@@ -17,7 +17,7 @@ class MapDataItemAccess constructor(private val mapItemDetails: MapDataItemDetai
             countryCode = model.countryCode ?: "",
             createdAt = model.createdAt,
             expiresAt = model.expiresAt,
-            itemDetailsEntity = model.itemDetailsModel?.let { mapItemDetails.mapFromModel(it) },
+            itemDetailsEntity = model.itemDetailsModel?.let { it.mapToEntity() },
             merchantUUID = model.merchantUUID ?: "",
             accessControlTypeEntity = null,
             merchantId = model.merchantId,
