@@ -10,7 +10,7 @@ import com.sdk.domain.entity.asset.ExternalFeesEntity
 import com.sdk.domain.entity.asset.GeoRestrictionEntity
 import com.sdk.domain.entity.asset.SeasonalFeeEntity
 
-class MapDataAccessFee constructor(private val mapAccessType: MapDataAccessType, private val mapItemType: MapDataItemType,
+class MapDataAccessFee constructor(private val mapAccessType: MapDataAccessType, private val mapItemAccess: MapDataItemDetails,
                                    private val mapTrialPeriod: MapDataTrialPeriod, private val mapSetupFee: MapDataSetupFee) : ModelMapper<AccessFeeModel, AccessFeeEntity> {
     
     override fun mapFromModel(model: AccessFeeModel): AccessFeeEntity {
@@ -53,7 +53,7 @@ class MapDataAccessFee constructor(private val mapAccessType: MapDataAccessType,
             geoRestrictionEntity = model.geoRestrictionApiModel?.let { mapGeoRestrictionEntity(it) },
             seasonalFeeEntity = model.seasonalFeeApiModel?.let { mapSeasonalFeeEntity(it) },
             externalFeesEntity = model.externalFees?.map { mapExternalFeesEntity(it) },
-            item = model.accessItemModel?.mapToEntity(),
+            item = model.item?.let { mapItemAccess.mapFromModel(it) },
             voucherRule = model.voucherRule?.let { it.mapToEntity() })
     }
     

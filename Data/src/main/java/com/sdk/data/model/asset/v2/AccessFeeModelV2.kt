@@ -10,7 +10,7 @@ data class AccessFeeModelV2(
     @SerializedName("currency") val currency: String?,
     @SerializedName("description") val description: String?,
     @SerializedName("access_type") val accessTypeModel: AccessTypeModel?,
-    @SerializedName("item") val accessItemModel: ItemAccessModelV2?,
+    @SerializedName("item") val item: ItemDetailsModel?,
     @SerializedName("item_type") val itemType: String?,
     @SerializedName("trial_period") val trialPeriodModel: TrialPeriodModel?,
     @SerializedName("setup_fee") val setupFeeModel: SetupFeeModel?,

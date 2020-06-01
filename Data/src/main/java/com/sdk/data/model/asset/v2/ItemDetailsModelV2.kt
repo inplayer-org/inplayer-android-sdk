@@ -3,7 +3,7 @@ package com.sdk.data.model.asset.v2
 import com.google.gson.annotations.SerializedName
 import com.sdk.domain.entity.asset.ItemAccessEntity
 
-data class ItemAccessModelV2(
+data class ItemDetailsModelV2(
     @SerializedName("id") val id: Long,
     @SerializedName("merchant_id") val merchantId: Long,
     @SerializedName("merchant_uuid") val merchantUUID: String?,

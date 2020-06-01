@@ -8,7 +8,7 @@ data class AccessFeeEntity(
     val currency: String,
     val description: String,
     val accessTypeEntity: AccessTypeEntity?,
-    val item: ItemAccessEntity?,
+    val item: ItemDetailsEntity?,
     val itemType: String,
     val trialPeriodEntity: TrialPeriodEntity?,
     val setupFeeEntity: SetupFeeEntity?,

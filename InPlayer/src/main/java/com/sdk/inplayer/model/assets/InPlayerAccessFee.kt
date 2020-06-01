@@ -16,7 +16,7 @@ class InPlayerAccessFee(
     val createdAt: Long?,
     val updatedAt: Long?,
     val startsAt: Long?,
-    val item: InPlayerItemAccess?,
+    val item: InPlayerItem?,
     val geoRestriction: InPlayerGeoRestriction?,
     val externalFees: List<InPlayerExternalFees>?,
     val seasonalFee: InPlayerSeasonalFee?,
@@ -39,7 +39,7 @@ class InPlayerAccessFee(
         geoRestriction = domainEntity.geoRestrictionEntity?.let { InPlayerGeoRestriction(it) },
         seasonalFee = domainEntity.seasonalFeeEntity?.let { InPlayerSeasonalFee(it) },
         externalFees = domainEntity.externalFeesEntity?.map { InPlayerExternalFees(it) },
-        item = domainEntity.item?.let { InPlayerItemAccess(it) },
+        item = domainEntity.item?.let { InPlayerItem(it) },
         voucherRule = domainEntity.voucherRule?.let { InPlayerVoucherRule(it) }
     )
 }
