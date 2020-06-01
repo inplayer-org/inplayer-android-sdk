@@ -1,6 +1,7 @@
 package com.sdk.data.model.asset
 
 import com.google.gson.annotations.SerializedName
+import com.sdk.domain.entity.asset.ItemDetailsEntity
 
 data class ItemDetailsModel(
     @SerializedName("id") val id: Long,
@@ -17,4 +18,20 @@ data class ItemDetailsModel(
     @SerializedName("content") val content: String?,
     @SerializedName("metahash") val metahash: Map<String, String>?,
     @SerializedName("metadata") val metadata: List<ItemMetadataModel>?
-)
+){
+    fun mapToEntity() : ItemDetailsEntity {
+        return ItemDetailsEntity(id = id,
+            merchantId = merchantId,
+            merchantUUID = merchantUUID ?: "",
+            isActive = isActive,
+            title = title ?: "",
+            accessControlType = accessControlTypeModel?.mapToEntity(),
+            itemType = itemTypeModel?.mapToEntity(),
+            metahash = metahash ?: hashMapOf(),
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+            metadata = metadata?.map { it.mapToEntity() } ?: listOf(),
+            accessFees = accessFees?.map { mapDataAccessFee.mapFromModel(it) } ?: listOf(),
+            content = content)
+    }
+}
