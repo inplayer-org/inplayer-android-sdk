@@ -1,4 +1,4 @@
-package com.sdk.data.model.asset.v2
+package com.sdk.data.model.asset
 
 import com.sdk.domain.entity.asset.VoucherEntity
 

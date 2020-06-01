@@ -1,7 +1,6 @@
 package com.sdk.data.model.asset
 
 import com.google.gson.annotations.SerializedName
-import com.sdk.data.model.asset.v2.VoucherRuleApiModel
 import com.sdk.domain.entity.asset.AccessFeeEntity
 
 data class AccessFeeModel(

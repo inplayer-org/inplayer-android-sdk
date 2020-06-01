@@ -1,5 +1,6 @@
-package com.sdk.data.model.asset.v2
+package com.sdk.data.model.asset
 
+import com.sdk.data.model.asset.VoucherApiModel
 import com.sdk.domain.entity.asset.VoucherRuleEntity
 
 data class VoucherRuleApiModel(
