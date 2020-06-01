@@ -8,8 +8,7 @@ import com.sdk.domain.entity.asset.ItemMetadataEntity
 
 class MapDataItemDetails constructor(
         private val mapDataAccessControlType: MapDataAccessControlType,
-        private val mapItemType: MapDataItemType,
-        private val mapDataAccessFee: MapDataAccessFee) : ModelMapper<ItemDetailsModel, ItemDetailsEntity> {
+        private val mapItemType: MapDataItemType) : ModelMapper<ItemDetailsModel, ItemDetailsEntity> {
     
     override fun mapFromModel(model: ItemDetailsModel): ItemDetailsEntity {
         return ItemDetailsEntity(id = model.id,
@@ -23,7 +22,7 @@ class MapDataItemDetails constructor(
                 createdAt = model.createdAt,
                 updatedAt = model.updatedAt,
                 metadata = model.metadata?.map { mapItemMetadata(it) } ?: listOf(),
-                accessFees = model.accessFees?.map { mapDataAccessFee.mapFromModel(it) } ?: listOf(),
+                accessFees = listOf(),
                 content = model.content)
     }
     

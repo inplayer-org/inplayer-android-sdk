@@ -85,7 +85,7 @@ internal object InjectModules : KoinComponent {
             
             factory { MapDataItemAccess(get()) }
             
-            factory { MapDataItemDetails(get(), get(), get()) }
+            factory { MapDataItemDetails(get(), get()) }
             
             factory { MapDataItemType() }
             

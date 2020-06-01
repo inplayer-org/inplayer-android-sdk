@@ -2,6 +2,7 @@ package com.sdk.data.model.asset.v2
 
 import com.google.gson.annotations.SerializedName
 import com.sdk.data.model.asset.*
+import com.sdk.domain.entity.asset.AccessFeeEntity
 
 data class AccessFeeModelV2(
     @SerializedName("id") val id: Long,
@@ -22,4 +23,27 @@ data class AccessFeeModelV2(
     @SerializedName("external_fees") val externalFees: List<ExternalFeesApiModel>? = null,
     @SerializedName("seasonal_fee") val seasonalFeeApiModel: SeasonalFeeApiModel? = null,
     @SerializedName("voucher_rule") val voucherRule: VoucherRuleApiModel? = null
-)
+) {
+    fun mapToEntity(): AccessFeeEntity {
+        return AccessFeeEntity(
+            id = id,
+            merchantId = merchantId,
+            amount = amount,
+            currency = currency ?: "",
+            description = description ?: "",
+            accessTypeEntity = accessTypeModel?.mapToEntity(),
+            itemType = itemType ?: "",
+            trialPeriodEntity = trialPeriodModel?.mapToEntity(),
+            setupFeeEntity = setupFeeModel?.mapToEntity(),
+            expiresAt = expiresAt,
+            createdAt = createdAt,
+            updatedAt = updatedAt,
+            startsAt = startsAt,
+            geoRestrictionEntity = geoRestrictionApiModel?.mapToEntity(),
+            seasonalFeeEntity = seasonalFeeApiModel?.mapToEntity(),
+            externalFeesEntity = externalFees?.map { it.mapToEntity() },
+            item = item?.mapToEntity(),
+            voucherRule = voucherRule?.mapToEntity()
+        )
+    }
+}
