@@ -22,7 +22,7 @@ class AccessControlTypeSerializer : JsonDeserializer<AccessControlTypeModel> {
                     jsonObject.get(AUTH).asBoolean
                 }
                 jsonObject.get(AUTH).asJsonPrimitive.isNumber -> {
-                    jsonObject.get(AUTH).asNumber == 1
+                    jsonObject.get(AUTH).asNumber.toInt() == 1
                 }
                 else -> false
             }

@@ -91,7 +91,7 @@ class ApiTestingActivity : AppCompatActivity() {
         get_access_fee_v2.setOnClickListener {
             InPlayer.Assets.getAssetAccessFeesv2(58458, 1255, InPlayerCallback { accessFee, error ->
                 if (error == null) {
-                    Log.v("getAssetAccessFees", "Access Fees: ${accessFee[1].seasonalFee}")
+                    Log.v("getAssetAccessFees", "Access Fees: ${accessFee[1].item?.accessControlType?.auth}")
                 } else {
                     //Handle Error
                     Log.v("getAssetAccessFees", "Error block $error")
