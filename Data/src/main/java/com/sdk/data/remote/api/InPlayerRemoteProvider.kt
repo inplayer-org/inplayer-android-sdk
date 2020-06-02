@@ -1,5 +1,8 @@
 package com.sdk.data.remote.api
 
+import com.google.gson.GsonBuilder
+import com.sdk.data.model.AccessControlTypeSerializer
+import com.sdk.data.model.asset.AccessControlTypeModel
 import com.sdk.data.remote.error.AuthTokenMissingException
 import com.sdk.data.remote.refresh_token.RefreshTokenInterceptor
 import com.sdk.data.repository.gateway.UserLocalAuthenticator
@@ -47,13 +50,19 @@ class InPlayerRemoteProvider(
         retrofitAPI = buildService(okHttpClient)
         return retrofitAPI
     }
+    private fun getGson(): GsonConverterFactory {
+        val gson = GsonBuilder()
+            .registerTypeAdapter(AccessControlTypeModel::class.java, AccessControlTypeSerializer())
+            .create()
+        return GsonConverterFactory.create(gson)
+    }
     
     private fun buildService(okHttpClient: OkHttpClient): InPlayerRemoteServiceAPI {
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(getGson())
             .build()
         return retrofit.create(InPlayerRemoteServiceAPI::class.java)
     }

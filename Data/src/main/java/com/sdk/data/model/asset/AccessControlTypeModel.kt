@@ -1,4 +1,12 @@
 package com.sdk.data.model.asset
 
+import com.google.gson.annotations.JsonAdapter
+import com.sdk.domain.entity.asset.AccessControlTypeEntity
 
-data class AccessControlTypeModel(val id: Long, val name: String, val auth: Boolean)
+@JsonAdapter(AccessControlTypeEntity::class)
+data class AccessControlTypeModel(val id: Long, val name: String, val auth: Boolean) {
+    
+    fun mapToEntity(): AccessControlTypeEntity {
+        return AccessControlTypeEntity(id = id, name = name, auth = auth)
+    }
+}

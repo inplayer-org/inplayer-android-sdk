@@ -37,4 +37,7 @@ class AssetsRemoteImpl constructor(
         return inPlayerRemotePublicServiceAPI.getAccessFees(id = id)
     }
     
+    override fun getAccessFeesV2(id: Int, voucher: Int?): Single<List<AccessFeeModel>> {
+        return inPlayerRemotePublicServiceAPI.getAccessFeesV2(id = id, voucher = voucher)
+    }
 }

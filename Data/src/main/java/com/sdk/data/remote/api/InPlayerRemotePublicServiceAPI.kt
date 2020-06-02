@@ -8,7 +8,6 @@ import com.sdk.data.model.asset.AccessFeeModel
 import com.sdk.data.model.asset.ItemDetailsModel
 import io.reactivex.Completable
 import io.reactivex.Single
-import retrofit2.Response
 import retrofit2.http.*
 import java.util.*
 
@@ -69,6 +68,12 @@ interface InPlayerRemotePublicServiceAPI {
     
     @GET("/items/{id}/access-fees")
     fun getAccessFees(@Path("id") id: Int): Single<List<AccessFeeModel>>
+    
+    @GET("/v2/items/{id}/access-fees")
+    fun getAccessFeesV2(
+        @Path("id") id: Int,
+        @Query("expand[voucher]") voucher: Int?
+    ): Single<List<AccessFeeModel>>
     
     @GET("/accounts/register-fields/{merchant_uuid}")
     fun exportRegisterFields(@Path("merchant_uuid") merchantUUID: String): Single<CollectionModel<InPlayerRegisterFieldsModel>>

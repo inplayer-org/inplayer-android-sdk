@@ -2,7 +2,6 @@ package com.inplayersdk
 
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.provider.SyncStateContract
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -73,7 +72,7 @@ class ApiTestingActivity : AppCompatActivity() {
             getItem()
         }
         
-        notification.setOnClickListener {
+        get_access_fee_v2.setOnClickListener {
             initNotification()
         }
         
@@ -81,13 +80,24 @@ class ApiTestingActivity : AppCompatActivity() {
             val account = InPlayer.Account.getAccountInfo()
         }
         
-        
         btn_subscriptions.setOnClickListener {
             getSubscriptions()
         }
         
         isAuthenticated.setOnClickListener {
             Toast.makeText(this,"Is Authenticated is ${InPlayer.Account.isAuthenticated()}", Toast.LENGTH_LONG).show()
+        }
+    
+        get_access_fee_v2.setOnClickListener {
+            InPlayer.Assets.getAssetAccessFeesV2(58458, 1255, InPlayerCallback { accessFee, error ->
+                if (error == null) {
+                    Log.v("getAssetAccessFees", "Access Fees: ${accessFee[1].item?.accessControlType?.auth}")
+                } else {
+                    //Handle Error
+                    Log.v("getAssetAccessFees", "Error block $error")
+                    error.e.printStackTrace()
+                }
+            })
         }
     }
     
@@ -208,7 +218,7 @@ class ApiTestingActivity : AppCompatActivity() {
     }
     
     private fun getAccess() {
-        InPlayer.Assets.checkAccessForAsset(43871, InPlayerCallback { itemAccess, error ->
+        InPlayer.Assets.checkAccessForAsset(58458, InPlayerCallback { itemAccess, error ->
             if (error == null) {
                 Log.v("getAccess", "Access: $itemAccess")
             } else {
@@ -220,9 +230,9 @@ class ApiTestingActivity : AppCompatActivity() {
     }
     
     private fun getItem() {
-        InPlayer.Assets.getAsset(1111, InPlayerCallback { inPlayerItem, error ->
+        InPlayer.Assets.getAsset(58458, InPlayerCallback { inPlayerItem, error ->
             if (error == null) {
-                //SUCCESS - Handle InPlayerItem
+                Log.v("getAccess", "Item: ${inPlayerItem.accessControlType?.auth}")
             } else {
                 //Handle Error
                 Log.v("getItem", "Error block $error")

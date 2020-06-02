@@ -1,5 +1,8 @@
 package com.sdk.data.remote.api
 
+import com.google.gson.GsonBuilder
+import com.sdk.data.model.AccessControlTypeSerializer
+import com.sdk.data.model.asset.AccessControlTypeModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -30,12 +33,19 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
         return retrofitAPI
     }
     
+    private fun getGson(): GsonConverterFactory {
+        val gson = GsonBuilder()
+            .registerTypeAdapter(AccessControlTypeModel::class.java, AccessControlTypeSerializer())
+            .create()
+        return GsonConverterFactory.create(gson)
+    }
+    
     private fun buildService(okHttpClient: OkHttpClient): InPlayerRemotePublicServiceAPI {
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(getGson())
             .build()
         return retrofit.create(InPlayerRemotePublicServiceAPI::class.java)
     }
@@ -153,6 +163,8 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
     ) = retrofitAPI.getExternalAsset(assetType, externalId, merchantUUID)
     
     override fun getAccessFees(id: Int) = retrofitAPI.getAccessFees(id)
+    
+    override fun getAccessFeesV2(id: Int, voucher: Int?) = retrofitAPI.getAccessFeesV2(id, voucher)
     
     /**
      * ASSETS PUBLIC Endpoint Implementations

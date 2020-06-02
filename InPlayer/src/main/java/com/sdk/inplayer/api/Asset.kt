@@ -7,9 +7,6 @@ import com.sdk.domain.usecase.assets.GetItemAccessUseCase
 import com.sdk.domain.usecase.assets.GetItemDetailsUseCase
 import com.sdk.inplayer.callback.InPlayerCallback
 import com.sdk.inplayer.mapper.ThrowableToInPlayerExceptionMapper
-import com.sdk.inplayer.mapper.assets.MapAccessFee
-import com.sdk.inplayer.mapper.assets.MapItemAccess
-import com.sdk.inplayer.mapper.assets.MapItemDetails
 import com.sdk.inplayer.model.assets.InPlayerAccessFee
 import com.sdk.inplayer.model.assets.InPlayerItem
 import com.sdk.inplayer.model.assets.InPlayerItemAccess
@@ -25,12 +22,8 @@ import com.sdk.inplayer.util.InPlayerSDKConfiguration
 class Asset internal constructor(
     private val appSchedulers: InPlayerSchedulers,
     private val inPlayerSDKConfiguration: InPlayerSDKConfiguration,
-    private val assetService: AssetService,
-    private val mapItemDetails: MapItemDetails,
-    private val mapAccessFee: MapAccessFee,
-    private val mapItemAccess: MapItemAccess
+    private val assetService: AssetService
 ) {
-    
     
     /**
      * Returns details about the item type, title, state, when and how it was purchased etc.
@@ -49,7 +42,7 @@ class Asset internal constructor(
             .subscribeOn(appSchedulers.subscribeOn)
             .observeOn(appSchedulers.observeOn)
             .subscribe({
-                callback.done(mapItemDetails.mapFromDomain(it), null)
+                callback.done(InPlayerItem(it), null)
             }, {
                 callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
             })
@@ -74,7 +67,7 @@ class Asset internal constructor(
         ).subscribeOn(appSchedulers.subscribeOn)
             .observeOn(appSchedulers.observeOn)
             .subscribe({
-                callback.done(mapItemDetails.mapFromDomain(it), null)
+                callback.done(InPlayerItem(it), null)
             }, {
                 callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
             })
@@ -86,18 +79,46 @@ class Asset internal constructor(
      * @param id Int Item ID
      * @param callback InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
      */
+    @Deprecated("Deprecated with v2")
     fun getAssetAccessFees(
         id: Int,
         callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
     ) {
-        assetService.getAccessFeesUseCase.execute(GetAccessFeesUseCase.Params(id))
+        assetService.getAccessFeesUseCase.execute(GetAccessFeesUseCase.Params.V1(id))
             .subscribeOn(appSchedulers.subscribeOn)
             .observeOn(appSchedulers.observeOn)
             .subscribe({ list ->
-                callback.done(list.map { mapAccessFee.mapFromDomain(it) }, null)
+                callback.done(list.map { InPlayerAccessFee(it) }, null)
             }, {
                 callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
             })
+    }
+    
+    
+    /**
+     * Lists the various fees for a specific asset v2.
+     *
+     * @param id Int Item ID
+     * @param voucherId Int Voucher
+     * @param callback InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
+     */
+    fun getAssetAccessFeesV2(
+        id: Int,
+        voucherId: Int? = null,
+        callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>
+    ) {
+        assetService.getAccessFeesUseCase.execute(GetAccessFeesUseCase.Params.V2(id, voucherId))
+            .subscribeOn(appSchedulers.subscribeOn)
+            .observeOn(appSchedulers.observeOn)
+            .subscribe({ list ->
+                callback.done(list.map { InPlayerAccessFee(it) }, null)
+            }, {
+                callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
+            })
+    }
+    
+    fun getAssetAccessFeesV2(id: Int, callback: InPlayerCallback<List<InPlayerAccessFee>, InPlayerException>) {
+        getAssetAccessFeesV2(id, null, callback)
     }
     
     /**
@@ -117,7 +138,7 @@ class Asset internal constructor(
             .subscribeOn(appSchedulers.subscribeOn)
             .observeOn(appSchedulers.observeOn)
             .subscribe({
-                callback.done(mapItemAccess.mapFromDomain(it), null)
+                callback.done(InPlayerItemAccess(it), null)
             }, {
                 callback.done(null, ThrowableToInPlayerExceptionMapper.mapThrowableToException(it))
             })
