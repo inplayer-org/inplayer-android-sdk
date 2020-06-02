@@ -232,7 +232,7 @@ class ApiTestingActivity : AppCompatActivity() {
     private fun getItem() {
         InPlayer.Assets.getAsset(58458, InPlayerCallback { inPlayerItem, error ->
             if (error == null) {
-                Log.v("getAccess", "Item: ${inPlayerItem.accessControlType?.auth}")
+                Log.v("getAccess", "Item:${inPlayerItem.accessControlType?.auth}")
             } else {
                 //Handle Error
                 Log.v("getItem", "Error block $error")
