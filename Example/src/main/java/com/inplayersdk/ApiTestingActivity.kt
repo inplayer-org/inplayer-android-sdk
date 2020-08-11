@@ -99,12 +99,29 @@ class ApiTestingActivity : AppCompatActivity() {
                 }
             })
         }
+        
+        btn_payment.setOnClickListener {
+            getPaymentCall()
+        }
+    }
+    
+    private fun getPaymentCall() {
+        InPlayer.Payment.getPurchaseHistory("active", 0, 10, null,
+            InPlayerCallback { merchantSubscriptionRecords, error ->
+            if (error == null) {
+                //SUCCESS - Handle InPlayerUser
+                Log.v("Payment Call", "---Success--")
+            } else {
+                //Handle Error
+                Log.v("Payment Call", "---Error--> $error")
+            }
+        })
     }
     
     private fun logInuser() {
         InPlayer.Account.authenticate(
-            "victorpetrovski93+test995419@gmail.com",
-            "androidsdk123",
+            "oliver.dimitrov@adeva.com",
+            "oliver123",
             InPlayerCallback { inPlayerUser, error ->
                 if (error == null) {
                     //SUCCESS - Handle InPlayerUser
