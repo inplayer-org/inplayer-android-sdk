@@ -13,7 +13,7 @@ class UserLocalAuthenticatorImpl(context: Context) : UserLocalAuthenticator {
     val prefs = defaultPrefs(context)
     
     override fun saveAuthenticationToken(accessToken: String) {
-        prefs.acccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhaWQiOjIxNjQwNjcsImF1ZCI6IjBlYWY0YmJhLWUyNGEtNGMzZS1iZTBlLWE5ZjhiZTQ1Nzg3MyIsImN0eCI6WyJjb25zdW1lciJdLCJleHAiOjE2MDMzOTUyNDcsImlhdCI6MTYwMDc2MTg0NywianRpIjoiMzBlNDIzZTctOWFmMC00MTAyLThhZGEtM2FhMGI5YzdhOWZjIiwibWlkIjoyMDY2NzQ4LCJtdWkiOiIwZWFmNGJiYS1lMjRhLTRjM2UtYmUwZS1hOWY4YmU0NTc4NzMiLCJuYmYiOjE2MDA3NjE4NDcsIm9pZCI6MCwic2NvcGVzIjpbXSwic3ViIjoiYnJpYW5tQGZvb3RiYWxsbnN3LmNvbS5hdSIsInRpZCI6MjE2NDA2NywidHV1aWQiOiIzMGU0MjNlNy05YWYwLTQxMDItOGFkYS0zYWEwYjljN2E5ZmMifQ.-eSi7KiYlMnFyE4W8owLQqzY8y65tbqsjdwLOloFhaQ"
+        prefs.acccessToken = accessToken
     }
     
     override fun getAuthenticationToken(): String {
