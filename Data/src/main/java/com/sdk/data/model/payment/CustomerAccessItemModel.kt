@@ -22,6 +22,6 @@ data class CustomerAccessItemModel(
         val purchased_amount: Double,
         val purchased_currency: String,
         val revoked: Int,
-        val starts_at: Long,
+        val starts_at: String,
         val type: String
 )
