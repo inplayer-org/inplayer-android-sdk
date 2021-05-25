@@ -83,6 +83,10 @@ class ApiTestingActivity : AppCompatActivity() {
         btn_subscriptions.setOnClickListener {
             getSubscriptions()
         }
+    
+        btn_subscriptions_subscription.setOnClickListener {
+            getSubscriptionsFromSubscription()
+        }
         
         isAuthenticated.setOnClickListener {
             Toast.makeText(this,"Is Authenticated is ${InPlayer.Account.isAuthenticated()}", Toast.LENGTH_LONG).show()
@@ -120,8 +124,8 @@ class ApiTestingActivity : AppCompatActivity() {
     
     private fun logInuser() {
         InPlayer.Account.authenticate(
-            "oliver.dimitrov@adeva.com",
-            "oliver123",
+            "matej+1@inplayer.com",
+            "matej123456",
             InPlayerCallback { inPlayerUser, error ->
                 if (error == null) {
                     //SUCCESS - Handle InPlayerUser
@@ -143,6 +147,17 @@ class ApiTestingActivity : AppCompatActivity() {
                         }
                     }
                 }
+            }
+        })
+    }
+    
+    
+    private fun getSubscriptionsFromSubscription() {
+        InPlayer.Subscription.getSubscriptions(0, 200, InPlayerCallback { response, ex ->
+            Log.v("Limit", "This is it ${response.limit}")
+            response.collection.forEach {
+    
+                Log.v("Register Fields", "This is it $it")
             }
         })
     }
@@ -235,7 +250,7 @@ class ApiTestingActivity : AppCompatActivity() {
     }
     
     private fun getAccess() {
-        InPlayer.Assets.checkAccessForAsset(58458, InPlayerCallback { itemAccess, error ->
+        InPlayer.Assets.checkAccessForAsset(75929, InPlayerCallback { itemAccess, error ->
             if (error == null) {
                 Log.v("getAccess", "Access: $itemAccess")
             } else {

@@ -21,7 +21,7 @@ ext {
     rxAndroidVersion = '2.1.1'
 
     //Data
-    gsonVersion = '2.8.6'
+    gsonVersion = '2.8.7'
     okHttpVersion = '3.8.1'
     retrofitVersion = '2.3.0'
     androidAnnotationsVersion = '21.0.3'

@@ -166,7 +166,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Get Subscription"
+        android:text="Get Subscription Account"
         app:layout_constraintEnd_toEndOf="@+id/update"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/update" />
@@ -200,5 +200,19 @@
         app:layout_constraintEnd_toEndOf="@+id/btn_get_social_urls"
         app:layout_constraintStart_toStartOf="@+id/btn_get_social_urls"
         app:layout_constraintTop_toBottomOf="@+id/btn_get_social_urls" />
+
+    <Button
+        android:id="@+id/btn_subscriptions_subscription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Get Subscription Subscription"
+        app:layout_constraintEnd_toEndOf="@+id/forgot_password"
+        app:layout_constraintStart_toStartOf="@+id/forgot_password"
+        app:layout_constraintTop_toBottomOf="@+id/isAuthenticated"
+
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

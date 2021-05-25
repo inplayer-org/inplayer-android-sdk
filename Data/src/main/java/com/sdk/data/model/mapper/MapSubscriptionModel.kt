@@ -9,7 +9,8 @@ import com.sdk.domain.entity.subscribtion.SubscriptionEntity
 class MapSubscriptionModel : ModelMapper<SubscriptionModel, SubscriptionEntity> {
     
     override fun mapFromModel(model: SubscriptionModel): SubscriptionEntity {
-        return SubscriptionEntity(amount = model.amount,
+        return SubscriptionEntity(
+                amount = model.amount,
                 asset_id = model.asset_id,
                 asset_title = model.asset_title ?: "",
                 cancel_token = model.cancel_token ?: "",
