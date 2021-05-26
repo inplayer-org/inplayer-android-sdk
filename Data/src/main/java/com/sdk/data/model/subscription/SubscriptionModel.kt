@@ -5,8 +5,8 @@ package com.sdk.data.model.subscription
  */
 data class SubscriptionModel(
         val amount: Int,
-        val asset_id: Int,
-        val asset_title: String?,
+        val item_id: Int,
+        val item_title: String?,
         val cancel_token: String?,
         val created_at: Long,
         val currency: String?,

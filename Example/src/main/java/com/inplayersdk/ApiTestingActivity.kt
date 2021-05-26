@@ -154,7 +154,6 @@ class ApiTestingActivity : AppCompatActivity() {
     
     private fun getSubscriptionsFromSubscription() {
         InPlayer.Subscription.getSubscriptions(0, 200, InPlayerCallback { response, ex ->
-            Log.v("Limit", "This is it ${response.limit}")
             response.collection.forEach {
     
                 Log.v("Register Fields", "This is it $it")

@@ -11,8 +11,8 @@ class MapSubscriptionModel : ModelMapper<SubscriptionModel, SubscriptionEntity> 
     override fun mapFromModel(model: SubscriptionModel): SubscriptionEntity {
         return SubscriptionEntity(
                 amount = model.amount,
-                asset_id = model.asset_id,
-                asset_title = model.asset_title ?: "",
+                asset_id = model.item_id,
+                asset_title = model.item_title ?: "",
                 cancel_token = model.cancel_token ?: "",
                 created_at = model.created_at,
                 currency = model.currency ?: "",
