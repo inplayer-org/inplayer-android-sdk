@@ -13,7 +13,7 @@ data class SubscriptionModel(
         val description: String?,
         val formatted_amount: String?,
         val merchant_id: Int,
-        val next_billing_date: Long,
+        val next_rebill_date: Long,
         val status: String?,
         val unsubscribe_url: String?,
         val updated_at: Long

@@ -124,7 +124,7 @@ class ApiTestingActivity : AppCompatActivity() {
     
     private fun logInuser() {
         InPlayer.Account.authenticate(
-            "matej+1@inplayer.com",
+            "matej+jssdk@inplayer.com",
             "matej123456",
             InPlayerCallback { inPlayerUser, error ->
                 if (error == null) {

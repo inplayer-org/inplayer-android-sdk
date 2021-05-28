@@ -19,7 +19,7 @@ class MapSubscriptionModel : ModelMapper<SubscriptionModel, SubscriptionEntity> 
                 description = model.description ?: "",
                 formatted_amount = model.formatted_amount ?: "",
                 merchant_id = model.merchant_id,
-                next_billing_date = model.next_billing_date,
+                next_billing_date = model.next_rebill_date,
                 status = model.status ?: "",
                 unsubscribe_url = model.unsubscribe_url ?: "",
                 updated_at = model.updated_at
