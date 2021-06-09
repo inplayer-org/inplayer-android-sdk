@@ -19,6 +19,6 @@ data class CustomerAccessItemEntity(
         val purchased_amount: Double?= 0.0,  // can be set null
         val purchased_currency: String?= "",  // can be set null
         val revoked: Int,
-        val starts_at: Long,
+        val starts_at: Long?= 0, // can be set null
         val type: String
 )
