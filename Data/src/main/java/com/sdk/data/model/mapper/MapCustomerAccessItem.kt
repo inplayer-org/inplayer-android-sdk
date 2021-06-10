@@ -28,7 +28,7 @@ class MapCustomerAccessItem : ModelMapper<CustomerAccessItemModel, CustomerAcces
                 purchased_amount = model.purchased_amount,
                 purchased_currency = model.purchased_currency,
                 revoked = model.revoked,
-                starts_at = model.starts_at.toLongOrNull()?:0,
+                starts_at = if (model.starts_at != null) model.starts_at.toLong() else 0,
                 type = model.type
         )
     }

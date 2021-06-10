@@ -22,6 +22,6 @@ data class InPlayerCustomerAccessItem(
         val purchased_amount: Double? = 0.0,
         val purchased_currency: String? = "",
         val revoked: Int,
-        val starts_at: Long,
+        val starts_at: Long?= 0,
         val type: String
 )
