@@ -154,17 +154,18 @@ class InPlayerRemoteProvider(
     override fun updateAccount(fullName: String, metadata: HashMap<String, String>?) =
         retrofitAPI.updateAccount(fullName, metadata)
     
-    override fun eraseAccount(password: String) = retrofitAPI.eraseAccount(password)
+    override fun eraseAccount(password: String, brandingId: String?) = retrofitAPI.eraseAccount(password, brandingId)
     
     
     override fun changePassword(
         password: String,
         passwordConfirmation: String,
-        oldPassword: String
-    ) = retrofitAPI.changePassword(password, passwordConfirmation, oldPassword)
+        oldPassword: String,
+        brandingId: String?
+    ) = retrofitAPI.changePassword(password, passwordConfirmation, oldPassword, brandingId)
     
     
-    override fun exportAccountData(password: String) = retrofitAPI.exportAccountData(password)
+    override fun exportAccountData(password: String, brandingId: String?) = retrofitAPI.exportAccountData(password, brandingId)
     
     override fun getSocialUrls(socialUrlState: String) = retrofitAPI.getSocialUrls(socialUrlState)
     
@@ -204,13 +205,14 @@ class InPlayerRemoteProvider(
      *  Payments
      */
     
-    override fun validateAndroidReceipt(receipt: String, item_id: Int, access_fee_id: Int) =
-        retrofitAPI.validateAndroidReceipt(receipt, item_id, access_fee_id)
+    override fun validateAndroidReceipt(receipt: String, item_id: Int, access_fee_id: Int, brandingId: String?) =
+        retrofitAPI.validateAndroidReceipt(receipt, item_id, access_fee_id, brandingId)
     
     override fun validateByProductName(
         receipt: String,
-        productName: String
-    ) = retrofitAPI.validateByProductName(receipt, productName)
+        productName: String,
+        brandingId: String?
+    ) = retrofitAPI.validateByProductName(receipt, productName, brandingId)
     
     
     override fun getCustomerAccessList(status: String, page: Int, limit: Int, type: String?) =

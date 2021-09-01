@@ -16,7 +16,7 @@ class CreateAccountUseCase constructor(schedulers: InPlayerSchedulers,
         
         params?.let {
             
-            return inPlayerAuthenticatorRepository.createAccount(it.fullName, it.email, it.password, it.passwordConfirmation, it.accType.toString(), it.merchantUUID, it.referrer, it.metadata)
+            return inPlayerAuthenticatorRepository.createAccount(it.fullName, it.email, it.password, it.passwordConfirmation, it.accType.toString(), it.merchantUUID, it.referrer, it.metadata, it.brandingId)
             
         }
         
@@ -26,6 +26,6 @@ class CreateAccountUseCase constructor(schedulers: InPlayerSchedulers,
     
     data class Params(val fullName: String, val email: String, val password: String,
                       val passwordConfirmation: String, val accType: AccountType,
-                      val merchantUUID: String, val referrer: String?, val metadata: HashMap<String, String>?)
+                      val merchantUUID: String, val referrer: String?, val metadata: HashMap<String, String>?, val brandingId: String? = null)
     
 }

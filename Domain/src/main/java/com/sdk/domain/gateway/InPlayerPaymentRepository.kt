@@ -6,9 +6,9 @@ import io.reactivex.Single
 
 interface InPlayerPaymentRepository {
     
-    fun validateReceipt(receipt: String, itemId: Int, accessFeeId: Int): Single<String>
+    fun validateReceipt(receipt: String, itemId: Int, accessFeeId: Int, brandingId: String? = null): Single<String>
     
-    fun validateReceiptByProductName(receipt: String, productName: String): Single<String>
+    fun validateReceiptByProductName(receipt: String, productName: String, brandingId: String? = null): Single<String>
     
     fun getCustomerAccessList(
         status: String,

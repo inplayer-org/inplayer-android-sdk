@@ -48,7 +48,7 @@ class ApiTestingActivity : AppCompatActivity() {
         }
         
         forgot_password.setOnClickListener {
-            forgotPassword("victorpetrovski93+test94@gmail.com")
+            forgotPassword("victorpetrovski93+test94@gmail.com", "123")
         }
         
         update.setOnClickListener {
@@ -169,7 +169,9 @@ class ApiTestingActivity : AppCompatActivity() {
         InPlayer.Account.signUp("Viktor Petrovski",
             "victorpetrovski93+test995419@gmail.com",
             "androidsdk123",
-            "androidsdk123", InPlayerCallback { inPlayerUser, error ->
+            "androidsdk123",
+            "123",
+            InPlayerCallback { inPlayerUser, error ->
                 if (error == null) {
                     Log.v("signUp", "User created $inPlayerUser")
                 } else {
@@ -193,21 +195,22 @@ class ApiTestingActivity : AppCompatActivity() {
     private fun eraseUser() {
         InPlayer.Account.deleteAccount(
             "androidsdk123",
+            "123",
             InPlayerCallback { sucessMessage, error -> })
     }
     
     private fun changePassword() {
-        InPlayer.Account.changePassword("newpassword12345", "newpassword12345", "newpassword123",
+        InPlayer.Account.changePassword("newpassword12345", "newpassword12345", "newpassword123", "123",
             InPlayerCallback { sucessMessage, error ->
                 
             })
     }
     
-    private fun forgotPassword(email: String) {
-        InPlayer.Account.requestNewPassword(email, InPlayerCallback { sucessMessage, error ->
+    private fun forgotPassword(email: String, brandingId: String? = null) {
+        InPlayer.Account.requestNewPassword(email, brandingId, InPlayerCallback { sucessMessage, error ->
             if (error == null) {
                 //Handle InPlayerUser
-                Log.v("requestNewPassword", sucessMessage)
+                Log.v("requestNewPassword", sucessMessage.toString())
             } else {
                 //Handle Error
                 //  error.printStackTrace()
@@ -238,6 +241,7 @@ class ApiTestingActivity : AppCompatActivity() {
             token,
             newPassword,
             newPasswordConfirmation,
+            null,
             InPlayerCallback { message, error ->
                 if (error == null) {
                     Log.v("setNewPassword", "User setNewPassword: $message")

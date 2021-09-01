@@ -19,7 +19,8 @@ interface AccountRemote {
         type: String,
         merchantUUID: String,
         referrer: String?,
-        metadata: HashMap<String, String>?
+        metadata: HashMap<String, String>?,
+        brandingId: String?
     ): Single<InPlayerAuthorizationModel>
     
     fun authenticateUser(
@@ -41,12 +42,13 @@ interface AccountRemote {
         clientId: String
     ): Single<InPlayerAuthorizationModel>
     
-    fun forgotPassword(merchantUUID: String, email: String): Single<ResponseModel>
+    fun forgotPassword(merchantUUID: String, email: String, brandingId: String? = null): Single<ResponseModel>
     
     fun setNewPassword(
         token: String,
         password: String,
-        passwordConfirmation: String
+        passwordConfirmation: String,
+        brandingId: String? = null
     ): Completable
     
     fun getRegisterFields(merchantUUID: String): Single<List<InPlayerRegisterFieldsModel>>
@@ -55,14 +57,15 @@ interface AccountRemote {
     
     fun accountDetails(): Single<InPlayerAccount>
     
-    fun exportUserData(password: String): Single<ResponseModel>
+    fun exportUserData(password: String, brandingId: String?): Single<ResponseModel>
     
-    fun eraseUser(password: String): Single<ResponseModel>
+    fun eraseUser(password: String, brandingId: String? = null): Single<ResponseModel>
     
     fun changePassword(
         newPassword: String,
         newPasswordConfirmation: String,
-        oldPassword: String
+        oldPassword: String,
+        brandingId: String? = null
     ): Single<ResponseModel>
     
     fun updateAccount(

@@ -7,9 +7,9 @@ import io.reactivex.Single
 
 interface PaymentsRemote {
     
-    fun validateReceipt(receipt: String, itemId: Int, accessFeeId: Int): Single<String>
+    fun validateReceipt(receipt: String, itemId: Int, accessFeeId: Int, brandingId: String?): Single<String>
     
-    fun validateByProductName(receipt: String, productName: String): Single<String>
+    fun validateByProductName(receipt: String, productName: String, brandingId: String?): Single<String>
     
     fun getCustomerAccessList(status: String, page: Int, limit: Int, type: String?): Single<ResponseListModel<CustomerAccessItemModel>>
     

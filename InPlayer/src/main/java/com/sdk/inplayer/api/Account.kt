@@ -78,6 +78,7 @@ class Account internal constructor(
      * @param email String Account’s email address
      * @param password String Password containing minimum 8 characters
      * @param passwordConfirmation String The same password with minimum 8 characters
+     * @param brandingId: Optional parameter
      * @param callback InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>
      */
     fun signUp(
@@ -85,6 +86,7 @@ class Account internal constructor(
         email: String,
         password: String,
         passwordConfirmation: String,
+        brandingId: String? = null,
         callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>
     ) {
         signUp(
@@ -93,6 +95,7 @@ class Account internal constructor(
             password = password,
             passwordConfirmation = passwordConfirmation,
             metadata = hashMapOf(),
+            brandingId = brandingId,
             callback = callback
         )
     }
@@ -106,6 +109,7 @@ class Account internal constructor(
      * @param password String Password containing minimum 8 characters
      * @param passwordConfirmation String The same password with minimum 8 characters
      * @param metadata HashMap<String,String> Additional information about the account that can be attached to the account object
+     * @param brandingId: Optional parameter
      * @param callback InPlayerCallback<{@code InPlayerAuthorizationModel}, {@code InPlayerException}>
      */
     fun signUp(
@@ -114,6 +118,7 @@ class Account internal constructor(
         password: String,
         passwordConfirmation: String,
         metadata: HashMap<String, String>? = hashMapOf(),
+        brandingId: String? = null,
         callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>
     ) {
         
@@ -122,7 +127,7 @@ class Account internal constructor(
         accountService.createAccountUseCase.execute(
             CreateAccountUseCase.Params(
                 fullName, email, password, passwordConfirmation, accType,
-                inPlayerSDKConfiguration.merchantUUID, inPlayerSDKConfiguration.referrer, metadata
+                inPlayerSDKConfiguration.merchantUUID, inPlayerSDKConfiguration.referrer, metadata, brandingId
             )
         )
             .subscribeOn(appSchedulers.subscribeOn)
@@ -156,9 +161,10 @@ class Account internal constructor(
      * After invoking the request the account will receive the data in a json format via e-mail.
      *
      * @param password of the current logged user
+     * @param brandingId: Optional parameter
      * */
-    fun exportData(password: String, callback: InPlayerCallback<String, InPlayerException>) {
-        accountService.exportAccountDataUseCase.execute(ExportAccountDataUseCase.Params(password))
+    fun exportData(password: String, brandingId: String? = null, callback: InPlayerCallback<String, InPlayerException>) {
+        accountService.exportAccountDataUseCase.execute(ExportAccountDataUseCase.Params(password, brandingId))
             .subscribeOn(appSchedulers.subscribeOn)
             .observeOn(appSchedulers.observeOn)
             .subscribe({
@@ -265,19 +271,22 @@ class Account internal constructor(
      * @param newPassword String The account's new password
      * @param newPasswordConfirmation String The account's new password for confirmation.
      * @param oldPassword String Account's old password
+     * @param brandingId: Optional parameter
      * @param callback InPlayerCallback<String?, InPlayerException>
      */
     fun changePassword(
         oldPassword: String,
         newPassword: String,
         newPasswordConfirmation: String,
+        brandingId: String? = null,
         callback: InPlayerCallback<String?, InPlayerException>
     ) {
         accountService.changePasswordUseCase.execute(
             ChangePasswordUseCase.Params(
                 newPassword = newPassword,
                 newPasswordConfirmation = newPasswordConfirmation,
-                oldPassword = oldPassword
+                oldPassword = oldPassword,
+                brandingId = brandingId
             )
         )
             .subscribeOn(appSchedulers.subscribeOn)
@@ -321,13 +330,15 @@ class Account internal constructor(
      * Provides you with a token for resetting your password via email.
      *
      * @param email String Account’s email address
+     * @param brandingId: Optional parameter
      * @param callback InPlayerCallback<String?, InPlayerException>
      */
-    fun requestNewPassword(email: String, callback: InPlayerCallback<String?, InPlayerException>) {
+    fun requestNewPassword(email: String, brandingId: String? = null, callback: InPlayerCallback<String?, InPlayerException>) {
         accountService.forgotPasswordUseCase.execute(
             ForgotPasswordUseCase.Params(
                 inPlayerSDKConfiguration.merchantUUID,
-                email
+                email,
+                brandingId
             )
         )
             .subscribeOn(appSchedulers.subscribeOn)
@@ -343,10 +354,11 @@ class Account internal constructor(
      * Erases an account (and all the data associated) permanently.
      *
      * @param password String Password confirmation
+     * @param brandingId: Optional parameter
      * @param callback InPlayerCallback<String?, InPlayerException>
      */
-    fun deleteAccount(password: String, callback: InPlayerCallback<String?, InPlayerException>) {
-        accountService.eraseUserUseCase.execute(EraseUserUseCase.Params(password))
+    fun deleteAccount(password: String, brandingId: String? = null, callback: InPlayerCallback<String?, InPlayerException>) {
+        accountService.eraseUserUseCase.execute(EraseUserUseCase.Params(password, brandingId))
             .subscribeOn(appSchedulers.subscribeOn)
             .observeOn(appSchedulers.observeOn)
             .subscribe({
@@ -362,19 +374,22 @@ class Account internal constructor(
      * @param token String The forgot password token sent to your email address
      * @param newPassword String The account’s new password
      * @param newPasswordConfirmation String The password confirmation
+     * @param brandingId: Optional parameter
      * @param callback InPlayerCallback<String?, InPlayerException>
      */
     fun setNewPassword(
         token: String,
         newPassword: String,
         newPasswordConfirmation: String,
+        brandingId: String? = null,
         callback: InPlayerCallback<String?, InPlayerException>
     ) {
         accountService.setNewPasswordUseCase.execute(
             SetNewPasswordUseCase.Params(
                 token,
                 newPassword,
-                newPasswordConfirmation
+                newPasswordConfirmation,
+                brandingId
             )
         )
             .subscribeOn(appSchedulers.subscribeOn)

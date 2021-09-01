@@ -45,8 +45,8 @@ class Payment internal constructor(private val appSchedulers: InPlayerSchedulers
      * @param productName String Product Name
      * @param callback InPlayerCallback<String, InPlayerException>
      */
-    fun validateByProductName(receipt: String, productName: String, callback: InPlayerCallback<String, InPlayerException>) {
-        paymentService.validateReceiptUseCase.execute(ValidateReceiptUseCase.Params.ProductName(_receipt = receipt, productName = productName))
+    fun validateByProductName(receipt: String, productName: String, brandingId: String? = null, callback: InPlayerCallback<String, InPlayerException>) {
+        paymentService.validateReceiptUseCase.execute(ValidateReceiptUseCase.Params.ProductName(_receipt = receipt, productName = productName, brandingId = brandingId))
             .observeOn(appSchedulers.observeOn)
             .subscribeOn(appSchedulers.subscribeOn)
             .subscribe({
