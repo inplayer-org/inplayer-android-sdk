@@ -37,7 +37,7 @@ class InPlayerAccountRepositoryImpl constructor(
         merchantUUID: String,
         referrer: String?,
         metadata: HashMap<String, String>?,
-        brandingId: String?
+        brandingId: Int?
     ): Single<AuthorizationHolder> {
         return accountRemote
             .createAccount(
@@ -72,7 +72,7 @@ class InPlayerAccountRepositoryImpl constructor(
             .map { mapAuthorizationModel.mapFromModel(it) }
     }
     
-    override fun exportUserData(password: String, brandingId: String?): Single<String> {
+    override fun exportUserData(password: String, brandingId: Int?): Single<String> {
         return accountRemote
             .exportUserData(password, brandingId)
             .map {
@@ -187,7 +187,7 @@ class InPlayerAccountRepositoryImpl constructor(
             .map { userModelMapper.mapFromModel(it) }
     }
     
-    override fun eraseUser(password: String, brandingId: String?): Single<String> {
+    override fun eraseUser(password: String, brandingId: Int?): Single<String> {
         return accountRemote
             .eraseUser(password, brandingId)
             .doOnSuccess {
@@ -201,7 +201,7 @@ class InPlayerAccountRepositoryImpl constructor(
         newPassword: String,
         newPasswordConfirmation: String,
         oldPassword: String,
-        brandingId: String?
+        brandingId: Int?
     ): Single<String> {
         return accountRemote
             .changePassword(newPassword, newPasswordConfirmation, oldPassword, brandingId)
@@ -212,12 +212,12 @@ class InPlayerAccountRepositoryImpl constructor(
         token: String,
         password: String,
         passwordConfirmation: String,
-        brandingId: String?
+        brandingId: Int?
     ): Completable {
         return accountRemote.setNewPassword(token, password, passwordConfirmation, brandingId)
     }
     
-    override fun requestForgotPassword(merchantUUID: String, email: String, brandingId: String?): Single<String> {
+    override fun requestForgotPassword(merchantUUID: String, email: String, brandingId: Int?): Single<String> {
         return accountRemote.forgotPassword(merchantUUID, email, brandingId)
             .map { it.explain }
     }
@@ -245,7 +245,7 @@ class InPlayerAccountRepositoryImpl constructor(
         return accountRemote.validatePinCode(pinCode)
     }
     
-    override fun sendPinCode(brandingId: String?): Completable {
+    override fun sendPinCode(brandingId: Int?): Completable {
         return accountRemote.sendPinCode(brandingId)
     }
     

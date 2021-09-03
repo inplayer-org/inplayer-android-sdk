@@ -21,5 +21,5 @@ class ChangePasswordUseCase constructor(private val inPlayerSchedulers: InPlayer
         throw IllegalStateException("Params Can't be null for ChangePasswordUseCase")
     }
     
-    data class Params(val newPassword: String, val newPasswordConfirmation: String, val oldPassword: String, val brandingId: String? = null)
+    data class Params(val newPassword: String, val newPasswordConfirmation: String, val oldPassword: String, val brandingId: Int? = null)
 }

@@ -22,6 +22,6 @@ class ExportAccountDataUseCase constructor(private val inPlayerSchedulers: InPla
     }
     
     
-    data class Params(val password: String, val brandingId: String? = null)
+    data class Params(val password: String, val brandingId: Int? = null)
     
 }

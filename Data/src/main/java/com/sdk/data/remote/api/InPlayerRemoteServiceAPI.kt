@@ -40,7 +40,7 @@ interface InPlayerRemoteServiceAPI {
     @HTTP(method = "DELETE", path = "/accounts/erase", hasBody = true)
     fun eraseAccount(
         @Field("password") password: String,
-        @Field("branding_id") brandingId: String? = null
+        @Field("branding_id") brandingId: Int? = null
     ): Single<ResponseModel>
     
     
@@ -50,13 +50,13 @@ interface InPlayerRemoteServiceAPI {
         @Field("password") password: String,
         @Field("password_confirmation") passwordConfirmation: String,
         @Field("old_password") oldPassword: String,
-        @Field("branding_id") brandingId: String? = null
+        @Field("branding_id") brandingId: Int? = null
     ): Single<ResponseModel>
     
     
     @FormUrlEncoded
     @POST("/accounts/export")
-    fun exportAccountData(@Field("password") password: String, @Field("branding_id") brandingId: String? = null): Single<ResponseModel>
+    fun exportAccountData(@Field("password") password: String, @Field("branding_id") brandingId: Int? = null): Single<ResponseModel>
     
     
     @GET("/items/access/customers")
@@ -77,7 +77,7 @@ interface InPlayerRemoteServiceAPI {
     
     @FormUrlEncoded
     @POST("/v2/accounts/pin-codes/send")
-    fun sendPinCode(@Field("branding_id") brandingId: String? = null): Completable
+    fun sendPinCode(@Field("branding_id") brandingId: Int? = null): Completable
     
     
     /**
@@ -117,7 +117,7 @@ interface InPlayerRemoteServiceAPI {
         @Field("receipt") receipt: String,
         @Field("item_id") item_id: Int,
         @Field("access_fee_id") access_fee_id: Int,
-        @Field("branding_id") brandingId: String? = null
+        @Field("branding_id") brandingId: Int? = null
     ): Single<ResponseModel>
     
     @FormUrlEncoded
@@ -125,7 +125,7 @@ interface InPlayerRemoteServiceAPI {
     fun validateByProductName(
         @Field("receipt") receipt: String,
         @Field("product_name") productName: String,
-        @Field("branding_id") brandingId: String? = null
+        @Field("branding_id") brandingId: Int? = null
     ): Single<ResponseModel>
     
     /**

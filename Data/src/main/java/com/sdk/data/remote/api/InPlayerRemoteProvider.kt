@@ -154,24 +154,24 @@ class InPlayerRemoteProvider(
     override fun updateAccount(fullName: String, metadata: HashMap<String, String>?) =
         retrofitAPI.updateAccount(fullName, metadata)
     
-    override fun eraseAccount(password: String, brandingId: String?) = retrofitAPI.eraseAccount(password, brandingId)
+    override fun eraseAccount(password: String, brandingId: Int?) = retrofitAPI.eraseAccount(password, brandingId)
     
     
     override fun changePassword(
         password: String,
         passwordConfirmation: String,
         oldPassword: String,
-        brandingId: String?
+        brandingId: Int?
     ) = retrofitAPI.changePassword(password, passwordConfirmation, oldPassword, brandingId)
     
     
-    override fun exportAccountData(password: String, brandingId: String?) = retrofitAPI.exportAccountData(password, brandingId)
+    override fun exportAccountData(password: String, brandingId: Int?) = retrofitAPI.exportAccountData(password, brandingId)
     
     override fun getSocialUrls(socialUrlState: String) = retrofitAPI.getSocialUrls(socialUrlState)
     
     override fun validatePinCode(pinCode: String) = retrofitAPI.validatePinCode(pinCode)
     
-    override fun sendPinCode(brandingId: String?) = retrofitAPI.sendPinCode(brandingId)
+    override fun sendPinCode(brandingId: Int?) = retrofitAPI.sendPinCode(brandingId)
     
     /**
      * END -> ACCOUNT Endpoint Implementations
@@ -205,13 +205,13 @@ class InPlayerRemoteProvider(
      *  Payments
      */
     
-    override fun validateAndroidReceipt(receipt: String, item_id: Int, access_fee_id: Int, brandingId: String?) =
+    override fun validateAndroidReceipt(receipt: String, item_id: Int, access_fee_id: Int, brandingId: Int?) =
         retrofitAPI.validateAndroidReceipt(receipt, item_id, access_fee_id, brandingId)
     
     override fun validateByProductName(
         receipt: String,
         productName: String,
-        brandingId: String?
+        brandingId: Int?
     ) = retrofitAPI.validateByProductName(receipt, productName, brandingId)
     
     

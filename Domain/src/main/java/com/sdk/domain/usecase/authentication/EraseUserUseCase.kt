@@ -20,6 +20,6 @@ class EraseUserUseCase constructor(private val inPlayerSchedulers: InPlayerSched
     }
     
     
-    data class Params(val password: String, val brandingId: String? = null)
+    data class Params(val password: String, val brandingId: Int? = null)
     
 }

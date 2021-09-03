@@ -12,7 +12,7 @@ class PaymentsRemoteImpl constructor(
         receipt: String,
         itemId: Int,
         accessFeeId: Int,
-        brandingId: String?
+        brandingId: Int?
     ) = inPlayerRemoteServiceAPI.validateAndroidReceipt(
         receipt = receipt,
         item_id = itemId,
@@ -22,7 +22,7 @@ class PaymentsRemoteImpl constructor(
         it.message
     }
 
-    override fun validateByProductName(receipt: String, productName: String, brandingId: String?) =
+    override fun validateByProductName(receipt: String, productName: String, brandingId: Int?) =
         inPlayerRemoteServiceAPI.validateByProductName(receipt, productName, brandingId).map { it.message }
 
     override fun getCustomerAccessList(status: String, page: Int, limit: Int, type: String?) =

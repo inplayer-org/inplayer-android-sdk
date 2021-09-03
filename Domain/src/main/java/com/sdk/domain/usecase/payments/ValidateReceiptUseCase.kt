@@ -31,7 +31,7 @@ class ValidateReceiptUseCase(
             val values = params.productIdentifier.split("_")
             val itemId = values[0].toInt()
             val accessFeeId = values[1].toInt()
-            val brandingId = values[2]
+            val brandingId = values[2].toInt()
             
             return inPlayerPaymentRepository.validateReceipt(
                 receipt = params.receipt,
@@ -56,6 +56,6 @@ class ValidateReceiptUseCase(
     // data class Params(val receipt: String, val productIdentifier:String)
     sealed class Params(val receipt: String) {
         data class ProductId(val _receipt: String, val productIdentifier: String) : Params(_receipt)
-        data class ProductName(val _receipt: String, val productName: String,  val brandingId: String?) : Params(_receipt)
+        data class ProductName(val _receipt: String, val productName: String,  val brandingId: Int?) : Params(_receipt)
     }
 }

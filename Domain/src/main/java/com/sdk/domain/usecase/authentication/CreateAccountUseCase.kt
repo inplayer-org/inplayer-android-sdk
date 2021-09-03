@@ -26,6 +26,6 @@ class CreateAccountUseCase constructor(schedulers: InPlayerSchedulers,
     
     data class Params(val fullName: String, val email: String, val password: String,
                       val passwordConfirmation: String, val accType: AccountType,
-                      val merchantUUID: String, val referrer: String?, val metadata: HashMap<String, String>?, val brandingId: String? = null)
+                      val merchantUUID: String, val referrer: String?, val metadata: HashMap<String, String>?, val brandingId: Int? = null)
     
 }

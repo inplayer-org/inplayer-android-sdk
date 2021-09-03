@@ -59,7 +59,7 @@ class AccountRemoteImpl constructor(
         merchantUUID: String,
         referrer: String?,
         metadata: HashMap<String, String>?,
-        brandingId: String?
+        brandingId: Int?
     ): Single<InPlayerAuthorizationModel> {
         var updatedMetadataMap = hashMapOf<String, String>()
         
@@ -81,10 +81,10 @@ class AccountRemoteImpl constructor(
         )
     }
 
-    override fun setNewPassword(token: String, password: String, passwordConfirmation: String, brandingId: String?) =
+    override fun setNewPassword(token: String, password: String, passwordConfirmation: String, brandingId: Int?) =
         inPlayerRemotePublicServiceAPI.setNewPassword(token, password, passwordConfirmation, brandingId)
 
-    override fun forgotPassword(merchantUUID: String, email: String, brandingId: String?) =
+    override fun forgotPassword(merchantUUID: String, email: String, brandingId: Int?) =
         inPlayerRemotePublicServiceAPI.forgotPassword(merchantUUID, email, brandingId)
 
     override fun getSocialUrls(state: String): Single<ArrayList<HashMap<String, String>>> {
@@ -93,7 +93,7 @@ class AccountRemoteImpl constructor(
         }
     }
     
-    override fun sendPinCode(brandingId: String?): Completable {
+    override fun sendPinCode(brandingId: Int?): Completable {
         return inPlayerRemoteProvider.sendPinCode(brandingId)
     }
     
@@ -119,7 +119,7 @@ class AccountRemoteImpl constructor(
         }
     }
     
-    override fun exportUserData(password: String, brandingId: String?) =
+    override fun exportUserData(password: String, brandingId: Int?) =
         inPlayerRemoteProvider.exportAccountData(password, brandingId)
     
     
@@ -141,12 +141,12 @@ class AccountRemoteImpl constructor(
         newPassword: String,
         newPasswordConfirmation: String,
         oldPassword: String,
-        brandingId: String?
+        brandingId: Int?
     ) = inPlayerRemoteProvider.changePassword(newPassword, newPasswordConfirmation, oldPassword, brandingId)
     
     override fun logOut() = inPlayerRemoteProvider.logout()
     
-    override fun eraseUser(password: String, brandingId: String?) = inPlayerRemoteProvider.eraseAccount(password, brandingId)
+    override fun eraseUser(password: String, brandingId: Int?) = inPlayerRemoteProvider.eraseAccount(password, brandingId)
     
     /**
      * END

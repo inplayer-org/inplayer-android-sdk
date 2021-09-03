@@ -74,7 +74,8 @@ class Account internal constructor(
     /**
      * Registers a new InPlayer account.
      *
-     * @param fullName String Account's first and last name
+     * @param firstName String Account's first and last name
+     * @param lastName String Account's first and last name
      * @param email String Account’s email address
      * @param password String Password containing minimum 8 characters
      * @param passwordConfirmation String The same password with minimum 8 characters
@@ -82,19 +83,22 @@ class Account internal constructor(
      * @param callback InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>
      */
     fun signUp(
-        fullName: String,
+        firstName: String,
+        lastName: String,
         email: String,
         password: String,
         passwordConfirmation: String,
-        brandingId: String? = null,
+        brandingId: Int? = null,
         callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>
     ) {
+        var metadata: HashMap<String, String> = hashMapOf("first_name" to firstName, "surname" to lastName)
+
         signUp(
-            fullName = fullName,
+            fullName = "$firstName $lastName",
             email = email,
             password = password,
             passwordConfirmation = passwordConfirmation,
-            metadata = hashMapOf(),
+            metadata = metadata,
             brandingId = brandingId,
             callback = callback
         )
@@ -118,7 +122,7 @@ class Account internal constructor(
         password: String,
         passwordConfirmation: String,
         metadata: HashMap<String, String>? = hashMapOf(),
-        brandingId: String? = null,
+        brandingId: Int? = null,
         callback: InPlayerCallback<InPlayerAuthorizationModel, InPlayerException>
     ) {
         
@@ -163,7 +167,7 @@ class Account internal constructor(
      * @param password of the current logged user
      * @param brandingId: Optional parameter
      * */
-    fun exportData(password: String, brandingId: String? = null, callback: InPlayerCallback<String, InPlayerException>) {
+    fun exportData(password: String, brandingId: Int? = null, callback: InPlayerCallback<String, InPlayerException>) {
         accountService.exportAccountDataUseCase.execute(ExportAccountDataUseCase.Params(password, brandingId))
             .subscribeOn(appSchedulers.subscribeOn)
             .observeOn(appSchedulers.observeOn)
@@ -278,7 +282,7 @@ class Account internal constructor(
         oldPassword: String,
         newPassword: String,
         newPasswordConfirmation: String,
-        brandingId: String? = null,
+        brandingId: Int? = null,
         callback: InPlayerCallback<String?, InPlayerException>
     ) {
         accountService.changePasswordUseCase.execute(
@@ -333,7 +337,7 @@ class Account internal constructor(
      * @param brandingId: Optional parameter
      * @param callback InPlayerCallback<String?, InPlayerException>
      */
-    fun requestNewPassword(email: String, brandingId: String? = null, callback: InPlayerCallback<String?, InPlayerException>) {
+    fun requestNewPassword(email: String, brandingId: Int? = null, callback: InPlayerCallback<String?, InPlayerException>) {
         accountService.forgotPasswordUseCase.execute(
             ForgotPasswordUseCase.Params(
                 inPlayerSDKConfiguration.merchantUUID,
@@ -357,7 +361,7 @@ class Account internal constructor(
      * @param brandingId: Optional parameter
      * @param callback InPlayerCallback<String?, InPlayerException>
      */
-    fun deleteAccount(password: String, brandingId: String? = null, callback: InPlayerCallback<String?, InPlayerException>) {
+    fun deleteAccount(password: String, brandingId: Int? = null, callback: InPlayerCallback<String?, InPlayerException>) {
         accountService.eraseUserUseCase.execute(EraseUserUseCase.Params(password, brandingId))
             .subscribeOn(appSchedulers.subscribeOn)
             .observeOn(appSchedulers.observeOn)
@@ -381,7 +385,7 @@ class Account internal constructor(
         token: String,
         newPassword: String,
         newPasswordConfirmation: String,
-        brandingId: String? = null,
+        brandingId: Int? = null,
         callback: InPlayerCallback<String?, InPlayerException>
     ) {
         accountService.setNewPasswordUseCase.execute(
@@ -472,16 +476,11 @@ class Account internal constructor(
     /**
      * Creates pin code and sends it to your email
      *
-     * @param brandingID: Optional parameter
+     * @param brandingId: Optional parameter
      * @param callback: InPlayerCallback<String, InPlayerException>
      * */
-    
-    fun sendPinCode(callback: InPlayerCallback<String?, InPlayerException>) {
-        sendPinCode(null, callback)
-    }
-    
     fun sendPinCode(
-        brandingId: String? = null,
+        brandingId: Int? = null,
         callback: InPlayerCallback<String?, InPlayerException>
     ) {
         accountService.pinCodeVerificationUseCase.execute(

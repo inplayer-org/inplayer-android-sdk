@@ -20,5 +20,5 @@ class ForgotPasswordUseCase constructor(appSchedulers: InPlayerSchedulers, priva
         
     }
     
-    data class Params(val merchantUUID: String, val email: String, val brandingId: String? = null)
+    data class Params(val merchantUUID: String, val email: String, val brandingId: Int? = null)
 }

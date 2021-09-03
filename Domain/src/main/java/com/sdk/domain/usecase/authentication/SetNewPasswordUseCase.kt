@@ -20,5 +20,5 @@ class SetNewPasswordUseCase(appSchedulers: InPlayerSchedulers,
         throw IllegalStateException("Params Can't be null for SetNewPasswordUseCase")
     }
     
-    data class Params(val token: String, val password: String, val passwordConfirmation: String, val brandingId: String? = null)
+    data class Params(val token: String, val password: String, val passwordConfirmation: String, val brandingId: Int? = null)
 }

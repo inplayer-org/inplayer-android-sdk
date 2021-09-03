@@ -15,10 +15,10 @@ class InPlayerPaymentsRepositoryImpl constructor(
     override fun validateReceiptByProductName(
         receipt: String,
         productName: String,
-        brandingId: String?
+        brandingId: Int?
     ) = paymentsRemote.validateByProductName(receipt, productName, brandingId)
     
-    override fun validateReceipt(receipt: String, itemId: Int, accessFeeId: Int, brandingId: String?) =
+    override fun validateReceipt(receipt: String, itemId: Int, accessFeeId: Int, brandingId: Int?) =
         paymentsRemote.validateReceipt(receipt, itemId, accessFeeId, brandingId)
     
     override fun getCustomerAccessList(

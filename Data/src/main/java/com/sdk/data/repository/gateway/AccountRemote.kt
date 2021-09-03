@@ -20,7 +20,7 @@ interface AccountRemote {
         merchantUUID: String,
         referrer: String?,
         metadata: HashMap<String, String>?,
-        brandingId: String?
+        brandingId: Int?
     ): Single<InPlayerAuthorizationModel>
     
     fun authenticateUser(
@@ -42,13 +42,13 @@ interface AccountRemote {
         clientId: String
     ): Single<InPlayerAuthorizationModel>
     
-    fun forgotPassword(merchantUUID: String, email: String, brandingId: String? = null): Single<ResponseModel>
+    fun forgotPassword(merchantUUID: String, email: String, brandingId: Int? = null): Single<ResponseModel>
     
     fun setNewPassword(
         token: String,
         password: String,
         passwordConfirmation: String,
-        brandingId: String? = null
+        brandingId: Int? = null
     ): Completable
     
     fun getRegisterFields(merchantUUID: String): Single<List<InPlayerRegisterFieldsModel>>
@@ -57,15 +57,15 @@ interface AccountRemote {
     
     fun accountDetails(): Single<InPlayerAccount>
     
-    fun exportUserData(password: String, brandingId: String?): Single<ResponseModel>
+    fun exportUserData(password: String, brandingId: Int?): Single<ResponseModel>
     
-    fun eraseUser(password: String, brandingId: String? = null): Single<ResponseModel>
+    fun eraseUser(password: String, brandingId: Int? = null): Single<ResponseModel>
     
     fun changePassword(
         newPassword: String,
         newPasswordConfirmation: String,
         oldPassword: String,
-        brandingId: String? = null
+        brandingId: Int? = null
     ): Single<ResponseModel>
     
     fun updateAccount(
@@ -77,5 +77,5 @@ interface AccountRemote {
     
     fun validatePinCode(pinCode: String): Completable
     
-    fun sendPinCode(brandingId: String? = null): Completable
+    fun sendPinCode(brandingId: Int? = null): Completable
 }

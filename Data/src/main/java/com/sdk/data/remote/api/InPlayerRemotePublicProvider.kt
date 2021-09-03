@@ -110,7 +110,7 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
         merchantUUID: String,
         referrer: String?,
         metadata: HashMap<String, String>?,
-        brandingId: String?
+        brandingId: Int?
     ) = retrofitAPI.createAccount(
         fullName,
         email,
@@ -140,10 +140,10 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
         clientId
     )
     
-    override fun setNewPassword(token: String, password: String, passwordConfirmation: String, brandingId: String?) =
+    override fun setNewPassword(token: String, password: String, passwordConfirmation: String, brandingId: Int?) =
         retrofitAPI.setNewPassword(token, password, passwordConfirmation, brandingId)
     
-    override fun forgotPassword(merchantUUID: String, email: String, brandingId: String?) =
+    override fun forgotPassword(merchantUUID: String, email: String, brandingId: Int?) =
         retrofitAPI.forgotPassword(merchantUUID, email, brandingId)
     
     /**
