@@ -20,7 +20,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
 
-        buildConfigField "String", "UUID", "\"7ad8a510-b720-4a18-aa38-0260e5fd1cb2\""
+        buildConfigField "String", "UUID", "\"7e6b395f-894f-4f3d-beec-4873feb3947e\""
 
         // Enabling multidex support.
         multiDexEnabled true
@@ -50,8 +50,8 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
 
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'com.google.android.material:material:1.4.0'
     testImplementation 'junit:junit:4.13'
 }

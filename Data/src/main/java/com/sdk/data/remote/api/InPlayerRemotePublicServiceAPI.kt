@@ -24,7 +24,8 @@ interface InPlayerRemotePublicServiceAPI {
         @Field("grant_type") grantType: String,
         @Field("client_id") merchantUUID: String,
         @Field("referrer") referrer: String?,
-        @FieldMap metadata: HashMap<String, String>?
+        @FieldMap metadata: HashMap<String, String>?,
+        @Field("branding_id") brandingId: Int? = null
     ): Single<InPlayerAuthorizationModel>
     
     
@@ -44,7 +45,8 @@ interface InPlayerRemotePublicServiceAPI {
     @POST("/accounts/forgot-password")
     fun forgotPassword(
         @Field("merchant_uuid") merchantUUID: String,
-        @Field("email") email: String
+        @Field("email") email: String,
+        @Field("branding_id") brandingId: Int? = null
     ): Single<ResponseModel>
     
     
@@ -53,7 +55,8 @@ interface InPlayerRemotePublicServiceAPI {
     fun setNewPassword(
         @Path("token") token: String,
         @Field("password") password: String,
-        @Field("password_confirmation") passwordConfirmation: String
+        @Field("password_confirmation") passwordConfirmation: String,
+        @Field("branding_id") brandingId: Int? = null
     ): Completable
     
     @GET("/items/{merchant_uuid}/{id}")

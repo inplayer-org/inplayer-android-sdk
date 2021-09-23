@@ -32,7 +32,9 @@ class ApiTestingActivity : AppCompatActivity() {
         }
         
         sign_up.setOnClickListener {
-            signUp()
+//            sendPinCode()
+//            signUp()
+            exportData()
         }
         
         account_details.setOnClickListener {
@@ -48,7 +50,7 @@ class ApiTestingActivity : AppCompatActivity() {
         }
         
         forgot_password.setOnClickListener {
-            forgotPassword("victorpetrovski93+test94@gmail.com")
+            forgotPassword("frosina+sdk11111@inplayer.com", 663)
         }
         
         update.setOnClickListener {
@@ -57,7 +59,7 @@ class ApiTestingActivity : AppCompatActivity() {
         
         set_new_password.setOnClickListener {
             val password = "newpassword12345678"
-            setNewPassword("94c2cd8235e3c3a9", password, password)
+            setNewPassword("e066f10e9192127a", password, password)
         }
         
         get_access.setOnClickListener {
@@ -107,8 +109,35 @@ class ApiTestingActivity : AppCompatActivity() {
         btn_payment.setOnClickListener {
             getPaymentCall()
         }
+
+        btn_validate.setOnClickListener {
+            InPlayer.Payment.validate("active", "",
+                InPlayerCallback { _, error ->
+                    if (error == null) {
+                        //SUCCESS - Handle Payment Receipt
+                        Log.v("Validates Call", "--- Success In App purchase from Google Play --")
+                    } else {
+                        //Handle Error
+                        Log.v("Validates Call", "---Error--> $error")
+                    }
+                })
+        }
     }
-    
+
+    private fun exportData() {
+
+        InPlayer.Account.exportData("newpassword12345678", 663,
+            InPlayerCallback { _, error ->
+                if (error == null) {
+                    //SUCCESS - Handle InPlayerUser
+                    Log.v("Payment Call", "---Success--")
+                } else {
+                    //Handle Error
+                    Log.v("Payment Call", "---Error--> $error")
+                }
+            })
+    }
+
     private fun getPaymentCall() {
         InPlayer.Payment.getPurchaseHistory("active", 0, 10, null,
             InPlayerCallback { merchantSubscriptionRecords, error ->
@@ -124,8 +153,8 @@ class ApiTestingActivity : AppCompatActivity() {
     
     private fun logInuser() {
         InPlayer.Account.authenticate(
-            "matej+jssdk@inplayer.com",
-            "matej123456",
+            "frosina+sdk11111@inplayer.com",
+            "newpassword12345678",
             InPlayerCallback { inPlayerUser, error ->
                 if (error == null) {
                     //SUCCESS - Handle InPlayerUser
@@ -166,10 +195,15 @@ class ApiTestingActivity : AppCompatActivity() {
     }
     
     private fun signUp() {
-        InPlayer.Account.signUp("Viktor Petrovski",
-            "victorpetrovski93+test995419@gmail.com",
+        InPlayer.Account.signUp(
+            "FrosinaT5",
+            "Test105",
+            "frosina+sdk11111@inplayer.com",
             "androidsdk123",
-            "androidsdk123", InPlayerCallback { inPlayerUser, error ->
+            "androidsdk123",
+            663,
+
+            InPlayerCallback { inPlayerUser, error ->
                 if (error == null) {
                     Log.v("signUp", "User created $inPlayerUser")
                 } else {
@@ -177,6 +211,19 @@ class ApiTestingActivity : AppCompatActivity() {
                 }
             })
     }
+
+    private fun sendPinCode() {
+        InPlayer.Account.sendPinCode(663) { data, error ->
+            if (error == null) {
+                Log.v(
+                    "sendPinCode", "PinCodeVerification $data"
+                )
+            } else {
+                //error.printStackTrace()
+            }
+        }
+    }
+
     
     private fun accountDetails() {
         InPlayer.Account.getAccount(InPlayerCallback { inPlayerUser, error ->
@@ -192,22 +239,23 @@ class ApiTestingActivity : AppCompatActivity() {
     
     private fun eraseUser() {
         InPlayer.Account.deleteAccount(
-            "androidsdk123",
+            "test1234",
+            663,
             InPlayerCallback { sucessMessage, error -> })
     }
     
     private fun changePassword() {
-        InPlayer.Account.changePassword("newpassword12345", "newpassword12345", "newpassword123",
+        InPlayer.Account.changePassword("androidsdk123", "test1234", "test1234", 663,
             InPlayerCallback { sucessMessage, error ->
                 
             })
     }
     
-    private fun forgotPassword(email: String) {
-        InPlayer.Account.requestNewPassword(email, InPlayerCallback { sucessMessage, error ->
+    private fun forgotPassword(email: String, brandingId: Int? = null) {
+        InPlayer.Account.requestNewPassword(email, brandingId, InPlayerCallback { sucessMessage, error ->
             if (error == null) {
                 //Handle InPlayerUser
-                Log.v("requestNewPassword", sucessMessage)
+                Log.v("requestNewPassword", sucessMessage.toString())
             } else {
                 //Handle Error
                 //  error.printStackTrace()
@@ -238,6 +286,7 @@ class ApiTestingActivity : AppCompatActivity() {
             token,
             newPassword,
             newPasswordConfirmation,
+            663,
             InPlayerCallback { message, error ->
                 if (error == null) {
                     Log.v("setNewPassword", "User setNewPassword: $message")

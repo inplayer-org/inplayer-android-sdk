@@ -22,6 +22,6 @@ class PinCodeVerificationUseCase(
     
     sealed class PinCodeInput{
         data class ValidatePinCode(val pinCode: String): PinCodeInput()
-        data class SendPinCode(val brandingId: String? = null): PinCodeInput()
+        data class SendPinCode(val brandingId: Int? = null): PinCodeInput()
     }
 }

@@ -36,7 +36,8 @@ class InPlayerAccountRepositoryImpl constructor(
         type: String,
         merchantUUID: String,
         referrer: String?,
-        metadata: HashMap<String, String>?
+        metadata: HashMap<String, String>?,
+        brandingId: Int?
     ): Single<AuthorizationHolder> {
         return accountRemote
             .createAccount(
@@ -47,7 +48,8 @@ class InPlayerAccountRepositoryImpl constructor(
                 type,
                 merchantUUID,
                 referrer,
-                metadata
+                metadata,
+                brandingId
             )
             .doOnSuccess {
                 updateLocalTokens(it)
@@ -70,9 +72,9 @@ class InPlayerAccountRepositoryImpl constructor(
             .map { mapAuthorizationModel.mapFromModel(it) }
     }
     
-    override fun exportUserData(password: String): Single<String> {
+    override fun exportUserData(password: String, brandingId: Int?): Single<String> {
         return accountRemote
-            .exportUserData(password)
+            .exportUserData(password, brandingId)
             .map {
                 it.message
             }
@@ -185,9 +187,9 @@ class InPlayerAccountRepositoryImpl constructor(
             .map { userModelMapper.mapFromModel(it) }
     }
     
-    override fun eraseUser(password: String): Single<String> {
+    override fun eraseUser(password: String, brandingId: Int?): Single<String> {
         return accountRemote
-            .eraseUser(password)
+            .eraseUser(password, brandingId)
             .doOnSuccess {
                 cleanLocalPrefs()
             }.map {
@@ -198,23 +200,25 @@ class InPlayerAccountRepositoryImpl constructor(
     override fun changePassword(
         newPassword: String,
         newPasswordConfirmation: String,
-        oldPassword: String
+        oldPassword: String,
+        brandingId: Int?
     ): Single<String> {
         return accountRemote
-            .changePassword(newPassword, newPasswordConfirmation, oldPassword)
+            .changePassword(newPassword, newPasswordConfirmation, oldPassword, brandingId)
             .map { it.explain }
     }
     
     override fun setNewPassword(
         token: String,
         password: String,
-        passwordConfirmation: String
+        passwordConfirmation: String,
+        brandingId: Int?
     ): Completable {
-        return accountRemote.setNewPassword(token, password, passwordConfirmation)
+        return accountRemote.setNewPassword(token, password, passwordConfirmation, brandingId)
     }
     
-    override fun requestForgotPassword(merchantUUID: String, email: String): Single<String> {
-        return accountRemote.forgotPassword(merchantUUID, email)
+    override fun requestForgotPassword(merchantUUID: String, email: String, brandingId: Int?): Single<String> {
+        return accountRemote.forgotPassword(merchantUUID, email, brandingId)
             .map { it.explain }
     }
     
@@ -241,7 +245,7 @@ class InPlayerAccountRepositoryImpl constructor(
         return accountRemote.validatePinCode(pinCode)
     }
     
-    override fun sendPinCode(brandingId: String?): Completable {
+    override fun sendPinCode(brandingId: Int?): Completable {
         return accountRemote.sendPinCode(brandingId)
     }
     

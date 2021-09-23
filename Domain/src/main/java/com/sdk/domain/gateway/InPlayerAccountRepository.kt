@@ -18,7 +18,8 @@ interface InPlayerAccountRepository {
         type: String,
         merchantUUID: String,
         referrer: String?,
-        metadata: HashMap<String, String>?
+        metadata: HashMap<String, String>?,
+        brandingId: Int? = null
     ): Single<AuthorizationHolder>
     
     fun authenticate(
@@ -57,23 +58,25 @@ interface InPlayerAccountRepository {
         metadata: HashMap<String, String>? = null
     ): Single<InPlayerDomainUser>
     
-    fun eraseUser(password: String): Single<String>
+    fun eraseUser(password: String, brandingId: Int? = null): Single<String>
     
-    fun exportUserData(password: String): Single<String>
+    fun exportUserData(password: String, brandingId: Int? = null): Single<String>
     
     fun changePassword(
         newPassword: String,
         newPasswordConfirmation: String,
-        oldPassword: String
+        oldPassword: String,
+        brandingId: Int? = null
     ): Single<String>
     
     fun setNewPassword(
         token: String,
         password: String,
-        passwordConfirmation: String
+        passwordConfirmation: String,
+        brandingId: Int? = null
     ): Completable
     
-    fun requestForgotPassword(merchantUUID: String, email: String): Single<String>
+    fun requestForgotPassword(merchantUUID: String, email: String, brandingId: Int? = null): Single<String>
     
     fun getUserCredentials(): CredentialsEntity
     
@@ -90,5 +93,5 @@ interface InPlayerAccountRepository {
     
     fun validatePinCode(pinCode: String): Completable
     
-    fun sendPinCode(brandingId: String? = null): Completable
+    fun sendPinCode(brandingId: Int? = null): Completable
 }
