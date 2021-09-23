@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.github.dcendents.android-maven'
 group = 'com.github.inplayer-org.inplayer-android-sdk'
 
 android {
@@ -11,8 +10,6 @@ android {
     defaultConfig {
         minSdkVersion rootProject.androidMinSdkVersion
         targetSdkVersion rootProject.androidTargetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
 
 
         buildConfigField "String", "AWS_CREDENTIALS_URL_PROD", "\"https://eynmuj2g26.execute-api.eu-west-1.amazonaws.com/prod/iot/keys\""

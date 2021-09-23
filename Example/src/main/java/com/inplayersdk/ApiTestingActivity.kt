@@ -153,8 +153,8 @@ class ApiTestingActivity : AppCompatActivity() {
     
     private fun logInuser() {
         InPlayer.Account.authenticate(
-            "frosina+sdk11111@inplayer.com",
-            "newpassword12345678",
+            "matej@inplayer.com",
+            "matej123456",
             InPlayerCallback { inPlayerUser, error ->
                 if (error == null) {
                     //SUCCESS - Handle InPlayerUser
