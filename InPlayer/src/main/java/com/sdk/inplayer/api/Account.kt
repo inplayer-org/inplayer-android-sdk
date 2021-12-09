@@ -316,7 +316,7 @@ class Account internal constructor(
         accountService.authenticatedUseCase.execute(
             AuthenticateUserUseCase.Params(
                 refreshToken = refreshToken,
-                grantType = GrantType.REFRESH_TOKEN,
+                grantType = GrantType.refresh_token,
                 clientId = inPlayerSDKConfiguration.merchantUUID
             )
         )
