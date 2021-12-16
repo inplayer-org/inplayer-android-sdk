@@ -209,6 +209,15 @@
         app:layout_constraintEnd_toEndOf="@+id/btn_payment"
         app:layout_constraintStart_toStartOf="@+id/btn_payment"
         app:layout_constraintTop_toBottomOf="@+id/btn_payment" />
+    <Button
+        android:id="@+id/btn_validate_product_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Validate Product Name"
+        app:layout_constraintEnd_toEndOf="@+id/btn_payment"
+        app:layout_constraintStart_toStartOf="@+id/btn_payment"
+        app:layout_constraintTop_toBottomOf="@+id/btn_validate" />
 
     <Button
         android:id="@+id/btn_subscriptions_subscription"
@@ -221,6 +230,20 @@
         app:layout_constraintEnd_toEndOf="@+id/forgot_password"
         app:layout_constraintStart_toStartOf="@+id/forgot_password"
         app:layout_constraintTop_toBottomOf="@+id/isAuthenticated"
+
+        />
+
+    <Button
+        android:id="@+id/btn_refresh_token"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Get Refresh Token"
+        app:layout_constraintEnd_toEndOf="@+id/btn_subscriptions_subscription"
+        app:layout_constraintStart_toStartOf="@+id/btn_subscriptions_subscription"
+        app:layout_constraintTop_toBottomOf="@+id/btn_subscriptions_subscription"
 
         />
 

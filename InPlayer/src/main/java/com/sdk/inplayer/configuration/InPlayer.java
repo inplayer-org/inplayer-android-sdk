@@ -150,7 +150,7 @@ public class InPlayer {
             private String referrer;
             private String merchantUUID;
             private Context context;
-            private EnvironmentType environmentType = EnvironmentType.PRODUCTION;
+            private EnvironmentType environmentType = EnvironmentType.STAGING;
 
             /**
              * Initialize a bulider with a given context.
