@@ -4,7 +4,7 @@ ext {
     androidMinSdkVersion = 18
     androidTargetSdkVersion = 30
     androidCompileSdkVersion = 31
-    kotlinVersion = '1.4.10'
+    kotlinVersion = '1.6.10'
 
     versionMajor = 0
     versionMinor = 0

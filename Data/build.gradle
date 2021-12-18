@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 //apply plugin: 'com.github.dcendents.android-maven'
@@ -53,6 +54,20 @@ dependencies {
     implementation network.retrofitConverter
     implementation network.retrofitAdapter
 
+}
+afterEvaluate {
+    publishing {
+        publications {
+
+            release(MavenPublication) {
+
+                from components.release
+
+//                groupId 'com.sdk.inplayer'
+//                version '1.0.0.1'
+            }
+        }
+    }
 }
 repositories {
     mavenCentral()
