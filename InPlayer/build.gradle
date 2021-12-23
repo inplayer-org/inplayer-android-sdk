@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka'
 //apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'maven-publish'
 group = 'com.github.inplayer-org.inplayer-android-sdk'
 
 android {
@@ -28,8 +27,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_11
-        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
 
     //Generate documentation ./gradlew dokka
@@ -61,20 +60,6 @@ android {
     }
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-
-            release(MavenPublication) {
-
-                from components.release
-                artifactId 'InPlayer'
-                groupId 'com.sdk.inplayer'
-//                version '1.0.0.1'
-            }
-        }
-    }
-}
 dependencies {
 
     def inPlayerSDK = rootProject.ext.inPlayerSDKDependencies
