@@ -61,20 +61,6 @@ android {
     }
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-
-            release(MavenPublication) {
-
-                from components.release
-
-//                groupId 'com.sdk.inplayer'
-//                version '1.0.0.1'
-            }
-        }
-    }
-}
 dependencies {
 
     def inPlayerSDK = rootProject.ext.inPlayerSDKDependencies
