@@ -55,20 +55,6 @@ dependencies {
     implementation network.retrofitAdapter
 
 }
-afterEvaluate {
-    publishing {
-        publications {
-
-            release(MavenPublication) {
-
-                from components.release
-                artifactId 'InPlayer'
-                groupId 'com.sdk.inplayer'
-//                version '1.0.0.1'
-            }
-        }
-    }
-}
 repositories {
     mavenCentral()
 }
