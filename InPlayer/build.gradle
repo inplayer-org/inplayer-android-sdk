@@ -71,8 +71,8 @@ afterEvaluate {
             release(MavenPublication) {
 
                 from components.release
-//                artifactId 'InPlayer'
-//                groupId 'com.sdk.inplayer'
+                artifactId 'InPlayer'
+                groupId 'com.sdk.inplayer'
 //                version '1.0.0.1'
             }
         }
