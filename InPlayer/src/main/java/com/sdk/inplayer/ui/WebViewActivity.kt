@@ -8,11 +8,12 @@ import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.content_web_view.*
+import com.sdk.inplayer.databinding.ContentWebViewBinding
 
 
 class WebViewActivity : AppCompatActivity() {
-    
+    private lateinit var binding: ContentWebViewBinding
+
     private val TAG = "WebViewActivity"
     
     var MyUA =
@@ -37,18 +38,19 @@ class WebViewActivity : AppCompatActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.sdk.inplayer.R.layout.content_web_view)
+        binding = ContentWebViewBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         
         if (!intent.hasExtra(WebViewUrl))
             throw RuntimeException("WebViewActivity must contain WebViewActivity.URL bundle key")
         
         val url = intent.getStringExtra(WebViewUrl)
         
-        web_view.settings.userAgentString = USER_AGENT
-        web_view.settings.javaScriptEnabled = true
-        web_view.webViewClient = SocialWebViewClient()
+        binding.webView.settings.userAgentString = USER_AGENT
+        binding.webView.settings.javaScriptEnabled = true
+        binding.webView.webViewClient = SocialWebViewClient()
         if (url != null) {
-            web_view.loadUrl(url)
+            binding.webView.loadUrl(url)
         }
     }
     

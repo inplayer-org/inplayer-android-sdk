@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <string name="app_name">InPlayer</string>
+    <string name="check_mail_for_code">Please check your email for your pin code.</string>
+    <string name="pin_code_is_valid">The pin code is valid</string>
+    <string name="title_activity_web_view">WebViewActivity</string>
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+</resources>

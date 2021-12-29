@@ -5,6 +5,7 @@ import android.preference.PreferenceManager
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.inplayersdk.databinding.ActivityMain2Binding
 import com.sdk.inplayer.callback.InPlayerCallback
 import com.sdk.inplayer.callback.InPlayerNotificationCallback
 import com.sdk.inplayer.configuration.InPlayer
@@ -12,82 +13,82 @@ import com.sdk.inplayer.model.account.RegisterFieldType
 import com.sdk.inplayer.model.error.InPlayerException
 import com.sdk.inplayer.model.notification.InPlayerNotification
 import com.sdk.inplayer.model.notification.InPlayerNotificationStatus
-import kotlinx.android.synthetic.main.activity_main2.*
-import kotlinx.android.synthetic.main.content_main2.*
 
 class ApiTestingActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMain2Binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main2)
-        setSupportActionBar(toolbar)
+        binding = ActivityMain2Binding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
 
-        login.setOnClickListener {
+        binding.contentMain.login.setOnClickListener {
             logInuser()
         }
 
-        logout.setOnClickListener {
+        binding.contentMain.logout.setOnClickListener {
             PreferenceManager.getDefaultSharedPreferences(this).edit()
                 .putLong("TokenExpiresAt", 1516063572).apply()
         }
 
-        sign_up.setOnClickListener {
+        binding.contentMain.signUp.setOnClickListener {
 //            sendPinCode()
 //            signUp()
             exportData()
         }
 
-        account_details.setOnClickListener {
+        binding.contentMain.accountDetails.setOnClickListener {
             accountDetails()
         }
 
-        erase.setOnClickListener {
+        binding.contentMain.erase.setOnClickListener {
             eraseUser()
         }
 
-        changePassword.setOnClickListener {
+        binding.contentMain.changePassword.setOnClickListener {
             changePassword()
         }
 
-        forgot_password.setOnClickListener {
+        binding.contentMain.forgotPassword.setOnClickListener {
             forgotPassword("frosina+sdk11111@inplayer.com", 663)
         }
 
-        update.setOnClickListener {
+        binding.contentMain.update.setOnClickListener {
             updateUser("HIKTORRRR")
         }
 
-        set_new_password.setOnClickListener {
+        binding.contentMain.setNewPassword.setOnClickListener {
             val password = "newpassword12345678"
             setNewPassword("e066f10e9192127a", password, password)
         }
 
-        get_access.setOnClickListener {
+        binding.contentMain.getAccess.setOnClickListener {
             getAccess()
         }
 
-        get_access_fee.setOnClickListener {
+        binding.contentMain.getAccessFee.setOnClickListener {
             getAccessFees()
         }
 
-        get_item.setOnClickListener {
+        binding.contentMain.getItem.setOnClickListener {
             getItem()
         }
 
-        get_access_fee_v2.setOnClickListener {
+        binding.contentMain.getAccessFeeV2.setOnClickListener {
             initNotification()
         }
 
-        publish.setOnClickListener {
+        binding.contentMain.publish.setOnClickListener {
             InPlayer.Account.getAccountInfo()
         }
 
-        btn_subscriptions.setOnClickListener {
+        binding.contentMain.btnSubscriptions.setOnClickListener {
             getSubscriptions()
         }
 
-        btn_refresh_token.setOnClickListener {
+        binding.contentMain.btnRefreshToken.setOnClickListener {
             InPlayer.Account.refreshToken(
                 "def502001db88c34f019e16044833a8898158cf59f520b80bbf81a43fa8fa1b2f7c83dcb0de90d59d0058a143fc1043d956e204558703cf8ca022e45c19f7f51e00c77d98a75d19be8c335c9fd40e176feb021b0e923a5216157d74b6f1c3a869cc7b695929dd5945d188e0b73d1b5329870e3b2d7c50011d7f0fcaa8ae81f9df48039a78188c3bd6acadbab9025a53e4d9fb18b3e3808f63a37c4b42cfd581b383b87852261e7fdf79b2697361b28adaeaf8bea34f0ef11b72c1d36f894c2368f0fedae1f69ceaa2484af39d6c6e17b021c4627104ee930e7c92989937b57142b67106f4b74be0d1f7a0e15c8785a272aa34307f7a95b922a87e88859cf8b011f4074fccf988f1de0110e239f657a5f8a5a3c490dc052f40b186da17017a96fec2670a21d887ce91165ed04c3aaad51a508843d58c70463e6c2b58f3919581eef9909b8013715d59fdf67c10b358681e45ac01ad855537a4a966c22a9b418e1ccc6107768b97dbddfb3427b18e3205111caf53eac530601141254f67bf245f9c3a15ba9010e0425c1f5e942b0a49e76e8d71511a79b7b9fb2e233075173daa0585be7bce89921601e"
             ) { _, error ->
@@ -101,11 +102,11 @@ class ApiTestingActivity : AppCompatActivity() {
             }
         }
 
-        btn_subscriptions_subscription.setOnClickListener {
+        binding.contentMain.btnSubscriptionsSubscription.setOnClickListener {
             getSubscriptionsFromSubscription()
         }
 
-        isAuthenticated.setOnClickListener {
+        binding.contentMain.isAuthenticated.setOnClickListener {
             Toast.makeText(
                 this,
                 "Is Authenticated is ${InPlayer.Account.isAuthenticated()}",
@@ -113,7 +114,7 @@ class ApiTestingActivity : AppCompatActivity() {
             ).show()
         }
 
-        get_access_fee_v2.setOnClickListener {
+        binding.contentMain.getAccessFeeV2.setOnClickListener {
             InPlayer.Assets.getAssetAccessFeesV2(58458, 1255, InPlayerCallback { accessFee, error ->
                 if (error == null) {
                     Log.v(
@@ -128,11 +129,11 @@ class ApiTestingActivity : AppCompatActivity() {
             })
         }
 
-        btn_payment.setOnClickListener {
+        binding.contentMain.btnPayment.setOnClickListener {
             getPaymentCall()
         }
 
-        btn_validate.setOnClickListener {
+        binding.contentMain.btnValidate.setOnClickListener {
             InPlayer.Payment.validate("active", "",
                 InPlayerCallback { _, error ->
                     if (error == null) {
@@ -145,7 +146,7 @@ class ApiTestingActivity : AppCompatActivity() {
                 })
         }
 
-        btn_validate_product_name.setOnClickListener {
+        binding.contentMain.btnValidateProductName.setOnClickListener {
             getValidateByProductNameCall()
         }
     }

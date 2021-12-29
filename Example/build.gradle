@@ -2,13 +2,15 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
 
 //apply plugin: 'com.github.dcendents.android-maven'
 //group='https://github.com/inplayer-org/inplayer-android-sdk'
 
 android {
-
+    buildFeatures {
+        viewBinding true
+    }
 
     compileSdkVersion rootProject.androidCompileSdkVersion
     defaultConfig {
@@ -43,6 +45,7 @@ dependencies {
 
     implementation project(':InPlayer')
 
+//    implementation 'com.github.inplayer-org:inplayer-android-sdk:2.0.16.2'
     def inPlayerSDK = rootProject.ext.inPlayerSDKDependencies
 
     implementation inPlayerSDK.dependencyInjection

@@ -1,11 +1,15 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka'
+apply plugin: 'maven-publish'
 //apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
 group = 'com.github.inplayer-org.inplayer-android-sdk'
 
 android {
+    buildFeatures {
+        viewBinding true
+    }
     compileSdkVersion rootProject.androidCompileSdkVersion
     defaultConfig {
         minSdkVersion rootProject.androidMinSdkVersion
@@ -60,6 +64,20 @@ android {
     }
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+
+            release(MavenPublication) {
+
+                from components.release
+//                artifactId 'InPlayer'
+//                groupId 'com.sdk.inplayer'
+//                version '1.0.0.1'
+            }
+        }
+    }
+}
 dependencies {
 
     def inPlayerSDK = rootProject.ext.inPlayerSDKDependencies

@@ -6,11 +6,11 @@ buildscript {
     ext.dokka_version = '0.9.18'
     repositories {
         google()
+        mavenCentral()
         jcenter()
-
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.1'
+        classpath 'com.android.tools.build:gradle:7.0.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokka_version}"
 //        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
@@ -27,6 +27,7 @@ apply from: 'dependencies.gradle'
 allprojects {
     repositories {
         google()
+        mavenCentral()
         jcenter()
         maven { url 'https://jitpack.io' }
     }

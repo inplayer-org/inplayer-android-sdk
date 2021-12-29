@@ -1,4 +1,4 @@
 jdk:
   - openjdk11
-#install:
-#  - ./gradlew build :InPlayer:publishToMavenLocal
+install:
+  - ./gradlew build :InPlayer:publishToMavenLocal
