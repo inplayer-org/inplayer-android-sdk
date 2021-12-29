@@ -26,10 +26,10 @@ apply from: 'dependencies.gradle'
 
 allprojects {
     repositories {
-        google()
         mavenCentral()
         jcenter()
         maven { url 'https://jitpack.io' }
+        google()
     }
 }
 
