@@ -2,8 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'maven-publish'
-//apply plugin: 'com.github.dcendents.android-maven'
-//apply plugin: 'kotlin-android-extensions'
 group = 'com.github.inplayer-org.inplayer-android-sdk'
 
 android {
@@ -65,10 +63,6 @@ android {
             }
         }
     }
-}
-task androidSourcesJar(type: Jar) {
-    classifier 'sources'
-    from android.sourceSets.main.java.srcDirs
 }
 
 // Because the components are created only during the afterEvaluate phase, you must
