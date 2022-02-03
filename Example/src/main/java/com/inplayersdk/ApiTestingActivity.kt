@@ -185,7 +185,7 @@ class ApiTestingActivity : AppCompatActivity() {
 
         InPlayer.Payment.validateByProductName(
             purchaseObject,
-            "105982_24307   ",
+            "105982_24307",
             838,
             InPlayerCallback { validate, error ->
                 if (error == null) {
@@ -200,8 +200,8 @@ class ApiTestingActivity : AppCompatActivity() {
 
     private fun logInuser() {
         InPlayer.Account.authenticate(
-            "matej@inplayer.com",
-            "matej123456",
+            "android-elena@mail.com",
+            "test1234",
             InPlayerCallback { inPlayerUser, error ->
                 if (error == null) {
                     //SUCCESS - Handle InPlayerUser
@@ -390,11 +390,21 @@ class ApiTestingActivity : AppCompatActivity() {
 
         InPlayer.Notification.subscribe(object : InPlayerNotificationCallback {
 
-            override fun onStatusChanged(status: InPlayerNotificationStatus) {}
+            override fun onStatusChanged(status: InPlayerNotificationStatus) {
+                Log.i("Notif.StatusChange", "Status --> $status")
 
-            override fun onMessageReceived(message: InPlayerNotification) {}
+            }
 
-            override fun onError(t: InPlayerException) {}
+            override fun onMessageReceived(message: InPlayerNotification) {
+                Log.d("Notif", "------------------------------------------")
+                Log.d("Notif.MessageReceived", "Message --> $message")
+
+            }
+
+            override fun onError(t: InPlayerException) {
+                Log.w("Notif.Error", "Exception --> ${t.e.printStackTrace()}")
+
+            }
         })
     }
 

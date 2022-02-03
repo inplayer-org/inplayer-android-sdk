@@ -20,7 +20,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
 
-        buildConfigField "String", "UUID", "\"7e6b395f-894f-4f3d-beec-4873feb3947e\""
+        buildConfigField "String", "UUID", "\"ab0594ee-f499-4b64-b966-bd52ac76a898\""
 
         // Enabling multidex support.
         multiDexEnabled true

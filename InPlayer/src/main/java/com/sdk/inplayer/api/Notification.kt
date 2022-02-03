@@ -1,5 +1,6 @@
 package com.sdk.inplayer.api
 
+import android.util.Log
 import com.sdk.inplayer.callback.InPlayerNotificationCallback
 import com.sdk.inplayer.mapper.ThrowableToInPlayerExceptionMapper
 import com.sdk.inplayer.mapper.notification.NotificationMapper
@@ -7,6 +8,7 @@ import com.sdk.inplayer.model.notification.InPlayerNotificationStatus
 import com.sdk.notification.AWSNotificationCallback
 import com.sdk.notification.AWSNotificationManager
 import com.sdk.notification.model.notification.InPlayerNotificationEntity
+import java.util.*
 
 
 class Notification internal constructor(private val notificationManager: AWSNotificationManager,
@@ -21,11 +23,15 @@ class Notification internal constructor(private val notificationManager: AWSNoti
         notificationManager.subscribe(object : AWSNotificationCallback {
             
             override fun onMessageReceived(message: InPlayerNotificationEntity) {
+                Log.i("Notif.onMSGReceived 1", "InPlayerNotificationEntity --> $message")
                 callback.onMessageReceived(notificationMapper.mapFromDomain(message))
             }
             
             override fun onStatusChanged(status: String) {
-                callback.onStatusChanged(InPlayerNotificationStatus.valueOf(status.toLowerCase().capitalize()))
+                callback.onStatusChanged(InPlayerNotificationStatus.valueOf(
+                    status.lowercase(Locale.getDefault())
+                        .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() })
+                )
             }
             
             override fun onError(t: Throwable) {

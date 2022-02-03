@@ -35,7 +35,7 @@ internal class AccessGrantedNotificationMapper : DomainMapper<InPlayerAccessGran
                 id = notifItem.id, item_type = mapItemType(notifItem.item_type),
                 merchant_id = notifItem.merchant_id,
                 merchant_uuid = notifItem.merchant_uuid,
-                metadata = mapMetaData(notifItem.metadata),
+                metahash = mapMetaData(notifItem.metahash),
                 title = notifItem.title,
                 updated_at = notifItem.updated_at)
     }

@@ -25,7 +25,7 @@ data class InPlayerAccessGrantedNotificationResource(
             val item_type: ItemType,
             val merchant_id: Int,
             val merchant_uuid: String,
-            val metadata: Metadata,
+            val metahash: Metadata,
             val title: String,
             val updated_at: Int
     ) {
