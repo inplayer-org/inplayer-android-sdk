@@ -6,18 +6,19 @@ import com.sdk.inplayer.model.notification.InPlayerAccessGrantedNotificationReso
 import com.sdk.notification.model.notification.InPlayerAccessGrantedNotificationEntity
 
 
-internal class AccessGrantedNotificationMapper : DomainMapper<InPlayerAccessGrantedNotificationEntity,com.sdk.inplayer.model.notification.InPlayerAccessGrantedNotification> {
+internal class AccessGrantedNotificationMapper : DomainMapper<InPlayerAccessGrantedNotificationEntity, InPlayerAccessGrantedNotification> {
  
-    override fun mapFromDomain(notificationEntity: InPlayerAccessGrantedNotificationEntity): com.sdk.inplayer.model.notification.InPlayerAccessGrantedNotification {
-        return com.sdk.inplayer.model.notification.InPlayerAccessGrantedNotification(mapResource(notifResource = notificationEntity.resource), notificationEntity.type, notificationEntity.timestamp)
+    override fun mapFromDomain(notificationEntity: InPlayerAccessGrantedNotificationEntity): InPlayerAccessGrantedNotification {
+        return InPlayerAccessGrantedNotification(mapResource(notifResource = notificationEntity.resource), notificationEntity.type, notificationEntity.timestamp)
     }
 
     override fun mapToDomain(viewModel: com.sdk.inplayer.model.notification.InPlayerAccessGrantedNotification): InPlayerAccessGrantedNotificationEntity {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
     
-    private fun mapResource(notifResource: com.sdk.notification.model.notification.InPlayerAccessGrantedNotificationResource): com.sdk.inplayer.model.notification.InPlayerAccessGrantedNotificationResource {
-        return com.sdk.inplayer.model.notification.InPlayerAccessGrantedNotificationResource(account_id = notifResource.account_id,
+    private fun mapResource(notifResource: com.sdk.notification.model.notification.InPlayerAccessGrantedNotificationResource):  InPlayerAccessGrantedNotificationResource {
+        return InPlayerAccessGrantedNotificationResource(
+                account_id = notifResource.account_id,
                 country_code = notifResource.country_code,
                 created_at = notifResource.created_at,
                 customer_id = notifResource.customer_id,
@@ -30,9 +31,10 @@ internal class AccessGrantedNotificationMapper : DomainMapper<InPlayerAccessGran
     
     private fun mapItem(notifItem: com.sdk.notification.model.notification.InPlayerAccessGrantedNotificationResource.Item): InPlayerAccessGrantedNotificationResource.Item {
         return InPlayerAccessGrantedNotificationResource.Item(active = notifItem.active,
-                content = notifItem.content,
+                content = notifItem.content?: "",
                 created_at = notifItem.created_at,
-                id = notifItem.id, item_type = mapItemType(notifItem.item_type),
+                id = notifItem.id,
+                item_type = mapItemType(notifItem.item_type),
                 merchant_id = notifItem.merchant_id,
                 merchant_uuid = notifItem.merchant_uuid,
                 metahash = mapMetaData(notifItem.metahash),
@@ -42,7 +44,8 @@ internal class AccessGrantedNotificationMapper : DomainMapper<InPlayerAccessGran
     
     private fun mapItemType(notifItemType: com.sdk.notification.model.notification.InPlayerAccessGrantedNotificationResource.Item.ItemType)
             : com.sdk.inplayer.model.notification.InPlayerAccessGrantedNotificationResource.Item.ItemType {
-        return InPlayerAccessGrantedNotificationResource.Item.ItemType(content_type = notifItemType.content_type,
+        return InPlayerAccessGrantedNotificationResource.Item.ItemType(
+                content_type = notifItemType.content_type?: "",
                 description = notifItemType.description,
                 host = notifItemType.host,
                 id = notifItemType.id,

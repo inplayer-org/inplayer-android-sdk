@@ -23,7 +23,7 @@ class Notification internal constructor(private val notificationManager: AWSNoti
         notificationManager.subscribe(object : AWSNotificationCallback {
             
             override fun onMessageReceived(message: InPlayerNotificationEntity) {
-                Log.i("Notif.onMSGReceived 1", "InPlayerNotificationEntity --> $message")
+//                Log.i("Notif.onMSGReceived 1", "InPlayerNotificationEntity --> $message")
                 callback.onMessageReceived(notificationMapper.mapFromDomain(message))
             }
             

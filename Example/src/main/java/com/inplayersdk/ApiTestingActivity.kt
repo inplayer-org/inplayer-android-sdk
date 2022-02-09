@@ -396,7 +396,7 @@ class ApiTestingActivity : AppCompatActivity() {
             }
 
             override fun onMessageReceived(message: InPlayerNotification) {
-                Log.d("Notif", "------------------------------------------")
+                Log.d("Notif", "------------------on client side message------------------------");
                 Log.d("Notif.MessageReceived", "Message --> $message")
 
             }

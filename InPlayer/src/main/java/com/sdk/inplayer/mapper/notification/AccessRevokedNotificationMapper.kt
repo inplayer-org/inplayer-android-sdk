@@ -8,9 +8,11 @@ import com.sdk.notification.model.notification.InPlayerAccessRevokedNotification
 internal class AccessRevokedNotificationMapper : DomainMapper<InPlayerAccessRevokedNotification, com.sdk.inplayer.model.notification.InPlayerAccessRevokedNotification> {
     
     override fun mapFromDomain(notifEntity: InPlayerAccessRevokedNotification): com.sdk.inplayer.model.notification.InPlayerAccessRevokedNotification {
-        return com.sdk.inplayer.model.notification.InPlayerAccessRevokedNotification(resource = InPlayerAccessRevokedNotificationResource(notifEntity.resource.item_id),
+        return com.sdk.inplayer.model.notification.InPlayerAccessRevokedNotification(
+                resource = InPlayerAccessRevokedNotificationResource(notifEntity.resource.item_id),
                 type = notifEntity.type,
-                timestamp = notifEntity.timestamp)
+                timestamp = notifEntity.timestamp
+        )
     }
     
     override fun mapToDomain(viewModel: com.sdk.inplayer.model.notification.InPlayerAccessRevokedNotification): InPlayerAccessRevokedNotification {

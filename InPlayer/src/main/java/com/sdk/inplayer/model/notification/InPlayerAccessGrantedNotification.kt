@@ -1,5 +1,5 @@
 package com.sdk.inplayer.model.notification
-
+//
 data class InPlayerAccessGrantedNotification(
         val resource: InPlayerAccessGrantedNotificationResource,
         override val type: String, override val timestamp: Long
@@ -19,7 +19,7 @@ data class InPlayerAccessGrantedNotificationResource(
 ) {
     data class Item(
             val active: Boolean,
-            val content: String,
+            val content: String?,
             val created_at: Int,
             val id: Int,
             val item_type: ItemType,
@@ -30,7 +30,7 @@ data class InPlayerAccessGrantedNotificationResource(
             val updated_at: Int
     ) {
         data class ItemType(
-                val content_type: String,
+                val content_type: String?,
                 val description: String,
                 val host: String,
                 val id: Int,

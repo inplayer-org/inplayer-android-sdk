@@ -92,13 +92,13 @@ class AWSNotificationManager(var inPlayerAWSCredentialsRepository: InPlayerAWSCr
     
     private fun subscribeToTopic() {
 
-        Log.i("Notif.subscribeToTopic", "subscribeToTopic userUUID: --> " + inPlayerAWSCredentials.userUUID)
-        Log.i("Notif.subscribeToTopic", "subscribeToTopic QOS0: --> " + AWSIotMqttQos.QOS0)
+//        Log.i("Notif.subscribeToTopic", "subscribeToTopic userUUID: --> " + inPlayerAWSCredentials.userUUID)
+//        Log.i("Notif.subscribeToTopic", "subscribeToTopic QOS0: --> " + AWSIotMqttQos.QOS0)
         mqttManager?.subscribeToTopic(inPlayerAWSCredentials.userUUID, AWSIotMqttQos.QOS0) { _: String?, data: ByteArray? ->
             try {
                 val message = String(data!!)
-//                Log.i("Notif.subscribeToTopic", "MESAGE: --> $message")
-                Log.d("Notif.inCODE", "MESAGE: --> $InPlayerNotificationParser.parseJSON(message)")
+                Log.i("Notif.subscribeToTopic", "MESAGE: --> $message")
+//                Log.d("AWSNotif.Manager", InPlayerNotificationParser.parseJSON(message).toString())
                 callback.onMessageReceived(InPlayerNotificationParser.parseJSON(message))
             } catch (e: UnsupportedEncodingException) {
                 Log.w("Notif.error", "ex: $e")
