@@ -24,7 +24,11 @@ class InPlayerNotificationDeserializer : JsonDeserializer<InPlayerNotificationEn
         
         "account.logout" to InPlayerAccountLogoutNotificationEntity::class.java,
         "account.erased" to InPlayerAccountErasedNotificationEntity::class.java,
-        "account.deactivated" to InPlayerAccountDeactivatedNotificationEntity::class.java
+        "account.deactivated" to InPlayerAccountDeactivatedNotificationEntity::class.java,
+
+
+        "external.payment.success" to InPlayerExternalPaymentDefaultNotificationEntity::class.java,
+        "external.payment.failed" to InPlayerExternalPaymentDefaultNotificationEntity::class.java
     )
     
     override fun deserialize(
