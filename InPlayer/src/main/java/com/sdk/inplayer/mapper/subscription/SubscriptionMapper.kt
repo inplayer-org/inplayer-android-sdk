@@ -21,7 +21,7 @@ internal class SubscriptionMapper : DomainMapper<SubscriptionEntity, InPlayerSub
                 formatted_amount = entity.formatted_amount,
                 merchant_id = entity.merchant_id,
                 next_billing_date = entity.next_billing_date,
-                status = entity.status,
+                status = entity.action_type?: "", // take the value for action type which is related for status
                 unsubscribe_url = entity.unsubscribe_url,
                 updated_at = entity.updated_at
         )
