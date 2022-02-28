@@ -4,10 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.sdk.notification.model.legacy.InPlayerPaymentCardFailedNotification
-import com.sdk.notification.model.legacy.InPlayerPaymentCardSuccessNotifcation
-import com.sdk.notification.model.legacy.InPlayerSubscribeFailedNotification
-import com.sdk.notification.model.legacy.InPlayerSubscribeSuccessNotification
+import com.sdk.notification.model.legacy.*
 import com.sdk.notification.model.notification.*
 import java.lang.reflect.Type
 
@@ -19,6 +16,7 @@ class InPlayerNotificationDeserializer : JsonDeserializer<InPlayerNotificationEn
         "payment.card.failed" to InPlayerPaymentCardFailedNotification::class.java,
         "subscribe.success" to InPlayerSubscribeSuccessNotification::class.java,
         "subscribe.failed" to InPlayerSubscribeFailedNotification::class.java,
+
         "access.granted" to InPlayerAccessGrantedNotificationEntity::class.java,
         "access.revoked" to InPlayerAccessRevokedNotification::class.java,
         
@@ -27,8 +25,9 @@ class InPlayerNotificationDeserializer : JsonDeserializer<InPlayerNotificationEn
         "account.deactivated" to InPlayerAccountDeactivatedNotificationEntity::class.java,
 
 
-        "external.payment.success" to InPlayerExternalPaymentDefaultNotificationEntity::class.java,
-        "external.payment.failed" to InPlayerExternalPaymentDefaultNotificationEntity::class.java
+        "external.payment.success" to InPlayerExternalPaymentSuccessNotification::class.java,
+        "external.subscribe.cancel.success" to InPlayerExternalSubscriberCancelNotification::class.java,
+        "external.payment.failed" to InPlayerExternalPaymentFailedNotification::class.java
     )
     
     override fun deserialize(

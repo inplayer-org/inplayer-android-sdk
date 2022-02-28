@@ -3,12 +3,18 @@ package com.sdk.inplayer.mapper.notification
 import android.util.Log
 import com.sdk.domain.entity.mapper.DomainMapper
 import com.sdk.inplayer.model.notification.*
+import com.sdk.notification.model.legacy.*
 import com.sdk.notification.model.notification.*
 import com.sdk.notification.model.notification.InPlayerAccessRevokedNotification
 
 internal class NotificationMapper constructor(
     private val accessGrantedNotificationMapper: AccessGrantedNotificationMapper,
-    private val accessRevokedNotificationMapper: AccessRevokedNotificationMapper
+    private val accessRevokedNotificationMapper: AccessRevokedNotificationMapper,
+    private val subscriptionSuccessMapper: SubscriptionSuccessMapper,
+    private val paymentSuccessMapper: PaymentSuccessMapper,
+    private val externalPaymentSuccessMapper: ExternalPaymentSuccessMapper,
+    private val externalPaymentFailedMapper: ExternalPaymentFailedMapper,
+    private val externalSubscriberCancelMapper: ExternalSubscriberCancelMapper
 ) : DomainMapper<InPlayerNotificationEntity, InPlayerNotification> {
 
     override fun mapFromDomain(inPlayerNotification: InPlayerNotificationEntity): InPlayerNotification {
@@ -44,6 +50,30 @@ internal class NotificationMapper constructor(
             )
         }
 
+        // it was not handle
+        if (inPlayerNotification is InPlayerSubscribeSuccessNotification) {
+            return subscriptionSuccessMapper.mapFromDomain(inPlayerNotification)
+        }
+
+        // it was not handle
+        if (inPlayerNotification is InPlayerPaymentCardSuccessNotifcation) {
+            return paymentSuccessMapper.mapFromDomain(inPlayerNotification)
+        }
+
+        // it was not handle EXTERNAL PAYMENT
+        if (inPlayerNotification is InPlayerExternalPaymentFailedNotification) {
+            return externalPaymentFailedMapper.mapFromDomain(inPlayerNotification)
+        }
+
+        // it was not handle
+        if (inPlayerNotification is InPlayerExternalPaymentSuccessNotification) {
+            return externalPaymentSuccessMapper.mapFromDomain(inPlayerNotification)
+        }
+
+        // it was not handle
+        if (inPlayerNotification is InPlayerExternalSubscriberCancelNotification) {
+            return externalSubscriberCancelMapper.mapFromDomain(inPlayerNotification)
+        }
         try {
             return InPlayerDefaultNotification(
                 type = inPlayerNotification.type,
@@ -53,15 +83,6 @@ internal class NotificationMapper constructor(
             throw ClassCastException("NotificationMapper Unsupported mapping instance of class $inPlayerNotification")
         }
 
-//        // it was not handle
-//        if (inPlayerNotification is InPlayerSubscribeSuccessNotification) {
-//            return subscriptionSuccessMapper.mapFromDomain(inPlayerNotification)
-//        }
-//
-//        // it was not handle
-//        if (inPlayerNotification is InPlayerPaymentCardSuccessNotifcation) {
-//            return paymentSuccessMapper.mapFromDomain(inPlayerNotification)
-//        }
 
         throw ClassCastException("NotificationMapper Unsupported mapping instance of class $inPlayerNotification")
     }

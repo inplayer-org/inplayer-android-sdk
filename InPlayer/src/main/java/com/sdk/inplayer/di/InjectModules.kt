@@ -314,7 +314,12 @@ internal object InjectModules : KoinComponent {
             factory { PaymentSuccessMapper() }
             factory { SubscriptionSuccessMapper() }
 
-            factory { NotificationMapper(get(), get()) }
+            // external payment
+            factory { ExternalPaymentSuccessMapper() }
+            factory { ExternalPaymentFailedMapper() }
+            factory { ExternalSubscriberCancelMapper() }
+
+            factory { NotificationMapper(get(), get(), get(), get(), get(), get(), get()) }
             
             
             //SubscribtionMapper
