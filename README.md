@@ -127,6 +127,49 @@ import com.sdk.inplayer.configuration.InPlayer;
     });
 ```
 
+##### Payment
+Payment related methods
+
+###### Example
+Validates an In App purchase from Google Play store services:
+
+#### Kotlin Example
+```kotlin
+import com.sdk.inplayer.configuration.InPlayer
+     /**
+     * Validates an In App purchase from Google Play store services
+     *
+     *
+     * @param receipt String The Purchase object from Google Play response after a successful purchase
+     * @param productName String Product Name
+     * @param callback InPlayerCallback<String, InPlayerException>
+     */
+    InPlayer.Payment.validate(receipt, productName, brandingId, InPlayerCallback { _, error ->
+    if (error == null) {
+    //SUCCESS - Handle Payment Receipt
+    } else {
+    //Handle Error
+    }
+    })
+```
+
+#### Java Example
+```java
+import com.sdk.inplayer.configuration.InPlayer;
+     /**
+     * Validates an In App purchase from Google Play store services
+     *
+     *
+     * @param receipt String The Purchase object from Google Play response after a successful purchase
+     * @param productName String Product Name
+     * @param callback InPlayerCallback<String, InPlayerException>
+     */
+    InPlayer.Payment.validate(receipt, productName, brandingId, new InPlayerCallback<String, InPlayerException>() {
+        @Override
+        public void done(String value, InPlayerException exception) { }
+    });
+```
+
 Additionally when checking access for asset, in itemAccess.item there is content that can be plain string or json string. 
 In order to parse the model accordingly and have access to its properties (every type has different properties)
 All class types are under the sealed class ```kotlin InPlayerItem.InPlayerAsset ```
