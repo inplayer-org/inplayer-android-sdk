@@ -311,8 +311,8 @@ internal object InjectModules : KoinComponent {
 
             factory { AccessRevokedNotificationMapper() }
 
-            factory { PaymentSuccessMapper() }
             factory { SubscriptionSuccessMapper() }
+            factory { PaymentSuccessMapper() }
 
             // external payment
             factory { ExternalPaymentSuccessMapper() }

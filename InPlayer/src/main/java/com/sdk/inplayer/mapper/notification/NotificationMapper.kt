@@ -60,10 +60,6 @@ internal class NotificationMapper constructor(
             return paymentSuccessMapper.mapFromDomain(inPlayerNotification)
         }
 
-        // it was not handle EXTERNAL PAYMENT
-        if (inPlayerNotification is InPlayerExternalPaymentFailedNotification) {
-            return externalPaymentFailedMapper.mapFromDomain(inPlayerNotification)
-        }
 
         // it was not handle
         if (inPlayerNotification is InPlayerExternalPaymentSuccessNotification) {
@@ -71,8 +67,16 @@ internal class NotificationMapper constructor(
         }
 
         // it was not handle
-        if (inPlayerNotification is InPlayerExternalSubscriberCancelNotification) {
+        if (inPlayerNotification is InPlayerExternalSubscriberCancelNotification) { // external.subscribe.cancel.success
             return externalSubscriberCancelMapper.mapFromDomain(inPlayerNotification)
+        }
+
+        // it was not handle EXTERNAL PAYMENT
+        if (inPlayerNotification is InPlayerExternalPaymentFailedNotification) { //external.payment.failed
+            var kco = externalPaymentFailedMapper.mapFromDomain(inPlayerNotification)
+            Log.i("--kco--", "Message --> $kco");
+
+            return kco
         }
         try {
             return InPlayerDefaultNotification(

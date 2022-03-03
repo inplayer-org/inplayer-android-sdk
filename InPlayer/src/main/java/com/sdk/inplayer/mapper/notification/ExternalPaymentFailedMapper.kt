@@ -5,9 +5,7 @@ import com.sdk.inplayer.mapper.payment.InPlayerExternalPaymentFailedMapper
 import com.sdk.notification.model.legacy.InPlayerExternalPaymentFailedNotification
 import com.sdk.notification.model.legacy.InPlayerExternalPaymentFailedNotificationResource
 
-
-internal class ExternalPaymentFailedMapper :
-    DomainMapper<InPlayerExternalPaymentFailedNotification, InPlayerExternalPaymentFailedMapper> {
+internal class ExternalPaymentFailedMapper : DomainMapper<InPlayerExternalPaymentFailedNotification, InPlayerExternalPaymentFailedMapper> {
 
     override fun mapFromDomain(domainEntity: InPlayerExternalPaymentFailedNotification): InPlayerExternalPaymentFailedMapper {
         return InPlayerExternalPaymentFailedMapper(
