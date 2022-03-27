@@ -28,6 +28,8 @@ class Notification internal constructor(private val notificationManager: AWSNoti
             }
             
             override fun onStatusChanged(status: String) {
+//                Log.i("Notif.onStatusChanged 1", "InPlayerNotificationStatus --> $status")
+
                 callback.onStatusChanged(InPlayerNotificationStatus.valueOf(
                     status.lowercase(Locale.getDefault())
                         .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() })

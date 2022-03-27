@@ -8,5 +8,7 @@ enum class InPlayerNotificationStatus {
     Disconnected,
     ConnectionRefused,
     ConnectionError,
-    ProtocolError
+    ProtocolError,
+    ConnectionLost,
+    Reconnecting
 }
