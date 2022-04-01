@@ -21,7 +21,7 @@ ext {
     rxAndroidVersion = '2.1.1'
 
     //Data
-    gsonVersion = '2.8.7'
+    gsonVersion = '2.8.9'
     okHttpVersion = '3.8.1'
     retrofitVersion = '2.3.0'
     androidAnnotationsVersion = '21.0.3'
@@ -31,8 +31,8 @@ ext {
 
 
     //AWS IOT
-    awsIot = '2.9.+'
-    awsIotMobile = '2.9.+@aar'
+    awsIot = '2.40.0'
+    awsIotMobile = '2.40.0'
 
     annotations = [
             javaxAnnotation: "javax.annotation:jsr250-com.s.inplayer.api:${javaxAnnotationVersion}",

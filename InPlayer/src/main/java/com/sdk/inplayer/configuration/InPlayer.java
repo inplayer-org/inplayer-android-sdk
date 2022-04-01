@@ -47,6 +47,7 @@ public class InPlayer {
      * @param configuration The configuration for your application.
      */
     public static void initialize(Configuration configuration) {
+
         init(configuration);
     }
 

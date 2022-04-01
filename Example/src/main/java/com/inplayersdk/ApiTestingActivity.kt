@@ -80,7 +80,7 @@ class ApiTestingActivity : AppCompatActivity() {
         }
 
         publish.setOnClickListener {
-            InPlayer.Account.getAccountInfo()
+            val account = InPlayer.Account.getAccountInfo()
         }
 
         btn_subscriptions.setOnClickListener {
@@ -177,28 +177,6 @@ class ApiTestingActivity : AppCompatActivity() {
             })
     }
 
-//    package main
-//
-//    import (
-//    "encoding/json"
-//    "fmt"
-//    )
-//
-//    type MyJsonName struct {
-//        State int `json:"purchase_state"`
-//        PackageName string `json:"package_name"`
-//        PurchaseToken string `json:"purchase_token"`
-//    }
-//
-//    func main() {
-//        jsonSrc := []byte(`{"product_id": "105974_24300","purchase_token": "lfigeacbnnaipilhadmiljmn.AO-J1OypRftg8_pqZ86VWTkiTrRNVIMK95dlIvcXEqOz7QiPVtxvjGQ6BAYe_z7MOuHxxo3Ce_3P7b1Wd9xRDmZ0uD0Ii5JzQwsulwPXbZLPOmwoXha9ado","package_name": "com.inplayer.paywalltest","order_id": "GPA.3396-6118-6019-43012","purchase_state": 2}`)
-//
-//        var myJson MyJsonName
-//        json.Unmarshal(jsonSrc, &myJson)
-//
-//        fmt.Println(myJson)
-//    }
-
     private fun getValidateByProductNameCall() {
         val purchaseObject =
             "{\"productId\": \"105982_24307\",\"purchaseToken\": \"lbeleljipnikkjnobnamacjm.AO-J1OyLQUHCTffEnY_CygBdkq3MfxupPOcGnZxzjPqLfbGZmeg5dh-PRJLJYwSJodNw1mWpujcdz2vbbVe4c0yb3nJ0CyzDhguDPJfTUYDhfE13CSzSGi4\",\"packageName\": \"com.inplayer.paywalltest\",\"orderId\": \"GPA.3313-9219-0430-15154\",\"purchaseState\": 2,\"autoRenewing\": true,\"acknowledged\": false,\"purchaseTime\": 1636213219000}"
@@ -207,7 +185,7 @@ class ApiTestingActivity : AppCompatActivity() {
 
         InPlayer.Payment.validateByProductName(
             purchaseObject,
-            "105982_24307   ",
+            "105982_24307",
             838,
             InPlayerCallback { validate, error ->
                 if (error == null) {
@@ -222,7 +200,7 @@ class ApiTestingActivity : AppCompatActivity() {
 
     private fun logInuser() {
         InPlayer.Account.authenticate(
-            "android-elena-002@mail.com",
+            "android-elena@mail.com",
             "test1234",
             InPlayerCallback { inPlayerUser, error ->
                 if (error == null) {
@@ -238,7 +216,7 @@ class ApiTestingActivity : AppCompatActivity() {
 
                 when (it.type) {
                     is RegisterFieldType.Country -> {
-                        (it.type as RegisterFieldType.Country).options.forEach { _ ->
+                        (it.type as RegisterFieldType.Country).options.forEach {
 
                         }
                     }
@@ -412,11 +390,20 @@ class ApiTestingActivity : AppCompatActivity() {
 
         InPlayer.Notification.subscribe(object : InPlayerNotificationCallback {
 
-            override fun onStatusChanged(status: InPlayerNotificationStatus) {}
+            override fun onStatusChanged(status: InPlayerNotificationStatus) {
+                Log.i("Notif.StatusChange", "Status --> $status")
+            }
 
-            override fun onMessageReceived(message: InPlayerNotification) {}
+            override fun onMessageReceived(message: InPlayerNotification) {
+                Log.d("Notif", "------------------on client side message------------------------");
+                Log.d("Notif.MessageReceived", message.toString())
 
-            override fun onError(t: InPlayerException) {}
+            }
+
+            override fun onError(t: InPlayerException) {
+                Log.w("Notif.Error", "Exception --> ${t.e.printStackTrace()}")
+
+            }
         })
     }
 

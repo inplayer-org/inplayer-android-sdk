@@ -4,6 +4,7 @@ data class SubscriptionEntity(
         val amount: Int,
         val asset_id: Int,
         val asset_title: String,
+        val action_type: String?,
         val cancel_token: String,
         val created_at: Long,
         val currency: String,

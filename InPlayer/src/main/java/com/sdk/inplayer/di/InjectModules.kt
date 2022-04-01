@@ -35,9 +35,12 @@ import com.sdk.inplayer.configuration.InPlayer
 import com.sdk.inplayer.mapper.MapInPlayerCollection
 import com.sdk.inplayer.mapper.account.*
 import com.sdk.inplayer.mapper.assets.*
+import com.sdk.inplayer.mapper.notification.*
 import com.sdk.inplayer.mapper.notification.AccessGrantedNotificationMapper
 import com.sdk.inplayer.mapper.notification.AccessRevokedNotificationMapper
 import com.sdk.inplayer.mapper.notification.NotificationMapper
+import com.sdk.inplayer.mapper.notification.PaymentSuccessMapper
+import com.sdk.inplayer.mapper.notification.SubscriptionSuccessMapper
 import com.sdk.inplayer.mapper.payment.CustomerAccessItemMapper
 import com.sdk.inplayer.mapper.subscription.SubscriptionMapper
 import com.sdk.inplayer.model.subscription.InPlayerSubscription
@@ -305,10 +308,18 @@ internal object InjectModules : KoinComponent {
             //NOTIFICATION MAPPER
             
             factory { AccessGrantedNotificationMapper() }
-            
+
             factory { AccessRevokedNotificationMapper() }
-            
-            factory { NotificationMapper(get(), get()) }
+
+            factory { SubscriptionSuccessMapper() }
+            factory { PaymentSuccessMapper() }
+
+            // external payment
+            factory { ExternalPaymentSuccessMapper() }
+            factory { ExternalPaymentFailedMapper() }
+            factory { ExternalSubscriberCancelMapper() }
+
+            factory { NotificationMapper(get(), get(), get(), get(), get(), get(), get()) }
             
             
             //SubscribtionMapper

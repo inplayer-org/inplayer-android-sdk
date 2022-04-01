@@ -8,6 +8,7 @@ data class SubscriptionModel(
         val item_id: Int,
         val item_title: String?,
         val cancel_token: String?,
+        val action_type: String?,
         val created_at: Long,
         val currency: String?,
         val description: String?,

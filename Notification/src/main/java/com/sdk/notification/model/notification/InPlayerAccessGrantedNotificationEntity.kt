@@ -19,18 +19,18 @@ data class InPlayerAccessGrantedNotificationResource(
 ) {
     data class Item(
             val active: Boolean,
-            val content: String,
+            val content: String?,
             val created_at: Int,
             val id: Int,
             val item_type: ItemType,
             val merchant_id: Int,
             val merchant_uuid: String,
-            val metadata: Metadata,
+            val metahash: Metadata,
             val title: String,
             val updated_at: Int
     ) {
         data class ItemType(
-                val content_type: String,
+                val content_type: String?,
                 val description: String,
                 val host: String,
                 val id: Int,
