@@ -12,7 +12,7 @@ import com.sdk.data.remote.api.InPlayerRemotePublicServiceAPI
 import com.sdk.data.remote.api.InPlayerRemoteServiceAPI
 import com.sdk.data.remote.refresh_token.InPlayerRemoteRefreshServiceAPI
 import com.sdk.data.remote.refresh_token.InPlayerRemoteRefreshTokenProvider
-import com.sdk.data.remote.refresh_token.RefreshAuthenticator
+import com.sdk.data.remote.refresh_token.RefreshTokenInterceptor
 import com.sdk.data.repository.*
 import com.sdk.data.repository.gateway.*
 import com.sdk.domain.entity.mapper.DomainMapper
@@ -35,9 +35,12 @@ import com.sdk.inplayer.configuration.InPlayer
 import com.sdk.inplayer.mapper.MapInPlayerCollection
 import com.sdk.inplayer.mapper.account.*
 import com.sdk.inplayer.mapper.assets.*
+import com.sdk.inplayer.mapper.notification.*
 import com.sdk.inplayer.mapper.notification.AccessGrantedNotificationMapper
 import com.sdk.inplayer.mapper.notification.AccessRevokedNotificationMapper
 import com.sdk.inplayer.mapper.notification.NotificationMapper
+import com.sdk.inplayer.mapper.notification.PaymentSuccessMapper
+import com.sdk.inplayer.mapper.notification.SubscriptionSuccessMapper
 import com.sdk.inplayer.mapper.payment.CustomerAccessItemMapper
 import com.sdk.inplayer.mapper.subscription.SubscriptionMapper
 import com.sdk.inplayer.model.subscription.InPlayerSubscription
@@ -75,23 +78,9 @@ internal object InjectModules : KoinComponent {
         //Data Module Mapper
         val dataMapper = module {
             
-            factory { MapDataAccessControlType() }
-            
-            factory { MapDataAccessFee(get(), get(), get(), get()) }
-            
-            factory { MapDataAccessType() }
-            
             factory { UserModelMapper() }
             
-            factory { MapDataItemAccess(get()) }
-            
-            factory { MapDataItemDetails(get(), get(), get()) }
-            
-            factory { MapDataItemType() }
-            
-            factory { MapDataSetupFee() }
-            
-            factory { MapDataTrialPeriod() }
+            factory { MapDataItemAccess() }
             
             factory { MapAWSCredentials() }
             
@@ -127,7 +116,7 @@ internal object InjectModules : KoinComponent {
                 ) as InPlayerRemoteRefreshServiceAPI
             }
             
-            factory { RefreshAuthenticator(configuration.mMerchantUUID, get(), get()) }
+            factory { RefreshTokenInterceptor(configuration.mMerchantUUID, get(), get()) }
             
             //END REFRESH TOKEN
             
@@ -163,8 +152,6 @@ internal object InjectModules : KoinComponent {
             
             factory {
                 InPlayerAssetsRepositoryImpl(
-                    get(),
-                    get(),
                     get(),
                     get()
                 ) as InPlayerAssetsRepository
@@ -203,7 +190,7 @@ internal object InjectModules : KoinComponent {
         
         val mainControllerModule = module {
             
-            factory { Asset(get(), get(), get(), get(), get(), get()) }
+            factory { Asset(get(), get(), get()) }
             
             factory {
                 Account(
@@ -302,13 +289,7 @@ internal object InjectModules : KoinComponent {
             
             factory { MapAccessControlType() }
             
-            factory { MapAccessFee(get(), get(), get(), get()) }
-            
             factory { MapAccessType() }
-            
-            factory { MapItemAccess(get()) }
-            
-            factory { MapItemDetails(get(), get(), get()) }
             
             factory { MapItemType() }
             
@@ -327,10 +308,18 @@ internal object InjectModules : KoinComponent {
             //NOTIFICATION MAPPER
             
             factory { AccessGrantedNotificationMapper() }
-            
+
             factory { AccessRevokedNotificationMapper() }
-            
-            factory { NotificationMapper(get(), get()) }
+
+            factory { SubscriptionSuccessMapper() }
+            factory { PaymentSuccessMapper() }
+
+            // external payment
+            factory { ExternalPaymentSuccessMapper() }
+            factory { ExternalPaymentFailedMapper() }
+            factory { ExternalSubscriberCancelMapper() }
+
+            factory { NotificationMapper(get(), get(), get(), get(), get(), get(), get()) }
             
             
             //SubscribtionMapper

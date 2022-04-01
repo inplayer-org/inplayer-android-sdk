@@ -4,7 +4,6 @@ import com.sdk.data.model.CollectionModel
 import com.sdk.data.model.ResponseListModel
 import com.sdk.data.model.ResponseModel
 import com.sdk.data.model.account.InPlayerAccount
-import com.sdk.data.model.account.InPlayerRegisterFieldsModel
 import com.sdk.data.model.account.InPlayerSocialUrlsReponse
 import com.sdk.data.model.asset.ItemAccessModel
 import com.sdk.data.model.notification.AWSCredentialsModel
@@ -40,7 +39,8 @@ interface InPlayerRemoteServiceAPI {
     @FormUrlEncoded
     @HTTP(method = "DELETE", path = "/accounts/erase", hasBody = true)
     fun eraseAccount(
-        @Field("password") password: String
+        @Field("password") password: String,
+        @Field("branding_id") brandingId: Int? = null
     ): Single<ResponseModel>
     
     
@@ -49,13 +49,14 @@ interface InPlayerRemoteServiceAPI {
     fun changePassword(
         @Field("password") password: String,
         @Field("password_confirmation") passwordConfirmation: String,
-        @Field("old_password") oldPassword: String
+        @Field("old_password") oldPassword: String,
+        @Field("branding_id") brandingId: Int? = null
     ): Single<ResponseModel>
     
     
     @FormUrlEncoded
     @POST("/accounts/export")
-    fun exportAccountData(@Field("password") password: String): Single<ResponseModel>
+    fun exportAccountData(@Field("password") password: String, @Field("branding_id") brandingId: Int? = null): Single<ResponseModel>
     
     
     @GET("/items/access/customers")
@@ -76,7 +77,7 @@ interface InPlayerRemoteServiceAPI {
     
     @FormUrlEncoded
     @POST("/v2/accounts/pin-codes/send")
-    fun sendPinCode(@Field("branding_id") brandingId: String? = null): Completable
+    fun sendPinCode(@Field("branding_id") brandingId: Int? = null): Completable
     
     
     /**
@@ -111,18 +112,20 @@ interface InPlayerRemoteServiceAPI {
      *  Payments
      * */
     @FormUrlEncoded
-    @POST("/v2/external-payments/android/validate")
+    @POST("/v2/external-payments/google-play/validate")
     fun validateAndroidReceipt(
         @Field("receipt") receipt: String,
         @Field("item_id") item_id: Int,
-        @Field("access_fee_id") access_fee_id: Int
+        @Field("access_fee_id") access_fee_id: Int,
+        @Field("branding_id") brandingId: Int? = null
     ): Single<ResponseModel>
     
     @FormUrlEncoded
-    @POST("/v2/external-payments/android/validate")
+    @POST("/v2/external-payments/google-play/validate")
     fun validateByProductName(
         @Field("receipt") receipt: String,
-        @Field("product_name") productName: String
+        @Field("product_name") productName: String,
+        @Field("branding_id") brandingId: Int? = null
     ): Single<ResponseModel>
     
     /**

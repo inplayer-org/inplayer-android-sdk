@@ -6,7 +6,6 @@ import com.sdk.data.Constants
 import com.sdk.data.local.PreferenceHelper.defaultPrefs
 import com.sdk.data.model.account.InPlayerAccount
 import com.sdk.data.repository.gateway.UserLocalAuthenticator
-import java.util.*
 
 
 class UserLocalAuthenticatorImpl(context: Context) : UserLocalAuthenticator {
@@ -43,6 +42,12 @@ class UserLocalAuthenticatorImpl(context: Context) : UserLocalAuthenticator {
     
     override fun deleteRefreshToken() {
         prefs.refreshToken = null
+    }
+    
+    override fun deleteTokens() {
+        prefs.refreshToken = null
+        prefs.refreshTokenExpiresAt = 0
+        prefs.acccessToken = null
     }
     
     override fun getExpiresAt() = prefs.refreshTokenExpiresAt

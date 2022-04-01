@@ -25,7 +25,7 @@ class AuthenticateUserUseCase constructor(schedulers: InPlayerSchedulers,
                 }
                 throw IllegalStateException("Username can't be null for GrantType Password!")
                 
-            } else if (params.grantType == GrantType.REFRESH_TOKEN) {
+            } else if (params.grantType == GrantType.refresh_token) {
                 
                 params.refreshToken?.let {
                     return inPlayerAuthenticatorRepository.refreshToken(params.refreshToken, params.grantType.toString(), params.clientId)

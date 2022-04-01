@@ -1,5 +1,6 @@
 package com.sdk.data.remote
 
+import com.sdk.data.model.ResponseModel
 import com.sdk.data.model.account.InPlayerAccount
 import com.sdk.data.model.account.InPlayerAuthorizationModel
 import com.sdk.data.model.account.InPlayerRegisterFieldsModel
@@ -48,7 +49,7 @@ class AccountRemoteImpl constructor(
             grantType = grantType,
             clientId = clientId
         )
-    
+
     override fun createAccount(
         fullName: String,
         email: String,
@@ -57,7 +58,8 @@ class AccountRemoteImpl constructor(
         type: String,
         merchantUUID: String,
         referrer: String?,
-        metadata: HashMap<String, String>?
+        metadata: HashMap<String, String>?,
+        brandingId: Int?
     ): Single<InPlayerAuthorizationModel> {
         var updatedMetadataMap = hashMapOf<String, String>()
         
@@ -74,24 +76,24 @@ class AccountRemoteImpl constructor(
             "password",
             merchantUUID,
             referrer,
-            updatedMetadataMap
+            updatedMetadataMap,
+            brandingId
         )
     }
-    
-    
-    override fun setNewPassword(token: String, password: String, passwordConfirmation: String) =
-        inPlayerRemotePublicServiceAPI.setNewPassword(token, password, passwordConfirmation)
-    
-    override fun forgotPassword(merchantUUID: String, email: String) =
-        inPlayerRemotePublicServiceAPI.forgotPassword(merchantUUID, email)
-    
+
+    override fun setNewPassword(token: String, password: String, passwordConfirmation: String, brandingId: Int?) =
+        inPlayerRemotePublicServiceAPI.setNewPassword(token, password, passwordConfirmation, brandingId)
+
+    override fun forgotPassword(merchantUUID: String, email: String, brandingId: Int?) =
+        inPlayerRemotePublicServiceAPI.forgotPassword(merchantUUID, email, brandingId)
+
     override fun getSocialUrls(state: String): Single<ArrayList<HashMap<String, String>>> {
         return inPlayerRemoteProvider.getSocialUrls(state).map {
             it.socialUrls
         }
     }
     
-    override fun sendPinCode(brandingId: String?): Completable {
+    override fun sendPinCode(brandingId: Int?): Completable {
         return inPlayerRemoteProvider.sendPinCode(brandingId)
     }
     
@@ -117,8 +119,8 @@ class AccountRemoteImpl constructor(
         }
     }
     
-    override fun exportUserData(password: String) =
-        inPlayerRemoteProvider.exportAccountData(password)
+    override fun exportUserData(password: String, brandingId: Int?) =
+        inPlayerRemoteProvider.exportAccountData(password, brandingId)
     
     
     override fun updateAccount(
@@ -138,12 +140,13 @@ class AccountRemoteImpl constructor(
     override fun changePassword(
         newPassword: String,
         newPasswordConfirmation: String,
-        oldPassword: String
-    ) = inPlayerRemoteProvider.changePassword(newPassword, newPasswordConfirmation, oldPassword)
+        oldPassword: String,
+        brandingId: Int?
+    ) = inPlayerRemoteProvider.changePassword(newPassword, newPasswordConfirmation, oldPassword, brandingId)
     
     override fun logOut() = inPlayerRemoteProvider.logout()
     
-    override fun eraseUser(password: String) = inPlayerRemoteProvider.eraseAccount(password)
+    override fun eraseUser(password: String, brandingId: Int?) = inPlayerRemoteProvider.eraseAccount(password, brandingId)
     
     /**
      * END

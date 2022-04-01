@@ -76,7 +76,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Forgot Password"
+        android:text="Request new Password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/logout"
         app:layout_constraintTop_toBottomOf="@+id/set_new_password" />
@@ -137,11 +137,11 @@
         app:layout_constraintTop_toBottomOf="@+id/get_item" />
 
     <Button
-        android:id="@+id/notification"
+        android:id="@+id/get_access_fee_v2"
         android:layout_width="119dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Notification"
+        android:text="Get Access Fee v2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/get_access_fee"
@@ -156,8 +156,8 @@
         android:layout_marginEnd="8dp"
         android:text="Publish"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/notification"
-        app:layout_constraintTop_toBottomOf="@+id/notification" />
+        app:layout_constraintStart_toStartOf="@+id/get_access_fee_v2"
+        app:layout_constraintTop_toBottomOf="@+id/get_access_fee_v2" />
 
     <Button
         android:id="@+id/btn_subscriptions"
@@ -166,7 +166,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Get Subscription"
+        android:text="Get Subscription Account"
         app:layout_constraintEnd_toEndOf="@+id/update"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/update" />
@@ -187,8 +187,64 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="is Authenticated"
-        app:layout_constraintEnd_toEndOf="@+id/notification"
-        app:layout_constraintStart_toStartOf="@+id/notification"
+        app:layout_constraintEnd_toEndOf="@+id/get_access_fee_v2"
+        app:layout_constraintStart_toStartOf="@+id/get_access_fee_v2"
         app:layout_constraintTop_toBottomOf="@+id/publish" />
+
+    <Button
+        android:id="@+id/btn_payment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Purchase History"
+        app:layout_constraintEnd_toEndOf="@+id/btn_get_social_urls"
+        app:layout_constraintStart_toStartOf="@+id/btn_get_social_urls"
+        app:layout_constraintTop_toBottomOf="@+id/btn_get_social_urls" />
+    <Button
+        android:id="@+id/btn_validate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="ValidateReceipt"
+        app:layout_constraintEnd_toEndOf="@+id/btn_payment"
+        app:layout_constraintStart_toStartOf="@+id/btn_payment"
+        app:layout_constraintTop_toBottomOf="@+id/btn_payment" />
+    <Button
+        android:id="@+id/btn_validate_product_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Validate Product Name"
+        app:layout_constraintEnd_toEndOf="@+id/btn_payment"
+        app:layout_constraintStart_toStartOf="@+id/btn_payment"
+        app:layout_constraintTop_toBottomOf="@+id/btn_validate" />
+
+    <Button
+        android:id="@+id/btn_subscriptions_subscription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Get Subscription Subscription"
+        app:layout_constraintEnd_toEndOf="@+id/forgot_password"
+        app:layout_constraintStart_toStartOf="@+id/forgot_password"
+        app:layout_constraintTop_toBottomOf="@+id/isAuthenticated"
+
+        />
+
+    <Button
+        android:id="@+id/btn_refresh_token"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Get Refresh Token"
+        app:layout_constraintEnd_toEndOf="@+id/btn_subscriptions_subscription"
+        app:layout_constraintStart_toStartOf="@+id/btn_subscriptions_subscription"
+        app:layout_constraintTop_toBottomOf="@+id/btn_subscriptions_subscription"
+
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

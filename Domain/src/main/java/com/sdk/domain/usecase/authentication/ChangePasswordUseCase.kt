@@ -14,12 +14,12 @@ class ChangePasswordUseCase constructor(private val inPlayerSchedulers: InPlayer
     override fun buildUseCaseObservable(params: Params?): Single<String> {
         params?.let {
             
-            return inPlayerAuthenticatorRepository.changePassword(it.newPassword, it.newPasswordConfirmation, it.oldPassword)
+            return inPlayerAuthenticatorRepository.changePassword(it.newPassword, it.newPasswordConfirmation, it.oldPassword, it.brandingId)
             
         }
         
         throw IllegalStateException("Params Can't be null for ChangePasswordUseCase")
     }
     
-    data class Params(val newPassword: String, val newPasswordConfirmation: String, val oldPassword: String)
+    data class Params(val newPassword: String, val newPasswordConfirmation: String, val oldPassword: String, val brandingId: Int? = null)
 }

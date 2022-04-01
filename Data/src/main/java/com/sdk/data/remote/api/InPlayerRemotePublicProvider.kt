@@ -1,8 +1,8 @@
 package com.sdk.data.remote.api
 
-import com.sdk.data.model.CollectionModel
-import com.sdk.data.model.account.InPlayerRegisterFieldsModel
-import io.reactivex.Single
+import com.google.gson.GsonBuilder
+import com.sdk.data.model.AccessControlTypeSerializer
+import com.sdk.data.model.asset.AccessControlTypeModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -33,12 +33,19 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
         return retrofitAPI
     }
     
+    private fun getGson(): GsonConverterFactory {
+        val gson = GsonBuilder()
+            .registerTypeAdapter(AccessControlTypeModel::class.java, AccessControlTypeSerializer())
+            .create()
+        return GsonConverterFactory.create(gson)
+    }
+    
     private fun buildService(okHttpClient: OkHttpClient): InPlayerRemotePublicServiceAPI {
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(getGson())
             .build()
         return retrofit.create(InPlayerRemotePublicServiceAPI::class.java)
     }
@@ -102,7 +109,8 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
         grantType: String,
         merchantUUID: String,
         referrer: String?,
-        metadata: HashMap<String, String>?
+        metadata: HashMap<String, String>?,
+        brandingId: Int?
     ) = retrofitAPI.createAccount(
         fullName,
         email,
@@ -112,7 +120,8 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
         grantType,
         merchantUUID,
         referrer,
-        metadata
+        metadata,
+        brandingId
     )
     
     override fun authenticate(
@@ -131,11 +140,11 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
         clientId
     )
     
-    override fun setNewPassword(token: String, password: String, passwordConfirmation: String) =
-        retrofitAPI.setNewPassword(token, password, passwordConfirmation)
+    override fun setNewPassword(token: String, password: String, passwordConfirmation: String, brandingId: Int?) =
+        retrofitAPI.setNewPassword(token, password, passwordConfirmation, brandingId)
     
-    override fun forgotPassword(merchantUUID: String, email: String) =
-        retrofitAPI.forgotPassword(merchantUUID, email)
+    override fun forgotPassword(merchantUUID: String, email: String, brandingId: Int?) =
+        retrofitAPI.forgotPassword(merchantUUID, email, brandingId)
     
     /**
      * END -> AUTHENTICATION Endpoint Implementations
@@ -156,6 +165,8 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
     ) = retrofitAPI.getExternalAsset(assetType, externalId, merchantUUID)
     
     override fun getAccessFees(id: Int) = retrofitAPI.getAccessFees(id)
+    
+    override fun getAccessFeesV2(id: Int, voucher: Int?) = retrofitAPI.getAccessFeesV2(id, voucher)
     
     /**
      * ASSETS PUBLIC Endpoint Implementations

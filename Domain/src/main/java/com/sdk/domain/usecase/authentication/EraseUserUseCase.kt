@@ -13,13 +13,13 @@ class EraseUserUseCase constructor(private val inPlayerSchedulers: InPlayerSched
     override fun buildUseCaseObservable(params: Params?): Single<String> {
         
         params?.let {
-            return inPlayerAuthenticatorRepository.eraseUser(it.password)
+            return inPlayerAuthenticatorRepository.eraseUser(it.password, it.brandingId)
         }
         
         throw IllegalStateException("Params can't be null for EraseUserUseCase")
     }
     
     
-    data class Params(val password: String)
+    data class Params(val password: String, val brandingId: Int? = null)
     
 }

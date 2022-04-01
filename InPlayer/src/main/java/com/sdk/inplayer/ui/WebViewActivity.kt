@@ -47,7 +47,9 @@ class WebViewActivity : AppCompatActivity() {
         web_view.settings.userAgentString = USER_AGENT
         web_view.settings.javaScriptEnabled = true
         web_view.webViewClient = SocialWebViewClient()
-        web_view.loadUrl(url)
+        if (url != null) {
+            web_view.loadUrl(url)
+        }
     }
     
     

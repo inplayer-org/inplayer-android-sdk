@@ -1,7 +1,10 @@
 package com.sdk.data.remote.api
 
+import com.google.gson.GsonBuilder
+import com.sdk.data.model.AccessControlTypeSerializer
+import com.sdk.data.model.asset.AccessControlTypeModel
 import com.sdk.data.remote.error.AuthTokenMissingException
-import com.sdk.data.remote.refresh_token.RefreshAuthenticator
+import com.sdk.data.remote.refresh_token.RefreshTokenInterceptor
 import com.sdk.data.repository.gateway.UserLocalAuthenticator
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -28,7 +31,7 @@ import java.util.concurrent.TimeUnit
 class InPlayerRemoteProvider(
     val baseUrl: String,
     val isDebug: Boolean,
-    val refreshAuthenticator: RefreshAuthenticator,
+    val refreshTokenInterceptor: RefreshTokenInterceptor,
     val localAuthenticator: UserLocalAuthenticator
 ) : InPlayerRemoteServiceAPI {
     
@@ -47,13 +50,19 @@ class InPlayerRemoteProvider(
         retrofitAPI = buildService(okHttpClient)
         return retrofitAPI
     }
+    private fun getGson(): GsonConverterFactory {
+        val gson = GsonBuilder()
+            .registerTypeAdapter(AccessControlTypeModel::class.java, AccessControlTypeSerializer())
+            .create()
+        return GsonConverterFactory.create(gson)
+    }
     
     private fun buildService(okHttpClient: OkHttpClient): InPlayerRemoteServiceAPI {
         val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(getGson())
             .build()
         return retrofit.create(InPlayerRemoteServiceAPI::class.java)
     }
@@ -75,6 +84,7 @@ class InPlayerRemoteProvider(
             .addInterceptor {
                 customHeaderIntercepted(it)
             }
+            .addInterceptor(refreshTokenInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
         
@@ -101,7 +111,6 @@ class InPlayerRemoteProvider(
         return it.proceed(request)
     }
     
-    
     /**
      * Creating Retrofit and setting up Logging
      * */
@@ -120,7 +129,6 @@ class InPlayerRemoteProvider(
     }
     
     fun addCustomInterceptors(builder: OkHttpClient.Builder): OkHttpClient.Builder {
-        builder.authenticator(refreshAuthenticator)
         builder.addInterceptor {
             addAuthorizationHeader(it)
         }
@@ -146,23 +154,24 @@ class InPlayerRemoteProvider(
     override fun updateAccount(fullName: String, metadata: HashMap<String, String>?) =
         retrofitAPI.updateAccount(fullName, metadata)
     
-    override fun eraseAccount(password: String) = retrofitAPI.eraseAccount(password)
+    override fun eraseAccount(password: String, brandingId: Int?) = retrofitAPI.eraseAccount(password, brandingId)
     
     
     override fun changePassword(
         password: String,
         passwordConfirmation: String,
-        oldPassword: String
-    ) = retrofitAPI.changePassword(password, passwordConfirmation, oldPassword)
+        oldPassword: String,
+        brandingId: Int?
+    ) = retrofitAPI.changePassword(password, passwordConfirmation, oldPassword, brandingId)
     
     
-    override fun exportAccountData(password: String) = retrofitAPI.exportAccountData(password)
+    override fun exportAccountData(password: String, brandingId: Int?) = retrofitAPI.exportAccountData(password, brandingId)
     
     override fun getSocialUrls(socialUrlState: String) = retrofitAPI.getSocialUrls(socialUrlState)
     
     override fun validatePinCode(pinCode: String) = retrofitAPI.validatePinCode(pinCode)
     
-    override fun sendPinCode(brandingId: String?) = retrofitAPI.sendPinCode(brandingId)
+    override fun sendPinCode(brandingId: Int?) = retrofitAPI.sendPinCode(brandingId)
     
     /**
      * END -> ACCOUNT Endpoint Implementations
@@ -196,13 +205,14 @@ class InPlayerRemoteProvider(
      *  Payments
      */
     
-    override fun validateAndroidReceipt(receipt: String, item_id: Int, access_fee_id: Int) =
-        retrofitAPI.validateAndroidReceipt(receipt, item_id, access_fee_id)
+    override fun validateAndroidReceipt(receipt: String, item_id: Int, access_fee_id: Int, brandingId: Int?) =
+        retrofitAPI.validateAndroidReceipt(receipt, item_id, access_fee_id, brandingId)
     
     override fun validateByProductName(
         receipt: String,
-        productName: String
-    ) = retrofitAPI.validateByProductName(receipt, productName)
+        productName: String,
+        brandingId: Int?
+    ) = retrofitAPI.validateByProductName(receipt, productName, brandingId)
     
     
     override fun getCustomerAccessList(status: String, page: Int, limit: Int, type: String?) =
@@ -224,5 +234,4 @@ class InPlayerRemoteProvider(
     /**
      * END Subscriptions
      * */
-    
 }

@@ -15,13 +15,13 @@ class ExportAccountDataUseCase constructor(private val inPlayerSchedulers: InPla
     override fun buildUseCaseObservable(params: Params?): Single<String> {
         
         params?.let {
-            return inPlayerAccountRepository.exportUserData(it.password)
+            return inPlayerAccountRepository.exportUserData(it.password, it.brandingId)
         }
         
         throw IllegalStateException("Params can't be null for ExportAccountDataUseCase")
     }
     
     
-    data class Params(val password: String)
+    data class Params(val password: String, val brandingId: Int? = null)
     
 }

@@ -13,12 +13,12 @@ class ForgotPasswordUseCase constructor(appSchedulers: InPlayerSchedulers, priva
         
         params?.let {
             
-            return inPlayerAuthenticatorRepository.requestForgotPassword(it.merchantUUID, it.email)
+            return inPlayerAuthenticatorRepository.requestForgotPassword(it.merchantUUID, it.email, it.brandingId)
         }
         
         throw IllegalStateException("Params Can't be null for CreateAccountUseCase")
         
     }
     
-    data class Params(val merchantUUID: String, val email: String)
+    data class Params(val merchantUUID: String, val email: String, val brandingId: Int? = null)
 }

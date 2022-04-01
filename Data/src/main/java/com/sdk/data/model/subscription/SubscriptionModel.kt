@@ -5,16 +5,17 @@ package com.sdk.data.model.subscription
  */
 data class SubscriptionModel(
         val amount: Int,
-        val asset_id: Int,
-        val asset_title: String,
-        val cancel_token: String,
-        val created_at: Int,
-        val currency: String,
-        val description: String,
-        val formatted_amount: String,
+        val item_id: Int,
+        val item_title: String?,
+        val cancel_token: String?,
+        val action_type: String?,
+        val created_at: Long,
+        val currency: String?,
+        val description: String?,
+        val formatted_amount: String?,
         val merchant_id: Int,
-        val next_billing_date: Int,
-        val status: String,
-        val unsubscribe_url: String,
-        val updated_at: Int
+        val next_rebill_date: Long,
+        val status: String?,
+        val unsubscribe_url: String?,
+        val updated_at: Long
 )
