@@ -166,9 +166,7 @@ class InPlayerRemoteProvider(
     
     
     override fun exportAccountData(password: String, brandingId: Int?) = retrofitAPI.exportAccountData(password, brandingId)
-    
-    override fun getSocialUrls(socialUrlState: String) = retrofitAPI.getSocialUrls(socialUrlState)
-    
+
     override fun validatePinCode(pinCode: String) = retrofitAPI.validatePinCode(pinCode)
     
     override fun sendPinCode(brandingId: Int?) = retrofitAPI.sendPinCode(brandingId)

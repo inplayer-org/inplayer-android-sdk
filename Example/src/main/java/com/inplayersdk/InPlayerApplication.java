@@ -16,7 +16,7 @@ public class InPlayerApplication extends MultiDexApplication {
                 //Optional
                 //.withReferrer("www.android.com")
                 //Default is set to Production
-                .withEnvironment(InPlayer.EnvironmentType.STAGING)
+                .withEnvironment(InPlayer.EnvironmentType.PRODUCTION)
                 .build());
 
     }
