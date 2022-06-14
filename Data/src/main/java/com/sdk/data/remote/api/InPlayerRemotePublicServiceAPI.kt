@@ -4,6 +4,7 @@ import com.sdk.data.model.CollectionModel
 import com.sdk.data.model.ResponseModel
 import com.sdk.data.model.account.InPlayerAuthorizationModel
 import com.sdk.data.model.account.InPlayerRegisterFieldsModel
+import com.sdk.data.model.account.InPlayerSocialUrlsReponse
 import com.sdk.data.model.asset.AccessFeeModel
 import com.sdk.data.model.asset.ItemDetailsModel
 import io.reactivex.Completable
@@ -80,4 +81,7 @@ interface InPlayerRemotePublicServiceAPI {
     
     @GET("/accounts/register-fields/{merchant_uuid}")
     fun exportRegisterFields(@Path("merchant_uuid") merchantUUID: String): Single<CollectionModel<InPlayerRegisterFieldsModel>>
+
+    @GET("/accounts/social")
+    fun getSocialUrls(@Query("state") socialUrlState: String): Single<InPlayerSocialUrlsReponse>
 }
