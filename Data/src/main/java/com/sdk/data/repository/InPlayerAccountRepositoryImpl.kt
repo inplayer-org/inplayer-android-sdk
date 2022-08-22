@@ -157,7 +157,7 @@ class InPlayerAccountRepositoryImpl constructor(
         
         val jsonObject = JSONObject()
         jsonObject.put("client_id", clientId)
-        jsonObject.put("redirect", "viktor.inplayer://")
+        jsonObject.put("redirect", redirectUri)
         
         val base64 = Base64.encodeToString(jsonObject.toString().toByteArray(), Base64.DEFAULT)
         

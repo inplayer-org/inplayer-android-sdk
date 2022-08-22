@@ -13,9 +13,11 @@ android {
         targetSdkVersion rootProject.androidTargetSdkVersion
 
 
-        buildConfigField "String", "AWS_CREDENTIALS_URL_PROD", "\"https://eynmuj2g26.execute-api.eu-west-1.amazonaws.com/prod/iot/keys\""
+//        buildConfigField "String", "AWS_CREDENTIALS_URL_PROD", "\"https://eynmuj2g26.execute-api.eu-west-1.amazonaws.com/prod/iot/keys\""
+        buildConfigField "String", "AWS_CREDENTIALS_URL_PROD", "\"https://notifications.inplayer.com/iot/keys\""
 
-        buildConfigField "String", "AWS_CREDENTIALS_URL_STAGING", "\"https://o3871l8vj7.execute-api.eu-west-1.amazonaws.com/staging/iot/keys\""
+//        buildConfigField "String", "AWS_CREDENTIALS_URL_STAGING", "\"https://o3871l8vj7.execute-api.eu-west-1.amazonaws.com/staging/iot/keys\""
+        buildConfigField "String", "AWS_CREDENTIALS_URL_STAGING", "\"https://staging-notifications.inplayer.com/iot/keys\""
     }
 
     buildTypes {

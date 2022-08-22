@@ -87,6 +87,20 @@ class ApiTestingActivity : AppCompatActivity() {
             getSubscriptions()
         }
 
+        btn_get_social_urls.setOnClickListener {
+            InPlayer.Account.getSocialLoginUrls(
+                "https://event.inplayer.com/v3/live?asset=3062620&asset_id=3062620&access_control_type=Paid",
+                InPlayerCallback { socialUrlsList, error ->
+                    if (error == null) {
+
+                        Log.v("SocialLoginUrls Call", "---Success-- $socialUrlsList")
+                    } else {
+                        //Handle Error
+                        Log.w("SocialLoginUrls Call", error.toString())
+                    }
+                })
+        }
+
         btn_refresh_token.setOnClickListener {
             InPlayer.Account.refreshToken(
                 "def502001db88c34f019e16044833a8898158cf59f520b80bbf81a43fa8fa1b2f7c83dcb0de90d59d0058a143fc1043d956e204558703cf8ca022e45c19f7f51e00c77d98a75d19be8c335c9fd40e176feb021b0e923a5216157d74b6f1c3a869cc7b695929dd5945d188e0b73d1b5329870e3b2d7c50011d7f0fcaa8ae81f9df48039a78188c3bd6acadbab9025a53e4d9fb18b3e3808f63a37c4b42cfd581b383b87852261e7fdf79b2697361b28adaeaf8bea34f0ef11b72c1d36f894c2368f0fedae1f69ceaa2484af39d6c6e17b021c4627104ee930e7c92989937b57142b67106f4b74be0d1f7a0e15c8785a272aa34307f7a95b922a87e88859cf8b011f4074fccf988f1de0110e239f657a5f8a5a3c490dc052f40b186da17017a96fec2670a21d887ce91165ed04c3aaad51a508843d58c70463e6c2b58f3919581eef9909b8013715d59fdf67c10b358681e45ac01ad855537a4a966c22a9b418e1ccc6107768b97dbddfb3427b18e3205111caf53eac530601141254f67bf245f9c3a15ba9010e0425c1f5e942b0a49e76e8d71511a79b7b9fb2e233075173daa0585be7bce89921601e"

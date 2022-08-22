@@ -174,5 +174,7 @@ class InPlayerRemotePublicProvider(val baseUrl: String, val isDebug: Boolean) :
 
     override fun exportRegisterFields(merchantUUID: String) =
         retrofitAPI.exportRegisterFields(merchantUUID)
-    
+
+    override fun getSocialUrls(socialUrlState: String) = retrofitAPI.getSocialUrls(socialUrlState)
+
 }

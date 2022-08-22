@@ -4,7 +4,6 @@ import com.sdk.data.model.CollectionModel
 import com.sdk.data.model.ResponseListModel
 import com.sdk.data.model.ResponseModel
 import com.sdk.data.model.account.InPlayerAccount
-import com.sdk.data.model.account.InPlayerSocialUrlsReponse
 import com.sdk.data.model.asset.ItemAccessModel
 import com.sdk.data.model.notification.AWSCredentialsModel
 import com.sdk.data.model.payment.CustomerAccessItemModel
@@ -12,7 +11,6 @@ import com.sdk.data.model.subscription.SubscriptionModel
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*
-import java.util.*
 
 interface InPlayerRemoteServiceAPI {
     
@@ -66,10 +64,6 @@ interface InPlayerRemoteServiceAPI {
         @Query("size") limit: Int,
         @Query("type") type: String?
     ): Single<ResponseListModel<CustomerAccessItemModel>>
-    
-    
-    @GET("/accounts/social")
-    fun getSocialUrls(@Query("state") socialUrlState: String): Single<InPlayerSocialUrlsReponse>
     
     @FormUrlEncoded
     @POST("/v2/accounts/pin-codes/validate")
