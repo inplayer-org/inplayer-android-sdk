@@ -1,3 +1,5 @@
+**THIS REPOSITORY IS MOVED TO GITLAB**
+
 <h1 align="center">
   <a target="_blank" href="https://inplayer-org.github.io/inplayer-android-sdk/">
     <img src="https://assets.inplayer.com/images/inplayer-256.png" alt="inplayer-android-sdk" title="InPlayer Android SDK" width="300">
